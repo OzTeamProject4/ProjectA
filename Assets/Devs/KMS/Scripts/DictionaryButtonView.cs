@@ -1,11 +1,9 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class MainDungeonButtonView : MonoBehaviour
+public class DictionaryButtonView : MonoBehaviour
 {
     [SerializeField] private GameObject _screenRoot;
-    [SerializeField] private GameObject _stageSelectScreen;
+    [SerializeField] private GameObject _dictionaryScreen;
 
     private Button _button;
 
@@ -32,15 +30,15 @@ public class MainDungeonButtonView : MonoBehaviour
             return;
         }
 
-        if (_stageSelectScreen == null)
+        if (_dictionaryScreen == null)
         {
-            Debug.LogError("StageSelectScreen is not assigned.");
+            Debug.LogError("DictionaryScreen is not assigned.");
             return;
         }
 
         _screenRoot.SetActive(true);
-        _stageSelectScreen.SetActive(true);
+        _dictionaryScreen.SetActive(true);
 
-        Debug.Log("Stage Select Screen Opened");
+        Debug.Log("Dictionary Screen Opened");
     }
 }
