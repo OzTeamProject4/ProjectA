@@ -1,9 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class BattleCharacter : MonoBehaviour
 {
+    [SerializeField] private float _jumpForce = 5f;
+    [SerializeField] private float _groundCheckDistance = 1.1f;
+
     private CharacterData _data;
+    private Rigidbody _rigidbody;
 
     private bool _isSelectedCharacter;
     private int _curHp;
@@ -14,6 +19,11 @@ public class BattleCharacter : MonoBehaviour
 
     public string CharacterName => _data.Name;
     public int CurHp => _curHp;
+
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+    }
 
     public void Initialize(CharacterData data)
     {
@@ -28,6 +38,22 @@ public class BattleCharacter : MonoBehaviour
 
     public void Move(Vector3 moveDirection)
     {
-        transform.position = transform.position + (moveDirection * _curMoveSpeed * Time.deltaTime);
+        Vector3 velocity = moveDirection * _curMoveSpeed;
+        velocity.y = _rigidbody.linearVelocity.y;
+        _rigidbody.linearVelocity = velocity;
+
+    }
+
+    public void Jump()
+    {
+        bool isGround = Physics.Raycast(transform.position, Vector3.down, _groundCheckDistance);
+        if (isGround == false) 
+        {
+            return;
+        }
+
+        Vector3 velocity = _rigidbody.linearVelocity;
+        velocity.y = _jumpForce;
+        _rigidbody.linearVelocity = velocity;
     }
 }

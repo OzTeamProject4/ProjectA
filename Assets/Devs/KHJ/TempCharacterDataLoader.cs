@@ -17,10 +17,10 @@ public class TempCharacterDataLoader : MonoBehaviour
 
         foreach (CharacterData character in _characters)
         {
-            Debug.Log($"{character.Id}, {character.Name}, {character.Level}, {character.BaseHp}, {character.BaseDef}, {character.BaseMoveSpeed}, {character.SkillGauge}, {string.Join(",",character.SkillList)}, {character.ElementType}, {character.Role}");
+            Debug.Log($"{character.Id}, {character.Name},{string.Join(",",character.SkillList)}, {character.ElementType}, {character.Role}");
         }
 
-        GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+        GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
         obj.name = "TestBattleCharacter";
         BattleCharacter battleCharacter = obj.AddComponent<BattleCharacter>();
         CharacterData testCharacter = _characters[0];
