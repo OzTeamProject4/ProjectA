@@ -36,6 +36,12 @@ public class TempCharacterDataLoader : MonoBehaviour
         PlayerController playerController = controllerObj.AddComponent<PlayerController>();
         playerController.SetControlTarget(battleCharacter);
 
-        _cinemachineCamera.Target.TrackingTarget = battleCharacter.transform;
+        GameObject pivotObj = new GameObject("CameraPivot");
+        CameraController cameraController = pivotObj.AddComponent<CameraController>();
+        cameraController.SetTarget(battleCharacter.transform);
+
+        _cinemachineCamera.Target.TrackingTarget = pivotObj.transform;
+
+        playerController.SetCameraTransform(pivotObj.transform);
     }
 }

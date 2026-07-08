@@ -6,7 +6,7 @@ public class BattleCharacter : MonoBehaviour
 {
     [SerializeField] private float _jumpForce = 5f;
     [SerializeField] private float _groundCheckDistance = 1.1f;
-    [SerializeField] private float _rotationSpeed = 1.0f;
+    [SerializeField] private float _rotationSpeed = 4.0f;
 
 
     private CharacterData _data;
@@ -26,6 +26,7 @@ public class BattleCharacter : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
     public void Initialize(CharacterData data)
@@ -50,7 +51,7 @@ public class BattleCharacter : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
         }
-            
+
     }
 
     public void Jump()

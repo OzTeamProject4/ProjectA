@@ -6,12 +6,12 @@ public class PlayerController : MonoBehaviour
     private BattleCharacter _battleCharacter;
     private PlayerInputActions _inputAction;
     private Vector3 _moveDirection;
+    private Transform _cameraTransform;
 
 
     private void Awake()
     {
         _inputAction = new PlayerInputActions();
-
     }
 
     private void OnEnable()
@@ -24,9 +24,14 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
+        if (_cameraTransform == null)
+        {
+            return;
+        }
+
         Vector2 input = _inputAction.Player.Move.ReadValue<Vector2>();
-        Vector3 camForward = Camera.main.transform.forward;
-        Vector3 camRight = Camera.main.transform.right;
+        Vector3 camForward = _cameraTransform.forward;
+        Vector3 camRight = _cameraTransform.right;
 
         camForward.y = 0;
         camRight.y = 0;
@@ -59,9 +64,13 @@ public class PlayerController : MonoBehaviour
         _battleCharacter.Move(_moveDirection);
     }
 
-
     public void SetControlTarget(BattleCharacter targetCharacter)
     {
         _battleCharacter = targetCharacter;
+    }
+
+    public void SetCameraTransform(Transform cameraTransform)
+    {
+        _cameraTransform = cameraTransform;
     }
 }
