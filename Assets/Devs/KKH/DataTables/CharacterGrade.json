@@ -1,0 +1,32 @@
+[
+  {
+    "Star": 3,
+    "MaxLevel": 20,
+    "RequiredToNext": 5,
+    "HpGrow": 0,
+    "AtkGrow": 0,
+    "DefGrow": 0,
+    "AtkSpeedGrow": 0,
+    "MoveSpeedGrow": 0
+  },
+  {
+    "Star": 4,
+    "MaxLevel": 25,
+    "RequiredToNext": 10,
+    "HpGrow": 10,
+    "AtkGrow": 5,
+    "DefGrow": 2,
+    "AtkSpeedGrow": 0.05,
+    "MoveSpeedGrow": 0.02
+  },
+  {
+    "Star": 5,
+    "MaxLevel": 30,
+    "RequiredToNext": 0,
+    "HpGrow": 20,
+    "AtkGrow": 10,
+    "DefGrow": 4,
+    "AtkSpeedGrow": 0.1,
+    "MoveSpeedGrow": 0.04
+  }
+]

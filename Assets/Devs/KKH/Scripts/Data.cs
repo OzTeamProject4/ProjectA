@@ -1,0 +1,48 @@
+﻿namespace System.Runtime.CompilerServices
+{
+    internal static class IsExternalInit { }
+}
+
+public class ItemData
+{
+    public string ItemId { get; init; }
+    public string Name { get; init; }
+    public int Gold { get; init; }
+    public int GrantExp { get; init; }
+}
+
+public class CharacterStatData
+{
+    public string CharacterId { get; init; }
+
+    public int Hp { get; init; }
+    public int Atk { get; init; }
+    public int Def { get; init; }
+    public float AtkSpeed { get; init; }
+    public float MoveSpeed { get; init; }
+
+    public float HpGrow { get; init; }
+    public float AtkGrow { get; init; }
+    public float DefGrow { get; init; }
+    public float AtkSpeedGrow { get; init; }
+    public float MoveSpeedGrow { get; init; }
+}
+
+public class CharacterGradeData
+{
+    public int Star { get; init; }
+    public int MaxLevel { get; init; }
+    public int RequiredToNext { get; init; }
+
+    public float HpGrow { get; init; }
+    public float AtkGrow { get; init; }
+    public float DefGrow { get; init; }
+    public float AtkSpeedGrow { get; init; }
+    public float MoveSpeedGrow { get; init; }
+}
+
+public class LevelExpData
+{
+    public int Level { get; init; }
+    public int RequiredExp { get; init; }
+}
