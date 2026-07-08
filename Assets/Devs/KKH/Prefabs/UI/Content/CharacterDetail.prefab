@@ -146,10 +146,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1118602171554680086}
+  - component: {fileID: 8978310890481969496}
   - component: {fileID: 2075577562227416451}
   - component: {fileID: 8933730283338799560}
   - component: {fileID: 7694144346740340058}
-  - component: {fileID: 8978310890481969496}
   m_Layer: 5
   m_Name: CharacterDetail
   m_TagString: Untagged
@@ -185,6 +185,36 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &8978310890481969496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108269823697138674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bba8f8ba2cbf56409c8ce8f28495e7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterView
+  _nameText: {fileID: 3878972153799845678}
+  _levelText: {fileID: 5292545645090858180}
+  _expSlider: {fileID: 4447475841512766088}
+  _expText: {fileID: 8918882999445225877}
+  _hpValueText: {fileID: 3927458120229931073}
+  _atkValueText: {fileID: 1083376904715479009}
+  _defValueText: {fileID: 4421059022602485679}
+  _atkSpeedValueText: {fileID: 4564630060529738196}
+  _moveSpeedValueText: {fileID: 5223864785741064133}
+  _starImages:
+  - {fileID: 5857119020809624655}
+  - {fileID: 2347073470367778297}
+  - {fileID: 1574340131837470405}
+  - {fileID: 7464714388853015548}
+  - {fileID: 9210378463665055499}
+  _starUpButton: {fileID: 2522309839523071140}
+  _useItemButton: {fileID: 5998908950538899764}
+  _closeButton: {fileID: 1768940341127429492}
 --- !u!223 &2075577562227416451
 Canvas:
   m_ObjectHideFlags: 0
@@ -248,35 +278,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8978310890481969496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 108269823697138674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bba8f8ba2cbf56409c8ce8f28495e7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterView
-  _nameText: {fileID: 3878972153799845678}
-  _levelText: {fileID: 5292545645090858180}
-  _expSlider: {fileID: 4447475841512766088}
-  _expText: {fileID: 8918882999445225877}
-  _hpValueText: {fileID: 3927458120229931073}
-  _atkValueText: {fileID: 1083376904715479009}
-  _defValueText: {fileID: 4421059022602485679}
-  _atkSpeedValueText: {fileID: 4564630060529738196}
-  _moveSpeedValueText: {fileID: 5223864785741064133}
-  _starImages:
-  - {fileID: 5857119020809624655}
-  - {fileID: 2347073470367778297}
-  - {fileID: 1574340131837470405}
-  - {fileID: 7464714388853015548}
-  - {fileID: 9210378463665055499}
-  _starUpButton: {fileID: 2522309839523071140}
-  _useItemButton: {fileID: 5998908950538899764}
 --- !u!1 &217578001382712097
 GameObject:
   m_ObjectHideFlags: 0
@@ -2279,7 +2280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.7058824}
+  m_Color: {r: 0.2245282, g: 0.8606896, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

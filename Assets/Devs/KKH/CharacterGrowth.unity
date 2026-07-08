@@ -471,7 +471,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1198503758}
-  - component: {fileID: 1198503757}
+  - component: {fileID: 1198503759}
   m_Layer: 0
   m_Name: Test
   m_TagString: Untagged
@@ -479,24 +479,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1198503757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1198503756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64822e7cc65c1314cb68d0552cec34b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterDetailTest
-  _characterViewPrefab: {fileID: 8978310890481969496, guid: 72ae85101caacdb429efb8b599f97285, type: 3}
-  _canvasParent: {fileID: 1626320763}
-  _testCharacterId: Character_002
-  _testStartStar: 4
-  _testCharacterName: Test Character
-  _testUseItemId: ExpBook_Small
 --- !u!4 &1198503758
 Transform:
   m_ObjectHideFlags: 0
@@ -512,6 +494,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1198503759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198503756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49714ef508eeeff449199d939cb5d12d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterScreenTest
+  _listViewPrefab: {fileID: 1302996567417718655, guid: ea0a56ff7aeada64dbef6a435fc9661b, type: 3}
+  _detailViewPrefab: {fileID: 8978310890481969496, guid: 72ae85101caacdb429efb8b599f97285, type: 3}
+  _canvasParent: {fileID: 1626320763}
+  _testUseItemId: ExpBook_Small
+  _testStartStar: 3
 --- !u!1 &1626320762
 GameObject:
   m_ObjectHideFlags: 0

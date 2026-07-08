@@ -21,11 +21,13 @@ public class CharacterDetailView : MonoBehaviour
     [SerializeField] private Button _starUpButton;
 
     [SerializeField] private Button _useItemButton;
+    [SerializeField] private Button _closeButton;
 
     private bool _isSubscribed;
     private CharacterDetailViewModel _viewModel;
 
     public event Action OnUseItemButtonClicked;
+    public event Action OnCloseButtonClicked;
 
     private void OnEnable()
     {
@@ -68,9 +70,9 @@ public class CharacterDetailView : MonoBehaviour
         _levelText.text = $"Lv.{_viewModel.CurrentLevel}";
 
         _expSlider.value = _viewModel.IsMaxLevel
-            ? 1f        : (float)_viewModel.CurrentExp / _viewModel.RequiredExpForNextLevel;
+            ? 1f : (float)_viewModel.CurrentExp / _viewModel.RequiredExpForNextLevel;
         _expText.text = _viewModel.IsMaxLevel
-            ? "MAX"  : $"{_viewModel.CurrentExp} / {_viewModel.RequiredExpForNextLevel}";
+            ? "MAX" : $"{_viewModel.CurrentExp} / {_viewModel.RequiredExpForNextLevel}";
 
         _hpValueText.text = $"MaxHp  {_viewModel.DisplayHp}";
         _atkValueText.text = $"Atk  {_viewModel.DisplayAtk}";
@@ -107,6 +109,7 @@ public class CharacterDetailView : MonoBehaviour
 
         _starUpButton.onClick.AddListener(HandleClickStarUp);
         _useItemButton.onClick.AddListener(HandleClickUseItem);
+        _closeButton.onClick.AddListener(HandleClickClose);
 
         _isSubscribed = true;
     }
@@ -123,6 +126,7 @@ public class CharacterDetailView : MonoBehaviour
 
         _starUpButton.onClick.RemoveListener(HandleClickStarUp);
         _useItemButton.onClick.RemoveListener(HandleClickUseItem);
+        _closeButton.onClick.RemoveListener(HandleClickClose);
 
         _isSubscribed = false;
     }
@@ -135,5 +139,10 @@ public class CharacterDetailView : MonoBehaviour
     private void HandleClickUseItem()
     {
         OnUseItemButtonClicked?.Invoke();
+    }
+
+    private void HandleClickClose()
+    {
+        OnCloseButtonClicked?.Invoke();
     }
 }
