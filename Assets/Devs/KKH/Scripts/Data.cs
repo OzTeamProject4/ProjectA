@@ -8,7 +8,8 @@ public class ItemData
     public string ItemId { get; init; }
     public string Name { get; init; }
     public int Gold { get; init; }
-    public int GrantExp { get; init; }
+    public int Crystal { get; init; }
+    public int Value { get; init; }
 }
 
 public class CharacterStatData
