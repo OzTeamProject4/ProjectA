@@ -1,10 +1,14 @@
-﻿using UnityEngine;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using Unity.Cinemachine;
+using UnityEngine;
 
 
 public class TempCharacterDataLoader : MonoBehaviour
 {
+    [SerializeField] private CinemachineCamera _cinemachineCamera;
+
+
     private List<CharacterData> _characters;
     private void Awake()
     {
@@ -31,5 +35,7 @@ public class TempCharacterDataLoader : MonoBehaviour
         GameObject controllerObj = new GameObject("PlayerController");
         PlayerController playerController = controllerObj.AddComponent<PlayerController>();
         playerController.SetControlTarget(battleCharacter);
+
+        _cinemachineCamera.Target.TrackingTarget = battleCharacter.transform;
     }
 }
