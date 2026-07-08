@@ -19,6 +19,7 @@ public class LobbyView : MonoBehaviour
 
     private void OnEnable()
     {
+        Debug.Log("LobbyView Enabled");
         RegisterButtonEvent();
     }
 
