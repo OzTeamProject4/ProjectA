@@ -20,7 +20,6 @@ public class CharacterScreenTest : MonoBehaviour
     [SerializeField] private Transform _contentParent;
     [SerializeField] private Transform _popupParent;
 
-    [SerializeField] private string _testUseItemId = "ExpBook_Small";
     [SerializeField] private int _testStartStar = 3;
 
     private bool _hasInitialized;
@@ -98,8 +97,12 @@ public class CharacterScreenTest : MonoBehaviour
         {
             CharacterModel model = new CharacterModel(characterId, _testStartStar, _dataProvider);
 
-            // 버튼 동작(아이템 사용/승급) 테스트를 위해 미리 지급.
-            model.AddExpItem(_testUseItemId, 999);
+            // 버튼 동작(아이템 사용/승급) 테스트를 위해 전체 경험치 아이템을 미리 지급.
+            foreach (string expItemId in _dataProvider.GetAllExpItemIds())
+            {
+                model.AddExpItem(expItemId, 999);
+            }
+
             model.AddDuplicate(999);
 
             _characterModels[characterId] = model;
