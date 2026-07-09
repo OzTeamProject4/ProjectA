@@ -22,7 +22,6 @@ public class ResourceManager : BaseManager<ResourceManager>
     public async UniTask<T> LoadAssetAsync<T>(string key, CancellationToken cancellationToken = default) where T : UnityEngine.Object
     {
         T asset = await GetOrLoadAssetAsync<T>(key, cancellationToken);
-
         return asset;
     }
 
@@ -71,7 +70,6 @@ public class ResourceManager : BaseManager<ResourceManager>
         if (string.IsNullOrWhiteSpace(key))
         {
             Debug.LogError("[ResourceManager:GetOrLoadAssetAsync] 전달된 key가 null이거나 빈 문자열 또는 공백 문자열입니다.");
-
             return null;
         }
 
@@ -82,7 +80,6 @@ public class ResourceManager : BaseManager<ResourceManager>
             if (assetFromLoadedHandle != null)
             {
                 loadedAssetHandle.AddReferenceCount();
-
                 return assetFromLoadedHandle;
             }
 
@@ -100,7 +97,6 @@ public class ResourceManager : BaseManager<ResourceManager>
             if (typeCastAsset == null)
             {
                 Debug.LogError($"[ResourceManager:GetOrLoadAssetAsync] '{key}' 타입 캐스팅 실패");
-
                 return null;
             }
 
@@ -204,12 +200,10 @@ public class ResourceManager : BaseManager<ResourceManager>
         if (!_assetHandleDictionary.TryGetValue(key, out AssetHandleInfo assetHandleInfo))
         {
             Debug.LogError($"[ResourceManager:TryAddAssetReference] '{key}'의 Handle 정보를 찾을 수 없습니다.");
-
             return false;
         }
 
         assetHandleInfo.AddReferenceCount();
-
         return true;
     }
 
