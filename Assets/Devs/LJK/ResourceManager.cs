@@ -6,40 +6,17 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class AssetHandleInfo
-{
-    public AsyncOperationHandle Handle { get; }
-    public int ReferenceCount { get; private set; }
-
-    public AssetHandleInfo(AsyncOperationHandle handle)
-    {
-        Handle = handle;
-        ReferenceCount = 1;
-    }
-
-    public void AddReferenceCount()
-    {
-        ReferenceCount++;
-    }
-
-    public void RemoveReferenceCount()
-    {
-        if (ReferenceCount > 0)
-        {
-            ReferenceCount--;
-        }
-    }
-}
-
 public class ResourceManager : BaseManager<ResourceManager>
 {
     private readonly Dictionary<string, AssetHandleInfo> _assetHandleDictionary = new Dictionary<string, AssetHandleInfo>();
     
     private readonly Dictionary<string, UniTaskCompletionSource<UnityEngine.Object>> _loadingSourceDictionary = new Dictionary<string, UniTaskCompletionSource<UnityEngine.Object>>();
 
+    private CancellationTokenSource _releaseAllCts = new CancellationTokenSource();
+
     public override  void Initialize()
     {
-        Debug.Log("리소스 매니저 초기화");
+        ReleaseAllAssets();
     }
 
     public async UniTask<T> LoadAssetAsync<T>(string key, CancellationToken cancellationToken = default) where T : UnityEngine.Object
@@ -47,6 +24,46 @@ public class ResourceManager : BaseManager<ResourceManager>
         T asset = await GetOrLoadAssetAsync<T>(key, cancellationToken);
 
         return asset;
+    }
+
+    public void ReleaseAsset(string key)
+    {
+        if (!_assetHandleDictionary.TryGetValue(key, out var handleInfo))
+        {
+            return;
+        }
+
+        handleInfo.RemoveReferenceCount();
+
+        if (handleInfo.ReferenceCount > 0)
+        {
+            return;
+        }
+
+        ReleaseHandle(handleInfo.Handle);
+        _assetHandleDictionary.Remove(key);
+    }
+
+    public void ReleaseAllAssets()
+    {
+        _releaseAllCts.Cancel();
+
+        foreach (var pair in _assetHandleDictionary)
+        {
+            ReleaseHandle(pair.Value.Handle);
+        }
+
+        _assetHandleDictionary.Clear();
+
+        foreach (var pair in _loadingSourceDictionary)
+        {
+            pair.Value.TrySetResult(null);
+        }
+
+        _loadingSourceDictionary.Clear();
+
+        _releaseAllCts.Dispose();
+        _releaseAllCts = new CancellationTokenSource();
     }
 
     private async UniTask<T> GetOrLoadAssetAsync<T>(string key, CancellationToken cancellationToken) where T : UnityEngine.Object
@@ -108,6 +125,11 @@ public class ResourceManager : BaseManager<ResourceManager>
         {
             Debug.LogError($"[ResourceManager:LoadAssetAsync] '{key}' 타입 캐스팅 실패");
 
+            if (_assetHandleDictionary.TryGetValue(key, out var handleInfo))
+            {
+                handleInfo.RemoveReferenceCount();
+            }
+
             return null;
         }
 
@@ -125,7 +147,7 @@ public class ResourceManager : BaseManager<ResourceManager>
 
         try
         {
-            await handle.ToUniTask();
+            await handle.ToUniTask(cancellationToken: _releaseAllCts.Token);
 
             T asset = GetAssetFromHandle<T>(handle, key);
 
@@ -140,14 +162,15 @@ public class ResourceManager : BaseManager<ResourceManager>
 
             source.TrySetResult(asset);
         }
+        catch (OperationCanceledException)
+        {
+            CleanupFailedLoad(key, source, handle);
+        }
         catch (Exception exception)
         {
             Debug.LogError($"[ResourceManager:LoadAssetAsync] '{key}'의 에셋을 로드하는 중 예외가 발생했습니다.\n{exception}");
 
-            ReleaseHandle(handle);
-            RemoveLoadingTask(key, source);
-
-            source.TrySetResult(null);
+            CleanupFailedLoad(key, source, handle);
         }
     }
 
@@ -190,6 +213,7 @@ public class ResourceManager : BaseManager<ResourceManager>
         return true;
     }
 
+ 
     private void RemoveLoadingTask(string key, UniTaskCompletionSource<UnityEngine.Object> source)
     {
         if (_loadingSourceDictionary.TryGetValue(key, out var currentSource))
@@ -209,5 +233,13 @@ public class ResourceManager : BaseManager<ResourceManager>
         }
 
         Addressables.Release(handle);
+    }
+
+    private void CleanupFailedLoad(string key, UniTaskCompletionSource<UnityEngine.Object> source, AsyncOperationHandle handle)
+    {
+        ReleaseHandle(handle);
+        RemoveLoadingTask(key, source);
+
+        source.TrySetResult(null);
     }
 }
