@@ -70,7 +70,7 @@ public class ResourceManager : BaseManager<ResourceManager>
     {
         if (string.IsNullOrWhiteSpace(key))
         {
-            Debug.LogError("[ResourceManager:LoadAssetAsync] 전달된 key가 null이거나 빈 문자열 또는 공백 문자열입니다.");
+            Debug.LogError("[ResourceManager:GetOrLoadAssetAsync] 전달된 key가 null이거나 빈 문자열 또는 공백 문자열입니다.");
 
             return null;
         }
@@ -86,7 +86,7 @@ public class ResourceManager : BaseManager<ResourceManager>
                 return assetFromLoadedHandle;
             }
 
-            Debug.LogWarning($"[ResourceManager:LoadAssetAsync] '{key}'의 Handle이 유효하지 않아 다시 로드합니다.");
+            Debug.LogWarning($"[ResourceManager:GetOrLoadAssetAsync] '{key}'의 Handle이 유효하지 않아 다시 로드합니다.");
             _assetHandleDictionary.Remove(key);
         }
 
@@ -99,7 +99,7 @@ public class ResourceManager : BaseManager<ResourceManager>
 
             if (typeCastAsset == null)
             {
-                Debug.LogError($"[ResourceManager:LoadAssetAsync] '{key}' 타입 캐스팅 실패");
+                Debug.LogError($"[ResourceManager:GetOrLoadAssetAsync] '{key}' 타입 캐스팅 실패");
 
                 return null;
             }
@@ -123,7 +123,7 @@ public class ResourceManager : BaseManager<ResourceManager>
         
         if (loadAsset == null)
         {
-            Debug.LogError($"[ResourceManager:LoadAssetAsync] '{key}' 타입 캐스팅 실패");
+            Debug.LogError($"[ResourceManager:GetOrLoadAssetAsync] '{key}' 타입 캐스팅 실패");
 
             if (_assetHandleDictionary.TryGetValue(key, out var handleInfo))
             {
@@ -153,7 +153,7 @@ public class ResourceManager : BaseManager<ResourceManager>
 
             if (asset == null)
             {
-                throw new InvalidOperationException($"'{key}' 에셋 로드에 성공했지만 결과가 null입니다.");
+                throw new InvalidOperationException($"[ResourceManager:ExecuteLoadAssetAsync] '{key}' 에셋 로드에 성공했지만 결과가 null입니다.");
             }
 
             _assetHandleDictionary[key] = new AssetHandleInfo(handle);
@@ -168,7 +168,7 @@ public class ResourceManager : BaseManager<ResourceManager>
         }
         catch (Exception exception)
         {
-            Debug.LogError($"[ResourceManager:LoadAssetAsync] '{key}'의 에셋을 로드하는 중 예외가 발생했습니다.\n{exception}");
+            Debug.LogError($"[ResourceManager:ExecuteLoadAssetAsync] '{key}'의 에셋을 로드하는 중 예외가 발생했습니다.\n{exception}");
 
             CleanupFailedLoad(key, source, handle);
         }
@@ -203,7 +203,7 @@ public class ResourceManager : BaseManager<ResourceManager>
     {
         if (!_assetHandleDictionary.TryGetValue(key, out AssetHandleInfo assetHandleInfo))
         {
-            Debug.LogError($"[ResourceManager:AddAssetReference] '{key}'의 Handle 정보를 찾을 수 없습니다.");
+            Debug.LogError($"[ResourceManager:TryAddAssetReference] '{key}'의 Handle 정보를 찾을 수 없습니다.");
 
             return false;
         }
@@ -213,16 +213,19 @@ public class ResourceManager : BaseManager<ResourceManager>
         return true;
     }
 
- 
     private void RemoveLoadingTask(string key, UniTaskCompletionSource<UnityEngine.Object> source)
     {
-        if (_loadingSourceDictionary.TryGetValue(key, out var currentSource))
+        if (!_loadingSourceDictionary.TryGetValue(key, out var currentSource))
         {
-            if (currentSource == source)
-            {
-                _loadingSourceDictionary.Remove(key);
-            }
+            return;
         }
+
+        if (currentSource != source)
+        {
+            return;
+        }
+
+        _loadingSourceDictionary.Remove(key);
     }
 
     private void ReleaseHandle(AsyncOperationHandle handle)
