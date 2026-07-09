@@ -1,0 +1,11 @@
+[
+  {
+    "Id": "Enemy_Wizard_Fire_01",
+    "Name": "Wizard_Fire",
+    "TotalExp": 100,
+    "ElementalType": "Fire",
+    "BaseHp": 100,
+    "BaseDamage": 10,
+    "PrefabAddress": "Wizard_Fire"
+  }
+]
