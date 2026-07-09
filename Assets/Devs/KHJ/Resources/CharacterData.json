@@ -1,6 +1,6 @@
 [
   {
-    "Id": "Character_001",
+    "DataId": "Character_001",
     "Name": "루미",
     "Level": 1,
     "BaseHp": 100,
@@ -13,7 +13,7 @@
     "Role": "Attacker"
   },
   {
-    "Id": "Character_002",
+    "DataId": "Character_002",
     "Name": "네리",
     "Level": 1,
     "BaseHp": 120,
@@ -26,7 +26,7 @@
     "Role": "Buffer"
   },
   {
-    "Id": "Character_003",
+    "DataId": "Character_003",
     "Name": "카이",
     "Level": 1,
     "BaseHp": 120,
@@ -39,7 +39,7 @@
     "Role": "Attacker"
   },
   {
-    "Id": "Character_004",
+    "DataId": "Character_004",
     "Name": "빛나",
     "Level": 1,
     "BaseHp": 160,
@@ -52,7 +52,7 @@
     "Role": "Buffer"
   },
   {
-    "Id": "Character_005",
+    "DataId": "Character_005",
     "Name": "유이",
     "Level": 1,
     "BaseHp": 170,

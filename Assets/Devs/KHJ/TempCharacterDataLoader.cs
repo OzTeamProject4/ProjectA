@@ -42,7 +42,7 @@ public class TempCharacterDataLoader : MonoBehaviour
 
         foreach (CharacterData character in _characters)
         {
-            Debug.Log($"{character.Id}, {character.Name},{string.Join(",",character.SkillList)}, {character.ElementType}, {character.Role}");
+            Debug.Log($"{character.DataId}, {character.Name},{string.Join(",",character.SkillList)}, {character.ElementType}, {character.Role}");
         }
 
         if (_testPlayerPrefab == null)

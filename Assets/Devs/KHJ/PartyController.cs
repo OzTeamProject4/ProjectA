@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.AppUI.UI;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,7 +11,9 @@ public class PartyController : MonoBehaviour
     private PlayerController _playerController;
     private CameraController _cameraController;
     private CinemachineCamera _cinemachineCamera;
-    private PlayerInputActions _inputAction; 
+    private PlayerInputActions _inputAction;
+    private float _switchCoolTime = 3.0f;
+    private float _lastSwitchTime;
 
     private void Awake()
     {
@@ -28,10 +31,20 @@ public class PartyController : MonoBehaviour
     }
     private void Update()
     {
-        if(_inputAction.Player.Switch.WasPressedThisFrame())
+        if (_inputAction.Player.Switch.WasPressedThisFrame())
         {
-            int nextIndex = (_currentCharacterIndex + 1) % _partyCharacters.Count;
-            SwitchCharacter(nextIndex);
+            if (Time.time - _lastSwitchTime >= _switchCoolTime)
+            {
+                int nextIndex = (_currentCharacterIndex + 1) % _partyCharacters.Count;
+                SwitchCharacter(nextIndex);
+                _lastSwitchTime = Time.time;
+            }
+
+            else
+            {
+                // TODO 추후 UI에서 출력 필요. 임시 로그
+                Debug.Log("아직 캐릭터 태그 기능을 사용할 수 없습니다");
+            }
         }
     }
 

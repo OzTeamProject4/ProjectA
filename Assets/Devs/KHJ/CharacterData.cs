@@ -19,7 +19,7 @@ public enum Role
 
 public class CharacterData
 {
-    public string Id { get; set; }
+    public string DataId { get; set; }
     public string Name { get; set; }
     public int Level { get; set; }
     public int BaseHp { get; set; }
