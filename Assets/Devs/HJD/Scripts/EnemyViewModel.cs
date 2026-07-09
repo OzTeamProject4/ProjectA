@@ -5,6 +5,7 @@ public class EnemyViewModel : ViewModelBase
 {
     public void InvokeOnceOnInit()
     {
+        OnPropertyChanged(nameof(EnemyViewModel));
         OnPropertyChanged(nameof(Name));
         OnPropertyChanged(nameof(TotalExp));
         OnPropertyChanged(nameof(CurrentLevel));
@@ -15,6 +16,7 @@ public class EnemyViewModel : ViewModelBase
 
     }
 
+    private int _instanceId;
     private string _enemyDataId;
     private string _name;
     private int _totalExp;
@@ -23,6 +25,19 @@ public class EnemyViewModel : ViewModelBase
     private float _baseHp;
     private float _baseDamage;
     private string _prefabAddress;
+
+    public int EnemyInstanceId
+    {
+        get => _instanceId;
+        set
+        {
+            if (_instanceId != value)
+            {
+                _instanceId = value;
+                OnPropertyChanged(nameof(EnemyInstanceId));
+            }
+        }
+    }
 
     public string EnemyDataId
     {
