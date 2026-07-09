@@ -4,8 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class BattleCharacter : MonoBehaviour
 {
+    // TODO 희준 캐릭터 모델링시 수치 변화 필요
     [SerializeField] private float _jumpForce = 5f;
-    [SerializeField] private float _groundCheckDistance = 1.1f;
+    [SerializeField] private float _groundCheckDistance = 1.1f; 
     [SerializeField] private float _rotationSpeed = 4.0f;
 
 

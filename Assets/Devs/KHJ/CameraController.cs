@@ -12,6 +12,7 @@ public class CameraController : MonoBehaviour
 
     private void Awake()
     {
+        // TODO 희준 카메라와 플레이어 입력 중복 추후 매니저 준비시 통일화
         _inputAction = new PlayerInputActions();
     }
 
