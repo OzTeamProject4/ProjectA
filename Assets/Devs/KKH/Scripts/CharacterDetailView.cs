@@ -19,6 +19,7 @@ public class CharacterDetailView : MonoBehaviour
 
     [SerializeField] private Image[] _starImages;
     [SerializeField] private Button _starUpButton;
+    [SerializeField] private TMP_Text _promoteRequirementText;
 
     [SerializeField] private Button _useItemButton;
     [SerializeField] private Button _closeButton;
@@ -82,6 +83,9 @@ public class CharacterDetailView : MonoBehaviour
         RefreshStars();
 
         _starUpButton.interactable = _viewModel.CanPromote;
+        _promoteRequirementText.text = _viewModel.IsMaxStar
+            ? "MAX"
+            : $"{_viewModel.OwnedDuplicates}/{_viewModel.RequiredDuplicatesForPromotion}";
     }
 
     private void RefreshStars()

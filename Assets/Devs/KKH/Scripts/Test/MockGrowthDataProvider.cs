@@ -14,6 +14,7 @@ public class MockGrowthDataProvider : IGrowthDataProvider
     private readonly Dictionary<int, int> _levelExpTable = new();
     private readonly Dictionary<string, ItemData> _itemTable = new();
     private readonly List<string> _characterIds = new();
+    private readonly List<string> _expItemIds = new();
 
     private bool _isInitialized;
 
@@ -96,6 +97,11 @@ public class MockGrowthDataProvider : IGrowthDataProvider
     public IReadOnlyList<string> GetAllCharacterIds()
     {
         return _characterIds;
+    }
+
+    public IReadOnlyList<string> GetAllExpItemIds()
+    {
+        return _expItemIds;
     }
 
     // ======================================================================
@@ -258,5 +264,6 @@ public class MockGrowthDataProvider : IGrowthDataProvider
     private void AddItem(ItemData item)
     {
         _itemTable[item.ItemId] = item;
+        _expItemIds.Add(item.ItemId);
     }
 }

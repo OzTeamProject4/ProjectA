@@ -12,4 +12,5 @@ public interface IGrowthDataProvider
 
     public int GetRequiredExp(int level);
     IReadOnlyList<string> GetAllCharacterIds();
+    IReadOnlyList<string> GetAllExpItemIds();
 }
