@@ -2,6 +2,7 @@
   {
     "ItemId": "ExpBook_Small",
     "Name": "경험치북(소)",
+    "Type": "ExpBook",
     "Gold": 100,
     "Crystal": 0,
     "Value": 100
@@ -9,6 +10,7 @@
   {
     "ItemId": "ExpBook_Medium",
     "Name": "경험치북(중)",
+    "Type": "ExpBook",
     "Gold": 200,
     "Crystal": 0,
     "Value": 250
@@ -16,6 +18,7 @@
   {
     "ItemId": "ExpBook_Large",
     "Name": "경험치북(대)",
+    "Type": "ExpBook",
     "Gold": 400,
     "Crystal": 0,
     "Value": 500
@@ -23,6 +26,7 @@
   {
     "ItemId": "Ticket_Sweep",
     "Name": "소탕권",
+    "Type": "Ticket",
     "Gold": 200,
     "Crystal": 0,
     "Value": 1
@@ -30,6 +34,7 @@
   {
     "ItemId": "Ticket_Gacha",
     "Name": "뽑기권",
+    "Type": "Ticket",
     "Gold": 0,
     "Crystal": 100,
     "Value": 1
@@ -37,6 +42,7 @@
   {
     "ItemId": "Ticket_GoldDungeon",
     "Name": "골드 던전 티켓",
+    "Type": "Ticket",
     "Gold": 200,
     "Crystal": 0,
     "Value": 1
@@ -44,6 +50,7 @@
   {
     "ItemId": "Ticket_ExpDungeon",
     "Name": "경험치 던전 티켓",
+    "Type": "Ticket",
     "Gold": 200,
     "Crystal": 0,
     "Value": 1

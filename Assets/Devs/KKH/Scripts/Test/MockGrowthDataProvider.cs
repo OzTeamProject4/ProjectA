@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 /// <summary>
@@ -14,7 +15,6 @@ public class MockGrowthDataProvider : IGrowthDataProvider
     private readonly Dictionary<int, int> _levelExpTable = new();
     private readonly Dictionary<string, ItemData> _itemTable = new();
     private readonly List<string> _characterIds = new();
-    private readonly List<string> _expItemIds = new();
 
     private bool _isInitialized;
 
@@ -101,7 +101,10 @@ public class MockGrowthDataProvider : IGrowthDataProvider
 
     public IReadOnlyList<string> GetAllExpItemIds()
     {
-        return _expItemIds;
+        return _itemTable.Values
+            .Where(item => item.Type == ItemType.ExpBook)
+            .Select(item => item.ItemId)
+            .ToList();
     }
 
     // ======================================================================
@@ -245,9 +248,9 @@ public class MockGrowthDataProvider : IGrowthDataProvider
 
     private void BuildItemTable()
     {
-        AddItem(new ItemData { ItemId = "ExpBook_Small", Name = "경험치북(소)", Gold = 100, Value = 100 });
-        AddItem(new ItemData { ItemId = "ExpBook_Medium", Name = "경험치북(중)", Gold = 200, Value = 250 });
-        AddItem(new ItemData { ItemId = "ExpBook_Large", Name = "경험치북(대)", Gold = 400, Value = 500 });
+        AddItem(new ItemData { ItemId = "ExpBook_Small", Name = "경험치북(소)", Type = ItemType.ExpBook, Gold = 100, Value = 100 });
+        AddItem(new ItemData { ItemId = "ExpBook_Medium", Name = "경험치북(중)", Type = ItemType.ExpBook, Gold = 200, Value = 250 });
+        AddItem(new ItemData { ItemId = "ExpBook_Large", Name = "경험치북(대)", Type = ItemType.ExpBook, Gold = 400, Value = 500 });
     }
 
     private void AddStat(CharacterStatData stat)
@@ -264,6 +267,5 @@ public class MockGrowthDataProvider : IGrowthDataProvider
     private void AddItem(ItemData item)
     {
         _itemTable[item.ItemId] = item;
-        _expItemIds.Add(item.ItemId);
     }
 }

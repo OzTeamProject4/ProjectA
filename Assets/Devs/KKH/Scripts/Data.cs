@@ -3,10 +3,17 @@
     internal static class IsExternalInit { }
 }
 
+public enum ItemType
+{
+    ExpBook,
+    Ticket
+}
+
 public class ItemData
 {
     public string ItemId { get; init; }
     public string Name { get; init; }
+    public ItemType Type { get; init; }
     public int Gold { get; init; }
     public int Crystal { get; init; }
     public int Value { get; init; }
