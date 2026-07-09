@@ -63,6 +63,13 @@ public class PartyController : MonoBehaviour
         _playerController.SetCameraTransform(pivotObj.transform);
 
         SwitchCharacter(0);
+
+        for (int i = 1; i < _partyCharacters.Count; i++)
+        {
+            BattleCharacter aiCharacter = _partyCharacters[i];
+            CharacterAIController ai = aiCharacter.gameObject.AddComponent<CharacterAIController>();
+            ai.Initialize(_partyCharacters[0], aiCharacter);
+        }
     }
 
     public void SwitchCharacter(int index)
