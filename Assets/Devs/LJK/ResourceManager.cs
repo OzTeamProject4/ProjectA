@@ -149,7 +149,7 @@ public class ResourceManager : BaseManager<ResourceManager>
 
             if (asset == null)
             {
-                throw new InvalidOperationException($"[ResourceManager:ExecuteLoadAssetAsync] '{key}' 에셋 로드에 성공했지만 결과가 null입니다.");
+                throw new InvalidOperationException($"'{key}' 에셋 로드에 성공했지만 결과가 null입니다.");
             }
 
             _assetHandleDictionary[key] = new AssetHandleInfo(handle);
