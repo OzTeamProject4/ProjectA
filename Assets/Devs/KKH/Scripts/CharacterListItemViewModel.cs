@@ -5,7 +5,7 @@ public class CharacterListItemViewModel
 {
     private readonly CharacterModel _model;
 
-    public string CharacterId
+    public string DataId
     {
         get { return _model.CharacterId; }
     }

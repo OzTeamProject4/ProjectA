@@ -1,6 +1,6 @@
 [
   {
-    "CharacterId": "Character_001",
+    "DataId": "Character_001",
     "Hp": 100,
     "Atk": 20,
     "Def": 10,
@@ -13,7 +13,7 @@
     "MoveSpeedGrow": 0.017
   },
   {
-    "CharacterId": "Character_002",
+    "DataId": "Character_002",
     "Hp": 140,
     "Atk": 15,
     "Def": 16,
@@ -26,7 +26,7 @@
     "MoveSpeedGrow": 0.012
   },
   {
-    "CharacterId": "Character_003",
+    "DataId": "Character_003",
     "Hp": 80,
     "Atk": 26,
     "Def": 7,
@@ -39,7 +39,7 @@
     "MoveSpeedGrow": 0.02
   },
   {
-    "CharacterId": "Character_004",
+    "DataId": "Character_004",
     "Hp": 95,
     "Atk": 17,
     "Def": 9,
@@ -52,7 +52,7 @@
     "MoveSpeedGrow": 0.022
   },
   {
-    "CharacterId": "Character_005",
+    "DataId": "Character_005",
     "Hp": 160,
     "Atk": 22,
     "Def": 13,

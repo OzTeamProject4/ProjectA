@@ -99,6 +99,12 @@ public class CharacterListItemView : MonoBehaviour
             return;
         }
 
+        int targetCount = _viewModel.CurrentStar;
+        if (_spawnedStarIcons.Count == targetCount)
+        {
+            return;
+        }
+
         ClearStarIcons();
 
         for (int i = 0; i < _viewModel.CurrentStar; i++)
@@ -123,6 +129,6 @@ public class CharacterListItemView : MonoBehaviour
 
     private void HandleClickSelect()
     {
-        OnClicked?.Invoke(_viewModel.CharacterId);
+        OnClicked?.Invoke(_viewModel.DataId);
     }
 }

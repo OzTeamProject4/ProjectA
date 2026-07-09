@@ -2,7 +2,7 @@
 
 public readonly struct CharacterDisplayInfo
 {
-    public string CharacterId { get; init; }
+    public string DataId { get; init; }
     public string Name { get; init; }
     public Sprite Portrait { get; init; }
 }

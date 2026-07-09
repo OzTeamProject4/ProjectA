@@ -59,6 +59,6 @@ public class ItemSlotView : MonoBehaviour
 
     private void HandleClick()
     {
-        OnClicked?.Invoke(_viewModel.ItemId);
+        OnClicked?.Invoke(_viewModel.DataId);
     }
 }

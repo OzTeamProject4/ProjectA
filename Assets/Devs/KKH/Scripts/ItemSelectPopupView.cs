@@ -82,9 +82,9 @@ public class ItemSelectPopupView : MonoBehaviour
         _spawnedSlots.Clear();
     }
 
-    private void HandleSlotClicked(string itemId)
+    private void HandleSlotClicked(string dataId)
     {
-        OnItemSelected?.Invoke(itemId);
+        OnItemSelected?.Invoke(dataId);
     }
 
     private void HandleCloseClicked()

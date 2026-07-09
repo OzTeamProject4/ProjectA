@@ -31,9 +31,9 @@ public class CharacterListView : MonoBehaviour
 
         foreach (CharacterListItemViewModel itemViewModel in viewModel.Items)
         {
-            if (!infoLookup.TryGetValue(itemViewModel.CharacterId, out CharacterDisplayInfo displayInfo))
+            if (!infoLookup.TryGetValue(itemViewModel.DataId, out CharacterDisplayInfo displayInfo))
             {
-                Debug.LogWarning($"CharacterDisplayInfo 를 찾을 수 없습니다. CharacterId={itemViewModel.CharacterId}");
+                Debug.LogWarning($"CharacterDisplayInfo 를 찾을 수 없습니다. DataId={itemViewModel.DataId}");
                 continue;
             }
 
@@ -77,7 +77,7 @@ public class CharacterListView : MonoBehaviour
 
         foreach (CharacterDisplayInfo info in displayInfos)
         {
-            lookup[info.CharacterId] = info;
+            lookup[info.DataId] = info;
         }
 
         return lookup;

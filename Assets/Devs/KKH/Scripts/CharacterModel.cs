@@ -135,27 +135,27 @@ public class CharacterModel
     /// 보유한 경험치 아이템 하나를 사용해 grantExp 만큼 경험치를 가산.
     /// 만렙에서는 아이템을 소비하지 않고 차단.
     /// </summary>
-    public void UseExpItem(string itemId, int value)
+    public void UseExpItem(string dataId, int value)
     {
-        if (string.IsNullOrEmpty(itemId))
+        if (string.IsNullOrEmpty(dataId))
         {
-            Debug.LogWarning("itemId 가 비어 있습니다.");
+            Debug.LogWarning("dataId 가 비어 있습니다.");
             return;
         }
 
-        if (GetItemCount(itemId) <= 0)
+        if (GetItemCount(dataId) <= 0)
         {
-            Debug.LogWarning($"보유 수량 없음. ItemId={itemId}");
+            Debug.LogWarning($"보유 수량 없음. dataId={dataId}");
             return;
         }
 
         if (IsMaxLevel)
         {
-            Debug.Log($"만렙이라 경험치 아이템 사용 불가. ItemId={itemId}");
+            Debug.Log($"만렙이라 경험치 아이템 사용 불가. dataId={dataId}");
             return;
         }
 
-        _expItemCounts[itemId] = GetItemCount(itemId) - 1;
+        _expItemCounts[dataId] = GetItemCount(dataId) - 1;
         OnItemCountChanged?.Invoke();
 
         AddExp(value);
@@ -220,15 +220,15 @@ public class CharacterModel
     }
 
     /// <summary> 경험치 아이템 획득(테스트/실제 지급 공용). </summary>
-    public void AddExpItem(string itemId, int count)
+    public void AddExpItem(string dataId, int count)
     {
-        if (string.IsNullOrEmpty(itemId) || count <= 0)
+        if (string.IsNullOrEmpty(dataId) || count <= 0)
         {
-            Debug.LogWarning($"유효하지 않은 입력. ItemId={itemId}, Count={count}");
+            Debug.LogWarning($"유효하지 않은 입력. dataId={dataId}, Count={count}");
             return;
         }
 
-        _expItemCounts[itemId] = GetItemCount(itemId) + count;
+        _expItemCounts[dataId] = GetItemCount(dataId) + count;
         OnItemCountChanged?.Invoke();
     }
 
@@ -245,13 +245,13 @@ public class CharacterModel
         OnDuplicatesChanged?.Invoke();
     }
 
-    public int GetItemCount(string itemId)
+    public int GetItemCount(string dataId)
     {
-        if (string.IsNullOrEmpty(itemId))
+        if (string.IsNullOrEmpty(dataId))
         {
             return 0;
         }
 
-        return _expItemCounts.TryGetValue(itemId, out int count) ? count : 0;
+        return _expItemCounts.TryGetValue(dataId, out int count) ? count : 0;
     }
 }

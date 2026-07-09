@@ -103,7 +103,7 @@ public class MockGrowthDataProvider : IGrowthDataProvider
     {
         return _itemTable.Values
             .Where(item => item.Type == ItemType.ExpBook)
-            .Select(item => item.ItemId)
+            .Select(item => item.DataId)
             .ToList();
     }
 
@@ -115,7 +115,7 @@ public class MockGrowthDataProvider : IGrowthDataProvider
     {
         AddStat(new CharacterStatData
         {
-            CharacterId = "Character_001",
+            DataId = "Character_001",
             Hp = 100,
             Atk = 20,
             Def = 10,
@@ -130,7 +130,7 @@ public class MockGrowthDataProvider : IGrowthDataProvider
 
         AddStat(new CharacterStatData
         {
-            CharacterId = "Character_002",
+            DataId = "Character_002",
             Hp = 140,
             Atk = 15,
             Def = 16,
@@ -145,7 +145,7 @@ public class MockGrowthDataProvider : IGrowthDataProvider
 
         AddStat(new CharacterStatData
         {
-            CharacterId = "Character_003",
+            DataId = "Character_003",
             Hp = 80,
             Atk = 26,
             Def = 7,
@@ -160,7 +160,7 @@ public class MockGrowthDataProvider : IGrowthDataProvider
 
         AddStat(new CharacterStatData
         {
-            CharacterId = "Character_004",
+            DataId = "Character_004",
             Hp = 95,
             Atk = 17,
             Def = 9,
@@ -175,7 +175,7 @@ public class MockGrowthDataProvider : IGrowthDataProvider
 
         AddStat(new CharacterStatData
         {
-            CharacterId = "Character_005",
+            DataId = "Character_005",
             Hp = 160,
             Atk = 22,
             Def = 13,
@@ -248,15 +248,15 @@ public class MockGrowthDataProvider : IGrowthDataProvider
 
     private void BuildItemTable()
     {
-        AddItem(new ItemData { ItemId = "ExpBook_Small", Name = "경험치북(소)", Type = ItemType.ExpBook, Gold = 100, Value = 100 });
-        AddItem(new ItemData { ItemId = "ExpBook_Medium", Name = "경험치북(중)", Type = ItemType.ExpBook, Gold = 200, Value = 250 });
-        AddItem(new ItemData { ItemId = "ExpBook_Large", Name = "경험치북(대)", Type = ItemType.ExpBook, Gold = 400, Value = 500 });
+        AddItem(new ItemData { DataId = "ExpBook_Small", Name = "경험치북(소)", Type = ItemType.ExpBook, Gold = 100, Value = 100 });
+        AddItem(new ItemData { DataId = "ExpBook_Medium", Name = "경험치북(중)", Type = ItemType.ExpBook, Gold = 200, Value = 250 });
+        AddItem(new ItemData { DataId = "ExpBook_Large", Name = "경험치북(대)", Type = ItemType.ExpBook, Gold = 400, Value = 500 });
     }
 
     private void AddStat(CharacterStatData stat)
     {
-        _statTable[stat.CharacterId] = stat;
-        _characterIds.Add(stat.CharacterId);
+        _statTable[stat.DataId] = stat;
+        _characterIds.Add(stat.DataId);
     }
 
     private void AddGrade(CharacterGradeData grade)
@@ -266,6 +266,6 @@ public class MockGrowthDataProvider : IGrowthDataProvider
 
     private void AddItem(ItemData item)
     {
-        _itemTable[item.ItemId] = item;
+        _itemTable[item.DataId] = item;
     }
 }

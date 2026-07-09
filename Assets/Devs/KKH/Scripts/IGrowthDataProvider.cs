@@ -8,7 +8,7 @@ public interface IGrowthDataProvider
 
     CharacterStatData GetStat(string characterId);
     CharacterGradeData GetGrade(int star);
-    ItemData GetItem(string itemId);
+    ItemData GetItem(string dataId);
 
     public int GetRequiredExp(int level);
     IReadOnlyList<string> GetAllCharacterIds();

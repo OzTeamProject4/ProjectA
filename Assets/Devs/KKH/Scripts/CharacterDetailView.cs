@@ -84,8 +84,7 @@ public class CharacterDetailView : MonoBehaviour
 
         _starUpButton.interactable = _viewModel.CanPromote;
         _promoteRequirementText.text = _viewModel.IsMaxStar
-            ? "MAX"
-            : $"{_viewModel.OwnedDuplicates}/{_viewModel.RequiredDuplicatesForPromotion}";
+            ? "MAX" : $"{_viewModel.OwnedDuplicates}/{_viewModel.RequiredDuplicatesForPromotion}";
     }
 
     private void RefreshStars()
@@ -109,13 +108,14 @@ public class CharacterDetailView : MonoBehaviour
         }
 
         _viewModel.OnDisplayChanged += HandleDisplayChanged;
-        _viewModel.Initialize();
 
         _starUpButton.onClick.AddListener(HandleClickStarUp);
         _useItemButton.onClick.AddListener(HandleClickUseItem);
         _closeButton.onClick.AddListener(HandleClickClose);
 
         _isSubscribed = true;
+
+        _viewModel.Initialize();
     }
 
     private void Unsubscribe()

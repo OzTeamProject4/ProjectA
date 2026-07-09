@@ -1,4 +1,4 @@
-﻿using UnityEngine;  // TODO - 07.08: Log사용 위해 추가, 연동 확인 후 삭제
+﻿using UnityEngine;
 
 // 최종 스텟 계산 공식 = 기본값 + (스탯 상승량 + 성급 상승량) × (레벨 - 1)   [+ 장비 스탯]
 public static class StatCalculator

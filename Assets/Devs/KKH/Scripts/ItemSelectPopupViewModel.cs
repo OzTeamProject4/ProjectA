@@ -18,9 +18,9 @@ public class ItemSelectPopupViewModel
             return;
         }
 
-        foreach (string itemId in dataProvider.GetAllExpItemIds())
+        foreach (string dataId in dataProvider.GetAllExpItemIds())
         {
-            ItemData itemData = dataProvider.GetItem(itemId);
+            ItemData itemData = dataProvider.GetItem(dataId);
             if (null == itemData)
             {
                 continue;

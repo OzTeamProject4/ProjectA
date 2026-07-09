@@ -3,9 +3,9 @@
     private readonly CharacterModel _model;
     private readonly ItemData _itemData;
 
-    public string ItemId
+    public string DataId
     {
-        get { return _itemData.ItemId; }
+        get { return _itemData.DataId; }
     }
 
     public string Name
@@ -15,7 +15,7 @@
 
     public int OwnedCount
     {
-        get { return _model.GetItemCount(ItemId); }
+        get { return _model.GetItemCount(DataId); }
     }
 
     public bool IsUsable

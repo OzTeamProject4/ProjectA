@@ -11,7 +11,7 @@ public enum ItemType
 
 public class ItemData
 {
-    public string ItemId { get; init; }
+    public string DataId { get; init; }
     public string Name { get; init; }
     public ItemType Type { get; init; }
     public int Gold { get; init; }
@@ -21,7 +21,7 @@ public class ItemData
 
 public class CharacterStatData
 {
-    public string CharacterId { get; init; }
+    public string DataId { get; init; }
 
     public int Hp { get; init; }
     public int Atk { get; init; }

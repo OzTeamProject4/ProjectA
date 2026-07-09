@@ -1,5 +1,5 @@
 ﻿using System;
-using UnityEngine; // TODO - 07.08: Log/Mathf 사용 위해 추가, 연동 확인 후 삭제 검토
+using UnityEngine;
 
 public class CharacterDetailViewModel
 {
