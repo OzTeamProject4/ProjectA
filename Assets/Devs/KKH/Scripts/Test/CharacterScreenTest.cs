@@ -18,7 +18,7 @@ public class CharacterScreenTest : MonoBehaviour
 
     private bool _hasInitialized;
 
-    private IGrowthDataProvider _dataProvider;
+    private GrowthDataProvider _dataProvider;
     private readonly Dictionary<string, CharacterModel> _characterModels = new();
 
     private CharacterListView _listView;
@@ -49,6 +49,8 @@ public class CharacterScreenTest : MonoBehaviour
 
     private async UniTaskVoid InitializeAsync()
     {
+        await GameManager.Instance.DataManager.PreloadDataAsync();
+
         if (_hasInitialized)
         {
             Debug.LogWarning("[CharacterScreenTest] 이미 초기화되었습니다. 중복 실행을 건너뜁니다.");
@@ -63,7 +65,7 @@ public class CharacterScreenTest : MonoBehaviour
             return;
         }
 
-        _dataProvider = new MockGrowthDataProvider();
+        _dataProvider = new GrowthDataProvider();
         await _dataProvider.InitializeAsync(this.GetCancellationTokenOnDestroy());
 
         BuildTestCharacterModels();

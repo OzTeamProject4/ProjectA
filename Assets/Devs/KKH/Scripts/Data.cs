@@ -9,9 +9,8 @@ public enum ItemType
     Ticket
 }
 
-public class ItemData
+public class ItemData : BaseData
 {
-    public string DataId { get; init; }
     public string Name { get; init; }
     public ItemType Type { get; init; }
     public int Gold { get; init; }
@@ -19,10 +18,8 @@ public class ItemData
     public int Value { get; init; }
 }
 
-public class CharacterStatData
+public class CharacterStatData : BaseData
 {
-    public string DataId { get; init; }
-
     public int Hp { get; init; }
     public int Atk { get; init; }
     public int Def { get; init; }
@@ -36,7 +33,7 @@ public class CharacterStatData
     public float MoveSpeedGrow { get; init; }
 }
 
-public class CharacterGradeData
+public class CharacterGradeData : BaseData
 {
     public int Star { get; init; }
     public int MaxLevel { get; init; }
@@ -49,7 +46,7 @@ public class CharacterGradeData
     public float MoveSpeedGrow { get; init; }
 }
 
-public class LevelExpData
+public class LevelExpData : BaseData
 {
     public int Level { get; init; }
     public int RequiredExp { get; init; }

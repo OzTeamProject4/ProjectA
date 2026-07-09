@@ -1,5 +1,6 @@
 [
   {
+    "DataId": "Star_3",
     "Star": 3,
     "MaxLevel": 20,
     "RequiredToNext": 5,
@@ -10,6 +11,7 @@
     "MoveSpeedGrow": 0
   },
   {
+    "DataId": "Star_4",
     "Star": 4,
     "MaxLevel": 25,
     "RequiredToNext": 10,
@@ -20,6 +22,7 @@
     "MoveSpeedGrow": 0.02
   },
   {
+    "DataId": "Star_5",
     "Star": 5,
     "MaxLevel": 30,
     "RequiredToNext": 0,
