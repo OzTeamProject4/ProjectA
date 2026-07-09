@@ -6,6 +6,8 @@ public class GameManager : BaseManager<GameManager>
 
     public ResourceManager ResourceManager { get; private set; }
 
+    public DataManager DataManager { get; private set; }
+
     private void Awake()
     {
         EnsureSingleton();
@@ -33,11 +35,13 @@ public class GameManager : BaseManager<GameManager>
     private void SetupManagers()
     {
         ResourceManager = this.GetRequiredComponent<ResourceManager>();
+        DataManager = this.GetRequiredComponent<DataManager>();
     }
 
     private void InitializeManagers()
     {
         Initialize();
         ResourceManager.Initialize();
+        DataManager.Initialize();
     }
 }
