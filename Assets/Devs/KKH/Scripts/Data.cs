@@ -133,7 +133,7 @@ public class EquipmentData : BaseData
 public class SignatureData : BaseData
 {
     public string SignatureId { get; init; }
-    public int EnhanceLevel { get; init; }
+    public int EnchantLevel { get; init; }
     public float MaxHp { get; init; }
     public float Atk { get; init; }
     public float Def { get; init; }
@@ -182,4 +182,3 @@ public class SignatureData : BaseData
         return true;
     }
 }
-
