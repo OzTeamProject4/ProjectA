@@ -59,7 +59,7 @@ public class EnemyService
         }
     }
 
-    private void SetEnemyData(EnemyViewModel vm,int enemyInstanceId, string enemyDataId, string name, int totalExp, string elementalType, int baseHp, float baseDamage,string PrefabAddress)
+    private void SetEnemyData(EnemyViewModel vm,int enemyInstanceId, string enemyDataId, string name, int totalExp, string elementalType, float baseHp, float baseDamage,string PrefabAddress)
     {
         vm.EnemyInstanceId = enemyInstanceId;
         vm.EnemyDataId = enemyDataId;

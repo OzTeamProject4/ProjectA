@@ -27,7 +27,7 @@ public class Test_GameManager : MonoBehaviour
             Debug.Log("localEnemyVm 이 비었습니다.");
             return;
         }
-        Test_GameObjectManager.inst.SpawmEnemy(localEnemyVm);
+        Test_GameObjectManager.Inst.SpawnEnemyAsync(localEnemyVm);
     }
 
 }
