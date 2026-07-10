@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -6,8 +7,6 @@ using UnityEngine;
 public class TempPartySpawner : MonoBehaviour
 {
     [SerializeField] private CinemachineCamera _cinemachineCamera;
-    [SerializeField] private GameObject _testPlayerPrefab;
-
     
     private List<BattleCharacter> _battleCharacterList;
 
@@ -18,27 +17,28 @@ public class TempPartySpawner : MonoBehaviour
             Debug.LogError("카메라 참조가 null. 인스펙터 확인");
             return;
         }
-
-        if(_testPlayerPrefab == null)
-        {
-            Debug.LogError("프리팹이 null");
-            return;
-        }
-
+               
         await GameManager.Instance.DataManager.LoadDataAsync<CharacterData>("Data_TestCharacter");
 
         // TODO 희준 임시 파티ID 추후 파티 편성창에서 전달받는 방식으로 교체
         List<string> tempPartyIds = new List<string> { "Character_001", "Character_003", "Character_005" };
-        CreatePartyById(tempPartyIds);
+        await CreatePartyById(tempPartyIds);
 
         GameObject partyObj = new GameObject("PartyController");
         PartyController partyController = partyObj.AddComponent<PartyController>();
         partyController.Initialize(_battleCharacterList, _cinemachineCamera);
     }
 
-    private void CreatePartyById(List<string> partyDataIds)
+    private async UniTask CreatePartyById(List<string> partyDataIds)
     {
         _battleCharacterList = new List<BattleCharacter>();
+        GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>("Prefab_TestBattleCharacterBase");
+        if (prefab == null)
+        {
+            Debug.LogError("캐릭터 껍데기 프리팹 로드 실패");
+            return;
+        }
+
         int index = 0;
         foreach (string dataId in partyDataIds)
         {
@@ -48,7 +48,7 @@ public class TempPartySpawner : MonoBehaviour
                 continue;
             }
 
-            GameObject obj = Instantiate(_testPlayerPrefab, new Vector3(index * 3, 2, 0), Quaternion.identity);
+            GameObject obj = Instantiate(prefab, new Vector3(index * 3, 2, 0), Quaternion.identity);
             BattleCharacter battleCharacter = obj.GetComponent<BattleCharacter>();
             battleCharacter.Initialize(character);
             _battleCharacterList.Add(battleCharacter);
