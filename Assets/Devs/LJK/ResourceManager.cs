@@ -6,55 +6,70 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class AssetHandleInfo
-{
-    public AsyncOperationHandle Handle { get; }
-    public int ReferenceCount { get; private set; }
-
-    public AssetHandleInfo(AsyncOperationHandle handle)
-    {
-        Handle = handle;
-        ReferenceCount = 1;
-    }
-
-    public void AddReferenceCount()
-    {
-        ReferenceCount++;
-    }
-
-    public void RemoveReferenceCount()
-    {
-        if (ReferenceCount > 0)
-        {
-            ReferenceCount--;
-        }
-    }
-}
-
 public class ResourceManager : BaseManager<ResourceManager>
 {
     private readonly Dictionary<string, AssetHandleInfo> _assetHandleDictionary = new Dictionary<string, AssetHandleInfo>();
     
     private readonly Dictionary<string, UniTaskCompletionSource<UnityEngine.Object>> _loadingSourceDictionary = new Dictionary<string, UniTaskCompletionSource<UnityEngine.Object>>();
 
+    private CancellationTokenSource _releaseAllCts = new CancellationTokenSource();
+
     public override  void Initialize()
     {
-        Debug.Log("리소스 매니저 초기화");
+        ReleaseAllAssets();
     }
 
     public async UniTask<T> LoadAssetAsync<T>(string key, CancellationToken cancellationToken = default) where T : UnityEngine.Object
     {
         T asset = await GetOrLoadAssetAsync<T>(key, cancellationToken);
-
         return asset;
+    }
+
+    public void ReleaseAsset(string key)
+    {
+        if (!_assetHandleDictionary.TryGetValue(key, out var handleInfo))
+        {
+            return;
+        }
+
+        handleInfo.RemoveReferenceCount();
+
+        if (handleInfo.ReferenceCount > 0)
+        {
+            return;
+        }
+
+        ReleaseHandle(handleInfo.Handle);
+        _assetHandleDictionary.Remove(key);
+    }
+
+    public void ReleaseAllAssets()
+    {
+        _releaseAllCts.Cancel();
+
+        foreach (var pair in _assetHandleDictionary)
+        {
+            ReleaseHandle(pair.Value.Handle);
+        }
+
+        _assetHandleDictionary.Clear();
+
+        foreach (var pair in _loadingSourceDictionary)
+        {
+            pair.Value.TrySetResult(null);
+        }
+
+        _loadingSourceDictionary.Clear();
+
+        _releaseAllCts.Dispose();
+        _releaseAllCts = new CancellationTokenSource();
     }
 
     private async UniTask<T> GetOrLoadAssetAsync<T>(string key, CancellationToken cancellationToken) where T : UnityEngine.Object
     {
         if (string.IsNullOrWhiteSpace(key))
         {
-            Debug.LogError("[ResourceManager:LoadAssetAsync] 전달된 key가 null이거나 빈 문자열 또는 공백 문자열입니다.");
-
+            Debug.LogError("[ResourceManager:GetOrLoadAssetAsync] 전달된 key가 null이거나 빈 문자열 또는 공백 문자열입니다.");
             return null;
         }
 
@@ -65,11 +80,10 @@ public class ResourceManager : BaseManager<ResourceManager>
             if (assetFromLoadedHandle != null)
             {
                 loadedAssetHandle.AddReferenceCount();
-
                 return assetFromLoadedHandle;
             }
 
-            Debug.LogWarning($"[ResourceManager:LoadAssetAsync] '{key}'의 Handle이 유효하지 않아 다시 로드합니다.");
+            Debug.LogWarning($"[ResourceManager:GetOrLoadAssetAsync] '{key}'의 Handle이 유효하지 않아 다시 로드합니다.");
             _assetHandleDictionary.Remove(key);
         }
 
@@ -82,8 +96,7 @@ public class ResourceManager : BaseManager<ResourceManager>
 
             if (typeCastAsset == null)
             {
-                Debug.LogError($"[ResourceManager:LoadAssetAsync] '{key}' 타입 캐스팅 실패");
-
+                Debug.LogError($"[ResourceManager:GetOrLoadAssetAsync] '{key}' 타입 캐스팅 실패");
                 return null;
             }
 
@@ -106,7 +119,12 @@ public class ResourceManager : BaseManager<ResourceManager>
         
         if (loadAsset == null)
         {
-            Debug.LogError($"[ResourceManager:LoadAssetAsync] '{key}' 타입 캐스팅 실패");
+            Debug.LogError($"[ResourceManager:GetOrLoadAssetAsync] '{key}' 타입 캐스팅 실패");
+
+            if (_assetHandleDictionary.TryGetValue(key, out var handleInfo))
+            {
+                handleInfo.RemoveReferenceCount();
+            }
 
             return null;
         }
@@ -125,7 +143,7 @@ public class ResourceManager : BaseManager<ResourceManager>
 
         try
         {
-            await handle.ToUniTask();
+            await handle.ToUniTask(cancellationToken: _releaseAllCts.Token);
 
             T asset = GetAssetFromHandle<T>(handle, key);
 
@@ -140,14 +158,15 @@ public class ResourceManager : BaseManager<ResourceManager>
 
             source.TrySetResult(asset);
         }
+        catch (OperationCanceledException)
+        {
+            CleanupFailedLoad(key, source, handle);
+        }
         catch (Exception exception)
         {
-            Debug.LogError($"[ResourceManager:LoadAssetAsync] '{key}'의 에셋을 로드하는 중 예외가 발생했습니다.\n{exception}");
+            Debug.LogError($"[ResourceManager:ExecuteLoadAssetAsync] '{key}'의 에셋을 로드하는 중 예외가 발생했습니다.\n{exception}");
 
-            ReleaseHandle(handle);
-            RemoveLoadingTask(key, source);
-
-            source.TrySetResult(null);
+            CleanupFailedLoad(key, source, handle);
         }
     }
 
@@ -180,25 +199,27 @@ public class ResourceManager : BaseManager<ResourceManager>
     {
         if (!_assetHandleDictionary.TryGetValue(key, out AssetHandleInfo assetHandleInfo))
         {
-            Debug.LogError($"[ResourceManager:AddAssetReference] '{key}'의 Handle 정보를 찾을 수 없습니다.");
-
+            Debug.LogError($"[ResourceManager:TryAddAssetReference] '{key}'의 Handle 정보를 찾을 수 없습니다.");
             return false;
         }
 
         assetHandleInfo.AddReferenceCount();
-
         return true;
     }
 
     private void RemoveLoadingTask(string key, UniTaskCompletionSource<UnityEngine.Object> source)
     {
-        if (_loadingSourceDictionary.TryGetValue(key, out var currentSource))
+        if (!_loadingSourceDictionary.TryGetValue(key, out var currentSource))
         {
-            if (currentSource == source)
-            {
-                _loadingSourceDictionary.Remove(key);
-            }
+            return;
         }
+
+        if (currentSource != source)
+        {
+            return;
+        }
+
+        _loadingSourceDictionary.Remove(key);
     }
 
     private void ReleaseHandle(AsyncOperationHandle handle)
@@ -209,5 +230,13 @@ public class ResourceManager : BaseManager<ResourceManager>
         }
 
         Addressables.Release(handle);
+    }
+
+    private void CleanupFailedLoad(string key, UniTaskCompletionSource<UnityEngine.Object> source, AsyncOperationHandle handle)
+    {
+        ReleaseHandle(handle);
+        RemoveLoadingTask(key, source);
+
+        source.TrySetResult(null);
     }
 }
