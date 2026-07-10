@@ -33,18 +33,7 @@ public class PartyController : MonoBehaviour
     {
         if (_inputAction.Player.Switch.WasPressedThisFrame())
         {
-            if (Time.time - _lastSwitchTime >= _switchCoolTime)
-            {
-                int nextIndex = (_currentCharacterIndex + 1) % _partyCharacters.Count;
-                SwitchCharacter(nextIndex);
-                _lastSwitchTime = Time.time;
-            }
-
-            else
-            {
-                // TODO 추후 UI에서 출력 필요. 임시 로그
-                Debug.Log("아직 캐릭터 태그 기능을 사용할 수 없습니다");
-            }
+            TrySwitchToNextCharacter();
         }
     }
 
@@ -53,28 +42,9 @@ public class PartyController : MonoBehaviour
         _partyCharacters = characters;
         _cinemachineCamera = cinemachinCamera;
 
-        GameObject controllObj = new GameObject("PlayerController");
-        _playerController = controllObj.AddComponent<PlayerController>();
-
-        GameObject pivotObj = new GameObject("CameraPivot");
-        _cameraController = pivotObj.AddComponent<CameraController>();
-
-        _cinemachineCamera.Target.TrackingTarget = pivotObj.transform;
-        _playerController.SetCameraTransform(pivotObj.transform);
-
-        _aiControllerList = new List<CharacterAIController>();
-        for (int i = 0; i < _partyCharacters.Count; i++)
-        {
-            BattleCharacter aiCharacter = _partyCharacters[i];
-            CharacterAIController ai = aiCharacter.gameObject.AddComponent<CharacterAIController>();
-            ai.enabled = false;
-            ai.Initialize(_partyCharacters[0], aiCharacter);
-
-            _aiControllerList.Add(ai);
-        }
-
+        SetupControllers();
+        SetupAIControllers();
         SwitchCharacter(0);
-
     }
 
     public void SwitchCharacter(int index)
@@ -99,6 +69,44 @@ public class PartyController : MonoBehaviour
 
             _aiControllerList[i].SetAIFollowTarget(target);
         }
+    }
 
+    private void SetupControllers()
+    {
+        GameObject controllObj = new GameObject("PlayerController");
+        _playerController = controllObj.AddComponent<PlayerController>();
+
+        GameObject pivotObj = new GameObject("CameraPivot");
+        _cameraController = pivotObj.AddComponent<CameraController>();
+
+        _cinemachineCamera.Target.TrackingTarget = pivotObj.transform;
+        _playerController.SetCameraTransform(pivotObj.transform);
+    }
+
+    private void SetupAIControllers()
+    {
+        _aiControllerList = new List<CharacterAIController>();
+        for (int i = 0; i < _partyCharacters.Count; i++)
+        {
+            BattleCharacter aiCharacter = _partyCharacters[i];
+            CharacterAIController ai = aiCharacter.gameObject.AddComponent<CharacterAIController>();
+            ai.enabled = false;
+            ai.Initialize(_partyCharacters[0], aiCharacter);
+            _aiControllerList.Add(ai);
+        }
+    }
+    
+    private void TrySwitchToNextCharacter()
+    {
+        if (Time.time - _lastSwitchTime < _switchCoolTime)
+        {
+            // TODO 희준 : 추후 UI에 표시 필요
+            Debug.Log("아직 캐릭터 태그 기능 사용할수 없습니다");
+            return;
+        }
+
+        int nextIndex = (_currentCharacterIndex + 1) % _partyCharacters.Count;
+        SwitchCharacter(nextIndex);
+        _lastSwitchTime = Time.time;
     }
 }
