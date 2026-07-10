@@ -20,7 +20,7 @@ public class Test_GameObjectManager : MonoBehaviour
     public async UniTaskVoid SpawnEnemyAsync(EnemyViewModel vm)
     {
         
-        GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(vm.EnemyDataId);
+        GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(vm.PrefabAddress);
         if (prefab == null)
         {
             Debug.LogError("적 프리팹을 로드하지 못했습니다.");

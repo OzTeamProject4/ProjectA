@@ -15,19 +15,18 @@ public class Test_GameManager : MonoBehaviour
     }
     private void Start()
     {
-        RequestCreateEnemy("데이터 ID가 들어갈 곳");
 
 
     }
     public void RequestCreateEnemy(string enemyDataId)
     {
-        EnemyViewModel localEnemyVm = EnemyService.CreateEnemyViewModel(enemyDataId);
+        EnemyViewModel enemyVm = EnemyService.CreateEnemyViewModel(enemyDataId);
 
-        if (localEnemyVm == null) {
+        if (enemyVm == null) {
             Debug.Log("localEnemyVm 이 비었습니다.");
             return;
         }
-        Test_GameObjectManager.Inst.SpawnEnemyAsync(localEnemyVm);
+        Test_GameObjectManager.Inst.SpawnEnemyAsync(enemyVm);
     }
 
 }
