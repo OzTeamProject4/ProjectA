@@ -261,6 +261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyView
   TextMesh_Name: {fileID: 5322068127504751908}
   TextMesh_Level: {fileID: 401625125016857345}
+  Animator_Enemy: {fileID: 7627296056587753399}
 --- !u!33 &2960501491185359110
 MeshFilter:
   m_ObjectHideFlags: 0

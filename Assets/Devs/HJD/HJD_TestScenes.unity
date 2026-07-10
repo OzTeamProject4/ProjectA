@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 5051992}
   - component: {fileID: 5051991}
   m_Layer: 5
-  m_Name: Button (Legacy)
+  m_Name: LoadButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,8 +156,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -19, y: -103.94821}
-  m_SizeDelta: {x: 276.3, y: 30}
+  m_AnchoredPosition: {x: -619, y: -103.94821}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5051991
 MonoBehaviour:
@@ -325,11 +325,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 67
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 67
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -574,7 +574,7 @@ GameObject:
   - component: {fileID: 144350288}
   - component: {fileID: 144350287}
   m_Layer: 5
-  m_Name: Button (Legacy)
+  m_Name: SpawnButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -598,7 +598,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -367.43085, y: -103.94821}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &144350287
 MonoBehaviour:
@@ -612,7 +612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7a68f65a0596b84bbe4252bf1ad0439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Test_SpawnEnemyButton
-  _spawnEnemyDataId: Enemy_Wizard_Fire
+  _spawnEnemyDataId: Enemy_Wizard_Fire_01
 --- !u!114 &144350288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1300,11 +1300,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 67
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
+    m_MinSize: 7
+    m_MaxSize: 87
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
