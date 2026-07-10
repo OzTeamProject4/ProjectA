@@ -1,9 +1,10 @@
+using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Test_GameManager : MonoBehaviour
 {
     public static Test_GameManager Inst { get; set; }
-
     public EnemyService EnemyService { get; private set; }
 
     private void Awake()
@@ -26,7 +27,13 @@ public class Test_GameManager : MonoBehaviour
             Debug.Log("localEnemyVm 이 비었습니다.");
             return;
         }
-        Test_GameObjectManager.Inst.SpawnEnemyAsync(enemyVm);
+        Test_GameObjectManager.Inst.SpawnEnemyAsync(enemyVm).Forget();
     }
+    public void  PreloadData()
+    {
+        GameManager.Instance.DataManager.PreloadDataAsync().Forget();
+    }
+    
+
 
 }

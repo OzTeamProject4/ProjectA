@@ -17,6 +17,8 @@ public class DataManager : BaseManager<DataManager>
     public async UniTask PreloadDataAsync()
     {
         //await LoadDataAsync<T>("Key");
+        await LoadDataAsync<EnemyData>("DataTables/EnemyData");
+
     }
 
     public async UniTask LoadRuntimeDataAsync()

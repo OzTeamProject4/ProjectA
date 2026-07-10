@@ -13,6 +13,7 @@ public class GameManager : BaseManager<GameManager>
         EnsureSingleton();
         SetupManagers();
         InitializeManagers();
+        
     }
 
     public override void Initialize()
