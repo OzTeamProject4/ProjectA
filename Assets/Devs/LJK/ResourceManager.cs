@@ -14,9 +14,10 @@ public class ResourceManager : BaseManager<ResourceManager>
 
     private CancellationTokenSource _releaseAllCts = new CancellationTokenSource();
 
-    public override  void Initialize()
+    public override UniTask InitializeAsync()
     {
         ReleaseAllAssets();
+        return UniTask.CompletedTask;
     }
 
     public async UniTask<T> LoadAssetAsync<T>(string key, CancellationToken cancellationToken = default) where T : UnityEngine.Object

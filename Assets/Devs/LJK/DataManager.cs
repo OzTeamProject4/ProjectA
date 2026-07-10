@@ -8,20 +8,23 @@ public class DataManager : BaseManager<DataManager>
 {
     private readonly Dictionary<Type, object> _dataTables = new Dictionary<Type, object>();
 
-    public override void Initialize()
+    public override UniTask InitializeAsync()
     {
         //GameManager.Instance.ResourceManager.ReleaseAsset("Key");
         _dataTables.Clear();
+        return UniTask.CompletedTask;
     }
 
     public async UniTask PreloadDataAsync()
     {
         //await LoadDataAsync<T>("Key");
+        await UniTask.CompletedTask;
     }
 
     public async UniTask LoadRuntimeDataAsync()
     {
         //await LoadDataAsync<T>("Key");
+        await UniTask.CompletedTask;
     }
 
     public async UniTask LoadDataAsync<T>(string key) where T : BaseData

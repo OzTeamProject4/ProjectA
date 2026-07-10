@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class GameManager : BaseManager<GameManager>
 {
@@ -8,16 +9,25 @@ public class GameManager : BaseManager<GameManager>
 
     public DataManager DataManager { get; private set; }
 
+    public AudioManager AudioManager { get; private set; }
+
+    private UniTask _initializeTask;
+
     private void Awake()
     {
         EnsureSingleton();
         SetupManagers();
-        InitializeManagers();
     }
 
-    public override void Initialize()
+    private void Start()
+    {
+        _initializeTask = InitializeManagersAsync();
+    }
+
+    public override UniTask InitializeAsync()
     {
         Debug.Log("게임 매니저 초기화");
+        return UniTask.CompletedTask;
     }
 
     private void EnsureSingleton()
@@ -36,12 +46,14 @@ public class GameManager : BaseManager<GameManager>
     {
         ResourceManager = this.GetRequiredComponent<ResourceManager>();
         DataManager = this.GetRequiredComponent<DataManager>();
+        AudioManager = this.GetRequiredComponent<AudioManager>();
     }
 
-    private void InitializeManagers()
+    private async UniTask InitializeManagersAsync()
     {
-        Initialize();
-        ResourceManager.Initialize();
-        DataManager.Initialize();
+        await InitializeAsync();
+        await ResourceManager.InitializeAsync();
+        await DataManager.InitializeAsync();
+        await AudioManager.InitializeAsync();
     }
 }
