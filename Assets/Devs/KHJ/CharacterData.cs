@@ -17,9 +17,8 @@ public enum Role
     Buffer
 }
 
-public class CharacterData
+public class CharacterData : BaseData
 {
-    public string DataId { get; set; }
     public string Name { get; set; }
     public int Level { get; set; }
     public int BaseHp { get; set; }
