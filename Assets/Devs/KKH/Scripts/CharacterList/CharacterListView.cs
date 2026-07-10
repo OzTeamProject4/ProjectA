@@ -1,15 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class CharacterListView : MonoBehaviour
 {
     [SerializeField] private CharacterListItemView _itemPrefab;
     [SerializeField] private Transform _contentParent;
+    [SerializeField] private Button _btnClose;
 
     private readonly List<CharacterListItemView> _spawnedItems = new();
 
     public event Action<string> OnItemSelected;
+    public event Action OnCloseButtonClicked;
+
+    private void OnEnable()
+    {
+        if (null != _btnClose)
+        {
+            _btnClose.onClick.AddListener(HandleCloseClicked);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (null != _btnClose)
+        {
+            _btnClose.onClick.RemoveListener(HandleCloseClicked);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        ClearItems();
+    }
 
     public void Bind(CharacterListViewModel viewModel, IReadOnlyList<CharacterDisplayInfo> displayInfos)
     {
@@ -43,11 +67,6 @@ public class CharacterListView : MonoBehaviour
 
             _spawnedItems.Add(itemView);
         }
-    }
-
-    private void OnDestroy()
-    {
-        ClearItems();
     }
 
     private void ClearItems()
@@ -86,5 +105,10 @@ public class CharacterListView : MonoBehaviour
     private void HandleItemClicked(string characterId)
     {
         OnItemSelected?.Invoke(characterId);
+    }
+
+    private void HandleCloseClicked()
+    {
+        OnCloseButtonClicked?.Invoke();
     }
 }

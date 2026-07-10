@@ -54,6 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterListView
   _itemPrefab: {fileID: 785581746801142988, guid: 9c15ab17f81bb2b4ebf2071c1f389ea5, type: 3}
   _contentParent: {fileID: 5288645770226070287}
+  _btnClose: {fileID: 5850266055262565352}
 --- !u!1 &341348511868583526
 GameObject:
   m_ObjectHideFlags: 0

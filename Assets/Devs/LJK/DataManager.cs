@@ -12,6 +12,7 @@ public class DataManager : BaseManager<DataManager>
     {
         //GameManager.Instance.ResourceManager.ReleaseAsset("Key");
         _dataTables.Clear();
+        PreloadDataAsync().Forget();
     }
 
     public async UniTask PreloadDataAsync()

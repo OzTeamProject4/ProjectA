@@ -72,10 +72,25 @@ public class CharacterModel
         }
     }
 
-    /// <summary>
-    /// 경험치 추가 메서드. 필요 경험치를 넘기면 레벨업하며 초과분은 이월.
-    /// 만렙(현재 성급 상한) 도달 시 추가 경험치와 초과분은 삭제.
-    /// </summary>
+    public FinalStats GetFinalStats()
+    {
+        CharacterStatData stat = _dataProvider.GetStat(CharacterId);
+        CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);
+
+        return StatCalculator.Calculate(stat, grade, CurrentLevel);
+    }
+
+    public int GetRequiredExpForNextLevel()
+    {
+        return _dataProvider.GetRequiredExp(CurrentLevel);
+    }
+
+    public int GetRequiredDuplicatesForPromotion()
+    {
+        CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);
+        return grade.RequiredToNext > 0 ? grade.RequiredToNext : 0;
+    }
+
     public void AddExp(int amount)
     {
         if (amount <= 0)
@@ -130,11 +145,24 @@ public class CharacterModel
             OnLevelChanged?.Invoke();
         }
     }
+    public void UseExpItem(string dataId)
+    {
+        if (string.IsNullOrEmpty(dataId))
+        {
+            Debug.LogWarning("UseExpItem: dataId 가 비어 있습니다.");
+            return;
+        }
 
-    /// <summary>
-    /// 보유한 경험치 아이템 하나를 사용해 grantExp 만큼 경험치를 가산.
-    /// 만렙에서는 아이템을 소비하지 않고 차단.
-    /// </summary>
+        ItemData item = _dataProvider.GetItem(dataId);
+        if (null == item)
+        {
+            Debug.LogWarning($"UseExpItem: ItemData 를 찾을 수 없습니다. dataId={dataId}");
+            return;
+        }
+
+        UseExpItem(dataId, item.Value);
+    }
+
     public void UseExpItem(string dataId, int value)
     {
         if (string.IsNullOrEmpty(dataId))
@@ -161,10 +189,6 @@ public class CharacterModel
         AddExp(value);
     }
 
-    /// <summary>
-    /// 승급 가능 여부를 검사.
-    /// 최대 성급이 아니고, 현재 성급 만렙에 도달했으며, 중복본이 충분한지.
-    /// </summary>
     public bool CanPromote()
     {
         CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);
@@ -181,10 +205,6 @@ public class CharacterModel
         return OwnedDuplicates >= grade.RequiredToNext;
     }
 
-    /// <summary>
-    /// 성급을 1단계 올리기(승성)
-    /// 보유한 캐릭터 중복본을 소비. 승급 후 만렙 상한이 상승.
-    /// </summary>
     public void Promote()
     {
         CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);
@@ -219,7 +239,6 @@ public class CharacterModel
         OnStarChanged?.Invoke();
     }
 
-    /// <summary> 경험치 아이템 획득(테스트/실제 지급 공용). </summary>
     public void AddExpItem(string dataId, int count)
     {
         if (string.IsNullOrEmpty(dataId) || count <= 0)
@@ -232,7 +251,6 @@ public class CharacterModel
         OnItemCountChanged?.Invoke();
     }
 
-    /// <summary> 중복본 획득(테스트/실제 지급 공용). </summary>
     public void AddDuplicate(int count)
     {
         if (count <= 0)
@@ -243,6 +261,32 @@ public class CharacterModel
 
         OwnedDuplicates += count;
         OnDuplicatesChanged?.Invoke();
+    }
+
+    public bool CanUseExpItem(string dataId)
+    {
+        if (IsMaxLevel)
+        {
+            return false;
+        }
+
+        return GetItemCount(dataId) > 0;
+    }
+
+    public IReadOnlyList<ItemData> GetExpItems()
+    {
+        List<ItemData> items = new();
+
+        foreach (string dataId in _dataProvider.GetAllExpItemIds())
+        {
+            ItemData item = _dataProvider.GetItem(dataId);
+            if (null != item)
+            {
+                items.Add(item);
+            }
+        }
+
+        return items;
     }
 
     public int GetItemCount(string dataId)

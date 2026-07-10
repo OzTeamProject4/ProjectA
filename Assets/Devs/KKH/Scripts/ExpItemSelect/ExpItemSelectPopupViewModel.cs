@@ -10,22 +10,16 @@ public class ExpItemSelectPopupViewModel
         get { return _items; }
     }
 
-    public ExpItemSelectPopupViewModel(CharacterModel model, IGrowthDataProvider dataProvider)
+    public ExpItemSelectPopupViewModel(CharacterModel model)
     {
-        if (null == model || null == dataProvider)
+        if (null == model)
         {
-            Debug.LogError("model 또는 dataProvider 가 null 입니다.");
+            Debug.LogError("model 이 null 입니다.");
             return;
         }
 
-        foreach (string dataId in dataProvider.GetAllExpItemIds())
+        foreach (ItemData itemData in model.GetExpItems())
         {
-            ItemData itemData = dataProvider.GetItem(dataId);
-            if (null == itemData)
-            {
-                continue;
-            }
-
             _items.Add(new ExpItemSlotViewModel(model, itemData));
         }
     }

@@ -18,7 +18,7 @@ public class CharacterScreenTest : MonoBehaviour
 
     private bool _hasInitialized;
 
-    private GrowthDataProvider _dataProvider;
+    private IGrowthDataProvider _dataProvider;
     private readonly Dictionary<string, CharacterModel> _characterModels = new();
 
     private CharacterListView _listView;
@@ -36,6 +36,7 @@ public class CharacterScreenTest : MonoBehaviour
         if (null != _listView)
         {
             _listView.OnItemSelected -= HandleItemSelected;
+            _listView.OnCloseButtonClicked -= HandleDetailClosed;
         }
 
         if (null != _detailView)
@@ -47,9 +48,10 @@ public class CharacterScreenTest : MonoBehaviour
         CloseItemSelectPopup();
     }
 
+    // [로비 이관 대상] View 생성·배선 + Model/ViewModel 생성. 로비 도입 시 이 흐름 전체가 로비로 옮겨간다.
     private async UniTaskVoid InitializeAsync()
     {
-        await GameManager.Instance.DataManager.PreloadDataAsync();
+        await UniTask.Delay(1000);
 
         if (_hasInitialized)
         {
@@ -75,24 +77,20 @@ public class CharacterScreenTest : MonoBehaviour
         _detailView.gameObject.SetActive(false);
 
         _listView = Instantiate(_listViewPrefab, _contentParent);
+        _listView.OnCloseButtonClicked += HandleListClosed;
         _listView.OnItemSelected += HandleItemSelected;
 
         CharacterListViewModel listViewModel = new CharacterListViewModel(new List<CharacterModel>(_characterModels.Values));
         _listView.Bind(listViewModel, BuildDisplayInfos());
     }
 
+    // [로비 이관 대상] 임시 더미 데이터 생성. 세이브 시스템 + 로비 도입 시 함께 교체/이관.
     private void BuildTestCharacterModels()
     {
-        // TODO - 07.08: 다음 스프린트(세이브/영속성 시스템)에서 교체 필요.
-        // 지금은 "전체 캐릭터(GetAllCharacterIds) = 보유 캐릭터"로 임시 가정하고,
-        // 전부 레벨 1 / _testStartStar 로 새로 생성한다.
-        // 실제로는 세이브 데이터(또는 서버 응답)의 "보유 캐릭터 목록 + 저장된 성급/레벨/경험치/
-        // 중복본/아이템 수량"을 기준으로 CharacterModel 을 생성(또는 복원)해야 한다.
         foreach (string dataId in _dataProvider.GetAllCharacterIds())
         {
             CharacterModel model = new CharacterModel(dataId, _testStartStar, _dataProvider);
-
-            // 버튼 동작(아이템 사용/승급) 테스트를 위해 전체 경험치 아이템을 미리 지급.
+            
             foreach (string expItemDataId in _dataProvider.GetAllExpItemIds())
             {
                 model.AddExpItem(expItemDataId, 999);
@@ -104,6 +102,7 @@ public class CharacterScreenTest : MonoBehaviour
         }
     }
 
+    // [로비 이관 대상] 표시용 정보(이름/초상화) 구성. 로비/컨트롤러로 함께 이관.
     private List<CharacterDisplayInfo> BuildDisplayInfos()
     {
         List<CharacterDisplayInfo> infos = new();
@@ -121,6 +120,8 @@ public class CharacterScreenTest : MonoBehaviour
         return infos;
     }
 
+    // [분리 이관 대상] ViewModel 생성·Bind(→로비) + 목록↔상세 화면 전환(→UIManager)이 섞여 있음.
+    // 두 시스템 도입 시 이 메서드를 생성부와 전환부로 쪼개 각각 이관.
     private void HandleItemSelected(string dataId)
     {
         if (!_characterModels.TryGetValue(dataId, out CharacterModel model))
@@ -129,21 +130,31 @@ public class CharacterScreenTest : MonoBehaviour
             return;
         }
 
-        CharacterDetailViewModel detailViewModel = new CharacterDetailViewModel(model, _dataProvider);
+        // (생성·배선 → 로비)
+        CharacterDetailViewModel detailViewModel = new CharacterDetailViewModel(model);
         _detailView.Bind(detailViewModel, dataId);
-        _detailView.gameObject.SetActive(true);
 
+        // (화면 전환 → UIManager)
+        _detailView.gameObject.SetActive(true);
         _listView.gameObject.SetActive(false);
 
         _currentDetailModel = model;
     }
 
+    // [UIManager 이관 대상] 상세→목록 화면 전환. UIManager 도입 시 SetActive 토글을 UIManager 호출로 대체.
     private void HandleDetailClosed()
     {
         _detailView.gameObject.SetActive(false);
         _listView.gameObject.SetActive(true);
     }
 
+    private void HandleListClosed()
+    {
+        _listView.gameObject.SetActive(false);
+    }
+
+    // [UIManager 이관 대상] 아이템 선택 팝업 열기. UIManager 도입 시 팝업 생성/표시를 UIManager 로 위임.
+    // (단, ExpItemSelectPopupViewModel 생성 자체는 생성·배선이라 로비/컨트롤러 성격도 일부 포함)
     private void HandleUseItemButtonClicked()
     {
         if (null != _itemSelectPopup)
@@ -168,7 +179,7 @@ public class CharacterScreenTest : MonoBehaviour
         _itemSelectPopup.OnItemSelected += HandleItemPopupSelected;
         _itemSelectPopup.OnCloseButtonClicked += HandleItemPopupClosed;
 
-        ExpItemSelectPopupViewModel popupViewModel = new ExpItemSelectPopupViewModel(_currentDetailModel, _dataProvider);
+        ExpItemSelectPopupViewModel popupViewModel = new ExpItemSelectPopupViewModel(_currentDetailModel);
         _itemSelectPopup.Bind(popupViewModel);
     }
 
@@ -183,6 +194,7 @@ public class CharacterScreenTest : MonoBehaviour
         CloseItemSelectPopup();
     }
 
+    // [UIManager 이관 대상] 팝업 닫기/정리.
     private void CloseItemSelectPopup()
     {
         if (null == _itemSelectPopup)

@@ -20,7 +20,7 @@
 
     public bool IsUsable
     {
-        get { return OwnedCount > 0; }
+        get { return _model.CanUseExpItem(DataId); }
     }
 
     public ExpItemSlotViewModel(CharacterModel model, ItemData itemData)
