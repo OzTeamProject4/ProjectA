@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Unity.AppUI.UI;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,6 +13,7 @@ public class PartyController : MonoBehaviour
     private PlayerInputActions _inputAction;
     private float _switchCoolTime = 3.0f;
     private float _lastSwitchTime;
+    private List<CharacterAIController> _aiControllerList;
 
     private void Awake()
     {
@@ -62,14 +62,19 @@ public class PartyController : MonoBehaviour
         _cinemachineCamera.Target.TrackingTarget = pivotObj.transform;
         _playerController.SetCameraTransform(pivotObj.transform);
 
-        SwitchCharacter(0);
-
-        for (int i = 1; i < _partyCharacters.Count; i++)
+        _aiControllerList = new List<CharacterAIController>();
+        for (int i = 0; i < _partyCharacters.Count; i++)
         {
             BattleCharacter aiCharacter = _partyCharacters[i];
             CharacterAIController ai = aiCharacter.gameObject.AddComponent<CharacterAIController>();
+            ai.enabled = false;
             ai.Initialize(_partyCharacters[0], aiCharacter);
+
+            _aiControllerList.Add(ai);
         }
+
+        SwitchCharacter(0);
+
     }
 
     public void SwitchCharacter(int index)
@@ -79,5 +84,21 @@ public class PartyController : MonoBehaviour
 
         _playerController.SetControlTarget(target);
         _cameraController.SetTarget(target.transform);
+
+        for (int i = 0; i < _aiControllerList.Count; i++)
+        {
+            if (i == index)
+            {
+                _aiControllerList[i].enabled = false;
+            }
+
+            else
+            {
+                _aiControllerList[i].enabled = true;
+            }
+
+            _aiControllerList[i].SetAIFollowTarget(target);
+        }
+
     }
 }

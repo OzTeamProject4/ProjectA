@@ -33,11 +33,14 @@ public class CharacterAIController : MonoBehaviour
     public void Initialize(BattleCharacter targetCharacter, BattleCharacter curCharacter)
     {
         _curCharacter = curCharacter;
-        _targetCharacter = targetCharacter;
-
+        SetAIFollowTarget(targetCharacter);
         _idleState = new IdleState(curCharacter);
-        _followState = new FollowState(targetCharacter, curCharacter);
-
         _stateMachine.ChangeState(_idleState);
+    }
+
+    public void SetAIFollowTarget(BattleCharacter targetCharacter)
+    {
+        _targetCharacter = targetCharacter;
+        _followState = new FollowState(targetCharacter, _curCharacter);
     }
 }
