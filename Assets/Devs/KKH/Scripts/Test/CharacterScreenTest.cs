@@ -10,7 +10,7 @@ public class CharacterScreenTest : MonoBehaviour
 {
     [SerializeField] private CharacterListView _listViewPrefab;
     [SerializeField] private CharacterDetailView _detailViewPrefab;
-    [SerializeField] private ItemSelectPopupView _itemSelectPopupPrefab;
+    [SerializeField] private ExpItemSelectPopupView _itemSelectPopupPrefab;
     [SerializeField] private Transform _contentParent;
     [SerializeField] private Transform _popupParent;
 
@@ -23,7 +23,7 @@ public class CharacterScreenTest : MonoBehaviour
 
     private CharacterListView _listView;
     private CharacterDetailView _detailView;
-    private ItemSelectPopupView _itemSelectPopup;
+    private ExpItemSelectPopupView _itemSelectPopup;
     private CharacterModel _currentDetailModel;
 
     private void Start()
@@ -168,7 +168,7 @@ public class CharacterScreenTest : MonoBehaviour
         _itemSelectPopup.OnItemSelected += HandleItemPopupSelected;
         _itemSelectPopup.OnCloseButtonClicked += HandleItemPopupClosed;
 
-        ItemSelectPopupViewModel popupViewModel = new ItemSelectPopupViewModel(_currentDetailModel, _dataProvider);
+        ExpItemSelectPopupViewModel popupViewModel = new ExpItemSelectPopupViewModel(_currentDetailModel, _dataProvider);
         _itemSelectPopup.Bind(popupViewModel);
     }
 

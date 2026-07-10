@@ -1,4 +1,4 @@
-﻿public class ItemSlotViewModel
+﻿public class ExpItemSlotViewModel
 {
     private readonly CharacterModel _model;
     private readonly ItemData _itemData;
@@ -23,7 +23,7 @@
         get { return OwnedCount > 0; }
     }
 
-    public ItemSlotViewModel(CharacterModel model, ItemData itemData)
+    public ExpItemSlotViewModel(CharacterModel model, ItemData itemData)
     {
         _model = model;
         _itemData = itemData;

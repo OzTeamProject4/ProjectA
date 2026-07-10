@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemSelectPopupViewModel
+public class ExpItemSelectPopupViewModel
 {
-    private readonly List<ItemSlotViewModel> _items = new();
+    private readonly List<ExpItemSlotViewModel> _items = new();
 
-    public IReadOnlyList<ItemSlotViewModel> Items
+    public IReadOnlyList<ExpItemSlotViewModel> Items
     {
         get { return _items; }
     }
 
-    public ItemSelectPopupViewModel(CharacterModel model, IGrowthDataProvider dataProvider)
+    public ExpItemSelectPopupViewModel(CharacterModel model, IGrowthDataProvider dataProvider)
     {
         if (null == model || null == dataProvider)
         {
@@ -26,7 +26,7 @@ public class ItemSelectPopupViewModel
                 continue;
             }
 
-            _items.Add(new ItemSlotViewModel(model, itemData));
+            _items.Add(new ExpItemSlotViewModel(model, itemData));
         }
     }
 }

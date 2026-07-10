@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemSlotView : MonoBehaviour
+public class ExpItemSlotView : MonoBehaviour
 {
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _countText;
@@ -12,11 +12,11 @@ public class ItemSlotView : MonoBehaviour
 
     [SerializeField] private float _unusableAlpha = 0.4f;
 
-    private ItemSlotViewModel _viewModel;
+    private ExpItemSlotViewModel _viewModel;
 
     public event Action<string> OnClicked;
 
-    public void Bind(ItemSlotViewModel viewModel)
+    public void Bind(ExpItemSlotViewModel viewModel)
     {
         if (null == viewModel)
         {

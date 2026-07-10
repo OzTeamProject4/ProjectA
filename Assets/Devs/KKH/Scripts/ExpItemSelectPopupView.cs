@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemSelectPopupView : MonoBehaviour
+public class ExpItemSelectPopupView : MonoBehaviour
 {
-    [SerializeField] private ItemSlotView _slotPrefab;
+    [SerializeField] private ExpItemSlotView _slotPrefab;
     [SerializeField] private Transform _slotContainer;
     [SerializeField] private Button _closeButton;
 
-    private readonly List<ItemSlotView> _spawnedSlots = new();
+    private readonly List<ExpItemSlotView> _spawnedSlots = new();
 
     public event Action<string> OnItemSelected;
     public event Action OnCloseButtonClicked;
 
-    public void Bind(ItemSelectPopupViewModel viewModel)
+    public void Bind(ExpItemSelectPopupViewModel viewModel)
     {
         if (null == viewModel)
         {
@@ -30,9 +30,9 @@ public class ItemSelectPopupView : MonoBehaviour
 
         ClearSlots();
 
-        foreach (ItemSlotViewModel slotViewModel in viewModel.Items)
+        foreach (ExpItemSlotViewModel slotViewModel in viewModel.Items)
         {
-            ItemSlotView slotView = Instantiate(_slotPrefab, _slotContainer);
+            ExpItemSlotView slotView = Instantiate(_slotPrefab, _slotContainer);
             slotView.Bind(slotViewModel);
             slotView.OnClicked += HandleSlotClicked;
 
@@ -47,7 +47,7 @@ public class ItemSelectPopupView : MonoBehaviour
 
     public void RefreshSlots()
     {
-        foreach (ItemSlotView slot in _spawnedSlots)
+        foreach (ExpItemSlotView slot in _spawnedSlots)
         {
             if (null != slot)
             {
@@ -68,7 +68,7 @@ public class ItemSelectPopupView : MonoBehaviour
 
     private void ClearSlots()
     {
-        foreach (ItemSlotView slot in _spawnedSlots)
+        foreach (ExpItemSlotView slot in _spawnedSlots)
         {
             if (null == slot)
             {
