@@ -1,11 +1,7 @@
-﻿using Cysharp.Threading.Tasks;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Collections.Generic;
 
 public interface IGrowthDataProvider
 {
-    UniTask InitializeAsync(CancellationToken token);
-
     CharacterStatData GetStat(string characterId);
     CharacterGradeData GetGrade(int star);
     ItemData GetItem(string dataId);

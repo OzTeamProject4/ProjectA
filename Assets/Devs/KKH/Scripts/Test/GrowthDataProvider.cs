@@ -1,46 +1,10 @@
 ﻿using UnityEngine;
-using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-
-public static class GrowthDataKeys
-{
-    public const string CharacterStat = "Data/CharacterStat";
-    public const string CharacterGrade = "Data/CharacterGrade";
-    public const string LevelExp = "Data/LevelExp";
-    public const string Item = "Data/Item";
-}
 
 public class GrowthDataProvider : IGrowthDataProvider
 {
-    private bool _isInitialized;
-
-    public UniTask InitializeAsync(CancellationToken token)
-    {
-        if (_isInitialized)
-        {
-            return UniTask.CompletedTask;
-        }
-
-        token.ThrowIfCancellationRequested();
-
-        bool hasStat = GameManager.Instance.DataManager.TryGetDataTable<CharacterStatData>(out _);
-        bool hasGrade = GameManager.Instance.DataManager.TryGetDataTable<CharacterGradeData>(out _);
-        bool hasLevelExp = GameManager.Instance.DataManager.TryGetDataTable<LevelExpData>(out _);
-        bool hasItem = GameManager.Instance.DataManager.TryGetDataTable<ItemData>(out _);
-
-        if (!hasStat || !hasGrade || !hasLevelExp || !hasItem)
-        {
-            Debug.LogError("[GrowthDataProvider:InitializeAsync] 성장 데이터 테이블이 아직 로드되지 않았습니다.");
-            return UniTask.CompletedTask;
-        }
-
-        _isInitialized = true;
-        return UniTask.CompletedTask;
-    }
-
     public CharacterStatData GetStat(string characterId)
     {
         if (string.IsNullOrEmpty(characterId))
@@ -55,22 +19,38 @@ public class GrowthDataProvider : IGrowthDataProvider
 
     public CharacterGradeData GetGrade(int star)
     {
-        string dataId = $"Star_{star}";
+        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, CharacterGradeData> table))
+        {
+            return null;
+        }
 
-        GameManager.Instance.DataManager.TryGetData(dataId, out CharacterGradeData data);
-        return data;
+        foreach (CharacterGradeData grade in table.Values)
+        {
+            if (grade.Star == star)
+            {
+                return grade;
+            }
+        }
+
+        return null;
     }
 
     public int GetRequiredExp(int level)
     {
-        string dataId = $"Level_{level}";
-
-        if (!GameManager.Instance.DataManager.TryGetData(dataId, out LevelExpData data))
+        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, LevelExpData> table))
         {
             return 0;
         }
 
-        return data.RequiredExp;
+        foreach (LevelExpData exp in table.Values)
+        {
+            if (exp.Level == level)
+            {
+                return exp.RequiredExp;
+            }
+        }
+
+        return 0;
     }
 
     public ItemData GetItem(string itemId)
@@ -102,9 +82,15 @@ public class GrowthDataProvider : IGrowthDataProvider
             return Array.Empty<string>();
         }
 
-        return table.Values
-            .Where(item => item.Type == ItemType.ExpBook)
-            .Select(item => item.DataId)
-            .ToList();
+        List<string> expItemIds = new();
+        foreach (ItemData item in table.Values)
+        {
+            if (item.Type == ItemType.ExpBook)
+            {
+                expItemIds.Add(item.DataId);
+            }
+        }
+
+        return expItemIds;
     }
 }

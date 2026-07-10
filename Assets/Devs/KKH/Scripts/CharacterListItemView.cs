@@ -15,11 +15,10 @@ public class CharacterListItemView : MonoBehaviour
     [SerializeField] private Button _selectButton;
 
     private readonly List<GameObject> _spawnedStarIcons = new();
-
-    public event Action<string> OnClicked;
-
     private CharacterListItemViewModel _viewModel;
     private bool _isSubscribed;
+
+    public event Action<string> OnClicked;
 
     private void OnEnable()
     {

@@ -66,7 +66,6 @@ public class CharacterScreenTest : MonoBehaviour
         }
 
         _dataProvider = new GrowthDataProvider();
-        await _dataProvider.InitializeAsync(this.GetCancellationTokenOnDestroy());
 
         BuildTestCharacterModels();
 

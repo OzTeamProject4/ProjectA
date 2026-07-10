@@ -3,10 +3,31 @@
     internal static class IsExternalInit { }
 }
 
+public static class DataKeys
+{
+    public const string CharacterStat = "Data/CharacterStat";
+    public const string CharacterGrade = "Data/CharacterGrade";
+    public const string LevelExp = "Data/LevelExp";
+    public const string Item = "Data/Item";
+    public const string Equipment = "Data/Equipment";
+    public const string Signature = "Data/Signature";
+}
+
 public enum ItemType
 {
     ExpBook,
-    Ticket
+    Ticket,
+    Material
+}
+
+public enum EquipType
+{
+    Weapon,
+    Helmet,
+    Armor,
+    Greeve,
+    Accessory,
+    Signature
 }
 
 public class ItemData : BaseData
@@ -16,6 +37,7 @@ public class ItemData : BaseData
     public int Gold { get; init; }
     public int Crystal { get; init; }
     public int Value { get; init; }
+    public string SpritePath { get; init; }
 }
 
 public class CharacterStatData : BaseData
@@ -51,3 +73,113 @@ public class LevelExpData : BaseData
     public int Level { get; init; }
     public int RequiredExp { get; init; }
 }
+
+public class EquipmentData : BaseData
+{
+    public string Name { get; init; }
+    public EquipType Type { get; init; }
+    public string AllowedId { get; init; }
+    public int Gold { get; init; }
+    public string RequiredItemId { get; init; }
+    public string RequiredItemCount { get; init; }
+    public float MaxHp { get; init; }
+    public float Atk { get; init; }
+    public float Def { get; init; }
+    public float AtkSpeed { get; init; }
+    public float Movement { get; init; }
+    public string SpritePath { get; init; }
+    public string Description { get; init; }
+
+    private string[] _requiredItemIds;
+    private int[] _requiredItemCounts;
+
+    public string[] RequiredItemIds
+    {
+        get
+        {
+            if (_requiredItemIds == null)
+            {
+                _requiredItemIds = Util.ParseIds(RequiredItemId);
+            }
+
+            return _requiredItemIds;
+        }
+    }
+
+    public int[] RequiredItemCounts
+    {
+        get
+        {
+            if (_requiredItemCounts == null)
+            {
+                _requiredItemCounts = Util.ParseCounts(RequiredItemCount);
+            }
+
+            return _requiredItemCounts;
+        }
+    }
+
+    public bool TryGetRequiredMaterials(out (string ItemId, int Count)[] materials)
+    {
+        if (!Util.TryPairMaterials(RequiredItemIds, RequiredItemCounts, out materials))
+        {
+            return false;
+        }
+
+        return true;
+    }
+}
+
+public class SignatureData : BaseData
+{
+    public string SignatureId { get; init; }
+    public int EnhanceLevel { get; init; }
+    public float MaxHp { get; init; }
+    public float Atk { get; init; }
+    public float Def { get; init; }
+    public float AtkSpeed { get; init; }
+    public float Movement { get; init; }
+    public string RequiredItemId { get; init; }
+    public string RequiredItemCount { get; init; }
+    public int RequiredGold { get; init; }
+
+    private string[] _requiredItemIds;
+    private int[] _requiredItemCounts;
+
+    public string[] RequiredItemIds
+    {
+        get
+        {
+            if (_requiredItemIds == null)
+            {
+                _requiredItemIds = Util.ParseIds(RequiredItemId);
+            }
+
+            return _requiredItemIds;
+        }
+    }
+
+    public int[] RequiredItemCounts
+    {
+        get
+        {
+            if (_requiredItemCounts == null)
+            {
+                _requiredItemCounts = Util.ParseCounts(RequiredItemCount);
+            }
+
+            return _requiredItemCounts;
+        }
+    }
+
+    public bool TryGetRequiredMaterials(out (string ItemId, int Count)[] materials)
+    {
+        if (!Util.TryPairMaterials(RequiredItemIds, RequiredItemCounts, out materials))
+        {
+            return false;
+        }
+
+        return true;
+    }
+}
+

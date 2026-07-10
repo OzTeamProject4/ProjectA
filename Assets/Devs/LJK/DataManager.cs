@@ -17,10 +17,12 @@ public class DataManager : BaseManager<DataManager>
     public async UniTask PreloadDataAsync()
     {
         //await LoadDataAsync<T>("Key");
-        await LoadDataAsync<CharacterStatData>(GrowthDataKeys.CharacterStat);
-        await LoadDataAsync<CharacterGradeData>(GrowthDataKeys.CharacterGrade);
-        await LoadDataAsync<LevelExpData>(GrowthDataKeys.LevelExp);
-        await LoadDataAsync<ItemData>(GrowthDataKeys.Item);
+        await LoadDataAsync<CharacterStatData>(DataKeys.CharacterStat);
+        await LoadDataAsync<CharacterGradeData>(DataKeys.CharacterGrade);
+        await LoadDataAsync<LevelExpData>(DataKeys.LevelExp);
+        await LoadDataAsync<ItemData>(DataKeys.Item);
+        await LoadDataAsync<EquipmentData>(DataKeys.Equipment);
+        await LoadDataAsync<SignatureData>(DataKeys.Signature);
     }
 
     public async UniTask LoadRuntimeDataAsync()
