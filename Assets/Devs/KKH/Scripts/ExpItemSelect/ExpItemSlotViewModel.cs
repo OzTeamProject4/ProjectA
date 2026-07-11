@@ -1,6 +1,9 @@
-﻿public class ExpItemSlotViewModel
+﻿using System;
+
+public class ExpItemSlotViewModel
 {
-    private readonly CharacterModel _model;
+    private readonly CharacterModel _character;
+    private readonly Inventory _inventory;
     private readonly ItemData _itemData;
 
     public string DataId
@@ -15,17 +18,37 @@
 
     public int OwnedCount
     {
-        get { return _model.GetItemCount(DataId); }
+        get { return _inventory.GetItemCount(DataId); }
     }
 
     public bool IsUsable
     {
-        get { return _model.CanUseExpItem(DataId); }
+        get { return _character.CanUseExpItem(DataId); }
     }
 
-    public ExpItemSlotViewModel(CharacterModel model, ItemData itemData)
+    public event Action OnChanged;
+
+    public ExpItemSlotViewModel(CharacterModel character, Inventory inventory, ItemData itemData)
     {
-        _model = model;
+        _character = character;
+        _inventory = inventory;
         _itemData = itemData;
+    }
+
+    public void Initialize()
+    {
+        _inventory.OnItemChanged += HandleChanged;
+        _character.OnLevelChanged += HandleChanged;
+    }
+
+    public void Dispose()
+    {
+        _inventory.OnItemChanged -= HandleChanged;
+        _character.OnLevelChanged -= HandleChanged;
+    }
+
+    private void HandleChanged()
+    {
+        OnChanged?.Invoke();
     }
 }

@@ -45,17 +45,6 @@ public class ExpItemSelectPopupView : MonoBehaviour
         }
     }
 
-    public void RefreshSlots()
-    {
-        foreach (ExpItemSlotView slot in _spawnedSlots)
-        {
-            if (null != slot)
-            {
-                slot.RefreshDisplay();
-            }
-        }
-    }
-
     private void OnDestroy()
     {
         ClearSlots();

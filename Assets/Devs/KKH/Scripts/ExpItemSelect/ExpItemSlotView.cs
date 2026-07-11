@@ -13,25 +13,40 @@ public class ExpItemSlotView : MonoBehaviour
     [SerializeField] private float _unusableAlpha = 0.4f;
 
     private ExpItemSlotViewModel _viewModel;
+    private bool _isSubscribed;
 
     public event Action<string> OnClicked;
+
+    private void OnDisable()
+    {
+        Unsubscribe();
+    }
+
+    private void OnDestroy()
+    {
+        if (null != _selectButton)
+        {
+            _selectButton.onClick.RemoveListener(HandleClick);
+        }
+    }
 
     public void Bind(ExpItemSlotViewModel viewModel)
     {
         if (null == viewModel)
         {
-            Debug.LogError("Bind: ItemSlotViewModel 이 null 입니다.");
+            Debug.LogError("Bind: ExpItemSlotViewModel 이 null 입니다.");
             return;
         }
 
+        Unsubscribe();
+
         _viewModel = viewModel;
+        _nameText.text = _viewModel.Name;
 
-        RefreshDisplay();
-
-        _selectButton.onClick.AddListener(HandleClick);
+        Subscribe();
     }
 
-    public void RefreshDisplay()
+    private void RefreshDisplay()
     {
         if (null == _viewModel)
         {
@@ -48,17 +63,42 @@ public class ExpItemSlotView : MonoBehaviour
         _selectButton.interactable = _viewModel.IsUsable;
     }
 
-
-    private void OnDestroy()
+    private void Subscribe()
     {
-        if (null != _selectButton)
+        if (_isSubscribed || null == _viewModel)
         {
-            _selectButton.onClick.RemoveListener(HandleClick);
+            return;
         }
+
+        _viewModel.OnChanged += HandleChanged;
+        _selectButton.onClick.AddListener(HandleClick);
+        _isSubscribed = true;
+
+        _viewModel.Initialize();
+        RefreshDisplay();
+    }
+
+    private void Unsubscribe()
+    {
+        if (!_isSubscribed || null == _viewModel)
+        {
+            return;
+        }
+
+        _viewModel.OnChanged -= HandleChanged;
+        _viewModel.Dispose();
+        _selectButton.onClick.RemoveListener(HandleClick);
+        _isSubscribed = false;
+    }
+
+    private void HandleChanged()
+    {
+        RefreshDisplay();
     }
 
     private void HandleClick()
     {
         OnClicked?.Invoke(_viewModel.DataId);
     }
+
 }

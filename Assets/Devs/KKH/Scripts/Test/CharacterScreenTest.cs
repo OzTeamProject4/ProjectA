@@ -87,15 +87,16 @@ public class CharacterScreenTest : MonoBehaviour
     // [로비 이관 대상] 임시 더미 데이터 생성. 세이브 시스템 + 로비 도입 시 함께 교체/이관.
     private void BuildTestCharacterModels()
     {
+        Inventory inventory = GameManager.Instance.Inventory;
+
+        foreach (string expItemDataId in _dataProvider.GetAllExpItemIds())
+        {
+            inventory.AddItem(expItemDataId, 999);
+        }
+
         foreach (string dataId in _dataProvider.GetAllCharacterIds())
         {
-            CharacterModel model = new CharacterModel(dataId, _testStartStar, _dataProvider);
-            
-            foreach (string expItemDataId in _dataProvider.GetAllExpItemIds())
-            {
-                model.AddExpItem(expItemDataId, 999);
-            }
-
+            CharacterModel model = new CharacterModel(dataId, _testStartStar, _dataProvider, inventory);
             model.AddDuplicate(999);
 
             _characterModels[dataId] = model;
@@ -179,14 +180,13 @@ public class CharacterScreenTest : MonoBehaviour
         _itemSelectPopup.OnItemSelected += HandleItemPopupSelected;
         _itemSelectPopup.OnCloseButtonClicked += HandleItemPopupClosed;
 
-        ExpItemSelectPopupViewModel popupViewModel = new ExpItemSelectPopupViewModel(_currentDetailModel);
+        ExpItemSelectPopupViewModel popupViewModel = new ExpItemSelectPopupViewModel(_currentDetailModel, GameManager.Instance.Inventory);
         _itemSelectPopup.Bind(popupViewModel);
     }
 
     private void HandleItemPopupSelected(string dataId)
     {
         _detailView.ConfirmUseItem(dataId);
-        _itemSelectPopup.RefreshSlots();
     }
 
     private void HandleItemPopupClosed()

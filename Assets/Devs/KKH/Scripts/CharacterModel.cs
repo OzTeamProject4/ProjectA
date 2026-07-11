@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterModel
 {
     private readonly IGrowthDataProvider _dataProvider;
-    private readonly Dictionary<string, int> _expItemCounts = new();
+    private readonly Inventory _inventory;
 
     public string CharacterId { get; private set; }
     public int CurrentStar { get; private set; }
@@ -45,9 +45,8 @@ public class CharacterModel
     public event Action OnLevelChanged;
     public event Action OnStarChanged;
     public event Action OnDuplicatesChanged;
-    public event Action OnItemCountChanged;
 
-    public CharacterModel(string characterId, int startStar, IGrowthDataProvider dataProvider)
+    public CharacterModel(string characterId, int startStar, IGrowthDataProvider dataProvider, Inventory inventory)
     {
         if (string.IsNullOrEmpty(characterId))
         {
@@ -59,7 +58,13 @@ public class CharacterModel
             Debug.LogError("IGrowthDataProvider 가 null 입니다.");
         }
 
+        if (null == inventory)
+        {
+            Debug.LogError("Inventory 가 null 입니다.");
+        }
+
         _dataProvider = dataProvider;
+        _inventory = inventory;
         CharacterId = characterId;
         CurrentStar = startStar;
         CurrentLevel = 1;
@@ -145,49 +150,6 @@ public class CharacterModel
             OnLevelChanged?.Invoke();
         }
     }
-    public void UseExpItem(string dataId)
-    {
-        if (string.IsNullOrEmpty(dataId))
-        {
-            Debug.LogWarning("UseExpItem: dataId 가 비어 있습니다.");
-            return;
-        }
-
-        ItemData item = _dataProvider.GetItem(dataId);
-        if (null == item)
-        {
-            Debug.LogWarning($"UseExpItem: ItemData 를 찾을 수 없습니다. dataId={dataId}");
-            return;
-        }
-
-        UseExpItem(dataId, item.Value);
-    }
-
-    public void UseExpItem(string dataId, int value)
-    {
-        if (string.IsNullOrEmpty(dataId))
-        {
-            Debug.LogWarning("dataId 가 비어 있습니다.");
-            return;
-        }
-
-        if (GetItemCount(dataId) <= 0)
-        {
-            Debug.LogWarning($"보유 수량 없음. dataId={dataId}");
-            return;
-        }
-
-        if (IsMaxLevel)
-        {
-            Debug.Log($"만렙이라 경험치 아이템 사용 불가. dataId={dataId}");
-            return;
-        }
-
-        _expItemCounts[dataId] = GetItemCount(dataId) - 1;
-        OnItemCountChanged?.Invoke();
-
-        AddExp(value);
-    }
 
     public bool CanPromote()
     {
@@ -239,18 +201,6 @@ public class CharacterModel
         OnStarChanged?.Invoke();
     }
 
-    public void AddExpItem(string dataId, int count)
-    {
-        if (string.IsNullOrEmpty(dataId) || count <= 0)
-        {
-            Debug.LogWarning($"유효하지 않은 입력. dataId={dataId}, Count={count}");
-            return;
-        }
-
-        _expItemCounts[dataId] = GetItemCount(dataId) + count;
-        OnItemCountChanged?.Invoke();
-    }
-
     public void AddDuplicate(int count)
     {
         if (count <= 0)
@@ -270,7 +220,37 @@ public class CharacterModel
             return false;
         }
 
-        return GetItemCount(dataId) > 0;
+        return _inventory.GetItemCount(dataId) > 0;
+    }
+
+    public void UseExpItem(string dataId)
+    {
+        if (string.IsNullOrEmpty(dataId))
+        {
+            Debug.LogWarning("UseExpItem: dataId 가 비어 있습니다.");
+            return;
+        }
+
+        ItemData item = _dataProvider.GetItem(dataId);
+        if (null == item)
+        {
+            Debug.LogWarning($"UseExpItem: ItemData 를 찾을 수 없습니다. dataId={dataId}");
+            return;
+        }
+
+        if (IsMaxLevel)
+        {
+            Debug.Log($"만렙이라 경험치 아이템 사용 불가. dataId={dataId}");
+            return;
+        }
+
+        if (!_inventory.TryConsumeItem(dataId))
+        {
+            Debug.LogWarning($"보유 수량 없음. dataId={dataId}");
+            return;
+        }
+
+        AddExp(item.Value);
     }
 
     public IReadOnlyList<ItemData> GetExpItems()
@@ -287,15 +267,5 @@ public class CharacterModel
         }
 
         return items;
-    }
-
-    public int GetItemCount(string dataId)
-    {
-        if (string.IsNullOrEmpty(dataId))
-        {
-            return 0;
-        }
-
-        return _expItemCounts.TryGetValue(dataId, out int count) ? count : 0;
     }
 }

@@ -74,7 +74,7 @@ public class LevelExpData : BaseData
     public int RequiredExp { get; init; }
 }
 
-public class EquipmentData : BaseData
+public class EquipmentData : BaseData, IEquippableStats
 {
     public string Name { get; init; }
     public EquipType Type { get; init; }
@@ -130,7 +130,7 @@ public class EquipmentData : BaseData
     }
 }
 
-public class SignatureData : BaseData
+public class SignatureData : BaseData, IEquippableStats
 {
     public string SignatureId { get; init; }
     public int EnchantLevel { get; init; }
@@ -142,7 +142,10 @@ public class SignatureData : BaseData
     public string RequiredItemId { get; init; }
     public string RequiredItemCount { get; init; }
     public int RequiredGold { get; init; }
-
+    public EquipType Type
+    {
+        get { return EquipType.Signature; }
+    } 
     private string[] _requiredItemIds;
     private int[] _requiredItemCounts;
 

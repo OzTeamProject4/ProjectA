@@ -7,6 +7,7 @@ public class GameManager : BaseManager<GameManager>
     public ResourceManager ResourceManager { get; private set; }
 
     public DataManager DataManager { get; private set; }
+    public Inventory Inventory { get; private set; }
 
     private void Awake()
     {
@@ -36,6 +37,7 @@ public class GameManager : BaseManager<GameManager>
     {
         ResourceManager = this.GetRequiredComponent<ResourceManager>();
         DataManager = this.GetRequiredComponent<DataManager>();
+        Inventory = new Inventory();
     }
 
     private void InitializeManagers()
