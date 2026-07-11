@@ -52,7 +52,7 @@ public class Inventory
         return true;
     }
 
-    public EquipmentInstance CreateEquipment(IEquippableStats data,
+    public EquipmentInstance CreateEquipment(EquipmentData data,
         float bonusHp, float bonusAtk, float bonusDef, float bonusAtkSpeed, float bonusMovement)
     {
         if (null == data)

@@ -3,13 +3,13 @@
 public class EquipmentInstance
 {
     public string InstanceId { get; }
-    public IEquippableStats Data { get; }
+    public EquipmentData Data { get; }
 
-    public float BonusHp { get; }
-    public float BonusAtk { get; }
-    public float BonusDef { get; }
-    public float BonusAtkSpeed { get; }
-    public float BonusMovement { get; }
+    public float RolledHp { get; }
+    public float RolledAtk { get; }
+    public float RolledDef { get; }
+    public float RolledAtkSpeed { get; }
+    public float RolledMoveSpeed { get; }
 
     public string EquippedBy { get; private set; }
 
@@ -23,14 +23,13 @@ public class EquipmentInstance
         get { return !string.IsNullOrEmpty(EquippedBy); }
     }
 
-    public float TotalHp { get { return Data.MaxHp + BonusHp; } }
-    public float TotalAtk { get { return Data.Atk + BonusAtk; } }
-    public float TotalDef { get { return Data.Def + BonusDef; } }
-    public float TotalAtkSpeed { get { return Data.AtkSpeed + BonusAtkSpeed; } }
-    public float TotalMovement { get { return Data.Movement + BonusMovement; } }
+    public float TotalHp { get { return Data.MaxHp + RolledHp; } }
+    public float TotalAtk { get { return Data.Atk + RolledAtk; } }
+    public float TotalDef { get { return Data.Def + RolledDef; } }
+    public float TotalAtkSpeed { get { return Data.AtkSpeed + RolledAtkSpeed; } }
+    public float TotalMoveSpeed { get { return Data.MoveSpeed + RolledMoveSpeed; } }
 
-    public EquipmentInstance(string instanceId, IEquippableStats data,
-        float bonusHp, float bonusAtk, float bonusDef, float bonusAtkSpeed, float bonusMovement)
+    public EquipmentInstance(string instanceId, EquipmentData data, float rolledHp, float rolledAtk, float rolledDef, float rolledAtkSpeed, float rolledMoveSpeed)
     {
         if (string.IsNullOrEmpty(instanceId))
         {
@@ -44,11 +43,11 @@ public class EquipmentInstance
 
         InstanceId = instanceId;
         Data = data;
-        BonusHp = bonusHp;
-        BonusAtk = bonusAtk;
-        BonusDef = bonusDef;
-        BonusAtkSpeed = bonusAtkSpeed;
-        BonusMovement = bonusMovement;
+        RolledHp = rolledHp;
+        RolledAtk = rolledAtk;
+        RolledDef = rolledDef;
+        RolledAtkSpeed = rolledAtkSpeed;
+        RolledMoveSpeed = rolledMoveSpeed;
     }
 
     public void SetEquippedBy(string characterId)
