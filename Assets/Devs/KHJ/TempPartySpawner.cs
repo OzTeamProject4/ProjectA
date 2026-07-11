@@ -7,14 +7,15 @@ using UnityEngine;
 public class TempPartySpawner : MonoBehaviour
 {
     [SerializeField] private CinemachineCamera _cinemachineCamera;
-    
+    [SerializeField] private PartyController _partyController;
+
     private List<BattleCharacter> _battleCharacterList;
 
     private async void Start()
     {
-        if (_cinemachineCamera == null)
+        if (_cinemachineCamera == null || _partyController == null)
         {
-            Debug.LogError("카메라 참조가 null. 인스펙터 확인");
+            Debug.LogError("카메라 참조 또는 파티컨트롤러가 null. 인스펙터 확인");
             return;
         }
                
@@ -24,9 +25,7 @@ public class TempPartySpawner : MonoBehaviour
         List<string> tempPartyIds = new List<string> { "Character_001", "Character_003", "Character_005" };
         await CreatePartyById(tempPartyIds);
 
-        GameObject partyObj = new GameObject("PartyController");
-        PartyController partyController = partyObj.AddComponent<PartyController>();
-        partyController.Initialize(_battleCharacterList, _cinemachineCamera);
+        _partyController.Initialize(_battleCharacterList, _cinemachineCamera);
     }
 
     private async UniTask CreatePartyById(List<string> partyDataIds)

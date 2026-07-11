@@ -6,8 +6,9 @@ public class BattleCharacter : MonoBehaviour
 {
     // TODO 희준 캐릭터 모델링시 수치 변화 필요
     [SerializeField] private float _jumpForce = 5f;
-    [SerializeField] private float _groundCheckDistance = 1.1f; 
+    [SerializeField] private float _groundCheckDistance = 0.05f; 
     [SerializeField] private float _rotationSpeed = 4.0f;
+    [SerializeField] private Transform _groundCheckPoint;
 
 
     private CharacterData _data;
@@ -20,6 +21,7 @@ public class BattleCharacter : MonoBehaviour
     private int _curDef;
     private float _curMoveSpeed;
 
+
     public string CharacterName => _data.Name;
     public int CurHp => _curHp;
 
@@ -30,6 +32,14 @@ public class BattleCharacter : MonoBehaviour
         _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
+    private void Update()
+    {
+        if (_groundCheckPoint == null)
+        {
+            return;
+        }
+        Debug.DrawRay(_groundCheckPoint.position, Vector3.down * _groundCheckDistance, Color.red);
+    }
     public void Initialize(CharacterData data)
     {
         _data = data;
@@ -57,7 +67,13 @@ public class BattleCharacter : MonoBehaviour
 
     public void Jump()
     {
-        bool isGround = Physics.Raycast(transform.position, Vector3.down, _groundCheckDistance);
+        if (_groundCheckPoint == null)
+        {
+            Debug.LogError("_groundCehckPoint 확인");
+            return;
+        }
+
+        bool isGround = Physics.Raycast(_groundCheckPoint.position, Vector3.down, _groundCheckDistance);
         if (isGround == false) 
         {
             return;

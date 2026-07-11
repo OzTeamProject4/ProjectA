@@ -5,7 +5,6 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] private float _mouseSensitivity = 0.1f;
 
-    private Transform _target;
     private PlayerInputActions _inputAction;
     private float _yaw;
     private float _pitch;
@@ -29,12 +28,6 @@ public class CameraController : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if (_target == null)
-        {
-            return;
-        }
-
-        transform.position = _target.position;
         Vector2 look = _inputAction.Player.Look.ReadValue<Vector2>();
         _yaw = _yaw + look.x * _mouseSensitivity;
         _pitch = _pitch - look.y * _mouseSensitivity;
@@ -49,8 +42,9 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void SetTarget(Transform target)
+    public void SetBehindCharacter(Transform character)
     {
-        _target = target;
+        _yaw = character.eulerAngles.y;
+        _pitch = 20.0f;
     }
 }

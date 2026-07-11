@@ -1,18 +1,21 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(BattleCharacter))]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private Transform _cameraTransform;
+
     private BattleCharacter _battleCharacter;
     private PlayerInputActions _inputAction;
     private Vector3 _moveDirection;
-    private Transform _cameraTransform;
 
 
     private void Awake()
     {
         // TODO 희준 카메라와 플레이어 입력 중복 추후 매니저 준비시 통일화
         _inputAction = new PlayerInputActions();
+        _battleCharacter = GetComponent<BattleCharacter>();
     }
 
     private void OnEnable()
@@ -42,11 +45,6 @@ public class PlayerController : MonoBehaviour
         Vector3 direction = camForward * input.y + camRight * input.x;
         _moveDirection = direction;
 
-        if (_battleCharacter == null)
-        {
-            return;
-        }
-
         if (_inputAction.Player.Jump.WasPressedThisFrame())
         {
             _battleCharacter.Jump();
@@ -57,21 +55,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_battleCharacter == null)
-        {
-            return;
-        }
-
         _battleCharacter.Move(_moveDirection);
-    }
-
-    public void SetControlTarget(BattleCharacter targetCharacter)
-    {
-        _battleCharacter = targetCharacter;
-    }
-
-    public void SetCameraTransform(Transform cameraTransform)
-    {
-        _cameraTransform = cameraTransform;
     }
 }
