@@ -1,0 +1,11 @@
+[
+  {
+    "DataId": "Enemy_Test_01",
+    "Name": "TestEnemy",
+    "TotalExp": 100,
+    "ElementalType": "Fire",
+    "BaseHp": 100,
+    "BaseDamage": 10,
+    "PrefabAddress": "Assets/Devs/PSH/EnemySpawn/Temp_enemy.prefab"
+  }
+]

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6258332578314665738}
   - component: {fileID: 5857331068718734654}
   - component: {fileID: 6055124568324059474}
+  - component: {fileID: 824834920374650192}
   m_Layer: 0
   m_Name: Temp_enemy
   m_TagString: Untagged
@@ -140,3 +141,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 96
   m_CollisionDetection: 0
+--- !u!114 &824834920374650192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2324892288804292500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b07a61caf5f54ac409cdc2574abc30b6, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:

@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e65dec4a6694379479f9db11b47262fb
+    m_Address: EnemyData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 33821f04cdebacc4486b0e21c31711f3
     m_Address: Assets/Devs/PSH/EnemySpawn/New Material 2.mat
     m_ReadOnly: 0

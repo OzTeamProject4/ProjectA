@@ -266,6 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400300028}
   - component: {fileID: 400300029}
+  - component: {fileID: 400300030}
   m_Layer: 0
   m_Name: EnemySpawnManager
   m_TagString: Untagged
@@ -295,7 +296,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 400300027}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23b17382610c5164baf5170030bcde8c, type: 3}
   m_Name: 
@@ -311,10 +312,31 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
   testEnemyCount: 50
-  maxActiveEnemyCount: 10
+  maxActiveEnemyCount: 4
   enemyParent: {fileID: 1525407618}
   spawnInterval: 1
   spawnHeightOffset: 2
+  onBattleEnd:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &400300030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400300027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd717771c8c82054d9a5969393083f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawn
+  enemySpawnPoint:
+  - {fileID: 1050060771}
+  - {fileID: 768382428}
+  - {fileID: 1707597272}
+  enemyParent: {fileID: 1525407618}
+  spawnHeightOffset: 1.5
   onBattleEnd:
     m_PersistentCalls:
       m_Calls: []
