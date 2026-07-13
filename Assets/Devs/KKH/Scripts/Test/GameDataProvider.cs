@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class GrowthDataProvider : IGrowthDataProvider
+public class GameDataProvider : IGameDataProvider
 {
     private Dictionary<int, CharacterGradeData> _gradeByStar;
     private Dictionary<int, LevelExpData> _expByLevel;
     private List<string> _expItemId;
+    private List<EquipmentData> _allEquipment;
 
     public CharacterStatData GetStat(string characterId)
     {
@@ -95,6 +96,34 @@ public class GrowthDataProvider : IGrowthDataProvider
         }
 
         return _expItemId;
+    }
+
+    public EquipmentData GetEquipment(string dataId)
+    {
+        if (string.IsNullOrEmpty(dataId))
+        {
+            Debug.LogWarning("[GameDataProvider:GetEquipment] dataId 가 비어 있습니다.");
+            return null;
+        }
+
+        GameManager.Instance.DataManager.TryGetData(dataId, out EquipmentData data);
+        return data;
+    }
+
+    public IReadOnlyList<EquipmentData> GetAllEquipment()
+    {
+        if (null != _allEquipment)
+        {
+            return _allEquipment;
+        }
+
+        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, EquipmentData> table))
+        {
+            return Array.Empty<EquipmentData>();
+        }
+
+        _allEquipment = new List<EquipmentData>(table.Values);
+        return _allEquipment;
     }
 
     private bool TryBuildGradeLookup()

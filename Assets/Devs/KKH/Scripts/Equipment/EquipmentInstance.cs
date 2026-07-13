@@ -4,12 +4,7 @@ public class EquipmentInstance
 {
     public string InstanceId { get; }
     public EquipmentData Data { get; }
-
-    public float RolledHp { get; }
-    public float RolledAtk { get; }
-    public float RolledDef { get; }
-    public float RolledAtkSpeed { get; }
-    public float RolledMoveSpeed { get; }
+    public RolledStats RolledStat { get; }
 
     public string EquippedBy { get; private set; }
 
@@ -25,30 +20,30 @@ public class EquipmentInstance
 
     public float TotalHp 
     { 
-        get { return Data.MaxHp + RolledHp; }
+        get { return Data.MaxHp + RolledStat.Hp; }
     }
 
     public float TotalAtk
     { 
-        get { return Data.Atk + RolledAtk; } 
+        get { return Data.Atk + RolledStat.Atk; } 
     }
 
     public float TotalDef 
     { 
-        get { return Data.Def + RolledDef; } 
+        get { return Data.Def + RolledStat.Def; } 
     }
 
     public float TotalAtkSpeed
     { 
-        get { return Data.AtkSpeed + RolledAtkSpeed; } 
+        get { return Data.AtkSpeed + RolledStat.AtkSpeed; } 
     }
 
     public float TotalMoveSpeed 
     {
-        get { return Data.MoveSpeed + RolledMoveSpeed; }
+        get { return Data.MoveSpeed + RolledStat.MoveSpeed; }
     }
 
-    public EquipmentInstance(string instanceId, EquipmentData data, float rolledHp, float rolledAtk, float rolledDef, float rolledAtkSpeed, float rolledMoveSpeed)
+    public EquipmentInstance(string instanceId, EquipmentData data, RolledStats rolledStat)
     {
         if (string.IsNullOrEmpty(instanceId))
         {
@@ -62,11 +57,7 @@ public class EquipmentInstance
 
         InstanceId = instanceId;
         Data = data;
-        RolledHp = rolledHp;
-        RolledAtk = rolledAtk;
-        RolledDef = rolledDef;
-        RolledAtkSpeed = rolledAtkSpeed;
-        RolledMoveSpeed = rolledMoveSpeed;
+        RolledStat = rolledStat;
     }
 
     public void SetEquippedBy(string characterId)

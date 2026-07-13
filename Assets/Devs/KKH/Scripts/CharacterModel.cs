@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterModel
 {
-    private readonly IGrowthDataProvider _dataProvider;
+    private readonly IGameDataProvider _dataProvider;
     private readonly Inventory _inventory;
 
     public string CharacterId { get; private set; }
@@ -46,7 +46,7 @@ public class CharacterModel
     public event Action OnStarChanged;
     public event Action OnDuplicatesChanged;
 
-    public CharacterModel(string characterId, int startStar, IGrowthDataProvider dataProvider, Inventory inventory)
+    public CharacterModel(string characterId, int startStar, IGameDataProvider dataProvider, Inventory inventory)
     {
         if (string.IsNullOrEmpty(characterId))
         {

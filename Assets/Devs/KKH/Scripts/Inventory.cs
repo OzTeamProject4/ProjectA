@@ -9,8 +9,42 @@ public class Inventory
 
     private int _instanceCounter;
 
+    // TODO: PlayerModel(유저 계정 상태) 도입 시 골드를 그쪽으로 이관.
+    public int Gold { get; private set; }
+
     public event Action OnItemChanged;
     public event Action OnEquipmentChanged;
+    public event Action OnGoldChanged;
+
+    public void AddGold(int amount)
+    {
+        if (amount <= 0)
+        {
+            Debug.LogWarning($"[Inventory:AddGold] 유효하지 않은 수량({amount}).");
+            return;
+        }
+
+        Gold += amount;
+        OnGoldChanged?.Invoke();
+    }
+
+    public bool TryConsumeGold(int amount)
+    {
+        if (amount < 0)
+        {
+            Debug.LogWarning($"[Inventory:TryConsumeGold] 유효하지 않은 수량({amount}).");
+            return false;
+        }
+
+        if (Gold < amount)
+        {
+            return false;
+        }
+
+        Gold -= amount;
+        OnGoldChanged?.Invoke();
+        return true;
+    }
 
     public int GetItemCount(string dataId)
     {
@@ -52,8 +86,7 @@ public class Inventory
         return true;
     }
 
-    public EquipmentInstance CreateEquipment(EquipmentData data,
-        float rolledHp, float rolledAtk, float rolledDef, float rolledAtkSpeed, float rolledMoveSpeed)
+    public EquipmentInstance CreateEquipment(EquipmentData data, RolledStats rolledStat)
     {
         if (null == data)
         {
@@ -64,8 +97,7 @@ public class Inventory
         _instanceCounter++;
         string instanceId = $"equip_{_instanceCounter:D4}";
 
-        EquipmentInstance instance = new EquipmentInstance(
-            instanceId, data, rolledHp, rolledAtk, rolledDef, rolledAtkSpeed, rolledMoveSpeed);
+        EquipmentInstance instance = new EquipmentInstance(instanceId, data, rolledStat);
 
         _equipment[instanceId] = instance;
         OnEquipmentChanged?.Invoke();

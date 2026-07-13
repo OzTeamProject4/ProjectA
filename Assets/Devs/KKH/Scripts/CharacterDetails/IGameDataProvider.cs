@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public interface IGrowthDataProvider
+public interface IGameDataProvider
 {
     CharacterStatData GetStat(string characterId);
     CharacterGradeData GetGrade(int star);
@@ -9,4 +9,7 @@ public interface IGrowthDataProvider
     int GetRequiredExp(int level);
     IReadOnlyList<string> GetAllCharacterIds();
     IReadOnlyList<string> GetAllExpItemIds();
+
+    EquipmentData GetEquipment(string dataId);
+    IReadOnlyList<EquipmentData> GetAllEquipment();
 }

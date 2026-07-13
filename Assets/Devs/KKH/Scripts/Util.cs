@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 public static class Util
 {
@@ -38,5 +39,21 @@ public static class Util
         }
 
         return true;
+    }
+
+    public static int ParseMaterialTier(string itemId)
+    {
+        if (string.IsNullOrEmpty(itemId))
+        {
+            return 0;
+        }
+
+        Match match = Regex.Match(itemId, @"T(\d+)$");
+        if (!match.Success)
+        {
+            return 0;
+        }
+
+        return int.Parse(match.Groups[1].Value);
     }
 }
