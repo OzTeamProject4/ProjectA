@@ -5,7 +5,7 @@ public class CharacterDetailViewModel
 {
     private readonly CharacterModel _model;
 
-    private FinalStats _finalStats;
+    private StatData _finalStats;
 
     public string CharacterId
     {

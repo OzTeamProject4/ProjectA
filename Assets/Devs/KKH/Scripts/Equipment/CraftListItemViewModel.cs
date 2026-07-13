@@ -62,12 +62,14 @@ public class CraftListItemViewModel
     {
         _inventory.OnItemChanged += HandleChanged;
         _inventory.OnGoldChanged += HandleChanged;
+        _inventory.OnEquipmentChanged += HandleChanged;
     }
 
     public void Dispose()
     {
         _inventory.OnItemChanged -= HandleChanged;
         _inventory.OnGoldChanged -= HandleChanged;
+        _inventory.OnEquipmentChanged -= HandleChanged;
     }
 
     public void CraftCommand()

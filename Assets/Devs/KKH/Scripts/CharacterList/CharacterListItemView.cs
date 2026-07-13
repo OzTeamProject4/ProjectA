@@ -98,6 +98,11 @@ public class CharacterListItemView : MonoBehaviour
 
     private void RefreshStar()
     {
+        if (null == _viewModel)
+        {
+            return;
+        }
+
         if (null == _starIconPrefab || null == _starIconContainer)
         {
             Debug.LogWarning("RefreshStar: 별 아이콘 프리팹 또는 컨테이너가 연결되지 않았습니다.");

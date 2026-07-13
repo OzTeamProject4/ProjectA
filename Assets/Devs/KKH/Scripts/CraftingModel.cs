@@ -56,6 +56,11 @@ public class CraftingModel
             return false;
         }
 
+        if (data.Type == EquipType.Signature && _inventory.HasEquipment(data.DataId))
+        {
+            return false;
+        }
+
         if (_inventory.Gold < data.Gold)
         {
             return false;

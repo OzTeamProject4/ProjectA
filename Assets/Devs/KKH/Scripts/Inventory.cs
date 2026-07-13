@@ -86,6 +86,24 @@ public class Inventory
         return true;
     }
 
+    public bool HasEquipment(string dataId)
+    {
+        if (string.IsNullOrEmpty(dataId))
+        {
+            return false;
+        }
+
+        foreach (EquipmentInstance instance in _equipment.Values)
+        {
+            if (instance.Data.DataId == dataId)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public EquipmentInstance CreateEquipment(EquipmentData data, RolledStats rolledStat)
     {
         if (null == data)

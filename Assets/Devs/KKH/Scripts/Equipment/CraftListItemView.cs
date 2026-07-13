@@ -141,33 +141,19 @@ public class CraftListItemView : MonoBehaviour
         tierText.text = tier > 0 ? $"T{tier}" : "-";
         countText.text = $"{owned}/{required}";
 
-        await SetSpriteAsync(icon, spritePath);
+        Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(spritePath);
 
-        if (token != _refreshToken)
+        if (token != _refreshToken || null == icon)
         {
             return;
         }
+
+        icon.sprite = sprite;
     }
 
     private void HandleClickCraft()
     {
         _viewModel.CraftCommand();
         OnCrafted?.Invoke(_viewModel.DataId);
-    }
-
-    // TODO: 아이콘 로딩용 메서드, Extension 으로 옮기기
-    private static async UniTask SetSpriteAsync(Image image, string spritePath)
-    {
-        if (null == image || string.IsNullOrEmpty(spritePath))
-        {
-            return;
-        }
-
-        Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(spritePath);
-
-        if (null != image)
-        {
-            image.sprite = sprite;
-        }
     }
 }

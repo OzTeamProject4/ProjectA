@@ -55,7 +55,7 @@ public class CharacterModel
 
         if (null == dataProvider)
         {
-            Debug.LogError("IGrowthDataProvider 가 null 입니다.");
+            Debug.LogError("IGameDataProvider 가 null 입니다.");
         }
 
         if (null == inventory)
@@ -77,7 +77,7 @@ public class CharacterModel
         }
     }
 
-    public FinalStats GetFinalStats()
+    public StatData GetFinalStats()
     {
         CharacterStatData stat = _dataProvider.GetStat(CharacterId);
         CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);

@@ -3,7 +3,7 @@
 // 최종 스텟 계산 공식 = 기본값 + (스탯 상승량 + 성급 상승량) × (레벨 - 1)   [+ 장비 스탯]
 public static class StatCalculator
 {
-    public static FinalStats Calculate(CharacterStatData stat, CharacterGradeData grade, int level)
+    public static StatData Calculate(CharacterStatData stat, CharacterGradeData grade, int level)
     {
         if (null == stat)
         {
@@ -39,7 +39,7 @@ public static class StatCalculator
 
         int levelStep = level - 1;
 
-        return new FinalStats
+        return new StatData
         {
             Hp = stat.Hp + (stat.HpGrow + gradeHpGrow) * levelStep,
             Atk = stat.Atk + (stat.AtkGrow + gradeAtkGrow) * levelStep,
