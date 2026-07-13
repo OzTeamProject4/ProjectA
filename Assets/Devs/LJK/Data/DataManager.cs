@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class DataManager : BaseManager<DataManager>
@@ -16,27 +17,14 @@ public class DataManager : BaseManager<DataManager>
 
     public async UniTask PreloadDataAsync()
     {
-        //await LoadDataAsync<T>("Key");
+        //await LoadDataAsync<T>("Key", destroyCancellationToken);
         await UniTask.CompletedTask;
     }
 
     public async UniTask LoadRuntimeDataAsync()
     {
-        //await LoadDataAsync<T>("Key");
+        //await LoadDataAsync<T>("Key", destroyCancellationToken);
         await UniTask.CompletedTask;
-    }
-
-    public async UniTask LoadDataAsync<T>(string key) where T : BaseData
-    {
-        Dictionary<string, T> loadedDataTable = await LoadDataTableAsync<T>(key);
-
-        if (loadedDataTable == null)
-        {
-            Debug.LogError($"[{nameof(DataManager)}:{nameof(LoadDataAsync)}] '{key}' 데이터 테이블을 로드하지 못했습니다.");
-            return;
-        }
-
-        _dataTables[typeof(T)] = loadedDataTable;
     }
 
     public bool TryGetDataTable<T>(out Dictionary<string, T> dataTable) where T : BaseData
@@ -83,7 +71,20 @@ public class DataManager : BaseManager<DataManager>
         return true;
     }
 
-    private async UniTask<Dictionary<string, T>> LoadDataTableAsync<T>(string key) where T : BaseData
+    private async UniTask LoadDataAsync<T>(string key, CancellationToken cancellationToken) where T : BaseData
+    {
+        Dictionary<string, T> loadedDataTable = await LoadDataTableAsync<T>(key, cancellationToken);
+
+        if (loadedDataTable == null)
+        {
+            Debug.LogError($"[{nameof(DataManager)}:{nameof(LoadDataAsync)}] '{key}' 데이터 테이블을 로드하지 못했습니다.");
+            return;
+        }
+
+        _dataTables[typeof(T)] = loadedDataTable;
+    }
+
+    private async UniTask<Dictionary<string, T>> LoadDataTableAsync<T>(string key, CancellationToken cancellationToken) where T : BaseData
     {
         if (string.IsNullOrWhiteSpace(key))
         {
@@ -93,7 +94,7 @@ public class DataManager : BaseManager<DataManager>
 
         try
         {
-            TextAsset jsonTextAsset = await GameManager.Instance.ResourceManager.LoadAssetAsync<TextAsset>(key);
+            TextAsset jsonTextAsset = await GameManager.Instance.ResourceManager.LoadAssetAsync<TextAsset>(key, cancellationToken);
 
             if (jsonTextAsset == null)
             {

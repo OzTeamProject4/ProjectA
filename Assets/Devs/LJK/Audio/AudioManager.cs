@@ -1,6 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
 public class AudioManager : BaseManager<AudioManager>
@@ -64,7 +63,7 @@ public class AudioManager : BaseManager<AudioManager>
         _audioView.SetSfxVolume(volume);
     }
 
-    public async UniTask LoadAudioClipsAsync(CancellationToken cancellationToken)
+    public async UniTask LoadAudioClipsAsync()
     {
         if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, AudioData> audioDataTable))
         {
@@ -77,7 +76,7 @@ public class AudioManager : BaseManager<AudioManager>
             string audioDataId = audioData.DataId;
             string audioClipKey = audioData.AudioClipKey;
 
-            AudioClip audioClip = await GameManager.Instance.ResourceManager.LoadAssetAsync<AudioClip>(audioClipKey, cancellationToken);
+            AudioClip audioClip = await GameManager.Instance.ResourceManager.LoadAssetAsync<AudioClip>(audioClipKey, destroyCancellationToken);
 
             if (audioClip == null)
             {
