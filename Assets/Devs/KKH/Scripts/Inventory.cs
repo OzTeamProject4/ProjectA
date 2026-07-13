@@ -14,6 +14,7 @@ public class Inventory
 
     public event Action OnItemChanged;
     public event Action OnEquipmentChanged;
+    public event Action<EquipmentInstance> OnEquipmentCreated;
     public event Action OnGoldChanged;
 
     public void AddGold(int amount)
@@ -118,6 +119,7 @@ public class Inventory
         EquipmentInstance instance = new EquipmentInstance(instanceId, data, rolledStat);
 
         _equipment[instanceId] = instance;
+        OnEquipmentCreated?.Invoke(instance);
         OnEquipmentChanged?.Invoke();
         return instance;
     }
@@ -145,5 +147,43 @@ public class Inventory
         }
 
         return result;
+    }
+
+    public IReadOnlyList<EquipmentInstance> GetEquippedItems(string characterId)
+    {
+        List<EquipmentInstance> result = new();
+
+        if (string.IsNullOrEmpty(characterId))
+        {
+            return result;
+        }
+
+        foreach (EquipmentInstance instance in _equipment.Values)
+        {
+            if (instance.EquippedBy == characterId)
+            {
+                result.Add(instance);
+            }
+        }
+
+        return result;
+    }
+
+    public EquipmentInstance GetEquippedItem(string characterId, EquipType type)
+    {
+        if (string.IsNullOrEmpty(characterId))
+        {
+            return null;
+        }
+
+        foreach (EquipmentInstance instance in _equipment.Values)
+        {
+            if (instance.Type == type && instance.EquippedBy == characterId)
+            {
+                return instance;
+            }
+        }
+
+        return null;
     }
 }

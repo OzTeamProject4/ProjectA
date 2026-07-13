@@ -45,6 +45,7 @@ public class CharacterModel
     public event Action OnLevelChanged;
     public event Action OnStarChanged;
     public event Action OnDuplicatesChanged;
+    public event Action OnEquipmentChanged;
 
     public CharacterModel(string characterId, int startStar, IGameDataProvider dataProvider, Inventory inventory)
     {
@@ -81,8 +82,73 @@ public class CharacterModel
     {
         CharacterStatData stat = _dataProvider.GetStat(CharacterId);
         CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);
+        StatData equipmentBonus = GetEquipmentBonus();
 
-        return StatCalculator.Calculate(stat, grade, CurrentLevel);
+        return StatCalculator.Calculate(stat, grade, CurrentLevel, equipmentBonus);
+    }
+
+    public StatData GetEquipmentBonus()
+    {
+        return StatCalculator.SumEquipmentStats(_inventory.GetEquippedItems(CharacterId));
+    }
+
+    public EquipmentInstance GetEquippedItem(EquipType slot)
+    {
+        return _inventory.GetEquippedItem(CharacterId, slot);
+    }
+
+    public bool CanEquip(EquipmentInstance instance)
+    {
+        if (null == instance)
+        {
+            return false;
+        }
+
+        if (!string.IsNullOrEmpty(instance.Data.AllowedId) && instance.Data.AllowedId != CharacterId)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public void Equip(EquipmentInstance instance)
+    {
+        if (!CanEquip(instance))
+        {
+            Debug.LogWarning($"Equip: 장착할 수 없는 장비입니다. CharacterId={CharacterId}");
+            return;
+        }
+
+        if (instance.EquippedBy == CharacterId)
+        {
+            Debug.Log($"Equip: 이미 장착 중인 장비입니다. InstanceId={instance.InstanceId}");
+            return;
+        }
+
+        EquipmentInstance previousInSlot = _inventory.GetEquippedItem(CharacterId, instance.Type);
+        if (null != previousInSlot)
+        {
+            previousInSlot.ClearEquipped();
+        }
+
+        instance.SetEquippedBy(CharacterId);
+
+        OnEquipmentChanged?.Invoke();
+    }
+
+    public void Unequip(EquipType slot)
+    {
+        EquipmentInstance instance = _inventory.GetEquippedItem(CharacterId, slot);
+        if (null == instance)
+        {
+            Debug.LogWarning($"Unequip: 장착된 장비가 없습니다. Slot={slot}, CharacterId={CharacterId}");
+            return;
+        }
+
+        instance.ClearEquipped();
+
+        OnEquipmentChanged?.Invoke();
     }
 
     public int GetRequiredExpForNextLevel()

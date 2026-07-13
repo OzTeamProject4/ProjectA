@@ -11,6 +11,7 @@ public class CharacterScreenTest : MonoBehaviour
     [SerializeField] private CharacterListView _listViewPrefab;
     [SerializeField] private CharacterDetailView _detailViewPrefab;
     [SerializeField] private ExpItemSelectPopupView _itemSelectPopupPrefab;
+    [SerializeField] private EquipmentListPopupView _equipmentListPopupPrefab;
     [SerializeField] private CraftPopupView _craftPopupPrefab;
     [SerializeField] private Transform _contentParent;
     [SerializeField] private Transform _popupParent;
@@ -26,6 +27,7 @@ public class CharacterScreenTest : MonoBehaviour
     private CharacterDetailView _detailView;
     private ExpItemSelectPopupView _itemSelectPopup;
     private CraftPopupView _craftPopup;
+    private EquipmentListPopupView _equipmentListPopup;
     private CharacterModel _currentDetailModel;
     private CraftingModel _craftingModel;
 
@@ -50,6 +52,7 @@ public class CharacterScreenTest : MonoBehaviour
         }
 
         CloseItemSelectPopup();
+        CloseEquipmentListPopup();
         CloseCraftPopup();
     }
 
@@ -145,6 +148,10 @@ public class CharacterScreenTest : MonoBehaviour
             return;
         }
 
+        CloseCraftPopup();
+        CloseEquipmentListPopup();
+        CloseItemSelectPopup();
+
         // (생성·배선 → 로비)
         CharacterDetailViewModel detailViewModel = new CharacterDetailViewModel(model);
         _detailView.Bind(detailViewModel, dataId);
@@ -159,8 +166,14 @@ public class CharacterScreenTest : MonoBehaviour
     // [UIManager 이관 대상] 상세→목록 화면 전환. UIManager 도입 시 SetActive 토글을 UIManager 호출로 대체.
     private void HandleDetailClosed()
     {
+        CloseCraftPopup();
+        CloseEquipmentListPopup();
+        CloseItemSelectPopup();
+
         _detailView.gameObject.SetActive(false);
         _listView.gameObject.SetActive(true);
+
+        _currentDetailModel = null;
     }
 
     private void HandleListClosed()
@@ -225,6 +238,79 @@ public class CharacterScreenTest : MonoBehaviour
     // [UIManager 이관 대상] 장비 슬롯 클릭 → 제작 팝업. 이미 열려 있으면 새 슬롯 타입으로 재바인딩.
     private void HandleEquipmentSlotClicked(EquipType slotType)
     {
+        if (null == _currentDetailModel)
+        {
+            Debug.LogWarning("HandleEquipmentSlotClicked: 현재 선택된 캐릭터가 없습니다.");
+            return;
+        }
+
+        OpenCraftPopup(slotType);
+        OpenEquipmentListPopup(slotType);
+    }
+
+    private void OpenEquipmentListPopup(EquipType slotType)
+    {
+        if (null == _equipmentListPopupPrefab)
+        {
+            Debug.LogError("EquipmentListPopupPrefab 이 연결되지 않았습니다.");
+            return;
+        }
+
+        if (null == _equipmentListPopup)
+        {
+            _equipmentListPopup = Instantiate(_equipmentListPopupPrefab, _popupParent);
+            _equipmentListPopup.OnItemSelected += HandleEquipmentItemSelected;
+            _equipmentListPopup.OnCloseButtonClicked += HandleEquipmentListPopupClosed;
+        }
+
+        EquipmentListPopupViewModel viewModel = new EquipmentListPopupViewModel(GameManager.Instance.Inventory, _currentDetailModel, slotType);
+
+        _equipmentListPopup.Bind(viewModel, slotType.ToString());
+    }
+
+    private void HandleEquipmentItemSelected(EquipmentListItemViewModel itemViewModel, RectTransform itemRect)
+    {
+        EquipmentInstance instance = itemViewModel.Instance;
+
+        if (instance.EquippedBy == _currentDetailModel.CharacterId)
+        {
+            _currentDetailModel.Unequip(instance.Type);
+            return;
+        }
+
+        _currentDetailModel.Equip(instance);
+    }
+
+    private void HandleEquipmentListPopupClosed()
+    {
+        CloseEquipmentListPopup();
+    }
+
+    private void CloseEquipmentListPopup()
+    {
+        if (null == _equipmentListPopup)
+        {
+            return;
+        }
+
+        _equipmentListPopup.OnItemSelected -= HandleEquipmentItemSelected;
+        _equipmentListPopup.OnCloseButtonClicked -= HandleEquipmentListPopupClosed;
+        Destroy(_equipmentListPopup.gameObject);
+        _equipmentListPopup = null;
+    }
+
+    private void HandleCrafted(string dataId)
+    {
+        Debug.Log($"제작 완료: {dataId}");
+    }
+
+    private void HandleCraftPopupClosed()
+    {
+        CloseCraftPopup();
+    }
+
+    private void OpenCraftPopup(EquipType slotType)
+    {
         if (null == _craftPopupPrefab)
         {
             Debug.LogError("CraftPopupPrefab 이 연결되지 않았습니다.");
@@ -238,21 +324,9 @@ public class CharacterScreenTest : MonoBehaviour
             _craftPopup.OnCloseButtonClicked += HandleCraftPopupClosed;
         }
 
-        string characterId = _currentDetailModel.CharacterId;
-        CraftPopupViewModel viewModel = new CraftPopupViewModel(
-            _craftingModel, GameManager.Instance.Inventory, slotType, characterId);
+        CraftPopupViewModel viewModel = new CraftPopupViewModel(_craftingModel, GameManager.Instance.Inventory, slotType, _currentDetailModel);
 
         _craftPopup.Bind(viewModel);
-    }
-
-    private void HandleCrafted(string dataId)
-    {
-        Debug.Log($"제작 완료: {dataId}");
-    }
-
-    private void HandleCraftPopupClosed()
-    {
-        CloseCraftPopup();
     }
 
     private void CloseCraftPopup()

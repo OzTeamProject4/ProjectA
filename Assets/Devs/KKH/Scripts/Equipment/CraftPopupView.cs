@@ -51,7 +51,7 @@ public class CraftPopupView : MonoBehaviour
 
         ClearItems();
 
-        foreach (CraftListItemViewModel itemViewModel in viewModel.Items)
+        foreach (CraftListItemViewModel itemViewModel in viewModel.CraftItems)
         {
             CraftListItemView itemView = Instantiate(_itemPrefab, _itemContainer);
             itemView.Bind(itemViewModel);

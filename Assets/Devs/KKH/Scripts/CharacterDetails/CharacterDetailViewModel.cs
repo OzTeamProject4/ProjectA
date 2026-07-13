@@ -100,6 +100,7 @@ public class CharacterDetailViewModel
         _model.OnLevelChanged += HandleModelChanged;
         _model.OnStarChanged += HandleModelChanged;
         _model.OnDuplicatesChanged += HandleModelChanged;
+        _model.OnEquipmentChanged += HandleModelChanged;
 
         RefreshDisplay();
     }
@@ -110,7 +111,7 @@ public class CharacterDetailViewModel
         _model.OnLevelChanged -= HandleModelChanged;
         _model.OnStarChanged -= HandleModelChanged;
         _model.OnDuplicatesChanged -= HandleModelChanged;
-
+        _model.OnEquipmentChanged -= HandleModelChanged;
     }
 
     public void UseExpItemCommand(string itemId)

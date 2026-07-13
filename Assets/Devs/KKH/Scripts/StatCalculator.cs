@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-// 최종 스텟 계산 공식 = 기본값 + (스탯 상승량 + 성급 상승량) × (레벨 - 1)   [+ 장비 스탯]
+// 최종 스텟 계산 공식 = 기본값 + (스탯 상승량 + 성급 상승량) × (레벨 - 1) + 장비 스탯
 public static class StatCalculator
 {
-    public static StatData Calculate(CharacterStatData stat, CharacterGradeData grade, int level)
+    public static StatData Calculate(CharacterStatData stat, CharacterGradeData grade, int level, StatData equipmentBonus)
     {
         if (null == stat)
         {
@@ -41,11 +42,49 @@ public static class StatCalculator
 
         return new StatData
         {
-            Hp = stat.Hp + (stat.HpGrow + gradeHpGrow) * levelStep,
-            Atk = stat.Atk + (stat.AtkGrow + gradeAtkGrow) * levelStep,
-            Def = stat.Def + (stat.DefGrow + gradeDefGrow) * levelStep,
-            AtkSpeed = stat.AtkSpeed + (stat.AtkSpeedGrow + gradeAtkSpeedGrow) * levelStep,
-            MoveSpeed = stat.MoveSpeed + (stat.MoveSpeedGrow + gradeMoveSpeedGrow) * levelStep
+            Hp = stat.Hp + (stat.HpGrow + gradeHpGrow) * levelStep + equipmentBonus.Hp,
+            Atk = stat.Atk + (stat.AtkGrow + gradeAtkGrow) * levelStep + equipmentBonus.Atk,
+            Def = stat.Def + (stat.DefGrow + gradeDefGrow) * levelStep + equipmentBonus.Def,
+            AtkSpeed = stat.AtkSpeed + (stat.AtkSpeedGrow + gradeAtkSpeedGrow) * levelStep + equipmentBonus.AtkSpeed,
+            MoveSpeed = stat.MoveSpeed + (stat.MoveSpeedGrow + gradeMoveSpeedGrow) * levelStep + equipmentBonus.MoveSpeed
+        };
+    }
+
+    public static StatData SumEquipmentStats(IReadOnlyList<EquipmentInstance> equippedItems)
+    {
+        if (null == equippedItems)
+        {
+            Debug.LogWarning("equippedItems 가 null 입니다. 장비 보너스를 0으로 처리합니다.");
+            return default;
+        }
+
+        float hp = 0f;
+        float atk = 0f;
+        float def = 0f;
+        float atkSpeed = 0f;
+        float moveSpeed = 0f;
+
+        foreach (EquipmentInstance instance in equippedItems)
+        {
+            if (null == instance)
+            {
+                continue;
+            }
+
+            hp += instance.TotalHp;
+            atk += instance.TotalAtk;
+            def += instance.TotalDef;
+            atkSpeed += instance.TotalAtkSpeed;
+            moveSpeed += instance.TotalMoveSpeed;
+        }
+
+        return new StatData
+        {
+            Hp = hp,
+            Atk = atk,
+            Def = def,
+            AtkSpeed = atkSpeed,
+            MoveSpeed = moveSpeed
         };
     }
 }
