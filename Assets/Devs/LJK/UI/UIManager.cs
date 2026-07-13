@@ -47,7 +47,7 @@ public class UIManager : BaseManager<UIManager>
     {
         if (_openedUISet.Contains(uiType) || _loadingUISet.Contains(uiType))
         {
-            Debug.LogWarning($"[UIManager:OpenUIAsync] '{uiType}' UI가 이미 열려 있거나 로딩 중입니다.");
+            Debug.LogWarning($"[{nameof(UIManager)}:{nameof(OpenUIAsync)}] '{uiType}' UI가 이미 열려 있거나 로딩 중입니다.");
             return;
         }
 
@@ -65,7 +65,7 @@ public class UIManager : BaseManager<UIManager>
 
             if (createdUI == null)
             {
-                Debug.LogError($"[UIManager:OpenUIAsync] '{uiType}' UI 생성에 실패하여 UI를 열 수 없습니다.");
+                Debug.LogError($"[{nameof(UIManager)}:{nameof(OpenUIAsync)}] '{uiType}' UI 생성에 실패하여 UI를 열 수 없습니다.");
                 return;
             }
 
@@ -91,7 +91,7 @@ public class UIManager : BaseManager<UIManager>
         {
             if (!TryGetRootRectTransform(uiRoot, out RectTransform rootRectTransform))
             {
-                Debug.LogError($"[UIManager:CreateUIAsync] '{uiRoot}'에 해당하는 Root RectTransform을 찾을 수 없습니다.");
+                Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateUIAsync)}] '{uiRoot}'에 해당하는 Root RectTransform을 찾을 수 없습니다.");
                 return null;
             }
             
@@ -100,7 +100,7 @@ public class UIManager : BaseManager<UIManager>
             
             if (uiPrefab == null)
             {
-                Debug.LogError($"[UIManager:CreateUIAsync] '{uiType}' UI 프리팹을 로드하지 못했습니다.");
+                Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateUIAsync)}] '{uiType}' UI 프리팹을 로드하지 못했습니다.");
                 return null;
             }
 
@@ -109,7 +109,7 @@ public class UIManager : BaseManager<UIManager>
         }
         catch (Exception exception)
         {
-            Debug.LogError($"[UIManager:CreateUIAsync] '{uiType}' UI 생성 중 예외가 발생했습니다.\n{exception}");
+            Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateUIAsync)}] '{uiType}' UI 생성 중 예외가 발생했습니다.\n{exception}");
             return null;
         }
     }
@@ -118,7 +118,7 @@ public class UIManager : BaseManager<UIManager>
     {
         if (!_openedUISet.Contains(uiType))
         {
-            Debug.LogWarning($"[UIManager:CloseUI] '{uiType}' UI가 열려 있지 않습니다.");
+            Debug.LogWarning($"[{nameof(UIManager)}:{nameof(CloseUI)}] '{uiType}' UI가 열려 있지 않습니다.");
             return;
         }
 
@@ -140,13 +140,13 @@ public class UIManager : BaseManager<UIManager>
 
         if (uiLayerPrefab == null)
         {
-            Debug.LogError("[UIManager:CreateLayer] UILayer 프리팹을 로드하지 못했습니다.");
+            Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateLayer)}] UILayer 프리팹을 로드하지 못했습니다.");
             return;
         }
 
         if (!uiLayerPrefab.TryGetComponent(out UILayer uiLayer))
         {
-            Debug.LogError("[UIManager:CreateLayer] UILayer 프리팹에 UILayer 컴포넌트가 없습니다.");
+            Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateLayer)}] UILayer 프리팹에 UILayer 컴포넌트가 없습니다.");
             return;
         }
 
@@ -157,7 +157,7 @@ public class UIManager : BaseManager<UIManager>
     {
         if (!_rootCacheDictionary.TryAdd(uiRoot, rectTransform))
         {
-            Debug.LogError($"[UIManager:CacheUIRoot] UIRoot '{uiRoot}'가 이미 루트 캐시에 등록되어 있습니다.");
+            Debug.LogError($"[{nameof(UIManager)}:{nameof(CacheUIRoot)}] UIRoot '{uiRoot}'가 이미 루트 캐시에 등록되어 있습니다.");
         }
     }
 }

@@ -51,7 +51,7 @@ public class UILayer : MonoBehaviour
     {
         if (rectTransform == null)
         {
-            Debug.LogError($"[UILayer:ValidateReference] {fieldName} 필드 레퍼런스가 할당되지 않았습니다.");
+            Debug.LogError($"[{nameof(UILayer)}:{nameof(ValidateReference)}] {fieldName} 필드 레퍼런스가 할당되지 않았습니다.");
         }
     }
 }
