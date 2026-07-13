@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// TODO - 07.08: 다음 스프린트(세이브/영속성 시스템 도입) 시 BuildTestCharacterModels() 를
@@ -13,7 +12,6 @@ public class CharacterScreenTest : MonoBehaviour
     [SerializeField] private CharacterDetailView _detailViewPrefab;
     [SerializeField] private ExpItemSelectPopupView _itemSelectPopupPrefab;
     [SerializeField] private CraftPopupView _craftPopupPrefab;
-    [SerializeField] private Button _testCraftButton;
     [SerializeField] private Transform _contentParent;
     [SerializeField] private Transform _popupParent;
 
@@ -48,15 +46,11 @@ public class CharacterScreenTest : MonoBehaviour
         {
             _detailView.OnUseItemButtonClicked -= HandleUseItemButtonClicked;
             _detailView.OnCloseButtonClicked -= HandleDetailClosed;
+            _detailView.OnEquipmentSlotClicked -= HandleEquipmentSlotClicked;
         }
 
-        if (null != _testCraftButton)
-        {
-            _testCraftButton.onClick.RemoveListener(HandleTestCraftButtonClicked);
-        }
-
-        HandleTestCraftPopupClosed();
         CloseItemSelectPopup();
+        CloseCraftPopup();
     }
 
     // [로비 이관 대상] View 생성·배선 + Model/ViewModel 생성. 로비 도입 시 이 흐름 전체가 로비로 옮겨간다.
@@ -86,6 +80,7 @@ public class CharacterScreenTest : MonoBehaviour
         _detailView = Instantiate(_detailViewPrefab, _contentParent);
         _detailView.OnUseItemButtonClicked += HandleUseItemButtonClicked;
         _detailView.OnCloseButtonClicked += HandleDetailClosed;
+        _detailView.OnEquipmentSlotClicked += HandleEquipmentSlotClicked;
         _detailView.gameObject.SetActive(false);
 
         _listView = Instantiate(_listViewPrefab, _contentParent);
@@ -94,11 +89,6 @@ public class CharacterScreenTest : MonoBehaviour
 
         CharacterListViewModel listViewModel = new CharacterListViewModel(new List<CharacterModel>(_characterModels.Values));
         _listView.Bind(listViewModel, BuildDisplayInfos());
-
-        if (null != _testCraftButton)
-        {
-            _testCraftButton.onClick.AddListener(HandleTestCraftButtonClicked);
-        }
     }
 
     // [로비 이관 대상] 임시 더미 데이터 생성. 세이브 시스템 + 로비 도입 시 함께 교체/이관.
@@ -111,10 +101,10 @@ public class CharacterScreenTest : MonoBehaviour
             inventory.AddItem(expItemDataId, 999);
         }
 
-        // 크래프팅 테스트용, 재료 아이템 임시 지급
+        // 크래프팅 테스트용 — 재료 아이템 임시 지급
         inventory.AddItem("Item_Mat_T1", 999);
         inventory.AddItem("Item_Mat_T2", 999);
-        inventory.AddItem("Item_Mat_T3", 1);
+        inventory.AddItem("Item_Mat_T3", 999);
         inventory.AddItem("Item_Mat_Signature", 999);
         inventory.AddGold(999999);
 
@@ -218,48 +208,6 @@ public class CharacterScreenTest : MonoBehaviour
         CloseItemSelectPopup();
     }
 
-    private void HandleTestCraftButtonClicked()
-    {
-        if (null != _craftPopup)
-        {
-            return;
-        }
-
-        if (null == _craftPopupPrefab)
-        {
-            Debug.LogError("CraftPopupPrefab 이 연결되지 않았습니다.");
-            return;
-        }
-
-        _craftPopup = Instantiate(_craftPopupPrefab, _popupParent);
-        _craftPopup.OnCrafted += HandleTestCrafted;
-        _craftPopup.OnCloseButtonClicked += HandleTestCraftPopupClosed;
-
-        string testCharacterId = new List<string>(_characterModels.Keys)[0];
-        CraftPopupViewModel viewModel = new CraftPopupViewModel(
-            _craftingModel, GameManager.Instance.Inventory, EquipType.Weapon, testCharacterId);
-
-        _craftPopup.Bind(viewModel);
-    }
-
-    private void HandleTestCrafted(string dataId)
-    {
-        Debug.Log($"[테스트] 제작 완료: {dataId}");
-    }
-
-    private void HandleTestCraftPopupClosed()
-    {
-        if (null == _craftPopup)
-        {
-            return;
-        }
-
-        _craftPopup.OnCrafted -= HandleTestCrafted;
-        _craftPopup.OnCloseButtonClicked -= HandleTestCraftPopupClosed;
-        Destroy(_craftPopup.gameObject);
-        _craftPopup = null;
-    }
-
     // [UIManager 이관 대상] 팝업 닫기/정리.
     private void CloseItemSelectPopup()
     {
@@ -272,5 +220,51 @@ public class CharacterScreenTest : MonoBehaviour
         _itemSelectPopup.OnCloseButtonClicked -= HandleItemPopupClosed;
         Destroy(_itemSelectPopup.gameObject);
         _itemSelectPopup = null;
+    }
+
+    // [UIManager 이관 대상] 장비 슬롯 클릭 → 제작 팝업. 이미 열려 있으면 새 슬롯 타입으로 재바인딩.
+    private void HandleEquipmentSlotClicked(EquipType slotType)
+    {
+        if (null == _craftPopupPrefab)
+        {
+            Debug.LogError("CraftPopupPrefab 이 연결되지 않았습니다.");
+            return;
+        }
+
+        if (null == _craftPopup)
+        {
+            _craftPopup = Instantiate(_craftPopupPrefab, _popupParent);
+            _craftPopup.OnCrafted += HandleCrafted;
+            _craftPopup.OnCloseButtonClicked += HandleCraftPopupClosed;
+        }
+
+        string characterId = _currentDetailModel.CharacterId;
+        CraftPopupViewModel viewModel = new CraftPopupViewModel(
+            _craftingModel, GameManager.Instance.Inventory, slotType, characterId);
+
+        _craftPopup.Bind(viewModel);
+    }
+
+    private void HandleCrafted(string dataId)
+    {
+        Debug.Log($"제작 완료: {dataId}");
+    }
+
+    private void HandleCraftPopupClosed()
+    {
+        CloseCraftPopup();
+    }
+
+    private void CloseCraftPopup()
+    {
+        if (null == _craftPopup)
+        {
+            return;
+        }
+
+        _craftPopup.OnCrafted -= HandleCrafted;
+        _craftPopup.OnCloseButtonClicked -= HandleCraftPopupClosed;
+        Destroy(_craftPopup.gameObject);
+        _craftPopup = null;
     }
 }

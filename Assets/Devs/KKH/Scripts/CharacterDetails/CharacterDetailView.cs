@@ -24,11 +24,19 @@ public class CharacterDetailView : MonoBehaviour
     [SerializeField] private Button _useItemButton;
     [SerializeField] private Button _closeButton;
 
+    [SerializeField] private Button _statTabButton;
+    [SerializeField] private Button _equipmentTabButton;
+    [SerializeField] private GameObject _statPanel;
+    [SerializeField] private GameObject _equipmentPanel;
+
+    [SerializeField] private EquipmentSlotView[] _equipmentSlots;
+
     private bool _isSubscribed;
     private CharacterDetailViewModel _viewModel;
 
     public event Action OnUseItemButtonClicked;
     public event Action OnCloseButtonClicked;
+    public event Action<EquipType> OnEquipmentSlotClicked;
 
     private void OnEnable()
     {
@@ -118,9 +126,23 @@ public class CharacterDetailView : MonoBehaviour
         _useItemButton.onClick.AddListener(HandleClickUseItem);
         _closeButton.onClick.AddListener(HandleClickClose);
 
+        if (null != _statTabButton)
+        {
+            _statTabButton.onClick.AddListener(HandleClickStatTab);
+        }
+
+        if (null != _equipmentTabButton)
+        {
+            _equipmentTabButton.onClick.AddListener(HandleClickEquipmentTab);
+        }
+
+        SubscribeEquipmentSlots();
+
         _isSubscribed = true;
 
         _viewModel.Initialize();
+
+        ShowStatTab();
     }
 
     private void Unsubscribe()
@@ -137,7 +159,56 @@ public class CharacterDetailView : MonoBehaviour
         _useItemButton.onClick.RemoveListener(HandleClickUseItem);
         _closeButton.onClick.RemoveListener(HandleClickClose);
 
+        if (null != _statTabButton)
+        {
+            _statTabButton.onClick.RemoveListener(HandleClickStatTab);
+        }
+
+        if (null != _equipmentTabButton)
+        {
+            _equipmentTabButton.onClick.RemoveListener(HandleClickEquipmentTab);
+        }
+
+        UnsubscribeEquipmentSlots();
+
         _isSubscribed = false;
+    }
+
+    private void SubscribeEquipmentSlots()
+    {
+        if (null == _equipmentSlots)
+        {
+            return;
+        }
+
+        foreach (EquipmentSlotView slot in _equipmentSlots)
+        {
+            if (null != slot)
+            {
+                slot.OnSlotClicked += HandleEquipmentSlotClicked;
+            }
+        }
+    }
+
+    private void UnsubscribeEquipmentSlots()
+    {
+        if (null == _equipmentSlots)
+        {
+            return;
+        }
+
+        foreach (EquipmentSlotView slot in _equipmentSlots)
+        {
+            if (null != slot)
+            {
+                slot.OnSlotClicked -= HandleEquipmentSlotClicked;
+            }
+        }
+    }
+
+    private void HandleEquipmentSlotClicked(EquipType slotType)
+    {
+        OnEquipmentSlotClicked?.Invoke(slotType);
     }
 
     private void HandleClickStarUp()
@@ -153,5 +224,41 @@ public class CharacterDetailView : MonoBehaviour
     private void HandleClickClose()
     {
         OnCloseButtonClicked?.Invoke();
+    }
+
+    private void HandleClickStatTab()
+    {
+        ShowStatTab();
+    }
+
+    private void HandleClickEquipmentTab()
+    {
+        ShowEquipmentTab();
+    }
+
+    private void ShowStatTab()
+    {
+        if (null != _statPanel)
+        {
+            _statPanel.SetActive(true);
+        }
+
+        if (null != _equipmentPanel)
+        {
+            _equipmentPanel.SetActive(false);
+        }
+    }
+
+    private void ShowEquipmentTab()
+    {
+        if (null != _statPanel)
+        {
+            _statPanel.SetActive(false);
+        }
+
+        if (null != _equipmentPanel)
+        {
+            _equipmentPanel.SetActive(true);
+        }
     }
 }
