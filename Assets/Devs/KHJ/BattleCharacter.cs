@@ -9,6 +9,7 @@ public class BattleCharacter : MonoBehaviour
     [SerializeField] private float _groundCheckDistance = 0.05f; 
     [SerializeField] private float _rotationSpeed = 4.0f;
     [SerializeField] private Transform _groundCheckPoint;
+    
 
 
     private CharacterData _data;
@@ -20,7 +21,7 @@ public class BattleCharacter : MonoBehaviour
     private int _curAtk;
     private int _curDef;
     private float _curMoveSpeed;
-
+    private const float MoveThreshold = 0.1f;
 
     public string CharacterName => _data.Name;
     public int CurHp => _curHp;
@@ -28,7 +29,7 @@ public class BattleCharacter : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
@@ -57,11 +58,12 @@ public class BattleCharacter : MonoBehaviour
         velocity.y = _rigidbody.linearVelocity.y;
         _rigidbody.linearVelocity = velocity;
 
-        if (moveDirection.magnitude > 0)
+        if (moveDirection.magnitude > MoveThreshold)
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
         }
+
 
     }
 
