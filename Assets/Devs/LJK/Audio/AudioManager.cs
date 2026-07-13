@@ -14,13 +14,21 @@ public class AudioManager : BaseManager<AudioManager>
         {
             await CreateAudioController();
         }
-
-        await LoadAudioClipsAsync();
     }
 
     public void PlayBGM(string audioId)
     {
-        AudioClip audioClip = _audioClipDictionary[audioId];
+        if (string.IsNullOrWhiteSpace(audioId))
+        {
+            Debug.LogError($"[AudioManager:PlayBGM] audioId가 null이거나 비어 있습니다.");
+            return;
+        }
+
+        if (!_audioClipDictionary.TryGetValue(audioId, out AudioClip audioClip))
+        {
+            Debug.LogError($"[AudioManager:PlayBGM] '{audioId}'에 해당하는 AudioClip을 찾을 수 없습니다.");
+        }
+
         _audioView.PlayBGM(audioClip);
     }
 
@@ -31,35 +39,33 @@ public class AudioManager : BaseManager<AudioManager>
 
     public void PlaySFX(string audioId)
     {
-        AudioClip audioClip = _audioClipDictionary[audioId];
+        if (string.IsNullOrWhiteSpace(audioId))
+        {
+            Debug.LogError($"[AudioManager:PlaySFX] audioId가 null이거나 비어 있습니다.");
+            return;
+        }
+
+        if (!_audioClipDictionary.TryGetValue(audioId, out AudioClip audioClip))
+        {
+            Debug.LogError($"[AudioManager:PlaySFX] '{audioId}'에 해당하는 AudioClip을 찾을 수 없습니다.");
+        }
+
         _audioView.PlaySFX(audioClip);
     }
 
     public void SetBgmVolume(float volume)
     {
-        _audioView.SetBgmVolume(volume);
+        float clampedVolume = Mathf.Clamp01(volume);
+        _audioView.SetBgmVolume(clampedVolume);
     }
 
     public void SetSfxVolume(float volume)
     {
-        _audioView.SetSfxVolume(volume);
+        float clampedVolume = Mathf.Clamp01(volume);
+        _audioView.SetSfxVolume(clampedVolume);
     }
 
-
-    private async UniTask CreateAudioController()
-    {
-        GameObject audioControllerPrefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(AddressableKey.Prefab.AudioController);
-
-        if (!audioControllerPrefab.TryGetComponent(out AudioView audioController))
-        {
-            Debug.LogError("[AudioManager:CreateAudioController] AudioController 프리팹에 AudioController 컴포넌트가 없습니다.");
-            return;
-        }
-
-        _audioView = Instantiate(audioController);
-    }
-
-    private async UniTask LoadAudioClipsAsync()
+    public async UniTask LoadAudioClipsAsync()
     {
         if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, AudioData> audioDataTable))
         {
@@ -82,5 +88,18 @@ public class AudioManager : BaseManager<AudioManager>
 
             _audioClipDictionary[audioDataId] = audioClip;
         }
+    }
+
+    private async UniTask CreateAudioController()
+    {
+        GameObject audioControllerPrefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(AddressableKey.Prefab.AudioController);
+
+        if (!audioControllerPrefab.TryGetComponent(out AudioView audioController))
+        {
+            Debug.LogError("[AudioManager:CreateAudioController] AudioController 프리팹에 AudioController 컴포넌트가 없습니다.");
+            return;
+        }
+
+        _audioView = Instantiate(audioController);
     }
 }

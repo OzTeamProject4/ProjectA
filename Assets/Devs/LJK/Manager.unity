@@ -429,7 +429,7 @@ GameObject:
   - component: {fileID: 1826160713}
   - component: {fileID: 1826160712}
   - component: {fileID: 1826160711}
-  - component: {fileID: 1826160714}
+  - component: {fileID: 1826160715}
   m_Layer: 0
   m_Name: '@Managers'
   m_TagString: Untagged
@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76361461808221c43959e94a5675543e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
---- !u!114 &1826160714
+--- !u!114 &1826160715
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -497,66 +497,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1826160709}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3a2ecae5a7c0da439c954a6fffed490, type: 3}
+  m_Script: {fileID: 11500000, guid: 32c502f34598ee14290cbba559c208a3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIManager
---- !u!1001 &4918096162295489285
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1956089598211864778, guid: 28cdce35451576f46903271196144346, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1956089598211864778, guid: 28cdce35451576f46903271196144346, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1956089598211864778, guid: 28cdce35451576f46903271196144346, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1956089598211864778, guid: 28cdce35451576f46903271196144346, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1956089598211864778, guid: 28cdce35451576f46903271196144346, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1956089598211864778, guid: 28cdce35451576f46903271196144346, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1956089598211864778, guid: 28cdce35451576f46903271196144346, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1956089598211864778, guid: 28cdce35451576f46903271196144346, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1956089598211864778, guid: 28cdce35451576f46903271196144346, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1956089598211864778, guid: 28cdce35451576f46903271196144346, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5178519139208543115, guid: 28cdce35451576f46903271196144346, type: 3}
-      propertyPath: m_Name
-      value: AudioController
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 28cdce35451576f46903271196144346, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -565,4 +508,3 @@ SceneRoots:
   - {fileID: 1791509079}
   - {fileID: 1826160710}
   - {fileID: 28615311}
-  - {fileID: 4918096162295489285}

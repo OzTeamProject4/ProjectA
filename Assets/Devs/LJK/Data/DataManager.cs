@@ -10,7 +10,6 @@ public class DataManager : BaseManager<DataManager>
 
     public override UniTask InitializeAsync()
     {
-        //GameManager.Instance.ResourceManager.ReleaseAsset("Key");
         _dataTables.Clear();
         return UniTask.CompletedTask;
     }
