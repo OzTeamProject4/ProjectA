@@ -9,9 +9,9 @@ public class GameManager : BaseManager<GameManager>
 
     public DataManager DataManager { get; private set; }
 
-    public UIManager UIManager { get; private set; }
-
     public AudioManager AudioManager { get; private set; }
+
+    public UIManager UIManager { get; private set; }
 
     private UniTask _initializeTask;
 
@@ -36,7 +36,7 @@ public class GameManager : BaseManager<GameManager>
     {
         if (Instance != null && Instance != this)
         {
-            Debug.LogWarning($"[GameManager:EnsureSingleton] 중복된 인스턴스가 발견되어 {gameObject.name} 오브젝트를 파괴합니다.");
+            Debug.LogWarning($"[{nameof(GameManager)}:{nameof(EnsureSingleton)}] 중복된 인스턴스가 발견되어 {gameObject.name} 오브젝트를 파괴합니다.");
             Destroy(gameObject);
             return;
         }
@@ -48,8 +48,8 @@ public class GameManager : BaseManager<GameManager>
     {
         ResourceManager = this.GetRequiredComponent<ResourceManager>();
         DataManager = this.GetRequiredComponent<DataManager>();
-        UIManager = this.GetRequiredComponent<UIManager>();
         AudioManager = this.GetRequiredComponent<AudioManager>();
+        UIManager = this.GetRequiredComponent<UIManager>();
     }
 
     private async UniTask InitializeManagersAsync()
@@ -57,7 +57,7 @@ public class GameManager : BaseManager<GameManager>
         await InitializeAsync();
         await ResourceManager.InitializeAsync();
         await DataManager.InitializeAsync();
-        await UIManager.InitializeAsync();
         await AudioManager.InitializeAsync();
+        await UIManager.InitializeAsync();
     }
 }
