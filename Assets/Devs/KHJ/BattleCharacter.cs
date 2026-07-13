@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Rigidbody))]
+
 public class BattleCharacter : MonoBehaviour
 {
     // TODO 희준 캐릭터 모델링시 수치 변화 필요
@@ -9,12 +11,10 @@ public class BattleCharacter : MonoBehaviour
     [SerializeField] private float _groundCheckDistance = 0.05f; 
     [SerializeField] private float _rotationSpeed = 4.0f;
     [SerializeField] private Transform _groundCheckPoint;
-    
-
 
     private CharacterData _data;
     private Rigidbody _rigidbody;
-
+    private CharacterAnimationController _animationController;
     private bool _isSelectedCharacter;
     private int _curHp;
     private int _curSkillGauge;
@@ -22,6 +22,7 @@ public class BattleCharacter : MonoBehaviour
     private int _curDef;
     private float _curMoveSpeed;
     private const float MoveThreshold = 0.1f;
+    private const float WalkSpeedRatio = 0.5f;
 
     public string CharacterName => _data.Name;
     public int CurHp => _curHp;
@@ -33,6 +34,15 @@ public class BattleCharacter : MonoBehaviour
         _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
+    private void Start()
+    {
+        _animationController = GetComponentInChildren<CharacterAnimationController>();
+        if (_animationController == null)
+        {
+            Debug.LogError("AnimationController 가 null");
+            return;
+        }
+    }
     private void Update()
     {
         if (_groundCheckPoint == null)
@@ -64,7 +74,13 @@ public class BattleCharacter : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
         }
 
+        float inputMagnitude = moveDirection.magnitude;
+        float animMoveSpeed = inputMagnitude * WalkSpeedRatio;
 
+        if (_animationController != null)
+        {
+            _animationController.SetMoveSpeed(animMoveSpeed);
+        }
     }
 
     public void Jump()

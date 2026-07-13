@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     private PlayerInputActions _inputAction;
     private Vector3 _moveDirection;
 
-
     private void Awake()
     {
         // TODO 희준 카메라와 플레이어 입력 중복 추후 매니저 준비시 통일화
@@ -48,9 +47,7 @@ public class PlayerController : MonoBehaviour
         if (_inputAction.Player.Jump.WasPressedThisFrame())
         {
             _battleCharacter.Jump();
-
         }
-
     }
 
     private void FixedUpdate()
