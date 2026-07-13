@@ -7,7 +7,7 @@
     "Atk": 1,
     "Def": 0.2,
     "AtkSpeed": 0.02,
-    "Movement": 0.07,
+    "MoveSpeed": 0.07,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1",
     "RequiredItemCount": "3,10",
     "RequiredGold": 500
@@ -20,7 +20,7 @@
     "Atk": 1,
     "Def": 0.2,
     "AtkSpeed": 0.02,
-    "Movement": 0.07,
+    "MoveSpeed": 0.07,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1",
     "RequiredItemCount": "5,15",
     "RequiredGold": 600
@@ -33,7 +33,7 @@
     "Atk": 1,
     "Def": 0.2,
     "AtkSpeed": 0.02,
-    "Movement": 0.07,
+    "MoveSpeed": 0.07,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1",
     "RequiredItemCount": "10,20",
     "RequiredGold": 750
@@ -46,7 +46,7 @@
     "Atk": 1,
     "Def": 0.2,
     "AtkSpeed": 0.02,
-    "Movement": 0.07,
+    "MoveSpeed": 0.07,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1,Item_Mat_T2",
     "RequiredItemCount": "15,30,5",
     "RequiredGold": 900
@@ -59,7 +59,7 @@
     "Atk": 1,
     "Def": 0.2,
     "AtkSpeed": 0.02,
-    "Movement": 0.07,
+    "MoveSpeed": 0.07,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1,Item_Mat_T2",
     "RequiredItemCount": "20,50,10",
     "RequiredGold": 1100
@@ -72,7 +72,7 @@
     "Atk": 1,
     "Def": 0.2,
     "AtkSpeed": 0.02,
-    "Movement": 0.07,
+    "MoveSpeed": 0.07,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1,Item_Mat_T2",
     "RequiredItemCount": "25,75,20",
     "RequiredGold": 1350
@@ -85,7 +85,7 @@
     "Atk": 1,
     "Def": 0.2,
     "AtkSpeed": 0.02,
-    "Movement": 0.07,
+    "MoveSpeed": 0.07,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "30,30,5",
     "RequiredGold": 1650
@@ -98,7 +98,7 @@
     "Atk": 1,
     "Def": 0.2,
     "AtkSpeed": 0.02,
-    "Movement": 0.07,
+    "MoveSpeed": 0.07,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "40,50,15",
     "RequiredGold": 2000
@@ -111,7 +111,7 @@
     "Atk": 1,
     "Def": 0.2,
     "AtkSpeed": 0.02,
-    "Movement": 0.07,
+    "MoveSpeed": 0.07,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "50,75,25",
     "RequiredGold": 2450
@@ -124,7 +124,7 @@
     "Atk": 1,
     "Def": 0.2,
     "AtkSpeed": 0.02,
-    "Movement": 0.07,
+    "MoveSpeed": 0.07,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "50,50,50",
     "RequiredGold": 3050
@@ -137,7 +137,7 @@
     "Atk": 0.3,
     "Def": 0.8,
     "AtkSpeed": 0.02,
-    "Movement": 0.06,
+    "MoveSpeed": 0.06,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1",
     "RequiredItemCount": "3,10",
     "RequiredGold": 500
@@ -150,7 +150,7 @@
     "Atk": 0.3,
     "Def": 0.8,
     "AtkSpeed": 0.01,
-    "Movement": 0.07,
+    "MoveSpeed": 0.07,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1",
     "RequiredItemCount": "5,15",
     "RequiredGold": 600
@@ -163,7 +163,7 @@
     "Atk": 0.3,
     "Def": 0.8,
     "AtkSpeed": 0.02,
-    "Movement": 0.06,
+    "MoveSpeed": 0.06,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1",
     "RequiredItemCount": "10,20",
     "RequiredGold": 750
@@ -176,7 +176,7 @@
     "Atk": 0.3,
     "Def": 0.8,
     "AtkSpeed": 0.02,
-    "Movement": 0.07,
+    "MoveSpeed": 0.07,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1,Item_Mat_T2",
     "RequiredItemCount": "15,30,5",
     "RequiredGold": 900
@@ -189,7 +189,7 @@
     "Atk": 0.3,
     "Def": 0.8,
     "AtkSpeed": 0.01,
-    "Movement": 0.06,
+    "MoveSpeed": 0.06,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1,Item_Mat_T2",
     "RequiredItemCount": "20,50,10",
     "RequiredGold": 1100
@@ -202,7 +202,7 @@
     "Atk": 0.3,
     "Def": 0.8,
     "AtkSpeed": 0.02,
-    "Movement": 0.06,
+    "MoveSpeed": 0.06,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1,Item_Mat_T2",
     "RequiredItemCount": "25,75,20",
     "RequiredGold": 1350
@@ -215,7 +215,7 @@
     "Atk": 0.3,
     "Def": 0.8,
     "AtkSpeed": 0.02,
-    "Movement": 0.07,
+    "MoveSpeed": 0.07,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "30,30,5",
     "RequiredGold": 1650
@@ -228,7 +228,7 @@
     "Atk": 0.3,
     "Def": 0.8,
     "AtkSpeed": 0.02,
-    "Movement": 0.06,
+    "MoveSpeed": 0.06,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "40,50,15",
     "RequiredGold": 2000
@@ -241,7 +241,7 @@
     "Atk": 0.3,
     "Def": 0.8,
     "AtkSpeed": 0.01,
-    "Movement": 0.07,
+    "MoveSpeed": 0.07,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "50,75,25",
     "RequiredGold": 2450
@@ -254,7 +254,7 @@
     "Atk": 0.3,
     "Def": 0.8,
     "AtkSpeed": 0.02,
-    "Movement": 0.06,
+    "MoveSpeed": 0.06,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "50,50,50",
     "RequiredGold": 3050
@@ -267,7 +267,7 @@
     "Atk": 0,
     "Def": 0,
     "AtkSpeed": 0,
-    "Movement": 0,
+    "MoveSpeed": 0,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1",
     "RequiredItemCount": "3,10",
     "RequiredGold": 500
@@ -280,7 +280,7 @@
     "Atk": 0.1,
     "Def": 0,
     "AtkSpeed": 0,
-    "Movement": 0.01,
+    "MoveSpeed": 0.01,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1",
     "RequiredItemCount": "5,15",
     "RequiredGold": 600
@@ -293,7 +293,7 @@
     "Atk": 0.1,
     "Def": 0.1,
     "AtkSpeed": 0.01,
-    "Movement": 0.02,
+    "MoveSpeed": 0.02,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1",
     "RequiredItemCount": "10,20",
     "RequiredGold": 750
@@ -306,7 +306,7 @@
     "Atk": 0.2,
     "Def": 0,
     "AtkSpeed": 0.01,
-    "Movement": 0.03,
+    "MoveSpeed": 0.03,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1,Item_Mat_T2",
     "RequiredItemCount": "15,30,5",
     "RequiredGold": 900
@@ -319,7 +319,7 @@
     "Atk": 0.3,
     "Def": 0.1,
     "AtkSpeed": 0.02,
-    "Movement": 0.05,
+    "MoveSpeed": 0.05,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1,Item_Mat_T2",
     "RequiredItemCount": "20,50,10",
     "RequiredGold": 1100
@@ -332,7 +332,7 @@
     "Atk": 0.5,
     "Def": 0.1,
     "AtkSpeed": 0.02,
-    "Movement": 0.08,
+    "MoveSpeed": 0.08,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1,Item_Mat_T2",
     "RequiredItemCount": "25,75,20",
     "RequiredGold": 1350
@@ -345,7 +345,7 @@
     "Atk": 0.7,
     "Def": 0.2,
     "AtkSpeed": 0.03,
-    "Movement": 0.1,
+    "MoveSpeed": 0.1,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "30,30,5",
     "RequiredGold": 1650
@@ -358,7 +358,7 @@
     "Atk": 0.9,
     "Def": 0.2,
     "AtkSpeed": 0.04,
-    "Movement": 0.13,
+    "MoveSpeed": 0.13,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "40,50,15",
     "RequiredGold": 2000
@@ -371,7 +371,7 @@
     "Atk": 1,
     "Def": 0.3,
     "AtkSpeed": 0.06,
-    "Movement": 0.17,
+    "MoveSpeed": 0.17,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "50,75,25",
     "RequiredGold": 2450
@@ -384,7 +384,7 @@
     "Atk": 1.4,
     "Def": 0.4,
     "AtkSpeed": 0.06,
-    "Movement": 0.21,
+    "MoveSpeed": 0.21,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "50,50,50",
     "RequiredGold": 3050
@@ -397,7 +397,7 @@
     "Atk": 0,
     "Def": 0,
     "AtkSpeed": 0,
-    "Movement": 0,
+    "MoveSpeed": 0,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1",
     "RequiredItemCount": "3,10",
     "RequiredGold": 500
@@ -410,7 +410,7 @@
     "Atk": 0,
     "Def": 0,
     "AtkSpeed": 0.01,
-    "Movement": 0.01,
+    "MoveSpeed": 0.01,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1",
     "RequiredItemCount": "5,15",
     "RequiredGold": 600
@@ -423,7 +423,7 @@
     "Atk": 0.1,
     "Def": 0.1,
     "AtkSpeed": 0.02,
-    "Movement": 0.02,
+    "MoveSpeed": 0.02,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1",
     "RequiredItemCount": "10,20",
     "RequiredGold": 750
@@ -436,7 +436,7 @@
     "Atk": 0.2,
     "Def": 0,
     "AtkSpeed": 0.02,
-    "Movement": 0.04,
+    "MoveSpeed": 0.04,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1,Item_Mat_T2",
     "RequiredItemCount": "15,30,5",
     "RequiredGold": 900
@@ -449,7 +449,7 @@
     "Atk": 0.2,
     "Def": 0.2,
     "AtkSpeed": 0.05,
-    "Movement": 0.05,
+    "MoveSpeed": 0.05,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1,Item_Mat_T2",
     "RequiredItemCount": "20,50,10",
     "RequiredGold": 1100
@@ -462,7 +462,7 @@
     "Atk": 0.3,
     "Def": 0.1,
     "AtkSpeed": 0.07,
-    "Movement": 0.08,
+    "MoveSpeed": 0.08,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1,Item_Mat_T2",
     "RequiredItemCount": "25,75,20",
     "RequiredGold": 1350
@@ -475,7 +475,7 @@
     "Atk": 0.4,
     "Def": 0.3,
     "AtkSpeed": 0.08,
-    "Movement": 0.11,
+    "MoveSpeed": 0.11,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "30,30,5",
     "RequiredGold": 1650
@@ -488,7 +488,7 @@
     "Atk": 0.6,
     "Def": 0.3,
     "AtkSpeed": 0.12,
-    "Movement": 0.14,
+    "MoveSpeed": 0.14,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "40,50,15",
     "RequiredGold": 2000
@@ -501,7 +501,7 @@
     "Atk": 0.7,
     "Def": 0.3,
     "AtkSpeed": 0.15,
-    "Movement": 0.17,
+    "MoveSpeed": 0.17,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "50,75,25",
     "RequiredGold": 2450
@@ -514,7 +514,7 @@
     "Atk": 0.9,
     "Def": 0.5,
     "AtkSpeed": 0.18,
-    "Movement": 0.22,
+    "MoveSpeed": 0.22,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "50,50,50",
     "RequiredGold": 3050
@@ -527,7 +527,7 @@
     "Atk": 0,
     "Def": 0,
     "AtkSpeed": 0,
-    "Movement": 0,
+    "MoveSpeed": 0,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1",
     "RequiredItemCount": "3,10",
     "RequiredGold": 500
@@ -540,7 +540,7 @@
     "Atk": 0.1,
     "Def": 0.1,
     "AtkSpeed": 0,
-    "Movement": 0.03,
+    "MoveSpeed": 0.03,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1",
     "RequiredItemCount": "5,15",
     "RequiredGold": 600
@@ -553,7 +553,7 @@
     "Atk": 0.3,
     "Def": 0.1,
     "AtkSpeed": 0.01,
-    "Movement": 0.1,
+    "MoveSpeed": 0.1,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1",
     "RequiredItemCount": "10,20",
     "RequiredGold": 750
@@ -566,7 +566,7 @@
     "Atk": 0.7,
     "Def": 0.5,
     "AtkSpeed": 0.03,
-    "Movement": 0.25,
+    "MoveSpeed": 0.25,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1,Item_Mat_T2",
     "RequiredItemCount": "15,30,5",
     "RequiredGold": 900
@@ -579,7 +579,7 @@
     "Atk": 1.1,
     "Def": 0.6,
     "AtkSpeed": 0.04,
-    "Movement": 0.37,
+    "MoveSpeed": 0.37,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1,Item_Mat_T2",
     "RequiredItemCount": "20,50,10",
     "RequiredGold": 1100
@@ -592,7 +592,7 @@
     "Atk": 1.1,
     "Def": 0.6,
     "AtkSpeed": 0.04,
-    "Movement": 0.37,
+    "MoveSpeed": 0.37,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T1,Item_Mat_T2",
     "RequiredItemCount": "25,75,20",
     "RequiredGold": 1350
@@ -605,7 +605,7 @@
     "Atk": 0.7,
     "Def": 0.5,
     "AtkSpeed": 0.03,
-    "Movement": 0.25,
+    "MoveSpeed": 0.25,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "30,30,5",
     "RequiredGold": 1650
@@ -618,7 +618,7 @@
     "Atk": 0.3,
     "Def": 0.1,
     "AtkSpeed": 0.01,
-    "Movement": 0.1,
+    "MoveSpeed": 0.1,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "40,50,15",
     "RequiredGold": 2000
@@ -631,7 +631,7 @@
     "Atk": 0.1,
     "Def": 0.1,
     "AtkSpeed": 0,
-    "Movement": 0.03,
+    "MoveSpeed": 0.03,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "50,75,25",
     "RequiredGold": 2450
@@ -644,7 +644,7 @@
     "Atk": 0,
     "Def": 0,
     "AtkSpeed": 0,
-    "Movement": 0,
+    "MoveSpeed": 0,
     "RequiredItemId": "Item_Mat_Signature,Item_Mat_T2,Item_Mat_T3",
     "RequiredItemCount": "50,50,50",
     "RequiredGold": 3050

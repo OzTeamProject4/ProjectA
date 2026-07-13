@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1118602171554680086}
   - component: {fileID: 7135184807780403610}
   m_Layer: 5
-  m_Name: CraftPopup
+  m_Name: EquipmentListPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 675, y: -100}
-  m_SizeDelta: {x: 500, y: 350}
+  m_AnchoredPosition: {x: 675, y: 300}
+  m_SizeDelta: {x: 500, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7135184807780403610
 MonoBehaviour:
@@ -284,7 +284,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 480, y: 300}
+  m_SizeDelta: {x: 480, y: 350}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1171889986446306198
 MonoBehaviour:

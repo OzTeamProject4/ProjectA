@@ -17,6 +17,11 @@ public class CraftListItemViewModel
         get { return _data.Name; }
     }
 
+    public string SpritePath
+    {
+        get { return _data.SpritePath; }
+    }
+
     public int RequiredGold
     {
         get { return _data.Gold; }

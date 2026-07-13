@@ -6,7 +6,7 @@
     "Gold": 100,
     "Crystal": 0,
     "Value": 100,
-    "SpritePath": null
+    "SpritePath": "Sprites/Items[Items_ExpBook_1]"
   },
   {
     "DataId": "Item_ExpBook_Medium",
@@ -15,7 +15,7 @@
     "Gold": 200,
     "Crystal": 0,
     "Value": 250,
-    "SpritePath": null
+    "SpritePath": "Sprites/Items[Items_ExpBook_2]"
   },
   {
     "DataId": "Item_ExpBook_Large",
@@ -24,7 +24,7 @@
     "Gold": 400,
     "Crystal": 0,
     "Value": 500,
-    "SpritePath": null
+    "SpritePath": "Sprites/Items[Items_ExpBook_3]"
   },
   {
     "DataId": "Item_Ticket_Sweep",
@@ -69,7 +69,7 @@
     "Gold": -1,
     "Crystal": -1,
     "Value": 1,
-    "SpritePath": null
+    "SpritePath": "Sprites/Items[Items_Mat_Tier1]"
   },
   {
     "DataId": "Item_Mat_T2",
@@ -78,7 +78,7 @@
     "Gold": -1,
     "Crystal": -1,
     "Value": 1,
-    "SpritePath": null
+    "SpritePath": "Sprites/Items[Items_Mat_Tier2]"
   },
   {
     "DataId": "Item_Mat_T3",
@@ -87,7 +87,7 @@
     "Gold": -1,
     "Crystal": -1,
     "Value": 1,
-    "SpritePath": null
+    "SpritePath": "Sprites/Items[Items_Mat_Tier3]"
   },
   {
     "DataId": "Item_Mat_Signature",

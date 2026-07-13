@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -8,13 +9,20 @@ using UnityEngine.UI;
 public class CraftListItemView : MonoBehaviour
 {
     [SerializeField] private TMP_Text _nameText;
+    [SerializeField] private Image _iconImage;
+
+    [Header("Gold Slots")]
+    [SerializeField] private GameObject _goldRoot;
+    [SerializeField] private Image _goldIcon;
     [SerializeField] private TMP_Text _goldText;
 
+    [Header("Material1 Slots")]
     [SerializeField] private GameObject _mat1Root;
     [SerializeField] private Image _mat1Icon;
     [SerializeField] private TMP_Text _mat1TierText;
     [SerializeField] private TMP_Text _mat1CountText;
 
+    [Header("Material2 Slots")]
     [SerializeField] private GameObject _mat2Root;
     [SerializeField] private Image _mat2Icon;
     [SerializeField] private TMP_Text _mat2TierText;
@@ -27,7 +35,8 @@ public class CraftListItemView : MonoBehaviour
 
     private CraftListItemViewModel _viewModel;
     private bool _isSubscribed;
-    private int _refreshToken;
+
+    private readonly List<string> _loadedSpriteKeys = new();
 
     public event Action<string> OnCrafted;
 
@@ -39,6 +48,7 @@ public class CraftListItemView : MonoBehaviour
     private void OnDestroy()
     {
         Unsubscribe();
+        ReleaseAllSprites();
     }
 
     public void Bind(CraftListItemViewModel viewModel)
@@ -99,6 +109,7 @@ public class CraftListItemView : MonoBehaviour
 
         _goldText.text = _viewModel.RequiredGold.ToString();
 
+        RefreshIconAsync().Forget();
         RefreshMaterialSlotsAsync().Forget();
 
         bool canCraft = _viewModel.CanCraft;
@@ -110,19 +121,21 @@ public class CraftListItemView : MonoBehaviour
         }
     }
 
+    private async UniTaskVoid RefreshIconAsync()
+    {
+        await LoadSpriteIntoAsync(_iconImage, _viewModel.SpritePath);
+    }
+
     private async UniTaskVoid RefreshMaterialSlotsAsync()
     {
-        int myToken = ++_refreshToken;
+        IReadOnlyList<(string Name, string SpritePath, int Tier, int Owned, int Required)> materials = _viewModel.GetMaterials();
 
-        var materials = _viewModel.GetMaterials();
-
-        await SetMaterialSlotAsync(_mat1Root, _mat1Icon, _mat1TierText, _mat1CountText, materials, 0, myToken);
-        await SetMaterialSlotAsync(_mat2Root, _mat2Icon, _mat2TierText, _mat2CountText, materials, 1, myToken);
+        await SetMaterialSlotAsync(_mat1Root, _mat1Icon, _mat1TierText, _mat1CountText, materials, 0);
+        await SetMaterialSlotAsync(_mat2Root, _mat2Icon, _mat2TierText, _mat2CountText, materials, 1);
     }
 
     private async UniTask SetMaterialSlotAsync(GameObject root, Image icon, TMP_Text tierText, TMP_Text countText,
-        IReadOnlyList<(string Name, string SpritePath, int Tier, int Owned, int Required)> materials,
-        int index, int token)
+        IReadOnlyList<(string Name, string SpritePath, int Tier, int Owned, int Required)> materials, int index)
     {
         if (null == root)
         {
@@ -141,19 +154,62 @@ public class CraftListItemView : MonoBehaviour
         tierText.text = tier > 0 ? $"T{tier}" : "-";
         countText.text = $"{owned}/{required}";
 
-        Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(spritePath);
+        await LoadSpriteIntoAsync(icon, spritePath);
+    }
 
-        if (token != _refreshToken || null == icon)
+    private async UniTask LoadSpriteIntoAsync(Image image, string spritePath)
+    {
+        if (null == image)
         {
             return;
         }
 
-        icon.sprite = sprite;
+        if (string.IsNullOrEmpty(spritePath))
+        {
+            image.enabled = false;
+            return;
+        }
+
+        try
+        {
+            CancellationToken cancellationToken = this.GetCancellationTokenOnDestroy();
+
+            Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(spritePath, cancellationToken);
+
+            if (null == sprite)
+            {
+                image.enabled = false;
+                return;
+            }
+
+            _loadedSpriteKeys.Add(spritePath);
+
+            image.enabled = true;
+            image.sprite = sprite;
+        }
+        catch (OperationCanceledException)
+        {
+            // 오브젝트 파괴로 취소됨 — 무시
+        }
+        catch (Exception exception)
+        {
+            Debug.LogWarning($"[CraftListItemView] 스프라이트 로드 실패. spritePath={spritePath}\n{exception}");
+        }
     }
 
     private void HandleClickCraft()
     {
         _viewModel.CraftCommand();
         OnCrafted?.Invoke(_viewModel.DataId);
+    }
+
+    private void ReleaseAllSprites()
+    {
+        foreach (string key in _loadedSpriteKeys)
+        {
+            GameManager.Instance.ResourceManager.ReleaseAsset(key);
+        }
+
+        _loadedSpriteKeys.Clear();
     }
 }
