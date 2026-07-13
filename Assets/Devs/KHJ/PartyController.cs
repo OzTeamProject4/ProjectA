@@ -1,46 +1,19 @@
 ﻿using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class PartyController : MonoBehaviour
+public class PartyController
 {
     private List<BattleCharacter> _partyCharacters;
     private int _currentCharacterIndex;
     private CinemachineCamera _cinemachineCamera;
-    private PlayerInputActions _inputAction;
     private float _switchCoolTime = 3.0f;
     private float _lastSwitchTime;
     private List<CharacterAIController> _aiControllerList;
     private List<PlayerController> _playerControllerList;
     private List<CameraController> _cameraControllerList;
 
-    private void Awake()
-    {
-        // TODO 희준 InputManager 준비되면 정리 필요
-        _inputAction = new PlayerInputActions();
-    }
-    private void OnEnable()
-    {
-        _inputAction.Player.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _inputAction?.Player.Disable();
-    }
-    private void Update()
-    {
-        if (_partyCharacters == null)
-        {
-            return;
-        }
-
-        if (_inputAction.Player.Switch.WasPressedThisFrame())
-        {
-            TrySwitchToNextCharacter();
-        }
-    }
+    
 
     public void Initialize(List<BattleCharacter> characters, CinemachineCamera cinemachinCamera)
     {
@@ -100,7 +73,7 @@ public class PartyController : MonoBehaviour
         selectedCamera.SetBehindCharacter(target.transform);
     }
    
-    private void TrySwitchToNextCharacter()
+    public void TrySwitchToNextCharacter()
     {
         if (Time.time - _lastSwitchTime < _switchCoolTime)
         {

@@ -1,59 +1,37 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
-using Unity.Cinemachine;
 using UnityEngine;
 
 // TODO 희준 : 임시 파티 스포너, 추후 전투 씬 매니저/파티 편성 연동시 정리
-public class TempPartySpawner : MonoBehaviour
+public class TempPartySpawner
 {
-    [SerializeField] private CinemachineCamera _cinemachineCamera;
-    [SerializeField] private PartyController _partyController;
-
-    private List<BattleCharacter> _battleCharacterList;
-
-    private async void Start()
+    public async UniTask<List<BattleCharacter>> SpawnPartyById(List<string> partyDataId)
     {
-        if (_cinemachineCamera == null || _partyController == null)
-        {
-            Debug.LogError("카메라 참조 또는 파티컨트롤러가 null. 인스펙터 확인");
-            return;
-        }
-               
-        await GameManager.Instance.DataManager.LoadDataAsync<CharacterData>("Data_TestCharacter");
+        List<BattleCharacter> characters = new List<BattleCharacter>();
 
-        // TODO 희준 임시 파티ID 추후 파티 편성창에서 전달받는 방식으로 교체
-        List<string> tempPartyIds = new List<string> { "Character_001", "Character_003", "Character_005" };
-        await CreatePartyById(tempPartyIds);
-
-        _partyController.Initialize(_battleCharacterList, _cinemachineCamera);
-    }
-
-    private async UniTask CreatePartyById(List<string> partyDataIds)
-    {
-        _battleCharacterList = new List<BattleCharacter>();
         GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>("Prefab_TestBattleCharacterBase");
         if (prefab == null)
         {
-            Debug.LogError("캐릭터 껍데기 프리팹 로드 실패");
-            return;
+            Debug.LogError("캐릭터 프리팹 로드 실패");
+            return characters;
         }
 
         int index = 0;
-        foreach (string dataId in partyDataIds)
+        foreach (string dataId in partyDataId)
         {
-            if (!GameManager.Instance.DataManager.TryGetData<CharacterData>(dataId, out CharacterData character))
+            if (!GameManager.Instance.DataManager.TryGetData<CharacterData>(dataId, out CharacterData data))
             {
-                Debug.LogError($"DataId {dataId} 캐릭터를 찾을수 없습니다");
+                Debug.LogError($"DataId {dataId} 캐릭터를 찾을 수 없습니다.");
                 continue;
             }
 
-            GameObject obj = Instantiate(prefab, new Vector3(index * 3, 2, 0), Quaternion.identity);
+            GameObject obj = Object.Instantiate(prefab, new Vector3(index * 3, 2, 0), Quaternion.identity);
             BattleCharacter battleCharacter = obj.GetComponent<BattleCharacter>();
-            battleCharacter.Initialize(character);
-            _battleCharacterList.Add(battleCharacter);
-
-            Debug.Log($"현재 생성된 캐릭터 정보 {battleCharacter.CharacterName}");
+            battleCharacter.Initialize(data);
+            characters.Add(battleCharacter);
             index++;
         }
+
+        return characters;
     }
 }
