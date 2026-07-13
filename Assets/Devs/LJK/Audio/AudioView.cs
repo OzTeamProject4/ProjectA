@@ -9,7 +9,7 @@ public class AudioView : MonoBehaviour
 
     private void Awake()
     {
-        AudioSettingData audioSettingData = CreateAudioData();
+        AudioSettingData audioSettingData = CreateAudioSettingData();
         _audioViewModel = new AudioViewModel(audioSettingData);
     }
 
@@ -27,13 +27,14 @@ public class AudioView : MonoBehaviour
     {
         if (audioClip == null)
         {
-            Debug.LogWarning($"[AudioView:PlayBGM] AudioClip이 null입니다. BGM을 재생할 수 없습니다.");
+            Debug.LogWarning($"[{nameof(AudioView)}:{nameof(PlayBGM)}] AudioClip이 null입니다. BGM을 재생할 수 없습니다.");
             return;
         }
 
-        ChangeBGMClip(audioClip);
-        PlayBGM();
+        SetBGMClip(audioClip);
+        _audioSourceBGM.Play();
     }
+
     public void StopBGM()
     {
         _audioSourceBGM.Stop();
@@ -43,7 +44,7 @@ public class AudioView : MonoBehaviour
     {
         if (audioClip == null)
         {
-            Debug.LogWarning($"[AudioView:PlaySFX] AudioClip이 null입니다. SFX를 재생할 수 없습니다.");
+            Debug.LogWarning($"[{nameof(AudioView)}:{nameof(PlaySFX)}] AudioClip이 null입니다. SFX를 재생할 수 없습니다.");
             return;
         }
 
@@ -60,33 +61,28 @@ public class AudioView : MonoBehaviour
         _audioViewModel.RequestSetSfxVolume(volume);
     }
 
-    private void PlayBGM()
-    {
-        _audioSourceBGM.Play();
-    }
-
-    private void ChangeBGMClip(AudioClip audioClip)
+    private void SetBGMClip(AudioClip audioClip)
     {
         if (audioClip == null)
         {
-            Debug.LogWarning($"[AudioView:ChangeBGMClip] AudioClip이 null입니다. BGM을 재생할 수 없습니다.");
+            Debug.LogWarning($"[{nameof(AudioView)}:{nameof(SetBGMClip)}] AudioClip이 null입니다. BGM을 재생할 수 없습니다.");
             return;
         }
 
         _audioSourceBGM.clip = audioClip;
     }
 
-    private AudioSettingData CreateAudioData()
+    private AudioSettingData CreateAudioSettingData()
     {
         if (_audioSourceBGM == null)
         {
-            Debug.LogError("[AudioView:CreateAudioData] BGM AudioSource가 없습니다.");
+            Debug.LogError($"[{nameof(AudioView)}:{nameof(CreateAudioSettingData)}] BGM AudioSource가 없습니다.");
             return null;
         }
 
         if (_audioSourceSFX == null)
         {
-            Debug.LogError("[AudioView:CreateAudioData] SFX AudioSource가 없습니다.");
+            Debug.LogError($"[{nameof(AudioView)}:{nameof(CreateAudioSettingData)}] SFX AudioSource가 없습니다.");
             return null;
         }
 
@@ -100,7 +96,6 @@ public class AudioView : MonoBehaviour
         {
             case nameof(_audioViewModel.BgmVolume):
                 _audioSourceBGM.volume = _audioViewModel.BgmVolume;
-                Debug.Log($"{_audioSourceBGM.volume}변경");
                 break;
             case nameof(_audioViewModel.SfxVolume):
                 _audioSourceSFX.volume = _audioViewModel.SfxVolume;

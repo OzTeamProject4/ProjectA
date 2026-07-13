@@ -2,6 +2,9 @@
 
 public class AudioModel : INotifyPropertyChanged
 {
+    private static readonly PropertyChangedEventArgs BgmVolumeChanged = new PropertyChangedEventArgs(nameof(BgmVolume));
+    private static readonly PropertyChangedEventArgs SfxVolumeChanged = new PropertyChangedEventArgs(nameof(SfxVolume));
+
     private float _bgmVolume;
     private float _sfxVolume;
 
@@ -21,7 +24,7 @@ public class AudioModel : INotifyPropertyChanged
             if (_bgmVolume != value)
             {
                 _bgmVolume = value;
-                OnPropertyChanged(nameof(BgmVolume));
+                OnPropertyChanged(BgmVolumeChanged);
             }
         }
     }
@@ -34,7 +37,7 @@ public class AudioModel : INotifyPropertyChanged
             if (_sfxVolume != value)
             {
                 _sfxVolume = value;
-                OnPropertyChanged(nameof(SfxVolume));
+                OnPropertyChanged(SfxVolumeChanged);
             }
         }
     }
@@ -49,8 +52,13 @@ public class AudioModel : INotifyPropertyChanged
         SfxVolume = volume;
     }
 
-    private void OnPropertyChanged(string propertyName)
+    private void OnPropertyChanged(PropertyChangedEventArgs propertyChangedEventArgs)
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        if (PropertyChanged == null)
+        {
+            return;
+        }
+
+        PropertyChanged.Invoke(this, propertyChangedEventArgs);
     }
 }

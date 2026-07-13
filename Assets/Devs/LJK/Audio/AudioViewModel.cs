@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using UnityEngine;
 
 public class AudioViewModel
 {
@@ -31,16 +32,23 @@ public class AudioViewModel
 
     public void RequestSetBgmVolume(float volume)
     {
-        _audioModel.SetBgmVolume(volume);
+        float clampedVolume = Mathf.Clamp01(volume);
+        _audioModel.SetBgmVolume(clampedVolume);
     }
 
     public void RequestSetSfxVolume(float volume)
     {
-        _audioModel.SetSfxVolume(volume);
+        float clampedVolume = Mathf.Clamp01(volume);
+        _audioModel.SetSfxVolume(clampedVolume);
     }
 
     private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        ModelPropertyChanged?.Invoke(e.PropertyName);
+        if (ModelPropertyChanged == null)
+        {
+            return;
+        }
+
+        ModelPropertyChanged.Invoke(e.PropertyName);
     }
 }

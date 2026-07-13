@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class AudioManager : BaseManager<AudioManager>
@@ -41,13 +42,13 @@ public class AudioManager : BaseManager<AudioManager>
     {
         if (string.IsNullOrWhiteSpace(audioId))
         {
-            Debug.LogError($"[AudioManager:PlaySFX] audioId가 null이거나 비어 있습니다.");
+            Debug.LogError($"[{nameof(AudioManager)}:{nameof(PlaySFX)}] audioId가 null이거나 비어 있습니다.");
             return;
         }
 
         if (!_audioClipDictionary.TryGetValue(audioId, out AudioClip audioClip))
         {
-            Debug.LogError($"[AudioManager:PlaySFX] '{audioId}'에 해당하는 AudioClip을 찾을 수 없습니다.");
+            Debug.LogError($"[{nameof(AudioManager)}:{nameof(PlaySFX)}] '{audioId}'에 해당하는 AudioClip을 찾을 수 없습니다.");
         }
 
         _audioView.PlaySFX(audioClip);
@@ -55,21 +56,19 @@ public class AudioManager : BaseManager<AudioManager>
 
     public void SetBgmVolume(float volume)
     {
-        float clampedVolume = Mathf.Clamp01(volume);
-        _audioView.SetBgmVolume(clampedVolume);
+        _audioView.SetBgmVolume(volume);
     }
 
     public void SetSfxVolume(float volume)
     {
-        float clampedVolume = Mathf.Clamp01(volume);
-        _audioView.SetSfxVolume(clampedVolume);
+        _audioView.SetSfxVolume(volume);
     }
 
-    public async UniTask LoadAudioClipsAsync()
+    public async UniTask LoadAudioClipsAsync(CancellationToken cancellationToken)
     {
         if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, AudioData> audioDataTable))
         {
-            Debug.LogError("[AudioManager:LoadAudioClipsAsync] 오디오 데이터 테이블을 가져오지 못했습니다.");
+            Debug.LogError($"[{nameof(AudioManager)}:{nameof(LoadAudioClipsAsync)}] 오디오 데이터 테이블을 가져오지 못했습니다.");
             return;
         }
 
@@ -78,11 +77,11 @@ public class AudioManager : BaseManager<AudioManager>
             string audioDataId = audioData.DataId;
             string audioClipKey = audioData.AudioClipKey;
 
-            AudioClip audioClip = await GameManager.Instance.ResourceManager.LoadAssetAsync<AudioClip>(audioClipKey);
+            AudioClip audioClip = await GameManager.Instance.ResourceManager.LoadAssetAsync<AudioClip>(audioClipKey, cancellationToken);
 
             if (audioClip == null)
             {
-                Debug.LogError($"[AudioManager:LoadAudioClipsAsync] {audioClipKey} 오디오 에셋을 로드하지 못했습니다.");
+                Debug.LogError($"[{nameof(AudioManager)}:{nameof(LoadAudioClipsAsync)}] {audioClipKey} 오디오 에셋을 로드하지 못했습니다.");
                 return;
             }
 
@@ -92,11 +91,11 @@ public class AudioManager : BaseManager<AudioManager>
 
     private async UniTask CreateAudioController()
     {
-        GameObject audioControllerPrefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(AddressableKey.Prefab.AudioController);
+        GameObject audioControllerPrefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(AddressableKey.Prefab.AudioController, destroyCancellationToken);
 
         if (!audioControllerPrefab.TryGetComponent(out AudioView audioController))
         {
-            Debug.LogError("[AudioManager:CreateAudioController] AudioController 프리팹에 AudioController 컴포넌트가 없습니다.");
+            Debug.LogError($"[{nameof(AudioManager)}:{nameof(CreateAudioController)}] AudioController 프리팹에 AudioController 컴포넌트가 없습니다.");
             return;
         }
 
