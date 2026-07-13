@@ -32,7 +32,7 @@ public class DataManager : BaseManager<DataManager>
 
         if (loadedDataTable == null)
         {
-            Debug.LogError($"[DataManager:LoadDataAsync] '{key}' 데이터 테이블을 로드하지 못했습니다.");
+            Debug.LogError($"[{nameof(DataManager)}:{nameof(LoadDataAsync)}] '{key}' 데이터 테이블을 로드하지 못했습니다.");
             return;
         }
 
@@ -45,13 +45,13 @@ public class DataManager : BaseManager<DataManager>
 
         if (!_dataTables.TryGetValue(typeof(T), out object loadedDataTable))
         {
-            Debug.LogError($"[DataManager:TryGetDataTable] '{typeof(T).Name}' 데이터 테이블이 로드되어 있지 않습니다.");
+            Debug.LogError($"[{nameof(DataManager)}:{nameof(TryGetDataTable)}] '{typeof(T).Name}' 데이터 테이블이 로드되어 있지 않습니다.");
             return false;
         }
 
         if (loadedDataTable is not Dictionary<string, T> typeCastDataTable)
         {
-            Debug.LogError($"[DataManager:TryGetDataTable] '{typeof(T).Name}' 로드된 데이터 테이블과 타입이 일치하지 않습니다.");
+            Debug.LogError($"[{nameof(DataManager)}:{nameof(TryGetDataTable)}] '{typeof(T).Name}' 로드된 데이터 테이블과 타입이 일치하지 않습니다.");
             return false;
         }
 
@@ -65,7 +65,7 @@ public class DataManager : BaseManager<DataManager>
 
         if (string.IsNullOrWhiteSpace(dataId))
         {
-            Debug.LogError("[DataManager:TryGetData] 전달된 DataId가 null이거나 빈 문자열 또는 공백 문자열입니다.");
+            Debug.LogError($"[{nameof(DataManager)}:{nameof(TryGetData)}] 전달된 DataId가 null이거나 빈 문자열 또는 공백 문자열입니다.");
             return false;
         }
 
@@ -76,7 +76,7 @@ public class DataManager : BaseManager<DataManager>
 
         if (!dataTable.TryGetValue(dataId, out data))
         {
-            Debug.LogError($"[DataManager:TryGetData] '{typeof(T).Name}' 데이터 테이블에서 DataId '{dataId}'를 찾을 수 없습니다.");
+            Debug.LogError($"[{nameof(DataManager)}:{nameof(TryGetData)}] '{typeof(T).Name}' 데이터 테이블에서 DataId '{dataId}'를 찾을 수 없습니다.");
             return false;
         }
 
@@ -87,7 +87,7 @@ public class DataManager : BaseManager<DataManager>
     {
         if (string.IsNullOrWhiteSpace(key))
         {
-            Debug.LogError("[DataManager:LoadDataTableAsync] 전달된 key가 null이거나 빈 문자열 또는 공백 문자열입니다.");
+            Debug.LogError($"[{nameof(DataManager)}:{nameof(LoadDataTableAsync)}] 전달된 key가 null이거나 빈 문자열 또는 공백 문자열입니다.");
             return null;
         }
 
@@ -126,13 +126,13 @@ public class DataManager : BaseManager<DataManager>
         }
         catch (JsonException exception)
         {
-            Debug.LogError($"[DataManager:LoadDataTableAsync] JSON 파싱에 실패했습니다.\n{exception}");
+            Debug.LogError($"[{nameof(DataManager)}:{nameof(LoadDataTableAsync)}] JSON 파싱에 실패했습니다.\n{exception}");
         }
         catch (Exception exception)
         {
-            Debug.LogError($"[DataManager:LoadDataTableAsync] 데이터 테이블 로드 중 오류가 발생했습니다.\n{exception}");
+            Debug.LogError($"[{nameof(DataManager)}:{nameof(LoadDataTableAsync)}] 데이터 테이블 로드 중 오류가 발생했습니다.\n{exception}");
         }
-
+        
         return null;
     }
 }
