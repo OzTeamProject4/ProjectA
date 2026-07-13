@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class AudioViewModel
 {
-    private readonly AudioModel _audioModel;
+    private AudioModel _audioModel;
 
     public AudioViewModel(AudioSettingData audioSettingData)
     {
         _audioModel = new AudioModel(audioSettingData);
         _audioModel.PropertyChanged += OnModelPropertyChanged;
+    }
+
+    public void Dispose()
+    {
+        _audioModel.PropertyChanged -= OnModelPropertyChanged;
+        _audioModel = null;
     }
 
     public event Action<string> ModelPropertyChanged;

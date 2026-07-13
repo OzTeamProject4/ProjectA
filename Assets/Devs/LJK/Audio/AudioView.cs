@@ -23,6 +23,12 @@ public class AudioView : MonoBehaviour
         _audioViewModel.ModelPropertyChanged -= OnModelPropertyChanged;
     }
 
+    private void OnDestroy()
+    {
+        _audioViewModel.Dispose();
+        _audioViewModel = null;
+    }
+
     public void PlayBGM(AudioClip audioClip)
     {
         if (audioClip == null)
