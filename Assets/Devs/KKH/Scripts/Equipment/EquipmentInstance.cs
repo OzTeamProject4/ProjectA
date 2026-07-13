@@ -23,11 +23,30 @@ public class EquipmentInstance
         get { return !string.IsNullOrEmpty(EquippedBy); }
     }
 
-    public float TotalHp { get { return Data.MaxHp + RolledHp; } }
-    public float TotalAtk { get { return Data.Atk + RolledAtk; } }
-    public float TotalDef { get { return Data.Def + RolledDef; } }
-    public float TotalAtkSpeed { get { return Data.AtkSpeed + RolledAtkSpeed; } }
-    public float TotalMoveSpeed { get { return Data.MoveSpeed + RolledMoveSpeed; } }
+    public float TotalHp 
+    { 
+        get { return Data.MaxHp + RolledHp; }
+    }
+
+    public float TotalAtk
+    { 
+        get { return Data.Atk + RolledAtk; } 
+    }
+
+    public float TotalDef 
+    { 
+        get { return Data.Def + RolledDef; } 
+    }
+
+    public float TotalAtkSpeed
+    { 
+        get { return Data.AtkSpeed + RolledAtkSpeed; } 
+    }
+
+    public float TotalMoveSpeed 
+    {
+        get { return Data.MoveSpeed + RolledMoveSpeed; }
+    }
 
     public EquipmentInstance(string instanceId, EquipmentData data, float rolledHp, float rolledAtk, float rolledDef, float rolledAtkSpeed, float rolledMoveSpeed)
     {

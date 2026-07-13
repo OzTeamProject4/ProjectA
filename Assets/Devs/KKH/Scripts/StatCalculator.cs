@@ -17,21 +17,35 @@ public static class StatCalculator
             level = 1;
         }
 
+        float gradeHpGrow = 0f;
+        float gradeAtkGrow = 0f;
+        float gradeDefGrow = 0f;
+        float gradeAtkSpeedGrow = 0f;
+        float gradeMoveSpeedGrow = 0f;
+
         if (null == grade)
         {
             Debug.LogWarning("CharacterGradeData 가 null 입니다. 성급 상승량을 0으로 처리합니다.");
         }
+        else
+        {
+            gradeHpGrow = grade.HpGrow;
+            gradeAtkGrow = grade.AtkGrow;
+            gradeDefGrow = grade.DefGrow;
+            gradeAtkSpeedGrow = grade.AtkSpeedGrow;
+            gradeMoveSpeedGrow = grade.MoveSpeedGrow;
+        }
+
 
         int levelStep = level - 1;
 
         return new FinalStats
         {
-            // TODO - 07.08: 장비 스텟 합산은 여기서 수행
-            Hp = stat.Hp + (stat.HpGrow + (grade?.HpGrow ?? 0f)) * levelStep,
-            Atk = stat.Atk + (stat.AtkGrow + (grade?.AtkGrow ?? 0f)) * levelStep,
-            Def = stat.Def + (stat.DefGrow + (grade?.DefGrow ?? 0f)) * levelStep,
-            AtkSpeed = stat.AtkSpeed + (stat.AtkSpeedGrow + (grade?.AtkSpeedGrow ?? 0f)) * levelStep,
-            MoveSpeed = stat.MoveSpeed + (stat.MoveSpeedGrow + (grade?.MoveSpeedGrow ?? 0f)) * levelStep
+            Hp = stat.Hp + (stat.HpGrow + gradeHpGrow) * levelStep,
+            Atk = stat.Atk + (stat.AtkGrow + gradeAtkGrow) * levelStep,
+            Def = stat.Def + (stat.DefGrow + gradeDefGrow) * levelStep,
+            AtkSpeed = stat.AtkSpeed + (stat.AtkSpeedGrow + gradeAtkSpeedGrow) * levelStep,
+            MoveSpeed = stat.MoveSpeed + (stat.MoveSpeedGrow + gradeMoveSpeedGrow) * levelStep
         };
     }
 }

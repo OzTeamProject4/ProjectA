@@ -30,6 +30,12 @@ public class CharacterListItemView : MonoBehaviour
         Unsubscribe();
     }
 
+    private void OnDestroy()
+    {
+        Unsubscribe();
+        ClearStarIcons();
+    }
+
     public void Bind(CharacterListItemViewModel viewModel, CharacterDisplayInfo displayInfo)
     {
         if (null == viewModel)
@@ -99,17 +105,21 @@ public class CharacterListItemView : MonoBehaviour
         }
 
         int targetCount = _viewModel.CurrentStar;
-        if (_spawnedStarIcons.Count == targetCount)
-        {
-            return;
-        }
 
-        ClearStarIcons();
-
-        for (int i = 0; i < _viewModel.CurrentStar; i++)
+        while (_spawnedStarIcons.Count < targetCount)
         {
             Image icon = Instantiate(_starIconPrefab, _starIconContainer);
             _spawnedStarIcons.Add(icon.gameObject);
+        }
+
+        for (int i = 0; i < _spawnedStarIcons.Count; i++)
+        {
+            if (null == _spawnedStarIcons[i])
+            {
+                continue;
+            }
+
+            _spawnedStarIcons[i].SetActive(i < targetCount);
         }
     }
 

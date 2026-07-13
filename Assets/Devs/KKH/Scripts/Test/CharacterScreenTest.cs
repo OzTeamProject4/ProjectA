@@ -36,7 +36,7 @@ public class CharacterScreenTest : MonoBehaviour
         if (null != _listView)
         {
             _listView.OnItemSelected -= HandleItemSelected;
-            _listView.OnCloseButtonClicked -= HandleDetailClosed;
+            _listView.OnCloseButtonClicked -= HandleListClosed;
         }
 
         if (null != _detailView)

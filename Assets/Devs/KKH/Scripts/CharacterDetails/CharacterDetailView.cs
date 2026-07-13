@@ -40,6 +40,11 @@ public class CharacterDetailView : MonoBehaviour
         Unsubscribe();
     }
 
+    private void OnDestroy()
+    {
+        Unsubscribe();
+    }
+
     public void Bind(CharacterDetailViewModel viewModel, string characterName)
     {
         if (null == viewModel)

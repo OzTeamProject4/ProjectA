@@ -93,6 +93,11 @@ public class CharacterModel
     public int GetRequiredDuplicatesForPromotion()
     {
         CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);
+        if (null == grade)
+        {
+            return 0;
+        }
+
         return grade.RequiredToNext > 0 ? grade.RequiredToNext : 0;
     }
 

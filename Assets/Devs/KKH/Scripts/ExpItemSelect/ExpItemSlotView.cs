@@ -24,10 +24,7 @@ public class ExpItemSlotView : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (null != _selectButton)
-        {
-            _selectButton.onClick.RemoveListener(HandleClick);
-        }
+        Unsubscribe();
     }
 
     public void Bind(ExpItemSlotViewModel viewModel)

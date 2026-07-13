@@ -53,7 +53,7 @@ public class Inventory
     }
 
     public EquipmentInstance CreateEquipment(EquipmentData data,
-        float bonusHp, float bonusAtk, float bonusDef, float bonusAtkSpeed, float bonusMovement)
+        float rolledHp, float rolledAtk, float rolledDef, float rolledAtkSpeed, float rolledMoveSpeed)
     {
         if (null == data)
         {
@@ -65,7 +65,7 @@ public class Inventory
         string instanceId = $"equip_{_instanceCounter:D4}";
 
         EquipmentInstance instance = new EquipmentInstance(
-            instanceId, data, bonusHp, bonusAtk, bonusDef, bonusAtkSpeed, bonusMovement);
+            instanceId, data, rolledHp, rolledAtk, rolledDef, rolledAtkSpeed, rolledMoveSpeed);
 
         _equipment[instanceId] = instance;
         OnEquipmentChanged?.Invoke();

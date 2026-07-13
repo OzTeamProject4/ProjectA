@@ -2,11 +2,11 @@
 
 public interface IGrowthDataProvider
 {
-    public CharacterStatData GetStat(string characterId);
-    public CharacterGradeData GetGrade(int star);
-    public ItemData GetItem(string dataId);
+    CharacterStatData GetStat(string characterId);
+    CharacterGradeData GetGrade(int star);
+    ItemData GetItem(string dataId);
 
-    public int GetRequiredExp(int level);
-    public IReadOnlyList<string> GetAllCharacterIds();
-    public IReadOnlyList<string> GetAllExpItemIds();
+    int GetRequiredExp(int level);
+    IReadOnlyList<string> GetAllCharacterIds();
+    IReadOnlyList<string> GetAllExpItemIds();
 }

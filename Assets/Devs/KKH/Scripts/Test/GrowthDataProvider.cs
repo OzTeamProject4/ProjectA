@@ -5,6 +5,10 @@ using System.Linq;
 
 public class GrowthDataProvider : IGrowthDataProvider
 {
+    private Dictionary<int, CharacterGradeData> _gradeByStar;
+    private Dictionary<int, LevelExpData> _expByLevel;
+    private List<string> _expItemId;
+
     public CharacterStatData GetStat(string characterId)
     {
         if (string.IsNullOrEmpty(characterId))
@@ -19,38 +23,32 @@ public class GrowthDataProvider : IGrowthDataProvider
 
     public CharacterGradeData GetGrade(int star)
     {
-        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, CharacterGradeData> table))
+        if (null == _gradeByStar && !TryBuildGradeLookup())
         {
             return null;
         }
 
-        foreach (CharacterGradeData grade in table.Values)
+        if (!_gradeByStar.TryGetValue(star, out CharacterGradeData grade))
         {
-            if (grade.Star == star)
-            {
-                return grade;
-            }
+            return null;
         }
 
-        return null;
+        return grade;
     }
 
     public int GetRequiredExp(int level)
     {
-        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, LevelExpData> table))
+        if (null == _expByLevel && !TryBuildExpLookup())
         {
             return 0;
         }
 
-        foreach (LevelExpData exp in table.Values)
+        if (!_expByLevel.TryGetValue(level, out LevelExpData exp))
         {
-            if (exp.Level == level)
-            {
-                return exp.RequiredExp;
-            }
+            return 0;
         }
 
-        return 0;
+        return exp.RequiredExp;
     }
 
     public ItemData GetItem(string itemId)
@@ -77,20 +75,57 @@ public class GrowthDataProvider : IGrowthDataProvider
 
     public IReadOnlyList<string> GetAllExpItemIds()
     {
+        if (null != _expItemId)
+        {
+            return _expItemId;
+        }
+
         if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, ItemData> table))
         {
             return Array.Empty<string>();
         }
 
-        List<string> expItemIds = new();
+        _expItemId = new List<string>();
         foreach (ItemData item in table.Values)
         {
             if (item.Type == ItemType.ExpBook)
             {
-                expItemIds.Add(item.DataId);
+                _expItemId.Add(item.DataId);
             }
         }
 
-        return expItemIds;
+        return _expItemId;
+    }
+
+    private bool TryBuildGradeLookup()
+    {
+        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, CharacterGradeData> table))
+        {
+            return false;
+        }
+
+        _gradeByStar = new Dictionary<int, CharacterGradeData>();
+        foreach (CharacterGradeData grade in table.Values)
+        {
+            _gradeByStar[grade.Star] = grade;
+        }
+
+        return true;
+    }
+
+    private bool TryBuildExpLookup()
+    {
+        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, LevelExpData> table))
+        {
+            return false;
+        }
+
+        _expByLevel = new Dictionary<int, LevelExpData>();
+        foreach (LevelExpData exp in table.Values)
+        {
+            _expByLevel[exp.Level] = exp;
+        }
+
+        return true;
     }
 }
