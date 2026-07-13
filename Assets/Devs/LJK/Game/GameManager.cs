@@ -1,0 +1,63 @@
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
+
+public class GameManager : BaseManager<GameManager>
+{
+    public static GameManager Instance { get; private set; }
+
+    public ResourceManager ResourceManager { get; private set; }
+
+    public DataManager DataManager { get; private set; }
+
+    public AudioManager AudioManager { get; private set; }
+
+    public UIManager UIManager { get; private set; }
+
+    private UniTask _initializeTask;
+
+    private void Awake()
+    {
+        EnsureSingleton();
+        SetupManagers();
+    }
+
+    private void Start()
+    {
+        _initializeTask = InitializeManagersAsync();
+    }
+
+    public override UniTask InitializeAsync()
+    {
+        Debug.Log("게임 매니저 초기화");
+        return UniTask.CompletedTask;
+    }
+
+    private void EnsureSingleton()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Debug.LogWarning($"[{nameof(GameManager)}:{nameof(EnsureSingleton)}] 중복된 인스턴스가 발견되어 {gameObject.name} 오브젝트를 파괴합니다.");
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
+
+    private void SetupManagers()
+    {
+        ResourceManager = this.GetRequiredComponent<ResourceManager>();
+        DataManager = this.GetRequiredComponent<DataManager>();
+        AudioManager = this.GetRequiredComponent<AudioManager>();
+        UIManager = this.GetRequiredComponent<UIManager>();
+    }
+
+    private async UniTask InitializeManagersAsync()
+    {
+        await InitializeAsync();
+        await ResourceManager.InitializeAsync();
+        await DataManager.InitializeAsync();
+        await AudioManager.InitializeAsync();
+        await UIManager.InitializeAsync();
+    }
+}
