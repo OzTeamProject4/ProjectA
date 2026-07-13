@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class UIManager : BaseManager<UIManager>
@@ -22,9 +23,9 @@ public class UIManager : BaseManager<UIManager>
         }
     }
 
-    public async UniTask OpenTestRootAsync(UIType uiType)
+    public async UniTask OpenTestRootAsync(UIType uiType, CancellationToken cancellationToken = default)
     {
-        await OpenUIAsync(uiType, UIRoot.A);
+        await OpenUIAsync(uiType, UIRoot.A, cancellationToken);
     }
 
     public void Close(UIType uiType)
@@ -43,8 +44,14 @@ public class UIManager : BaseManager<UIManager>
         CacheUIRoot(UIRoot.E, _uiLayer.E);
     }
 
-    private async UniTask OpenUIAsync(UIType uiType, UIRoot uiRoot)
+    private async UniTask OpenUIAsync(UIType uiType, UIRoot uiRoot, CancellationToken cancellationToken)
     {
+        if (!TryGetRootRectTransform(uiRoot, out RectTransform rootRectTransform))
+        {
+            Debug.LogError($"[{nameof(UIManager)}:{nameof(OpenUIAsync)}] '{uiRoot}'에 해당하는 Root RectTransform을 찾을 수 없습니다.");
+            return;
+        }
+
         if (_openedUISet.Contains(uiType) || _loadingUISet.Contains(uiType))
         {
             Debug.LogWarning($"[{nameof(UIManager)}:{nameof(OpenUIAsync)}] '{uiType}' UI가 이미 열려 있거나 로딩 중입니다.");
@@ -57,11 +64,12 @@ public class UIManager : BaseManager<UIManager>
         {
             if (_createdUICacheDictionary.TryGetValue(uiType, out GameObject cachedUI))
             {
+                SetCreatedUIRoot(cachedUI, rootRectTransform);
                 OpenUI(uiType, cachedUI);
                 return;
             }
 
-            GameObject createdUI = await CreateUIAsync(uiType, uiRoot);
+            GameObject createdUI = await CreateUIAsync(uiType, rootRectTransform, cancellationToken);
 
             if (createdUI == null)
             {
@@ -85,18 +93,12 @@ public class UIManager : BaseManager<UIManager>
         uiObject.SetActive(true);
     }
 
-    private async UniTask<GameObject> CreateUIAsync(UIType uiType, UIRoot uiRoot)
+    private async UniTask<GameObject> CreateUIAsync(UIType uiType, RectTransform rectTransform, CancellationToken cancellationToken)
     {
         try
         {
-            if (!TryGetRootRectTransform(uiRoot, out RectTransform rootRectTransform))
-            {
-                Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateUIAsync)}] '{uiRoot}'에 해당하는 Root RectTransform을 찾을 수 없습니다.");
-                return null;
-            }
-            
             string addressableKey = AddressableKey.GetUIKey(uiType);
-            GameObject uiPrefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(addressableKey);
+            GameObject uiPrefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(addressableKey, cancellationToken);
             
             if (uiPrefab == null)
             {
@@ -104,7 +106,7 @@ public class UIManager : BaseManager<UIManager>
                 return null;
             }
 
-            GameObject uiInstance = Instantiate(uiPrefab, rootRectTransform);
+            GameObject uiInstance = Instantiate(uiPrefab, rectTransform);
             return uiInstance;
         }
         catch (Exception exception)
@@ -136,7 +138,7 @@ public class UIManager : BaseManager<UIManager>
 
     private async UniTask CreateLayer()
     {
-        GameObject uiLayerPrefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(AddressableKey.Prefab.UILayer);
+        GameObject uiLayerPrefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(AddressableKey.Prefab.UILayer, destroyCancellationToken);
 
         if (uiLayerPrefab == null)
         {
@@ -158,6 +160,14 @@ public class UIManager : BaseManager<UIManager>
         if (!_rootCacheDictionary.TryAdd(uiRoot, rectTransform))
         {
             Debug.LogError($"[{nameof(UIManager)}:{nameof(CacheUIRoot)}] UIRoot '{uiRoot}'가 이미 루트 캐시에 등록되어 있습니다.");
+        }
+    }
+
+    private void SetCreatedUIRoot(GameObject uiObject, RectTransform rectTransform)
+    {
+        if (!uiObject.transform.IsChildOf(rectTransform))
+        {
+            uiObject.transform.SetParent(rectTransform);
         }
     }
 }
