@@ -31,6 +31,22 @@ public class EquipmentSlotView : MonoBehaviour
         }
     }
 
+    public void SetIcon(Sprite sprite)
+    {
+        if (null == _iconImage)
+        {
+            return;
+        }
+
+        _iconImage.sprite = sprite;
+        _iconImage.enabled = null != sprite;
+    }
+
+    public void ClearIcon()
+    {
+        SetIcon(null);
+    }
+
     private void HandleClick()
     {
         OnSlotClicked?.Invoke(_slotType);

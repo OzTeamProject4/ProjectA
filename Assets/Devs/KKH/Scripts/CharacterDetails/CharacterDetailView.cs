@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,6 +38,7 @@ public class CharacterDetailView : MonoBehaviour
 
     private bool _isSubscribed;
     private CharacterDetailViewModel _viewModel;
+    private readonly List<string> _loadedSpriteKeys = new();
 
     public event Action OnUseItemButtonClicked;
     public event Action OnCloseButtonClicked;
@@ -54,6 +57,7 @@ public class CharacterDetailView : MonoBehaviour
     private void OnDestroy()
     {
         Unsubscribe();
+        ReleaseAllSprites();
     }
 
     public void Bind(CharacterDetailViewModel viewModel, string characterName)
@@ -101,6 +105,8 @@ public class CharacterDetailView : MonoBehaviour
         _starUpButton.interactable = _viewModel.CanPromote;
         _promoteRequirementText.text = _viewModel.IsMaxStar
             ? "MAX" : $"{_viewModel.OwnedDuplicates}/{_viewModel.RequiredDuplicatesForPromotion}";
+
+        RefreshEquipmentSlotsAsync().Forget();
     }
 
     private void RefreshStars()
@@ -263,5 +269,66 @@ public class CharacterDetailView : MonoBehaviour
         {
             _skillPanel.SetActive(true);
         }
+    }
+
+    private async UniTaskVoid RefreshEquipmentSlotsAsync()
+    {
+        if (null == _equipmentSlots)
+        {
+            return;
+        }
+
+        foreach (EquipmentSlotView slot in _equipmentSlots)
+        {
+            if (null == slot)
+            {
+                continue;
+            }
+
+            EquipmentInstance instance = _viewModel.GetEquippedItem(slot.SlotType);
+
+            if (null == instance || string.IsNullOrEmpty(instance.Data.SpritePath))
+            {
+                slot.ClearIcon();
+                continue;
+            }
+
+            await LoadSlotIconAsync(slot, instance.Data.SpritePath);
+        }
+    }
+
+    private async UniTask LoadSlotIconAsync(EquipmentSlotView slot, string spritePath)
+    {
+        try
+        {
+            Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(spritePath, destroyCancellationToken);
+
+            if (null == sprite)
+            {
+                slot.ClearIcon();
+                return;
+            }
+
+            _loadedSpriteKeys.Add(spritePath);
+            slot.SetIcon(sprite);
+        }
+        catch (OperationCanceledException)
+        {
+            // 오브젝트 파괴로 취소됨, 무시
+        }
+        catch (Exception exception)
+        {
+            Debug.LogWarning($"[CharacterDetailView] 슬롯 아이콘 로드 실패. spritePath={spritePath}\n{exception}");
+        }
+    }
+
+    private void ReleaseAllSprites()
+    {
+        foreach (string key in _loadedSpriteKeys)
+        {
+            GameManager.Instance.ResourceManager.ReleaseAsset(key);
+        }
+
+        _loadedSpriteKeys.Clear();
     }
 }

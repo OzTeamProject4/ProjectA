@@ -136,6 +136,11 @@ public class CharacterDetailViewModel
         _model.Promote();
     }
 
+    public EquipmentInstance GetEquippedItem(EquipType slot)
+    {
+        return _model.GetEquippedItem(slot);
+    }
+
     private void HandleModelChanged()
     {
         RefreshDisplay();

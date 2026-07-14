@@ -15,3 +15,20 @@ public readonly struct RolledStats
     public float AtkSpeed { get; init; }
     public float MoveSpeed { get; init; }
 }
+
+public readonly struct StatDelta
+{
+    public StatType Type { get; init; }
+    public float Value { get; init; }
+    public float Delta { get; init; }
+    public bool IsInteger { get; init; }
+}
+
+public enum StatType
+{
+    MaxHp,
+    Atk,
+    Def,
+    AtkSpeed,
+    MoveSpeed
+}

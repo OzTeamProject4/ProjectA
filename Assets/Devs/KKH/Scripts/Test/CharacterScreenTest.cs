@@ -9,11 +9,14 @@ using UnityEngine;
 /// </summary>
 public class CharacterScreenTest : MonoBehaviour
 {
+    [Header("View Prefabs")]
     [SerializeField] private CharacterListView _listViewPrefab;
     [SerializeField] private CharacterDetailView _detailViewPrefab;
     [SerializeField] private ExpItemSelectPopupView _itemSelectPopupPrefab;
     [SerializeField] private EquipmentListPopupView _equipmentListPopupPrefab;
     [SerializeField] private CraftPopupView _craftPopupPrefab;
+    [SerializeField] private EquipmentDetailPopupView _equipmentDetailPopupPrefab;
+
     [SerializeField] private Transform _contentParent;
     [SerializeField] private Transform _popupParent;
 
@@ -30,6 +33,7 @@ public class CharacterScreenTest : MonoBehaviour
     private ExpItemSelectPopupView _itemSelectPopup;
     private CraftPopupView _craftPopup;
     private EquipmentListPopupView _equipmentListPopup;
+    private EquipmentDetailPopupView _equipmentDetailPopup;
     private CharacterModel _currentDetailModel;
     private CraftingModel _craftingModel;
 
@@ -54,6 +58,7 @@ public class CharacterScreenTest : MonoBehaviour
         }
 
         CloseItemSelectPopup();
+        CloseEquipmentDetailPopup();
         CloseEquipmentListPopup();
         CloseCraftPopup();
         ReleasePreloadedSprites();
@@ -198,6 +203,7 @@ public class CharacterScreenTest : MonoBehaviour
             return;
         }
 
+        CloseEquipmentDetailPopup();
         CloseCraftPopup();
         CloseEquipmentListPopup();
         CloseItemSelectPopup();
@@ -216,6 +222,7 @@ public class CharacterScreenTest : MonoBehaviour
     // [UIManager 이관 대상] 상세→목록 화면 전환. UIManager 도입 시 SetActive 토글을 UIManager 호출로 대체.
     private void HandleDetailClosed()
     {
+        CloseEquipmentDetailPopup();
         CloseCraftPopup();
         CloseEquipmentListPopup();
         CloseItemSelectPopup();
@@ -306,6 +313,8 @@ public class CharacterScreenTest : MonoBehaviour
             return;
         }
 
+        CloseEquipmentDetailPopup();
+
         if (null == _equipmentListPopup)
         {
             _equipmentListPopup = Instantiate(_equipmentListPopupPrefab, _popupParent);
@@ -320,15 +329,81 @@ public class CharacterScreenTest : MonoBehaviour
 
     private void HandleEquipmentItemSelected(EquipmentListItemViewModel itemViewModel, RectTransform itemRect)
     {
-        EquipmentInstance instance = itemViewModel.Instance;
-
-        if (instance.EquippedBy == _currentDetailModel.CharacterId)
+        if (null == _equipmentDetailPopupPrefab)
         {
-            _currentDetailModel.Unequip(instance.Type);
+            Debug.LogError("EquipmentDetailPopupPrefab 이 연결되지 않았습니다.");
             return;
         }
 
-        _currentDetailModel.Equip(instance);
+        if (null == _equipmentDetailPopup)
+        {
+            _equipmentDetailPopup = Instantiate(_equipmentDetailPopupPrefab, _popupParent);
+            _equipmentDetailPopup.OnEquipped += HandleEquipmentDetailClosed;
+            _equipmentDetailPopup.OnUnequipped += HandleEquipmentDetailClosed;
+            _equipmentDetailPopup.OnCloseButtonClicked += HandleEquipmentDetailClosed;
+        }
+
+        EquipmentDetailPopupViewModel viewModel = new EquipmentDetailPopupViewModel(_currentDetailModel, itemViewModel.Instance);
+        _equipmentDetailPopup.Bind(viewModel);
+
+        MoveDetailPopupTo(itemRect);
+    }
+
+    private void MoveDetailPopupTo(RectTransform itemRect)
+    {
+        if (null == itemRect || null == _equipmentDetailPopup)
+        {
+            return;
+        }
+
+        RectTransform popupRect = _equipmentDetailPopup.transform as RectTransform;
+        if (null == popupRect)
+        {
+            return;
+        }
+
+        Vector3[] itemCorners = new Vector3[4];
+        itemRect.GetWorldCorners(itemCorners);
+
+        Vector3 itemBottomCenter = (itemCorners[0] + itemCorners[3]) * 0.5f;
+        Vector3 itemTopCenter = (itemCorners[1] + itemCorners[2]) * 0.5f;
+
+        float popupHeight = popupRect.rect.height * popupRect.lossyScale.y;
+        bool fitsBelow = itemBottomCenter.y - popupHeight >= 0f;
+
+        if (fitsBelow)
+        {
+            popupRect.pivot = new Vector2(0.5f, 1f);
+            popupRect.position = itemBottomCenter;
+            return;
+        }
+
+        popupRect.pivot = new Vector2(0.5f, 0f);
+        popupRect.position = itemTopCenter;
+    }
+
+    private void HandleEquipmentDetailClosed()
+    {
+        CloseEquipmentDetailPopup();
+
+        if (null != _equipmentListPopup)
+        {
+            _equipmentListPopup.ClearSelection();
+        }
+    }
+
+    private void CloseEquipmentDetailPopup()
+    {
+        if (null == _equipmentDetailPopup)
+        {
+            return;
+        }
+
+        _equipmentDetailPopup.OnEquipped -= HandleEquipmentDetailClosed;
+        _equipmentDetailPopup.OnUnequipped -= HandleEquipmentDetailClosed;
+        _equipmentDetailPopup.OnCloseButtonClicked -= HandleEquipmentDetailClosed;
+        Destroy(_equipmentDetailPopup.gameObject);
+        _equipmentDetailPopup = null;
     }
 
     private void HandleEquipmentListPopupClosed()
@@ -338,6 +413,8 @@ public class CharacterScreenTest : MonoBehaviour
 
     private void CloseEquipmentListPopup()
     {
+        CloseEquipmentDetailPopup();
+
         if (null == _equipmentListPopup)
         {
             return;

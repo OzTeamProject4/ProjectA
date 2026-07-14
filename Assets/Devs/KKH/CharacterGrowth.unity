@@ -713,6 +713,7 @@ MonoBehaviour:
   _itemSelectPopupPrefab: {fileID: 8776929576528486153, guid: 7e7a3890e38bdab4883d45a5373f053d, type: 3}
   _equipmentListPopupPrefab: {fileID: 5940780752459366563, guid: 071b721a7c13e024d8c25450330f95b1, type: 3}
   _craftPopupPrefab: {fileID: 7135184807780403610, guid: b71e2e97e30f3cc4790f4770721d7c21, type: 3}
+  _equipmentDetailPopupPrefab: {fileID: 3688605365728618410, guid: 432390b53dcc953408182fec8874316e, type: 3}
   _contentParent: {fileID: 901248544}
   _popupParent: {fileID: 1214999414}
   _testStartStar: 3
