@@ -1,0 +1,67 @@
+[
+  {
+    "DataId": "Character_001",
+    "Name": "루미",
+    "Level": 1,
+    "BaseHp": 100,
+    "SkillGauge": 120,
+    "SkillList": ["Skill_001", "Skill_002", "Skill_003"],
+    "BaseAtk": 10,
+    "BaseDef": 9,
+    "BaseMoveSpeed": 5,
+    "ElementType": "Fire",
+    "Role": "Attacker"
+  },
+  {
+    "DataId": "Character_002",
+    "Name": "네리",
+    "Level": 1,
+    "BaseHp": 120,
+    "SkillGauge": 110,
+    "SkillList": ["Skill_001", "Skill_002", "Skill_003"],
+    "BaseAtk": 7,
+    "BaseDef": 12,
+    "BaseMoveSpeed": 4,
+    "ElementType": "Water",
+    "Role": "Buffer"
+  },
+  {
+    "DataId": "Character_003",
+    "Name": "카이",
+    "Level": 1,
+    "BaseHp": 120,
+    "SkillGauge": 110,
+    "SkillList": ["Skill_001", "Skill_002", "Skill_003"],
+    "BaseAtk": 9,
+    "BaseDef": 10,
+    "BaseMoveSpeed": 5,
+    "ElementType": "Thunder",
+    "Role": "Attacker"
+  },
+  {
+    "DataId": "Character_004",
+    "Name": "빛나",
+    "Level": 1,
+    "BaseHp": 160,
+    "SkillGauge": 90,
+    "SkillList": ["Skill_001", "Skill_002", "Skill_003"],
+    "BaseAtk": 10,
+    "BaseDef": 15,
+    "BaseMoveSpeed": 6,
+    "ElementType": "Light",
+    "Role": "Buffer"
+  },
+  {
+    "DataId": "Character_005",
+    "Name": "유이",
+    "Level": 1,
+    "BaseHp": 170,
+    "SkillGauge": 100,
+    "SkillList": ["Skill_001", "Skill_002", "Skill_003"],
+    "BaseAtk": 15,
+    "BaseDef": 12,
+    "BaseMoveSpeed": 6,
+    "ElementType": "Dark",
+    "Role": "Attacker"
+  }
+]
