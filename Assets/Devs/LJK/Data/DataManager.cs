@@ -9,21 +9,22 @@ public class DataManager : BaseManager<DataManager>
 {
     private readonly Dictionary<Type, object> _dataTables = new Dictionary<Type, object>();
 
-    public override UniTask InitializeAsync()
+    public override async UniTask InitializeAsync()
     {
         _dataTables.Clear();
-        return UniTask.CompletedTask;
+        // return UniTask.CompletedTask;
+        await PreloadDataAsync();
     }
 
     public async UniTask PreloadDataAsync()
     {
         //await LoadDataAsync<T>("Key");
-        await LoadDataAsync<CharacterStatData>(DataKeys.CharacterStat);
-        await LoadDataAsync<CharacterGradeData>(DataKeys.CharacterGrade);
-        await LoadDataAsync<LevelExpData>(DataKeys.LevelExp);
-        await LoadDataAsync<ItemData>(DataKeys.Item);
-        await LoadDataAsync<EquipmentData>(DataKeys.Equipment);
-        await LoadDataAsync<SignatureData>(DataKeys.Signature);
+        await LoadDataAsync<CharacterData>(DataKeys.CharacterData, destroyCancellationToken);
+        await LoadDataAsync<CharacterGradeData>(DataKeys.CharacterGrade, destroyCancellationToken);
+        await LoadDataAsync<LevelExpData>(DataKeys.LevelExp, destroyCancellationToken);
+        await LoadDataAsync<ItemData>(DataKeys.Item, destroyCancellationToken);
+        await LoadDataAsync<EquipmentData>(DataKeys.Equipment, destroyCancellationToken);
+        await LoadDataAsync<SignatureData>(DataKeys.Signature, destroyCancellationToken );
         //await LoadDataAsync<T>("Key", destroyCancellationToken);
         await UniTask.CompletedTask;
     }

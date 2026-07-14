@@ -80,7 +80,7 @@ public class CharacterModel
 
     public StatData GetFinalStats()
     {
-        CharacterStatData stat = _dataProvider.GetStat(CharacterId);
+        CharacterData stat = _dataProvider.GetStat(CharacterId);
         CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);
         StatData equipmentBonus = GetEquipmentBonus();
 

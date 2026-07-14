@@ -11,7 +11,7 @@ public class GameDataProvider : IGameDataProvider
     private List<EquipmentData> _allEquipment;
     private List<ItemData> _allItems;
 
-    public CharacterStatData GetStat(string characterId)
+    public CharacterData GetStat(string characterId)
     {
         if (string.IsNullOrEmpty(characterId))
         {
@@ -19,7 +19,7 @@ public class GameDataProvider : IGameDataProvider
             return null;
         }
 
-        GameManager.Instance.DataManager.TryGetData(characterId, out CharacterStatData data);
+        GameManager.Instance.DataManager.TryGetData(characterId, out CharacterData data);
         return data;
     }
 
@@ -67,7 +67,7 @@ public class GameDataProvider : IGameDataProvider
 
     public IReadOnlyList<string> GetAllCharacterIds()
     {
-        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, CharacterStatData> table))
+        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, CharacterData> table))
         {
             return Array.Empty<string>();
         }

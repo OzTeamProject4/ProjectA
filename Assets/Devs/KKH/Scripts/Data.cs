@@ -1,16 +1,33 @@
-﻿namespace System.Runtime.CompilerServices
+﻿using System.Collections.Generic;
+
+namespace System.Runtime.CompilerServices
 {
     internal static class IsExternalInit { }
 }
 
 public static class DataKeys
 {
-    public const string CharacterStat = "Data/CharacterStat";
+    public const string CharacterData = "Data/CharacterData";
     public const string CharacterGrade = "Data/CharacterGrade";
     public const string LevelExp = "Data/LevelExp";
     public const string Item = "Data/Item";
     public const string Equipment = "Data/Equipment";
     public const string Signature = "Data/Signature";
+}
+
+public enum ElementType
+{
+    Fire,
+    Water,
+    Thunder,
+    Light,
+    Dark
+}
+
+public enum RollType
+{
+    Attacker,
+    Buffer
 }
 
 public enum ItemType
@@ -40,11 +57,18 @@ public class ItemData : BaseData
     public string SpritePath { get; init; }
 }
 
-public class CharacterStatData : BaseData
+public class CharacterData : BaseData
 {
-    public int Hp { get; init; }
-    public int Atk { get; init; }
-    public int Def { get; init; }
+    public string Name { get; init; }
+    public int Star { get; init; }
+    public int Level { get; init; }
+    public string SkillList { get; init; }
+    public ElementType Type { get; init; }
+    public int SkillGauge { get; init; }
+
+    public float Hp { get; init; }
+    public float Atk { get; init; }
+    public float Def { get; init; }
     public float AtkSpeed { get; init; }
     public float MoveSpeed { get; init; }
 
@@ -53,6 +77,24 @@ public class CharacterStatData : BaseData
     public float DefGrow { get; init; }
     public float AtkSpeedGrow { get; init; }
     public float MoveSpeedGrow { get; init; }
+
+    public string CharacterIconPath { get; init; }
+    public string PrefabPath { get; init; }
+    public string Description { get; init; }
+
+    private List<string> _parsedSkillList;
+    public List<string> ParsedSkillList
+    {
+        get
+        {
+            if (_parsedSkillList == null)
+            {
+                _parsedSkillList = new List<string>(Util.ParseIds(SkillList));
+            }
+
+            return _parsedSkillList;
+        }
+    }
 }
 
 public class CharacterGradeData : BaseData

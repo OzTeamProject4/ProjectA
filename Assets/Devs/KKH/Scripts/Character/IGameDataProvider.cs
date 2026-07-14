@@ -2,7 +2,7 @@
 
 public interface IGameDataProvider
 {
-    CharacterStatData GetStat(string characterId);
+    CharacterData GetStat(string characterId);
     CharacterGradeData GetGrade(int star);
     ItemData GetItem(string dataId);
 

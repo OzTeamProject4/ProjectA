@@ -30,7 +30,7 @@ public class MockCharacterStatProvider : ICharacterStatProvider
             return default;
         }
 
-        CharacterStatData stat = _dataProvider.GetStat(characterId);
+        CharacterData stat = _dataProvider.GetStat(characterId);
         CharacterGradeData grade = _dataProvider.GetGrade(TempStar);
 
         return StatCalculator.Calculate(stat, grade, TempLevel, default);

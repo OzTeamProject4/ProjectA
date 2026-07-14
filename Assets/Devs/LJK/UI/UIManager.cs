@@ -22,7 +22,7 @@ public class UIManager : BaseManager<UIManager>
             CacheRootDictionary();
         }
 
-        await this.OpenTestUIAsync();
+        // await this.OpenTestUIAsync();
     }
 
     public async UniTask<BaseUI> OpenTestRootAsync(UIType uiType, CancellationToken cancellationToken = default)

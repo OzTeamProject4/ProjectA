@@ -12,6 +12,7 @@ public class GameManager : BaseManager<GameManager>
     public AudioManager AudioManager { get; private set; }
 
     public UIManager UIManager { get; private set; }
+    public Inventory Inventory { get; private set; }
 
     public InputManager InputManager { get; private set; }
 
@@ -53,6 +54,7 @@ public class GameManager : BaseManager<GameManager>
         AudioManager = this.GetRequiredComponent<AudioManager>();
         UIManager = this.GetRequiredComponent<UIManager>();
         InputManager = this.GetRequiredComponent<InputManager>();
+        Inventory = new Inventory();
     }
 
     private async UniTask InitializeManagersAsync()

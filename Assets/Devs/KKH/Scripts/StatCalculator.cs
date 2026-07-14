@@ -4,7 +4,7 @@ using UnityEngine;
 // 최종 스텟 계산 공식 = 기본값 + (스탯 상승량 + 성급 상승량) × (레벨 - 1) + 장비 스탯
 public static class StatCalculator
 {
-    public static StatData Calculate(CharacterStatData stat, CharacterGradeData grade, int level, StatData equipmentBonus)
+    public static StatData Calculate(CharacterData stat, CharacterGradeData grade, int level, StatData equipmentBonus)
     {
         if (null == stat)
         {
