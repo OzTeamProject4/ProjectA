@@ -17,9 +17,20 @@ public class Test_GameObjectManager : MonoBehaviour
         Inst = this;
     }
 
-    public async UniTaskVoid SpawnEnemyAsync(EnemyViewModel vm)
+    public async UniTaskVoid SpawnEnemyAsync(string enemyDataId)
     {
-        
+        EnemyViewModel vm = new EnemyViewModel();
+        if (GameManager.Instance.DataManager.TryGetData<EnemyData>(enemyDataId, out EnemyData enemyData)) {
+            vm.EnemyDataId= enemyData.DataId;
+            vm.Name = enemyData.Name;
+            vm.TotalExp = enemyData.TotalExp;
+            vm.ElementalType = enemyData.ElementalType;
+            vm.BaseHp = enemyData.BaseHp;
+            vm.BaseDamage = enemyData.BaseDamage;
+            vm.PrefabAddress = enemyData.PrefabAddress;
+
+        }
+       
         GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(vm.PrefabAddress);
         if (prefab == null)
         {
@@ -27,6 +38,9 @@ public class Test_GameObjectManager : MonoBehaviour
             return;
         }
         GameObject enemyInstance = Instantiate(prefab);
+        EnemyController enemyController =  enemyInstance.GetComponent<EnemyController>();
+        enemyController.vm = vm;
+
         _spawnEnemyList.Add(_spawnEnemyInstanceId, enemyInstance);
         _spawnEnemyInstanceId++;
 

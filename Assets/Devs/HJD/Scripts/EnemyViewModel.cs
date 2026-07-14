@@ -1,6 +1,5 @@
 using System.Buffers.Text;
 using UnityEngine;
-public enum EnemyState { Idle, Walk, Attack, Die }
 public class EnemyViewModel : ViewModelBase
 {
     public void InvokeOnceOnInit()
@@ -16,7 +15,6 @@ public class EnemyViewModel : ViewModelBase
 
     }
 
-    private int _instanceId;
     private string _enemyDataId;
     private string _name;
     private int _totalExp;
@@ -25,20 +23,8 @@ public class EnemyViewModel : ViewModelBase
     private float _baseHp;
     private float _baseDamage;
     private string _prefabAddress;
-    private EnemyState _currentState;
 
-    public int EnemyInstanceId
-    {
-        get => _instanceId;
-        set
-        {
-            if (_instanceId != value)
-            {
-                _instanceId = value;
-                OnPropertyChanged(nameof(EnemyInstanceId));
-            }
-        }
-    }
+    
 
     public string EnemyDataId
     {
@@ -142,17 +128,6 @@ public class EnemyViewModel : ViewModelBase
         }
     }
 
-    public EnemyState CurrentState
-    {
-        get => _currentState;
-        set
-        {
-            if (_currentState != value)
-            {
-                _currentState = value;
-                OnPropertyChanged(nameof(CurrentState));
-            }
-        }
-    }
+   
 
 }

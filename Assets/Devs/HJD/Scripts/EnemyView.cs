@@ -6,7 +6,6 @@ public class EnemyView : ViewBase
     // 플레이어 3D 모델, 애니메이션, 물리에 관한 뷰
     [SerializeField] TextMesh TextMesh_Name;
     [SerializeField] TextMesh TextMesh_Level;
-    [SerializeField] Animator Animator_Enemy; // 애니메이터 추가
     // 뷰에서 절대 new로 VewModel을 하지 않고, 매니저를 통해
     // 실제 생성된 뷰 모델을 받아와야한다!
     private EnemyViewModel _vm;
@@ -42,30 +41,9 @@ public class EnemyView : ViewBase
                     TextMesh_Level.text = $"Lv.{_vm.CurrentLevel}";
                 }
                 break;
-            case nameof(EnemyViewModel.CurrentState):
-                {
-                    UpdateAnimation(_vm.CurrentState);
-                }
-                break;
+           
         }
     }
 
-    private void UpdateAnimation(EnemyState state)
-    {
-        switch (state)
-        {
-            case EnemyState.Idle:
-                Animator_Enemy.CrossFade("Idle", 0.1f);
-                break;
-            case EnemyState.Walk:
-                Animator_Enemy.CrossFade("Walk", 0.1f);
-                break;
-            case EnemyState.Attack:
-                Animator_Enemy.SetTrigger("IsAttack"); // 트리거 형태도 가능
-                break;
-            case EnemyState.Die:
-                Animator_Enemy.SetTrigger("IsDie");
-                break;
-        }
-    }
+   
 }
