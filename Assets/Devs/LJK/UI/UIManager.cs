@@ -53,10 +53,19 @@ public class UIManager : BaseManager<UIManager>
             return null;
         }
 
-        if (_openedUISet.Contains(uiType) || _loadingUISet.Contains(uiType))
+
+        if (_loadingUISet.Contains(uiType))
         {
-            Debug.LogWarning($"[{nameof(UIManager)}:{nameof(OpenUIAsync)}] '{uiType}' UI가 이미 열려 있거나 로딩 중입니다.");
+            Debug.LogWarning($"[{nameof(UIManager)}:{nameof(OpenUIAsync)}] '{uiType}' UI가 이미 로딩 중입니다.");
             return null;
+        }
+
+        if (_openedUISet.Contains(uiType))
+        {
+            Debug.LogWarning($"[{nameof(UIManager)}:{nameof(OpenUIAsync)}] '{uiType}' UI가 이미 열려 있습니다.");
+
+            BaseUI cachedUI = _createdUICacheDictionary[uiType];
+            return cachedUI;
         }
 
         _loadingUISet.Add(uiType);
