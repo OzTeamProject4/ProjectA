@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CraftPopupView : MonoBehaviour
+public class CraftPopupView : BaseUI
 {
     [SerializeField] private CraftListItemView _itemPrefab;
     [SerializeField] private Transform _itemContainer;
@@ -52,6 +52,7 @@ public class CraftPopupView : MonoBehaviour
         }
 
         ClearItems();
+        ReleaseAllSprites();
 
         foreach (CraftListItemViewModel itemViewModel in viewModel.CraftItems)
         {

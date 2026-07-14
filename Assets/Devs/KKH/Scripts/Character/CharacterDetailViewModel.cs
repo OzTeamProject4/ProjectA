@@ -83,6 +83,7 @@ public class CharacterDetailViewModel
     }
 
     public event Action OnDisplayChanged;
+    public event Action OnEquipmentChanged;
 
     public CharacterDetailViewModel(CharacterModel model)
     {
@@ -100,7 +101,7 @@ public class CharacterDetailViewModel
         _model.OnLevelChanged += HandleModelChanged;
         _model.OnStarChanged += HandleModelChanged;
         _model.OnDuplicatesChanged += HandleModelChanged;
-        _model.OnEquipmentChanged += HandleModelChanged;
+        _model.OnEquipmentChanged += HandleEquipmentChanged;
 
         RefreshDisplay();
     }
@@ -111,7 +112,7 @@ public class CharacterDetailViewModel
         _model.OnLevelChanged -= HandleModelChanged;
         _model.OnStarChanged -= HandleModelChanged;
         _model.OnDuplicatesChanged -= HandleModelChanged;
-        _model.OnEquipmentChanged -= HandleModelChanged;
+        _model.OnEquipmentChanged -= HandleEquipmentChanged;
     }
 
     public void UseExpItemCommand(string itemId)
@@ -144,6 +145,12 @@ public class CharacterDetailViewModel
     private void HandleModelChanged()
     {
         RefreshDisplay();
+    }
+
+    private void HandleEquipmentChanged()
+    {
+        RefreshDisplay();
+        OnEquipmentChanged?.Invoke();
     }
 
     private void RefreshDisplay()

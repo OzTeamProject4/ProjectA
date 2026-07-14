@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class CharacterListView : MonoBehaviour
+public class CharacterListView : BaseUI
 {
     [SerializeField] private CharacterListItemView _itemPrefab;
     [SerializeField] private Transform _contentParent;

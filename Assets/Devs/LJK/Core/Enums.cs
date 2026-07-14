@@ -1,6 +1,12 @@
 ﻿public enum UIType
 {
-    Test
+    Test,
+    CharacterList,
+    CharacterDetail,
+    ExpItemSelectPopup,
+    CraftPopup,
+    EquipmentListPopup,
+    EquipmentDetailPopup
 }
 
 public enum UIRoot

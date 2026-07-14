@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EquipmentDetailPopupView : MonoBehaviour
+public class EquipmentDetailPopupView : BaseUI
 {
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _descriptionText;
@@ -46,6 +46,7 @@ public class EquipmentDetailPopupView : MonoBehaviour
         }
 
         Unsubscribe();
+        ReleaseAllSprites();
 
         _viewModel = viewModel;
 

@@ -29,6 +29,24 @@ public class UIManager : BaseManager<UIManager>
         return baseUI;
     }
 
+    // 메인
+    public async UniTask<BaseUI> OpenContentRootAsync(UIType uiType, CancellationToken cancellationToken = default)
+    {
+        return await OpenUIAsync(uiType, UIRoot.B, cancellationToken);
+    }
+
+    // 팝업
+    public async UniTask<BaseUI> OpenPopupRootAsync(UIType uiType, CancellationToken cancellationToken = default)
+    {
+        return await OpenUIAsync(uiType, UIRoot.C, cancellationToken);
+    }
+
+    // 상위 (오버레이용) 팝업
+    public async UniTask<BaseUI> OpenOverlayRootAsync(UIType uiType, CancellationToken cancellationToken = default)
+    {
+        return await OpenUIAsync(uiType, UIRoot.D, cancellationToken);
+    }
+
     public void Close(UIType uiType)
     {
         CloseUI(uiType);

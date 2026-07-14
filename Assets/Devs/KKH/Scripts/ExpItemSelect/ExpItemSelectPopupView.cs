@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ExpItemSelectPopupView : MonoBehaviour
+public class ExpItemSelectPopupView : BaseUI
 {
     [SerializeField] private ExpItemSlotView _slotPrefab;
     [SerializeField] private Transform _slotContainer;
@@ -13,6 +13,27 @@ public class ExpItemSelectPopupView : MonoBehaviour
 
     public event Action<string> OnItemSelected;
     public event Action OnCloseButtonClicked;
+
+    private void OnEnable()
+    {
+        if (null != _closeButton)
+        {
+            _closeButton.onClick.AddListener(HandleCloseClicked);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (null != _closeButton)
+        {
+            _closeButton.onClick.RemoveListener(HandleCloseClicked);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        ClearSlots();
+    }
 
     public void Bind(ExpItemSelectPopupViewModel viewModel)
     {
@@ -37,21 +58,6 @@ public class ExpItemSelectPopupView : MonoBehaviour
             slotView.OnClicked += HandleSlotClicked;
 
             _spawnedSlots.Add(slotView);
-        }
-
-        if (null != _closeButton)
-        {
-            _closeButton.onClick.AddListener(HandleCloseClicked);
-        }
-    }
-
-    private void OnDestroy()
-    {
-        ClearSlots();
-
-        if (null != _closeButton)
-        {
-            _closeButton.onClick.RemoveListener(HandleCloseClicked);
         }
     }
 

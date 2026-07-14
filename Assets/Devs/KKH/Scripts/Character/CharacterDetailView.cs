@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterDetailView : MonoBehaviour
+public class CharacterDetailView : BaseUI
 {
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _levelText;
@@ -19,7 +19,7 @@ public class CharacterDetailView : MonoBehaviour
     [SerializeField] private TMP_Text _defValueText;
     [SerializeField] private TMP_Text _atkSpeedValueText;
     [SerializeField] private TMP_Text _moveSpeedValueText;
-    
+
     [Header("Star Values")]
     [SerializeField] private Image[] _starImages;
     [SerializeField] private Button _starUpButton;
@@ -44,11 +44,6 @@ public class CharacterDetailView : MonoBehaviour
     public event Action OnCloseButtonClicked;
     public event Action<EquipType> OnEquipmentSlotClicked;
 
-    private void OnEnable()
-    {
-        TrySubscribe();
-    }
-
     private void OnDisable()
     {
         Unsubscribe();
@@ -69,21 +64,17 @@ public class CharacterDetailView : MonoBehaviour
         }
 
         Unsubscribe();
+        ReleaseAllSprites();
 
         _viewModel = viewModel;
         _nameText.text = characterName;
 
-        TrySubscribe();
+        Subscribe();
     }
 
     public void ConfirmUseItem(string itemId)
     {
         _viewModel.UseExpItemCommand(itemId);
-    }
-
-    private void HandleDisplayChanged()
-    {
-        RefreshView();
     }
 
     private void RefreshView()
@@ -105,8 +96,6 @@ public class CharacterDetailView : MonoBehaviour
         _starUpButton.interactable = _viewModel.CanPromote;
         _promoteRequirementText.text = _viewModel.IsMaxStar
             ? "MAX" : $"{_viewModel.OwnedDuplicates}/{_viewModel.RequiredDuplicatesForPromotion}";
-
-        RefreshEquipmentSlotsAsync().Forget();
     }
 
     private void RefreshStars()
@@ -122,14 +111,15 @@ public class CharacterDetailView : MonoBehaviour
         }
     }
 
-    private void TrySubscribe()
+    private void Subscribe()
     {
-        if (_isSubscribed || null == _viewModel || !isActiveAndEnabled)
+        if (_isSubscribed || null == _viewModel)
         {
             return;
         }
 
         _viewModel.OnDisplayChanged += HandleDisplayChanged;
+        _viewModel.OnEquipmentChanged += HandleEquipmentChanged;
 
         _starUpButton.onClick.AddListener(HandleClickStarUp);
         _useItemButton.onClick.AddListener(HandleClickUseItem);
@@ -150,7 +140,7 @@ public class CharacterDetailView : MonoBehaviour
         _isSubscribed = true;
 
         _viewModel.Initialize();
-
+        RefreshEquipmentSlotsAsync().Forget();
         ShowStatTab();
     }
 
@@ -162,6 +152,7 @@ public class CharacterDetailView : MonoBehaviour
         }
 
         _viewModel.OnDisplayChanged -= HandleDisplayChanged;
+        _viewModel.OnEquipmentChanged -= HandleEquipmentChanged;
         _viewModel.Dispose();
 
         _starUpButton.onClick.RemoveListener(HandleClickStarUp);
@@ -218,6 +209,16 @@ public class CharacterDetailView : MonoBehaviour
     private void HandleEquipmentSlotClicked(EquipType slotType)
     {
         OnEquipmentSlotClicked?.Invoke(slotType);
+    }
+
+    private void HandleDisplayChanged()
+    {
+        RefreshView();
+    }
+
+    private void HandleEquipmentChanged()
+    {
+        RefreshEquipmentSlotsAsync().Forget();
     }
 
     private void HandleClickStarUp()

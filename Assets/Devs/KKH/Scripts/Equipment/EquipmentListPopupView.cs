@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EquipmentListPopupView : MonoBehaviour
+public class EquipmentListPopupView : BaseUI
 {
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private EquipmentListItemView _itemPrefab;
@@ -32,6 +32,8 @@ public class EquipmentListPopupView : MonoBehaviour
         {
             _closeButton.onClick.RemoveListener(HandleCloseClicked);
         }
+
+        Unbind();
     }
 
     private void OnDestroy()
