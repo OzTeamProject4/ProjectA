@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -22,6 +23,7 @@ public class CharacterScreenTest : MonoBehaviour
 
     private IGameDataProvider _dataProvider;
     private readonly Dictionary<string, CharacterModel> _characterModels = new();
+    private readonly List<string> _preloadedSpriteKeys = new();
 
     private CharacterListView _listView;
     private CharacterDetailView _detailView;
@@ -54,6 +56,7 @@ public class CharacterScreenTest : MonoBehaviour
         CloseItemSelectPopup();
         CloseEquipmentListPopup();
         CloseCraftPopup();
+        ReleasePreloadedSprites();
     }
 
     // [로비 이관 대상] View 생성·배선 + Model/ViewModel 생성. 로비 도입 시 이 흐름 전체가 로비로 옮겨간다.
@@ -79,6 +82,7 @@ public class CharacterScreenTest : MonoBehaviour
         _craftingModel = new CraftingModel(GameManager.Instance.Inventory, _dataProvider);
 
         BuildTestCharacterModels();
+        PreloadIconsAsync().Forget();
 
         _detailView = Instantiate(_detailViewPrefab, _contentParent);
         _detailView.OnUseItemButtonClicked += HandleUseItemButtonClicked;
@@ -136,6 +140,52 @@ public class CharacterScreenTest : MonoBehaviour
         }
 
         return infos;
+    }
+
+    // TODO: 로비/UIManager 도입 시 화면 단위 프리로드 지점으로 이관
+    private async UniTaskVoid PreloadIconsAsync()
+    {
+        foreach (EquipmentData data in _dataProvider.GetAllEquipment())
+        {
+            await PreloadSpriteAsync(data.SpritePath);
+        }
+
+        foreach (ItemData item in _dataProvider.GetAllItems())
+        {
+            await PreloadSpriteAsync(item.SpritePath);
+        }
+    }
+
+    private async UniTask PreloadSpriteAsync(string spritePath)
+    {
+        if (string.IsNullOrEmpty(spritePath))
+        {
+            return;
+        }
+
+        try
+        {
+            await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(spritePath, destroyCancellationToken);
+            _preloadedSpriteKeys.Add(spritePath);
+        }
+        catch (OperationCanceledException)
+        {
+            // 화면 파괴로 취소됨, 무시
+        }
+        catch (Exception exception)
+        {
+            Debug.LogWarning($"[CharacterScreenTest] 아이콘 프리로드 실패. spritePath={spritePath}\n{exception}");
+        }
+    }
+
+    private void ReleasePreloadedSprites()
+    {
+        foreach (string key in _preloadedSpriteKeys)
+        {
+            GameManager.Instance.ResourceManager.ReleaseAsset(key);
+        }
+
+        _preloadedSpriteKeys.Clear();
     }
 
     // [분리 이관 대상] ViewModel 생성·Bind(→로비) + 목록↔상세 화면 전환(→UIManager)이 섞여 있음.

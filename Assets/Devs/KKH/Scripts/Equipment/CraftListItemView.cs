@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
-using System.Threading;
-using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +9,7 @@ public class CraftListItemView : MonoBehaviour
 {
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private Image _iconImage;
+    [SerializeField] private Sprite _placeholderSprite;
 
     [Header("Gold Slots")]
     [SerializeField] private GameObject _goldRoot;
@@ -36,8 +36,7 @@ public class CraftListItemView : MonoBehaviour
     private CraftListItemViewModel _viewModel;
     private bool _isSubscribed;
 
-    private readonly List<string> _loadedSpriteKeys = new();
-
+    public event Action<string> OnSpriteLoaded;
     public event Action<string> OnCrafted;
 
     private void OnDisable()
@@ -48,7 +47,6 @@ public class CraftListItemView : MonoBehaviour
     private void OnDestroy()
     {
         Unsubscribe();
-        ReleaseAllSprites();
     }
 
     public void Bind(CraftListItemViewModel viewModel)
@@ -63,6 +61,8 @@ public class CraftListItemView : MonoBehaviour
 
         _viewModel = viewModel;
         _nameText.text = _viewModel.Name;
+
+        LoadIconAsync().Forget();
 
         Subscribe();
     }
@@ -100,6 +100,27 @@ public class CraftListItemView : MonoBehaviour
         RefreshDisplay();
     }
 
+    private async UniTaskVoid LoadIconAsync()
+    {
+        await LoadSpriteIntoAsync(_iconImage, _viewModel.SpritePath);
+
+        IReadOnlyList<(string Name, string SpritePath, int Tier, int Owned, int Required)> materials = _viewModel.GetMaterials();
+
+        await LoadMaterialIconAsync(_mat1Icon, materials, 0);
+        await LoadMaterialIconAsync(_mat2Icon, materials, 1);
+    }
+
+    private async UniTask LoadMaterialIconAsync(Image icon,
+        IReadOnlyList<(string Name, string SpritePath, int Tier, int Owned, int Required)> materials, int index)
+    {
+        if (index >= materials.Count)
+        {
+            return;
+        }
+
+        await LoadSpriteIntoAsync(icon, materials[index].SpritePath);
+    }
+
     private void RefreshDisplay()
     {
         if (null == _viewModel)
@@ -109,8 +130,7 @@ public class CraftListItemView : MonoBehaviour
 
         _goldText.text = _viewModel.RequiredGold.ToString();
 
-        RefreshIconAsync().Forget();
-        RefreshMaterialSlotsAsync().Forget();
+        RefreshMaterialTexts();
 
         bool canCraft = _viewModel.CanCraft;
         _craftButton.interactable = canCraft;
@@ -121,21 +141,16 @@ public class CraftListItemView : MonoBehaviour
         }
     }
 
-    private async UniTaskVoid RefreshIconAsync()
-    {
-        await LoadSpriteIntoAsync(_iconImage, _viewModel.SpritePath);
-    }
-
-    private async UniTaskVoid RefreshMaterialSlotsAsync()
+    private void RefreshMaterialTexts()
     {
         IReadOnlyList<(string Name, string SpritePath, int Tier, int Owned, int Required)> materials = _viewModel.GetMaterials();
 
-        await SetMaterialSlotAsync(_mat1Root, _mat1Icon, _mat1TierText, _mat1CountText, materials, 0);
-        await SetMaterialSlotAsync(_mat2Root, _mat2Icon, _mat2TierText, _mat2CountText, materials, 1);
+        SetMaterialText(_mat1Root, _mat1TierText, _mat1CountText, materials, 0);
+        SetMaterialText(_mat2Root, _mat2TierText, _mat2CountText, materials, 1);
     }
 
-    private async UniTask SetMaterialSlotAsync(GameObject root, Image icon, TMP_Text tierText, TMP_Text countText,
-        IReadOnlyList<(string Name, string SpritePath, int Tier, int Owned, int Required)> materials, int index)
+    private void SetMaterialText(GameObject root, TMP_Text tierText, TMP_Text countText,
+    IReadOnlyList<(string Name, string SpritePath, int Tier, int Owned, int Required)> materials, int index)
     {
         if (null == root)
         {
@@ -153,8 +168,6 @@ public class CraftListItemView : MonoBehaviour
 
         tierText.text = tier > 0 ? $"T{tier}" : "-";
         countText.text = $"{owned}/{required}";
-
-        await LoadSpriteIntoAsync(icon, spritePath);
     }
 
     private async UniTask LoadSpriteIntoAsync(Image image, string spritePath)
@@ -172,9 +185,7 @@ public class CraftListItemView : MonoBehaviour
 
         try
         {
-            CancellationToken cancellationToken = this.GetCancellationTokenOnDestroy();
-
-            Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(spritePath, cancellationToken);
+            Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(spritePath, destroyCancellationToken);
 
             if (null == sprite)
             {
@@ -182,7 +193,7 @@ public class CraftListItemView : MonoBehaviour
                 return;
             }
 
-            _loadedSpriteKeys.Add(spritePath);
+            OnSpriteLoaded?.Invoke(spritePath);
 
             image.enabled = true;
             image.sprite = sprite;
@@ -201,15 +212,5 @@ public class CraftListItemView : MonoBehaviour
     {
         _viewModel.CraftCommand();
         OnCrafted?.Invoke(_viewModel.DataId);
-    }
-
-    private void ReleaseAllSprites()
-    {
-        foreach (string key in _loadedSpriteKeys)
-        {
-            GameManager.Instance.ResourceManager.ReleaseAsset(key);
-        }
-
-        _loadedSpriteKeys.Clear();
     }
 }

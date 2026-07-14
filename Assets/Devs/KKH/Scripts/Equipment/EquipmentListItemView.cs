@@ -46,6 +46,8 @@ public class EquipmentListItemView : MonoBehaviour
 
         _viewModel = viewModel;
 
+        LoadIconAsync().Forget();
+
         Subscribe();
     }
 
@@ -103,11 +105,9 @@ public class EquipmentListItemView : MonoBehaviour
         {
             _canvasGroup.alpha = _viewModel.IsEquippedByOther ? _dimmedAlpha : 1f;
         }
-
-        RefreshIconAsync().Forget();
     }
 
-    private async UniTaskVoid RefreshIconAsync()
+    private async UniTaskVoid LoadIconAsync()
     {
         if (null == _iconImage)
         {
@@ -124,9 +124,7 @@ public class EquipmentListItemView : MonoBehaviour
 
         try
         {
-            CancellationToken cancellationToken = this.GetCancellationTokenOnDestroy();
-
-            Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(spritePath, cancellationToken);
+            Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(spritePath, destroyCancellationToken);
 
             if (null == sprite)
             {

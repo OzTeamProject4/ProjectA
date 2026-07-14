@@ -11,12 +11,14 @@ public class CharacterDetailView : MonoBehaviour
     [SerializeField] private Slider _expSlider;
     [SerializeField] private TMP_Text _expText;
 
+    [Header("Stat Values")]
     [SerializeField] private TMP_Text _hpValueText;
     [SerializeField] private TMP_Text _atkValueText;
     [SerializeField] private TMP_Text _defValueText;
     [SerializeField] private TMP_Text _atkSpeedValueText;
     [SerializeField] private TMP_Text _moveSpeedValueText;
-
+    
+    [Header("Star Values")]
     [SerializeField] private Image[] _starImages;
     [SerializeField] private Button _starUpButton;
     [SerializeField] private TMP_Text _promoteRequirementText;
@@ -24,10 +26,11 @@ public class CharacterDetailView : MonoBehaviour
     [SerializeField] private Button _useItemButton;
     [SerializeField] private Button _closeButton;
 
+    [Header("Tabs")]
     [SerializeField] private Button _statTabButton;
-    [SerializeField] private Button _equipmentTabButton;
+    [SerializeField] private Button _skillTabButton;
     [SerializeField] private GameObject _statPanel;
-    [SerializeField] private GameObject _equipmentPanel;
+    [SerializeField] private GameObject _skillPanel;
 
     [SerializeField] private EquipmentSlotView[] _equipmentSlots;
 
@@ -131,9 +134,9 @@ public class CharacterDetailView : MonoBehaviour
             _statTabButton.onClick.AddListener(HandleClickStatTab);
         }
 
-        if (null != _equipmentTabButton)
+        if (null != _skillTabButton)
         {
-            _equipmentTabButton.onClick.AddListener(HandleClickEquipmentTab);
+            _skillTabButton.onClick.AddListener(HandleClickSkillTab);
         }
 
         SubscribeEquipmentSlots();
@@ -164,9 +167,9 @@ public class CharacterDetailView : MonoBehaviour
             _statTabButton.onClick.RemoveListener(HandleClickStatTab);
         }
 
-        if (null != _equipmentTabButton)
+        if (null != _skillTabButton)
         {
-            _equipmentTabButton.onClick.RemoveListener(HandleClickEquipmentTab);
+            _skillTabButton.onClick.RemoveListener(HandleClickSkillTab);
         }
 
         UnsubscribeEquipmentSlots();
@@ -231,9 +234,9 @@ public class CharacterDetailView : MonoBehaviour
         ShowStatTab();
     }
 
-    private void HandleClickEquipmentTab()
+    private void HandleClickSkillTab()
     {
-        ShowEquipmentTab();
+        ShowSkillTab();
     }
 
     private void ShowStatTab()
@@ -243,22 +246,22 @@ public class CharacterDetailView : MonoBehaviour
             _statPanel.SetActive(true);
         }
 
-        if (null != _equipmentPanel)
+        if (null != _skillPanel)
         {
-            _equipmentPanel.SetActive(false);
+            _skillPanel.SetActive(false);
         }
     }
 
-    private void ShowEquipmentTab()
+    private void ShowSkillTab()
     {
         if (null != _statPanel)
         {
             _statPanel.SetActive(false);
         }
 
-        if (null != _equipmentPanel)
+        if (null != _skillPanel)
         {
-            _equipmentPanel.SetActive(true);
+            _skillPanel.SetActive(true);
         }
     }
 }

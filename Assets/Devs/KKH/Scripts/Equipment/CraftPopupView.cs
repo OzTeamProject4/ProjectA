@@ -10,6 +10,7 @@ public class CraftPopupView : MonoBehaviour
     [SerializeField] private Button _closeButton;
 
     private readonly List<CraftListItemView> _spawnedItems = new();
+    private readonly List<string> _loadedSpriteKeys = new();
 
     public event Action<string> OnCrafted;
     public event Action OnCloseButtonClicked;
@@ -33,6 +34,7 @@ public class CraftPopupView : MonoBehaviour
     private void OnDestroy()
     {
         ClearItems();
+        ReleaseAllSprites();
     }
 
     public void Bind(CraftPopupViewModel viewModel)
@@ -56,6 +58,7 @@ public class CraftPopupView : MonoBehaviour
             CraftListItemView itemView = Instantiate(_itemPrefab, _itemContainer);
             itemView.Bind(itemViewModel);
             itemView.OnCrafted += HandleCrafted;
+            itemView.OnSpriteLoaded += HandleSpriteLoaded;
 
             _spawnedItems.Add(itemView);
         }
@@ -71,6 +74,7 @@ public class CraftPopupView : MonoBehaviour
             }
 
             item.OnCrafted -= HandleCrafted;
+            item.OnSpriteLoaded -= HandleSpriteLoaded;
             Destroy(item.gameObject);
         }
 
@@ -82,8 +86,23 @@ public class CraftPopupView : MonoBehaviour
         OnCrafted?.Invoke(dataId);
     }
 
+    private void HandleSpriteLoaded(string spritePath)
+    {
+        _loadedSpriteKeys.Add(spritePath);
+    }
+
     private void HandleCloseClicked()
     {
         OnCloseButtonClicked?.Invoke();
+    }
+
+    private void ReleaseAllSprites()
+    {
+        foreach (string key in _loadedSpriteKeys)
+        {
+            GameManager.Instance.ResourceManager.ReleaseAsset(key);
+        }
+
+        _loadedSpriteKeys.Clear();
     }
 }

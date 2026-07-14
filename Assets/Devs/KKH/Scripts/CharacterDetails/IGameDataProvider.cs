@@ -12,4 +12,5 @@ public interface IGameDataProvider
 
     EquipmentData GetEquipment(string dataId);
     IReadOnlyList<EquipmentData> GetAllEquipment();
+    IReadOnlyList<ItemData> GetAllItems();
 }

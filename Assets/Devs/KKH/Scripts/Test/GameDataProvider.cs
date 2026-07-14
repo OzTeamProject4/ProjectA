@@ -9,6 +9,7 @@ public class GameDataProvider : IGameDataProvider
     private Dictionary<int, LevelExpData> _expByLevel;
     private List<string> _expItemId;
     private List<EquipmentData> _allEquipment;
+    private List<ItemData> _allItems;
 
     public CharacterStatData GetStat(string characterId)
     {
@@ -125,6 +126,23 @@ public class GameDataProvider : IGameDataProvider
         _allEquipment = new List<EquipmentData>(table.Values);
         return _allEquipment;
     }
+
+    public IReadOnlyList<ItemData> GetAllItems()
+    {
+        if (null != _allItems)
+        {
+            return _allItems;
+        }
+
+        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, ItemData> table))
+        {
+            return Array.Empty<ItemData>();
+        }
+
+        _allItems = new List<ItemData>(table.Values);
+        return _allItems;
+    }
+
 
     private bool TryBuildGradeLookup()
     {
