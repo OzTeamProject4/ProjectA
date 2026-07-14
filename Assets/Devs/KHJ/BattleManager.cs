@@ -52,7 +52,10 @@ public class BattleManager : MonoBehaviour
 
     private async UniTask EnterBattle()
     {
-        await GameManager.Instance.DataManager.LoadDataAsync<CharacterData>("Data_TestCharacter");
+        //TODO 희준 매니저 담당과 로드시점 협의 필요
+        //await GameManager.Instance.DataManager.LoadDataAsync<CharacterData>("Data_TestCharacter");
+        // GameManager InitializeTask 를 임시로 프로퍼티로 변경. 
+        await GameManager.Instance.InitializeTask;
 
         //TODO 희준: 임시파티 ID, 추후 파티편성창에서 id받아오는 방식으로 교체
         List<string> tempPartyIds = new List<string> { "Character_001", "Character_003", "Character_005" };
