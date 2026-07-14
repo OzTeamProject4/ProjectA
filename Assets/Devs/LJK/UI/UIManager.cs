@@ -21,8 +21,6 @@ public class UIManager : BaseManager<UIManager>
             await CreateLayer();
             CacheRootDictionary();
         }
-
-        await this.OpenTestUIAsync();
     }
 
     public async UniTask<BaseUI> OpenTestRootAsync(UIType uiType, CancellationToken cancellationToken = default)
@@ -69,7 +67,7 @@ public class UIManager : BaseManager<UIManager>
             {
                 SetCreatedUIRoot(cachedUI, rootRectTransform);
                 OpenUI(uiType, cachedUI);
-                return null;
+                return cachedUI;
             }
 
             BaseUI createdUI = await CreateUIAsync(uiType, rootRectTransform, cancellationToken);
