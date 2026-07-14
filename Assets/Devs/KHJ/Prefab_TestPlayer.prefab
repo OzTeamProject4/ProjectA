@@ -36,7 +36,6 @@ Transform:
   m_Children:
   - {fileID: 3961262410320416453}
   - {fileID: 9005055626130884636}
-  - {fileID: 2111991461335267908}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5081647649573151466
@@ -55,6 +54,7 @@ MonoBehaviour:
   _groundCheckDistance: 1.1
   _rotationSpeed: 4
   _groundCheckPoint: {fileID: 9005055626130884636}
+  _modelTransform: {fileID: 3961262410320416453}
 --- !u!114 &5112161469702357605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,7 +67,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92fa273db0523564fbb8ba536b11e6ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  _cameraTransform: {fileID: 2111991461335267908}
 --- !u!114 &3651912900195043550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,51 +129,6 @@ CapsuleCollider:
   m_Height: 3.228006
   m_Direction: 1
   m_Center: {x: 0.032691717, y: 1.5432856, z: 0.0024687052}
---- !u!1 &5201733304352061672
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2111991461335267908}
-  - component: {fileID: 2258180657756716578}
-  m_Layer: 0
-  m_Name: CameraPivot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2111991461335267908
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5201733304352061672}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.814, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8711644934950729740}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2258180657756716578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5201733304352061672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6d0165bdb525f94994ad388178386a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraController
-  _mouseSensitivity: 0.1
 --- !u!1 &6019765236692963031
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,18 +168,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8711644934950729740}
     m_Modifications:
-    - target: {fileID: 5866666021909216657, guid: ec18a4c5deca6a64d856ee059524da4b, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5866666021909216657, guid: ec18a4c5deca6a64d856ee059524da4b, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 52ef9504217c41d45b7fafeb7c40627c, type: 2}
-    - target: {fileID: 5866666021909216657, guid: ec18a4c5deca6a64d856ee059524da4b, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cdf3a9ea75b889e4c939cabe7c63af7d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -272,6 +214,18 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: a7e69e8050c7fd743bb142e735a6b5ad, type: 2}
     - target: {fileID: 5866666021909216657, guid: cdf3a9ea75b889e4c939cabe7c63af7d, type: 3}
       propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: ec18a4c5deca6a64d856ee059524da4b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: ec18a4c5deca6a64d856ee059524da4b, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 52ef9504217c41d45b7fafeb7c40627c, type: 2}
+    - target: {fileID: 5866666021909216657, guid: ec18a4c5deca6a64d856ee059524da4b, type: 3}
+      propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -11,8 +11,6 @@ public class PartyController
     private float _lastSwitchTime;
     private List<CharacterAIController> _aiControllerList;
     private List<PlayerController> _playerControllerList;
-    private List<CameraController> _cameraControllerList;
-
     
 
     public void Initialize(List<BattleCharacter> characters, CinemachineCamera cinemachinCamera)
@@ -27,29 +25,25 @@ public class PartyController
     private void SetupControllers()
     {
         _playerControllerList = new List<PlayerController>();
-        _cameraControllerList = new List<CameraController>();
         _aiControllerList = new List<CharacterAIController>();
 
         for (int i = 0; i < _partyCharacters.Count; i++)
         {
             BattleCharacter character = _partyCharacters[i];
             PlayerController player = character.GetComponent<PlayerController>();
-            CameraController camera = character.GetComponentInChildren<CameraController>();
             CharacterAIController ai = character.GetComponent<CharacterAIController>();
 
-            if (player == null || camera == null || ai == null)
+            if (player == null || ai == null)
             {
                 Debug.LogError($"{character.name}에 필요한 컨트롤러가 없음. 프리팹 확인");
                 return;
             }
 
             player.enabled = false;
-            camera.enabled = false;
             ai.enabled = false;
             ai.Initialize(_partyCharacters[0], character);
 
             _playerControllerList.Add(player);
-            _cameraControllerList.Add(camera);
             _aiControllerList.Add(ai);
         }
     }
@@ -63,14 +57,11 @@ public class PartyController
         {
             bool isSelected = (i == index);
             _playerControllerList[i].enabled = isSelected;
-            _cameraControllerList[i].enabled = isSelected;
             _aiControllerList[i].enabled = !isSelected;
             _aiControllerList[i].SetAIFollowTarget(target);
         }
 
-        CameraController selectedCamera = _cameraControllerList[index];
-        _cinemachineCamera.Target.TrackingTarget = selectedCamera.transform;
-        selectedCamera.SetBehindCharacter(target.transform);
+        _cinemachineCamera.Target.TrackingTarget = target.transform;
     }
    
     public void TrySwitchToNextCharacter()

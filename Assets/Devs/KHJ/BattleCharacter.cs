@@ -14,6 +14,7 @@ public class BattleCharacter : MonoBehaviour
     [SerializeField] private float _groundCheckDistance = 0.05f; 
     [SerializeField] private float _rotationSpeed = 4.0f;
     [SerializeField] private Transform _groundCheckPoint;
+    [SerializeField] private Transform _modelTransform;
 
     private CharacterData _data;
     private Rigidbody _rigidbody;
@@ -25,9 +26,22 @@ public class BattleCharacter : MonoBehaviour
     private float _curMoveSpeed;
     private float _curRunSpeed;
     private bool _wasGrounded;
+    
 
-    public string CharacterName => _data.Name;
-    public int CurHp => _curHp;
+    public string CharacterName
+    {
+        get
+        {
+            return _data.Name;
+        }
+    }
+    public int CurHp
+    {
+        get
+        {
+            return _curHp;
+        }
+    }
 
     public event Action<float> OnMoveSpeedChanged;
     public event Action<bool> OnGroundedChanged;
@@ -78,8 +92,11 @@ public class BattleCharacter : MonoBehaviour
         float inputMagnitude = moveDirection.magnitude;
         if (inputMagnitude > MoveThreshold)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
+            if (_modelTransform != null)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+                _modelTransform.rotation = Quaternion.Slerp(_modelTransform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
+            }
         }
 
         float ratio = isRunning ? RunSpeedRatio : WalkSpeedRatio;
