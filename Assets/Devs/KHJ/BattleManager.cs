@@ -11,8 +11,9 @@ using UnityEngine;
 public class BattleManager : MonoBehaviour
 {
     [SerializeField] private CinemachineCamera _cinemachineCamera;
+    [SerializeField] private PartySpawn _partySpawn;
 
-    private TempPartySpawner _partySpawner;
+    // private TempPartySpawner _partySpawner;
     private PartyController _partyController;
     //TODO 희준 : InputManger 준비되면 입력처리 이관
     private PlayerInputActions _inputAction;
@@ -57,8 +58,8 @@ public class BattleManager : MonoBehaviour
         //TODO 희준: 임시파티 ID, 추후 파티편성창에서 id받아오는 방식으로 교체
         List<string> tempPartyIds = new List<string> { "Character_001", "Character_003", "Character_005" };
 
-        _partySpawner = new TempPartySpawner();
-        List<BattleCharacter> characters = await _partySpawner.SpawnPartyById(tempPartyIds);
+        //  _partySpawner = new TempPartySpawner();
+        List<BattleCharacter> characters = await _partySpawn.SpawnPartyById(tempPartyIds);
 
         if (characters == null || characters.Count == 0)
         {

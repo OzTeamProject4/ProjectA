@@ -55,13 +55,22 @@ public class PartySpawn : MonoBehaviour
             // 파티원 id 저장
             string dataId = partyDataIds[i];
 
-            // DataManager 에서 dataID에 해당하는 CharacterData를 탐색
+            // DataManager 에서 dataID에 해당하는 CharacterData를 탐색했는데 없다면?
             if (!GameManager.Instance.DataManager.TryGetData<CharacterData>(dataId, out CharacterData data))
             {
-                // 없다면?
                 Debug.LogError($"CharacterData not found. DataId: {dataId}");
                 continue;
             }
+
+
+            Debug.Log(
+                        $"[Spawn Data Check] " +
+                        $"Id={data.DataId}, Name={data.Name}, Level={data.Level}, " +
+                        $"Hp={data.BaseHp}, Atk={data.BaseAtk}, Def={data.BaseDef}, Speed={data.BaseMoveSpeed}, " +
+                        $"Gauge={data.SkillGauge}, Element={data.ElementType}, Role={data.Role}, " +
+                        $"Skills={string.Join(", ", data.SkillList)}"
+                    );
+
 
             Transform spawnPoint = _spawnPoints[i];
 
@@ -92,6 +101,8 @@ public class PartySpawn : MonoBehaviour
 
             // 찾아온 캐릭터 정보 데이터 적용
             battleCharacter.Initialize(data);
+
+
             characters.Add(battleCharacter);
         }
 
