@@ -27,6 +27,7 @@ public class CharacterData : BaseData
     public int BaseAtk { get; set; }
     public int BaseDef { get; set; }
     public float BaseMoveSpeed { get; set; }
+    public float BaseRunSpeed { get; set; }
     public ElementType ElementType { get; set; }
     public Role Role { get; set; }
 }

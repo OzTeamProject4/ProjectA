@@ -10,12 +10,12 @@ public class IdleState : IState
     }
     public void Enter()
     {
-        _battleCharacter.Move(Vector3.zero);
+        _battleCharacter.Move(Vector3.zero, false);
     }
 
     public void Update()
     {
-
+        _battleCharacter.Move(Vector3.zero, false);
     }
 
     public void Exit() 

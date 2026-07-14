@@ -7,8 +7,11 @@ public class CharacterAIController : MonoBehaviour
     private BattleCharacter _targetCharacter;
     private IState _idleState;
     private IState _followState;
+    private IState _runFollowState;
     private float _followDistance = 10.0f; // TODO 희준 임시 거리값, 추후 조정 필요
     private float _stopDistance = 5.0f;
+    private float _runFollowDistance = 15.0f;
+    private float _walkFollowDistance = 12.0f;
 
     private void Awake()
     {
@@ -26,11 +29,29 @@ public class CharacterAIController : MonoBehaviour
             }
         }
 
-        else
+        else if (_stateMachine.CurrentState == _followState)
         {
-            if (distance <_stopDistance)
+            if (distance < _stopDistance)
             {
                 _stateMachine.ChangeState(_idleState);
+            }
+
+            else if (distance > _runFollowDistance)
+            {
+                _stateMachine.ChangeState(_runFollowState);
+            }
+        }
+
+        else if (_stateMachine.CurrentState == _runFollowState)
+        {
+             if (distance < _stopDistance)
+            {
+                _stateMachine.ChangeState(_idleState);
+            }
+
+            else if (distance < _walkFollowDistance)
+            {
+                _stateMachine.ChangeState(_followState);
             }
         }
 
@@ -49,5 +70,6 @@ public class CharacterAIController : MonoBehaviour
     {
         _targetCharacter = targetCharacter;
         _followState = new FollowState(targetCharacter, _curCharacter);
+        _runFollowState = new RunFollowState(targetCharacter, _curCharacter);
     }
 }

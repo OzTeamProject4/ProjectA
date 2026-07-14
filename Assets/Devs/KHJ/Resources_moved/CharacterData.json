@@ -9,6 +9,7 @@
     "BaseAtk": 10,
     "BaseDef": 9,
     "BaseMoveSpeed": 5,
+    "BaseRunSpeed": 9,
     "ElementType": "Fire",
     "Role": "Attacker"
   },
@@ -22,6 +23,7 @@
     "BaseAtk": 7,
     "BaseDef": 12,
     "BaseMoveSpeed": 4,
+    "BaseRunSpeed": 9,
     "ElementType": "Water",
     "Role": "Buffer"
   },
@@ -35,6 +37,7 @@
     "BaseAtk": 9,
     "BaseDef": 10,
     "BaseMoveSpeed": 5,
+    "BaseRunSpeed": 10,
     "ElementType": "Thunder",
     "Role": "Attacker"
   },
@@ -48,6 +51,7 @@
     "BaseAtk": 10,
     "BaseDef": 15,
     "BaseMoveSpeed": 6,
+    "BaseRunSpeed": 11,
     "ElementType": "Light",
     "Role": "Buffer"
   },
@@ -61,6 +65,7 @@
     "BaseAtk": 15,
     "BaseDef": 12,
     "BaseMoveSpeed": 6,
+    "BaseRunSpeed": 11,
     "ElementType": "Dark",
     "Role": "Attacker"
   }

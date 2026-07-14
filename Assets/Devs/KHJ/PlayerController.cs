@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private BattleCharacter _battleCharacter;
     private PlayerInputActions _inputAction;
     private Vector3 _moveDirection;
+    private bool _isRunning;
 
     private void Awake()
     {
@@ -44,6 +45,8 @@ public class PlayerController : MonoBehaviour
         Vector3 direction = camForward * input.y + camRight * input.x;
         _moveDirection = direction;
 
+        _isRunning = _inputAction.Player.Run.IsPressed();
+        
         if (_inputAction.Player.Jump.WasPressedThisFrame())
         {
             _battleCharacter.Jump();
@@ -52,6 +55,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _battleCharacter.Move(_moveDirection);
+        _battleCharacter.Move(_moveDirection, _isRunning);
     }
 }

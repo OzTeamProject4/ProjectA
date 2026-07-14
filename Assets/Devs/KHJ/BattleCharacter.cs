@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Rigidbody))]
 
 public class BattleCharacter : MonoBehaviour
 {
+    private const float MoveThreshold = 0.1f;
+    private const float WalkSpeedRatio = 0.5f;
+    private const float RunSpeedRatio = 1.0f;
+    private const float JumpVelocityThreshold = 1.0f;
     // TODO 희준 캐릭터 모델링시 수치 변화 필요
     [SerializeField] private float _jumpForce = 5f;
     [SerializeField] private float _groundCheckDistance = 0.05f; 
@@ -14,18 +17,20 @@ public class BattleCharacter : MonoBehaviour
 
     private CharacterData _data;
     private Rigidbody _rigidbody;
-    private CharacterAnimationController _animationController;
     private bool _isSelectedCharacter;
     private int _curHp;
     private int _curSkillGauge;
     private int _curAtk;
     private int _curDef;
     private float _curMoveSpeed;
-    private const float MoveThreshold = 0.1f;
-    private const float WalkSpeedRatio = 0.5f;
+    private float _curRunSpeed;
+    private bool _wasGrounded;
 
     public string CharacterName => _data.Name;
     public int CurHp => _curHp;
+
+    public event Action<float> OnMoveSpeedChanged;
+    public event Action<bool> OnGroundedChanged;
 
     private void Awake()
     {
@@ -34,21 +39,21 @@ public class BattleCharacter : MonoBehaviour
         _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
-    private void Start()
-    {
-        _animationController = GetComponentInChildren<CharacterAnimationController>();
-        if (_animationController == null)
-        {
-            Debug.LogError("AnimationController 가 null");
-            return;
-        }
-    }
+   
     private void Update()
     {
         if (_groundCheckPoint == null)
         {
             return;
         }
+
+        bool grounded = IsGrounded();
+        if (grounded != _wasGrounded)
+        {
+            OnGroundedChanged?.Invoke(grounded);
+            _wasGrounded = grounded;
+        }
+
         Debug.DrawRay(_groundCheckPoint.position, Vector3.down * _groundCheckDistance, Color.red);
     }
     public void Initialize(CharacterData data)
@@ -60,39 +65,32 @@ public class BattleCharacter : MonoBehaviour
         _curAtk = _data.BaseAtk;
         _curDef = _data.BaseDef;
         _curMoveSpeed = _data.BaseMoveSpeed;
+        _curRunSpeed = _data.BaseRunSpeed;
     }
 
-    public void Move(Vector3 moveDirection)
+    public void Move(Vector3 moveDirection, bool isRunning)
     {
-        Vector3 velocity = moveDirection * _curMoveSpeed;
+        float speed = isRunning ? _curRunSpeed : _curMoveSpeed;
+        Vector3 velocity = moveDirection * speed;
         velocity.y = _rigidbody.linearVelocity.y;
         _rigidbody.linearVelocity = velocity;
 
-        if (moveDirection.magnitude > MoveThreshold)
+        float inputMagnitude = moveDirection.magnitude;
+        if (inputMagnitude > MoveThreshold)
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
         }
 
-        float inputMagnitude = moveDirection.magnitude;
-        float animMoveSpeed = inputMagnitude * WalkSpeedRatio;
+        float ratio = isRunning ? RunSpeedRatio : WalkSpeedRatio;
+        float animMoveSpeed = inputMagnitude * ratio;
 
-        if (_animationController != null)
-        {
-            _animationController.SetMoveSpeed(animMoveSpeed);
-        }
+        OnMoveSpeedChanged?.Invoke(animMoveSpeed);
     }
 
     public void Jump()
     {
-        if (_groundCheckPoint == null)
-        {
-            Debug.LogError("_groundCehckPoint 확인");
-            return;
-        }
-
-        bool isGround = Physics.Raycast(_groundCheckPoint.position, Vector3.down, _groundCheckDistance);
-        if (isGround == false) 
+        if (IsGrounded() == false) 
         {
             return;
         }
@@ -100,5 +98,20 @@ public class BattleCharacter : MonoBehaviour
         Vector3 velocity = _rigidbody.linearVelocity;
         velocity.y = _jumpForce;
         _rigidbody.linearVelocity = velocity;
+    }
+
+    private bool IsGrounded()
+    {
+        if (_groundCheckPoint == null)
+        {
+            Debug.LogError("_groundCehckPoint 확인");
+            return false;
+        }
+
+        if (_rigidbody.linearVelocity.y > JumpVelocityThreshold)
+        {
+            return false;
+        }
+        return Physics.Raycast(_groundCheckPoint.position, Vector3.down, _groundCheckDistance);
     }
 }

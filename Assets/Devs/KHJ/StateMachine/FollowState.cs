@@ -18,7 +18,7 @@ public class FollowState : IState
     public void Update()
     {
         Vector3 direction = (_targetCharacter.transform.position - _curCharacter.transform.position).normalized;
-        _curCharacter.Move(direction);
+        _curCharacter.Move(direction, false);
     }
 
     public void Exit() 
