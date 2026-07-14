@@ -14,9 +14,10 @@ public class ResourceManager : BaseManager<ResourceManager>
 
     private CancellationTokenSource _releaseAllCts = new CancellationTokenSource();
 
-    public override  void Initialize()
+    public override UniTask InitializeAsync()
     {
         ReleaseAllAssets();
+        return UniTask.CompletedTask;
     }
 
     public async UniTask<T> LoadAssetAsync<T>(string key, CancellationToken cancellationToken = default) where T : UnityEngine.Object
@@ -69,7 +70,7 @@ public class ResourceManager : BaseManager<ResourceManager>
     {
         if (string.IsNullOrWhiteSpace(key))
         {
-            Debug.LogError("[ResourceManager:GetOrLoadAssetAsync] 전달된 key가 null이거나 빈 문자열 또는 공백 문자열입니다.");
+            Debug.LogError($"[{nameof(ResourceManager)}:{nameof(GetOrLoadAssetAsync)}] 전달된 key가 null이거나 빈 문자열 또는 공백 문자열입니다.");
             return null;
         }
 
@@ -83,7 +84,7 @@ public class ResourceManager : BaseManager<ResourceManager>
                 return assetFromLoadedHandle;
             }
 
-            Debug.LogWarning($"[ResourceManager:GetOrLoadAssetAsync] '{key}'의 Handle이 유효하지 않아 다시 로드합니다.");
+            Debug.LogWarning($"[{nameof(ResourceManager)}:{nameof(GetOrLoadAssetAsync)}] '{key}'의 Handle이 유효하지 않아 다시 로드합니다.");
             _assetHandleDictionary.Remove(key);
         }
 
@@ -96,7 +97,7 @@ public class ResourceManager : BaseManager<ResourceManager>
 
             if (typeCastAsset == null)
             {
-                Debug.LogError($"[ResourceManager:GetOrLoadAssetAsync] '{key}' 타입 캐스팅 실패");
+                Debug.LogError($"[{nameof(ResourceManager)}:{nameof(GetOrLoadAssetAsync)}] '{key}' 타입 캐스팅 실패");
                 return null;
             }
 
@@ -119,7 +120,7 @@ public class ResourceManager : BaseManager<ResourceManager>
         
         if (loadAsset == null)
         {
-            Debug.LogError($"[ResourceManager:GetOrLoadAssetAsync] '{key}' 타입 캐스팅 실패");
+            Debug.LogError($"[{nameof(ResourceManager)}:{nameof(GetOrLoadAssetAsync)}] '{key}' 타입 캐스팅 실패");
 
             if (_assetHandleDictionary.TryGetValue(key, out var handleInfo))
             {
@@ -164,7 +165,7 @@ public class ResourceManager : BaseManager<ResourceManager>
         }
         catch (Exception exception)
         {
-            Debug.LogError($"[ResourceManager:ExecuteLoadAssetAsync] '{key}'의 에셋을 로드하는 중 예외가 발생했습니다.\n{exception}");
+            Debug.LogError($"[{nameof(ResourceManager)}:{nameof(ExecuteLoadAssetAsync)}] '{key}'의 에셋을 로드하는 중 예외가 발생했습니다.\n{exception}");
 
             CleanupFailedLoad(key, source, handle);
         }
@@ -174,13 +175,13 @@ public class ResourceManager : BaseManager<ResourceManager>
     {
         if (!handle.IsValid())
         {
-            Debug.LogError($"[ResourceManager:GetAssetFromHandle] '{key}'의 Handle이 유효하지 않습니다.");
+            Debug.LogError($"[{nameof(ResourceManager)}:{nameof(GetAssetFromHandle)}] '{key}'의 Handle이 유효하지 않습니다.");
             return null;
         }
 
         if (handle.Status != AsyncOperationStatus.Succeeded)
         {
-            Debug.LogError($"[ResourceManager:GetAssetFromHandle] '{key}'의 에셋을 로드하지 못했습니다.");
+            Debug.LogError($"[{nameof(ResourceManager)}:{nameof(GetAssetFromHandle)}] '{key}'의 에셋을 로드하지 못했습니다.");
             return null;
         }
 
@@ -188,7 +189,7 @@ public class ResourceManager : BaseManager<ResourceManager>
 
         if (asset == null)
         {
-            Debug.LogError($"[ResourceManager:GetAssetFromHandle] '{key}'의 로드된 에셋이 null입니다.");
+            Debug.LogError($"[{nameof(ResourceManager)}:{nameof(GetAssetFromHandle)}] '{key}'의 로드된 에셋이 null입니다.");
             return null;
         }
 
@@ -199,7 +200,7 @@ public class ResourceManager : BaseManager<ResourceManager>
     {
         if (!_assetHandleDictionary.TryGetValue(key, out AssetHandleInfo assetHandleInfo))
         {
-            Debug.LogError($"[ResourceManager:TryAddAssetReference] '{key}'의 Handle 정보를 찾을 수 없습니다.");
+            Debug.LogError($"[{nameof(ResourceManager)}:{nameof(TryAddAssetReference)}] '{key}'의 Handle 정보를 찾을 수 없습니다.");
             return false;
         }
 
