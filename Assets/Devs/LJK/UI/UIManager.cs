@@ -10,7 +10,7 @@ public class UIManager : BaseManager<UIManager>
     private readonly HashSet<UIType> _openedUISet = new HashSet<UIType>();
 
     private readonly Dictionary<UIRoot, RectTransform> _rootCacheDictionary = new Dictionary<UIRoot, RectTransform>();
-    private readonly Dictionary<UIType, GameObject> _createdUICacheDictionary = new Dictionary<UIType, GameObject>();
+    private readonly Dictionary<UIType, BaseUI> _createdUICacheDictionary = new Dictionary<UIType, BaseUI>();
 
     private UILayer _uiLayer;
 
@@ -21,11 +21,14 @@ public class UIManager : BaseManager<UIManager>
             await CreateLayer();
             CacheRootDictionary();
         }
+
+        await this.OpenTestUIAsync();
     }
 
-    public async UniTask OpenTestRootAsync(UIType uiType, CancellationToken cancellationToken = default)
+    public async UniTask<BaseUI> OpenTestRootAsync(UIType uiType, CancellationToken cancellationToken = default)
     {
-        await OpenUIAsync(uiType, UIRoot.A, cancellationToken);
+        BaseUI baseUI = await OpenUIAsync(uiType, UIRoot.A, cancellationToken);
+        return baseUI;
     }
 
     public void Close(UIType uiType)
@@ -44,42 +47,43 @@ public class UIManager : BaseManager<UIManager>
         CacheUIRoot(UIRoot.E, _uiLayer.E);
     }
 
-    private async UniTask OpenUIAsync(UIType uiType, UIRoot uiRoot, CancellationToken cancellationToken)
+    private async UniTask<BaseUI> OpenUIAsync(UIType uiType, UIRoot uiRoot, CancellationToken cancellationToken)
     {
         if (!TryGetRootRectTransform(uiRoot, out RectTransform rootRectTransform))
         {
             Debug.LogError($"[{nameof(UIManager)}:{nameof(OpenUIAsync)}] '{uiRoot}'에 해당하는 Root RectTransform을 찾을 수 없습니다.");
-            return;
+            return null;
         }
 
         if (_openedUISet.Contains(uiType) || _loadingUISet.Contains(uiType))
         {
             Debug.LogWarning($"[{nameof(UIManager)}:{nameof(OpenUIAsync)}] '{uiType}' UI가 이미 열려 있거나 로딩 중입니다.");
-            return;
+            return null;
         }
 
         _loadingUISet.Add(uiType);
 
         try
         {
-            if (_createdUICacheDictionary.TryGetValue(uiType, out GameObject cachedUI))
+            if (_createdUICacheDictionary.TryGetValue(uiType, out BaseUI cachedUI))
             {
                 SetCreatedUIRoot(cachedUI, rootRectTransform);
                 OpenUI(uiType, cachedUI);
-                return;
+                return null;
             }
 
-            GameObject createdUI = await CreateUIAsync(uiType, rootRectTransform, cancellationToken);
+            BaseUI createdUI = await CreateUIAsync(uiType, rootRectTransform, cancellationToken);
 
             if (createdUI == null)
             {
                 Debug.LogError($"[{nameof(UIManager)}:{nameof(OpenUIAsync)}] '{uiType}' UI 생성에 실패하여 UI를 열 수 없습니다.");
-                return;
+                return null;
             }
 
             _createdUICacheDictionary[uiType] = createdUI;
 
             OpenUI(uiType, createdUI);
+            return createdUI;
         }
         finally
         {
@@ -87,13 +91,13 @@ public class UIManager : BaseManager<UIManager>
         }
     }
 
-    private void OpenUI(UIType uiType, GameObject uiObject)
+    private void OpenUI(UIType uiType, BaseUI uiObject)
     {
         _openedUISet.Add(uiType);
-        uiObject.SetActive(true);
+        uiObject.gameObject.SetActive(true);
     }
 
-    private async UniTask<GameObject> CreateUIAsync(UIType uiType, RectTransform rectTransform, CancellationToken cancellationToken)
+    private async UniTask<BaseUI> CreateUIAsync(UIType uiType, RectTransform rectTransform, CancellationToken cancellationToken)
     {
         try
         {
@@ -106,7 +110,13 @@ public class UIManager : BaseManager<UIManager>
                 return null;
             }
 
-            GameObject uiInstance = Instantiate(uiPrefab, rectTransform);
+            if (!uiPrefab.TryGetComponent(out BaseUI uibase))
+            {
+                Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateUIAsync)}] '{uiType}' UI 프리팹에서 UIBase 컴포넌트를 찾을 수 없습니다.");
+                return null;
+            }
+
+            BaseUI uiInstance = Instantiate(uibase, rectTransform);
             return uiInstance;
         }
         catch (Exception exception)
@@ -124,10 +134,10 @@ public class UIManager : BaseManager<UIManager>
             return;
         }
 
-        GameObject uiObject = _createdUICacheDictionary[uiType];
+        BaseUI uiObject = _createdUICacheDictionary[uiType];
 
         _openedUISet.Remove(uiType);
-        uiObject.SetActive(false);
+        uiObject.gameObject.SetActive(false);
     }
 
     private bool TryGetRootRectTransform(UIRoot uiRoot, out RectTransform rectTransform)
@@ -163,7 +173,7 @@ public class UIManager : BaseManager<UIManager>
         }
     }
 
-    private void SetCreatedUIRoot(GameObject uiObject, RectTransform rectTransform)
+    private void SetCreatedUIRoot(BaseUI uiObject, RectTransform rectTransform)
     {
         if (!uiObject.transform.IsChildOf(rectTransform))
         {
