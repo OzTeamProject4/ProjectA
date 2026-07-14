@@ -13,6 +13,22 @@ public class CharacterAIController : MonoBehaviour
     private float _runFollowDistance = 15.0f;
     private float _walkFollowDistance = 12.0f;
 
+    public BattleCharacter CurCharacter
+    {
+        get
+        {
+            return _curCharacter;
+        }
+    }
+
+    public BattleCharacter TargetCharacter
+    { 
+        get 
+        { 
+            return _targetCharacter; 
+        } 
+    }
+
     private void Awake()
     {
         _stateMachine = new StateMachine();
@@ -61,15 +77,17 @@ public class CharacterAIController : MonoBehaviour
     public void Initialize(BattleCharacter targetCharacter, BattleCharacter curCharacter)
     {
         _curCharacter = curCharacter;
-        SetAIFollowTarget(targetCharacter);
-        _idleState = new IdleState(curCharacter);
+        _targetCharacter = targetCharacter;
+
+        _idleState = new IdleState(this);
+        _followState = new FollowState(this);
+        _runFollowState = new RunFollowState(this);
+
         _stateMachine.ChangeState(_idleState);
     }
 
     public void SetAIFollowTarget(BattleCharacter targetCharacter)
     {
         _targetCharacter = targetCharacter;
-        _followState = new FollowState(targetCharacter, _curCharacter);
-        _runFollowState = new RunFollowState(targetCharacter, _curCharacter);
     }
 }

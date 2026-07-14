@@ -3,19 +3,19 @@ using UnityEngine;
 
 public class IdleState : IState
 {
-    private BattleCharacter _battleCharacter;
-    public IdleState(BattleCharacter battleCharacter)
+    private CharacterAIController _controller;
+    public IdleState(CharacterAIController controller)
     {
-        _battleCharacter = battleCharacter;
+        _controller = controller;
     }
     public void Enter()
     {
-        _battleCharacter.Move(Vector3.zero, false);
+        _controller.CurCharacter.Move(Vector3.zero, false);
     }
 
     public void Update()
     {
-        _battleCharacter.Move(Vector3.zero, false);
+        _controller.CurCharacter.Move(Vector3.zero, false);
     }
 
     public void Exit() 

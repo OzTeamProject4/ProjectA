@@ -2,13 +2,12 @@
 
 public class RunFollowState : IState
 {
-    private BattleCharacter _targetCharacter;
-    private BattleCharacter _curCharacter;
+    private CharacterAIController _controller;
 
-    public RunFollowState(BattleCharacter targetCharacter, BattleCharacter curCharacter)
+
+    public RunFollowState(CharacterAIController controller)
     {
-        _targetCharacter = targetCharacter;
-        _curCharacter = curCharacter;
+        _controller = controller;
     }
     public void Enter()
     {
@@ -16,8 +15,11 @@ public class RunFollowState : IState
     }
     public void Update()
     {
-        Vector3 direction = (_targetCharacter.transform.position -  _curCharacter.transform.position).normalized;
-        _curCharacter.Move(direction, true);
+        BattleCharacter target = _controller.TargetCharacter;
+        BattleCharacter curCharacter = _controller.CurCharacter;
+
+        Vector3 direction = (target.transform.position - curCharacter.transform.position).normalized;
+        curCharacter.Move(direction, true);
     }
     public void Exit()
     {

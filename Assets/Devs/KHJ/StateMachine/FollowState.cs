@@ -2,13 +2,11 @@
 
 public class FollowState : IState
 {
-    private BattleCharacter _targetCharacter;
-    private BattleCharacter _curCharacter;
+    private CharacterAIController _controller;
 
-    public FollowState(BattleCharacter targetCharacter, BattleCharacter curCharacter)
+    public FollowState(CharacterAIController controller)
     {
-        _targetCharacter = targetCharacter;
-        _curCharacter = curCharacter;
+        _controller = controller;
     }
     public void Enter()
     {
@@ -17,8 +15,11 @@ public class FollowState : IState
 
     public void Update()
     {
-        Vector3 direction = (_targetCharacter.transform.position - _curCharacter.transform.position).normalized;
-        _curCharacter.Move(direction, false);
+        BattleCharacter target = _controller.TargetCharacter;
+        BattleCharacter curCharacter = _controller.CurCharacter;
+
+        Vector3 direction = (target.transform.position - curCharacter.transform.position).normalized;
+        curCharacter.Move(direction, false);
     }
 
     public void Exit() 
