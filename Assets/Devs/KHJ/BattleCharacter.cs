@@ -136,4 +136,23 @@ public class BattleCharacter : MonoBehaviour
         }
         return Physics.Raycast(_groundCheckPoint.position, Vector3.down, _groundCheckDistance);
     }
+
+    public void LookAt(Vector3 targetPosition)
+    {
+        if (_modelTransform == null)
+        {
+            return;
+        }
+
+        Vector3 direction = (targetPosition - transform.position);
+        direction.y = 0;
+
+        if(direction.magnitude < MoveThreshold)
+        {
+            return;
+        }
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction.normalized);
+        _modelTransform.rotation = Quaternion.Slerp(_modelTransform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
+    }
 }

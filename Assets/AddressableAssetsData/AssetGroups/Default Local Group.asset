@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 2ec5a78d4968bee4ca48b7f1e7939337
   m_SerializeEntries:
+  - m_GUID: 43f77c92a81a6c34eb6e8238362abbc2
+    m_Address: Data_TestCharacter
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 957d354e80b0b7b498197c777ce487a7
     m_Address: Prefab_TestBattleCharacterBase
     m_ReadOnly: 0

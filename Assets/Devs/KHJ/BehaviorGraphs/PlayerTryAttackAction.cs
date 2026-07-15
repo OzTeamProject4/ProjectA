@@ -10,6 +10,7 @@ public partial class PlayerTryAttackAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<GameObject> EnemyTarget;
+    private CharacterAttack _characterAttack;
     private BattleCharacter _battleCharacter;
 
     protected override Status OnStart()
@@ -19,18 +20,22 @@ public partial class PlayerTryAttackAction : Action
 
     protected override Status OnUpdate()
     {
+        if (_characterAttack == null)
+        {
+            _characterAttack = Self.Value.GetComponent<CharacterAttack>();
+        }
+
         if (_battleCharacter == null)
         {
             _battleCharacter = Self.Value.GetComponent<BattleCharacter>();
         }
-
-        if (_battleCharacter == null || EnemyTarget.Value == null)
+        if (_characterAttack == null || EnemyTarget.Value == null)
         {
-            Debug.Log($"공격 노드 진입했으나 실패: bc={_battleCharacter}, enemy={EnemyTarget.Value}");
             return Status.Failure;   
         }
 
-        Debug.Log($"{Self.Value.name}이 {EnemyTarget.Value.name} 공격!");
+        _battleCharacter.LookAt(EnemyTarget.Value.transform.position);
+        _characterAttack.FireProjectile(EnemyTarget.Value.transform);
         return Status.Success;
     }
 
