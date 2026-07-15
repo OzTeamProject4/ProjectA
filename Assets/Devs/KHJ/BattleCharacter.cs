@@ -9,6 +9,7 @@ public class BattleCharacter : MonoBehaviour
     private const float WalkSpeedRatio = 0.5f;
     private const float RunSpeedRatio = 1.0f;
     private const float JumpVelocityThreshold = 1.0f;
+    private const float AnimSpeedDamping = 3.0f;
     // TODO 희준 캐릭터 모델링시 수치 변화 필요
     [SerializeField] private float _jumpForce = 5f;
     [SerializeField] private float _groundCheckDistance = 0.05f; 
@@ -26,6 +27,7 @@ public class BattleCharacter : MonoBehaviour
     private float _curMoveSpeed;
     private float _curRunSpeed;
     private bool _wasGrounded;
+    private float _currentAnimSpeed;
     
 
     public string CharacterName
@@ -100,9 +102,10 @@ public class BattleCharacter : MonoBehaviour
         }
 
         float ratio = isRunning ? RunSpeedRatio : WalkSpeedRatio;
-        float animMoveSpeed = inputMagnitude * ratio;
+        float targetAnimSpeed = inputMagnitude * ratio;
 
-        OnMoveSpeedChanged?.Invoke(animMoveSpeed);
+        _currentAnimSpeed = Mathf.MoveTowards(_currentAnimSpeed, targetAnimSpeed, AnimSpeedDamping * Time.deltaTime);
+        OnMoveSpeedChanged?.Invoke(_currentAnimSpeed);
     }
 
     public void Jump()

@@ -40,24 +40,38 @@ public class PartyController
             }
 
             player.enabled = false;
-            ai.enabled = false;
-            ai.Initialize(_partyCharacters[0], character);
+            ai.DisableAI();
+            // ai.Initialize(_partyCharacters[0], character);
 
             _playerControllerList.Add(player);
             _aiControllerList.Add(ai);
         }
+
+
     }
 
     public void SwitchCharacter(int index)
     {
+
         _currentCharacterIndex = index;
         BattleCharacter target = _partyCharacters[index];
 
         for (int i = 0; i < _playerControllerList.Count; i++)
         {
             bool isSelected = (i == index);
+
             _playerControllerList[i].enabled = isSelected;
-            _aiControllerList[i].enabled = !isSelected;
+
+            if (isSelected)
+            {
+                _aiControllerList[i].DisableAI();
+            }
+
+            else
+            {
+                _aiControllerList[i].EnableAI();
+            }
+
             _aiControllerList[i].SetAIFollowTarget(target);
         }
 
