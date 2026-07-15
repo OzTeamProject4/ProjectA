@@ -1,10 +1,17 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks;
+using System;
+using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ExpItemSlotView : MonoBehaviour
+public class ExpItemSlotView : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
+    private const float HoldDelaySeconds = 1.5f;
+    private const float RepeatIntervalSeconds = 0.15f;
+
+    [SerializeField] private Image _iconImage;
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _countText;
     [SerializeField] private Button _selectButton;
@@ -14,17 +21,22 @@ public class ExpItemSlotView : MonoBehaviour
 
     private ExpItemSlotViewModel _viewModel;
     private bool _isSubscribed;
+    private string _loadedSpriteKey;
+    private CancellationTokenSource _holdCts;
 
     public event Action<string> OnClicked;
 
     private void OnDisable()
     {
         Unsubscribe();
+        CancelHold();
     }
 
     private void OnDestroy()
     {
         Unsubscribe();
+        CancelHold();
+        ReleaseSprite();
     }
 
     public void Bind(ExpItemSlotViewModel viewModel)
@@ -40,7 +52,32 @@ public class ExpItemSlotView : MonoBehaviour
         _viewModel = viewModel;
         _nameText.text = _viewModel.Name;
 
+        LoadIconAsync().Forget();
+
         Subscribe();
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        Debug.Log($"[ExpItemSlot] OnPointerDown 호출됨. IsUsable={_viewModel?.IsUsable}");
+
+        if (null == _viewModel || !_viewModel.IsUsable)
+        {
+            return;
+        }
+
+        TriggerUse();
+        StartHoldAsync().Forget();
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        CancelHold();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        CancelHold();
     }
 
     private void RefreshDisplay()
@@ -52,12 +89,22 @@ public class ExpItemSlotView : MonoBehaviour
 
         _countText.text = _viewModel.OwnedCount.ToString();
 
+        bool isUsable = _viewModel.IsUsable;
+
         if (null != _canvasGroup)
         {
-            _canvasGroup.alpha = _viewModel.IsUsable ? 1f : _unusableAlpha;
+            _canvasGroup.alpha = isUsable ? 1f : _unusableAlpha;
         }
 
-        _selectButton.interactable = _viewModel.IsUsable;
+        if (null != _selectButton)
+        {
+            _selectButton.interactable = isUsable;
+        }
+        
+        if (!isUsable)
+        {
+            CancelHold();
+        }
     }
 
     private void Subscribe()
@@ -68,7 +115,6 @@ public class ExpItemSlotView : MonoBehaviour
         }
 
         _viewModel.OnChanged += HandleChanged;
-        _selectButton.onClick.AddListener(HandleClick);
         _isSubscribed = true;
 
         _viewModel.Initialize();
@@ -84,7 +130,6 @@ public class ExpItemSlotView : MonoBehaviour
 
         _viewModel.OnChanged -= HandleChanged;
         _viewModel.Dispose();
-        _selectButton.onClick.RemoveListener(HandleClick);
         _isSubscribed = false;
     }
 
@@ -93,9 +138,101 @@ public class ExpItemSlotView : MonoBehaviour
         RefreshDisplay();
     }
 
-    private void HandleClick()
+    private void TriggerUse()
     {
         OnClicked?.Invoke(_viewModel.DataId);
     }
 
+    private async UniTaskVoid LoadIconAsync()
+    {
+        if (null == _iconImage)
+        {
+            return;
+        }
+
+        string spritePath = _viewModel.SpritePath;
+
+        if (string.IsNullOrEmpty(spritePath))
+        {
+            _iconImage.enabled = false;
+            return;
+        }
+
+        try
+        {
+            Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(spritePath, destroyCancellationToken);
+
+            if (null == sprite)
+            {
+                _iconImage.enabled = false;
+                return;
+            }
+
+            ReleaseSprite();
+            _loadedSpriteKey = spritePath;
+
+            _iconImage.enabled = true;
+            _iconImage.sprite = sprite;
+        }
+        catch (OperationCanceledException)
+        {
+            // 오브젝트 파괴로 취소됨
+        }
+        catch (Exception exception)
+        {
+            Debug.LogWarning($"[ExpItemSlotView] 아이콘 로드 실패. spritePath={spritePath}\n{exception}");
+        }
+    }
+
+    private async UniTaskVoid StartHoldAsync()
+    {
+        CancelHold();
+
+        _holdCts = new CancellationTokenSource();
+        CancellationToken token = _holdCts.Token;
+
+        try
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(HoldDelaySeconds), cancellationToken: token);
+
+            while (!token.IsCancellationRequested)
+            {
+                if (null == _viewModel || !_viewModel.IsUsable)
+                {
+                    break;
+                }
+
+                TriggerUse();
+
+                await UniTask.Delay(TimeSpan.FromSeconds(RepeatIntervalSeconds), cancellationToken: token);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // 손을 떼거나 오브젝트 파괴로 취소됨
+        }
+    }
+
+    private void CancelHold()
+    {
+        if (null == _holdCts)
+        {
+            return;
+        }
+
+        _holdCts.Cancel();
+        _holdCts.Dispose();
+        _holdCts = null;
+    }
+
+    private void ReleaseSprite()
+    {
+        if (string.IsNullOrEmpty(_loadedSpriteKey))
+        {
+            return;
+        }
+
+        GameManager.Instance.ResourceManager.ReleaseAsset(_loadedSpriteKey);
+        _loadedSpriteKey = null;
+    }
 }

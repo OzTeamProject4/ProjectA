@@ -8,6 +8,7 @@ public class ExpItemSelectPopupView : BaseUI
     [SerializeField] private ExpItemSlotView _slotPrefab;
     [SerializeField] private Transform _slotContainer;
     [SerializeField] private Button _closeButton;
+    [SerializeField] private Button _blockerButton;
 
     private readonly List<ExpItemSlotView> _spawnedSlots = new();
 
@@ -20,6 +21,11 @@ public class ExpItemSelectPopupView : BaseUI
         {
             _closeButton.onClick.AddListener(HandleCloseClicked);
         }
+
+        if (null != _blockerButton)
+        {
+            _blockerButton.onClick.AddListener(HandleCloseClicked);
+        }
     }
 
     private void OnDisable()
@@ -27,6 +33,11 @@ public class ExpItemSelectPopupView : BaseUI
         if (null != _closeButton)
         {
             _closeButton.onClick.RemoveListener(HandleCloseClicked);
+        }
+
+        if (null != _blockerButton)
+        {
+            _blockerButton.onClick.RemoveListener(HandleCloseClicked);
         }
     }
 

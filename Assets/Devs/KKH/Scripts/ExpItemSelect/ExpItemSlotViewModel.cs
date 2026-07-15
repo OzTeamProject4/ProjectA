@@ -16,6 +16,11 @@ public class ExpItemSlotViewModel
         get { return _itemData.Name; }
     }
 
+    public string SpritePath
+    {
+        get { return _itemData.SpritePath; }
+    }
+
     public int OwnedCount
     {
         get { return _inventory.GetItemCount(DataId); }
@@ -39,12 +44,14 @@ public class ExpItemSlotViewModel
     {
         _inventory.OnItemChanged += HandleChanged;
         _character.OnLevelChanged += HandleChanged;
+        _character.OnStarChanged += HandleChanged;
     }
 
     public void Dispose()
     {
         _inventory.OnItemChanged -= HandleChanged;
         _character.OnLevelChanged -= HandleChanged;
+        _character.OnStarChanged -= HandleChanged;
     }
 
     private void HandleChanged()

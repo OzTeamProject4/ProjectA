@@ -16,6 +16,9 @@ public class EquipmentDetailPopupView : BaseUI
     [SerializeField] private Button _equipButton;
     [SerializeField] private Button _unequipButton;
     [SerializeField] private Button _closeButton;
+    [SerializeField] private Button _blockerButton;
+
+    [SerializeField] private RectTransform _cardRect;
 
     private EquipmentDetailPopupViewModel _viewModel;
     private bool _isSubscribed;
@@ -55,6 +58,18 @@ public class EquipmentDetailPopupView : BaseUI
         Subscribe();
     }
 
+    public void MoveCardTo(Vector3 worldPosition)
+    {
+        if (null == _cardRect)
+        {
+            Debug.LogWarning("[EquipmentDetailPopupView] _cardRect 가 연결되지 않았습니다.");
+            return;
+        }
+
+        _cardRect.pivot = new Vector2(0.5f, 1f);
+        _cardRect.position = worldPosition;
+    }
+
     private void Subscribe()
     {
         if (_isSubscribed || null == _viewModel)
@@ -68,6 +83,11 @@ public class EquipmentDetailPopupView : BaseUI
         if (null != _closeButton)
         {
             _closeButton.onClick.AddListener(HandleClickClose);
+        }
+
+        if (null != _blockerButton)
+        {
+            _blockerButton.onClick.AddListener(HandleClickClose);
         }
 
         _isSubscribed = true;
@@ -88,6 +108,11 @@ public class EquipmentDetailPopupView : BaseUI
         if (null != _closeButton)
         {
             _closeButton.onClick.RemoveListener(HandleClickClose);
+        }
+
+        if (null != _blockerButton)
+        {
+            _blockerButton.onClick.RemoveListener(HandleClickClose);
         }
 
         _isSubscribed = false;

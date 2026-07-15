@@ -270,6 +270,7 @@ public class CharacterGrowthController : MonoBehaviour
     {
         if (null == _detailView)
         {
+            Debug.LogWarning("[Controller] _detailView 가 null 입니다.");
             return;
         }
 

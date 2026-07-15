@@ -37,7 +37,7 @@ public static class UIManagerExtension
 
     public static async UniTask<ExpItemSelectPopupView> OpenExpItemSelectPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
-        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.ExpItemSelectPopup, cancellationToken);
+        BaseUI baseUI = await uiManager.OpenOverlayRootAsync(UIType.ExpItemSelectPopup, cancellationToken);
         return GetView<ExpItemSelectPopupView>(baseUI, UIType.ExpItemSelectPopup);
     }
 

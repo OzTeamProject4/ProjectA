@@ -207,21 +207,12 @@ public class EquipmentController
             return;
         }
 
-        RectTransform popupRect = _detailPopup.transform as RectTransform;
-
-        if (null == popupRect)
-        {
-            return;
-        }
-
         Vector3[] itemCorners = new Vector3[4];
         itemRect.GetWorldCorners(itemCorners);
 
-        // GetWorldCorners: [0]=좌하, [1]=좌상, [2]=우상, [3]=우하
         Vector3 itemBottomCenter = (itemCorners[0] + itemCorners[3]) * 0.5f;
 
-        popupRect.pivot = new Vector2(0.5f, 1f);
-        popupRect.position = itemBottomCenter;
+        _detailPopup.MoveCardTo(itemBottomCenter);
     }
 
     // TODO: 장착/해제 시 사운드·비주얼 피드백 추가
