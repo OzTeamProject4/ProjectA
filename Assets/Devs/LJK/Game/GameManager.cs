@@ -15,6 +15,9 @@ public class GameManager : BaseManager<GameManager>
 
     public InputManager InputManager { get; private set; }
 
+    public ObjectManager ObjectManager { get; private set; }
+
+
     private UniTask _initializeTask;
 
     private void Awake()
@@ -53,6 +56,7 @@ public class GameManager : BaseManager<GameManager>
         AudioManager = this.GetRequiredComponent<AudioManager>();
         UIManager = this.GetRequiredComponent<UIManager>();
         InputManager = this.GetRequiredComponent<InputManager>();
+        ObjectManager = this.GetRequiredComponent<ObjectManager>();
     }
 
     private async UniTask InitializeManagersAsync()
@@ -63,5 +67,6 @@ public class GameManager : BaseManager<GameManager>
         await AudioManager.InitializeAsync();
         await UIManager.InitializeAsync();
         await InputManager.InitializeAsync();
+        await ObjectManager.InitializeAsync();
     }
 }
