@@ -1,35 +1,52 @@
 [
   {
+    "DataId": "Star_1",
+    "Star": 1,
+    "MaxLevel": 10,
+    "RequiredToNext": 2,
+    "HpGrow": 10,
+    "AtkGrow": 3,
+    "DefGrow": 2,
+    "MoveSpeedGrow": 0
+  },
+  {
+    "DataId": "Star_2",
+    "Star": 2,
+    "MaxLevel": 15,
+    "RequiredToNext": 4,
+    "HpGrow": 20,
+    "AtkGrow": 4,
+    "DefGrow": 3,
+    "MoveSpeedGrow": 0.02
+  },
+  {
     "DataId": "Star_3",
     "Star": 3,
     "MaxLevel": 20,
-    "RequiredToNext": 5,
-    "HpGrow": 0,
-    "AtkGrow": 0,
-    "DefGrow": 0,
-    "AtkSpeedGrow": 0,
-    "MoveSpeedGrow": 0
+    "RequiredToNext": 8,
+    "HpGrow": 30,
+    "AtkGrow": 5,
+    "DefGrow": 4,
+    "MoveSpeedGrow": 0.02
   },
   {
     "DataId": "Star_4",
     "Star": 4,
     "MaxLevel": 25,
-    "RequiredToNext": 10,
-    "HpGrow": 10,
-    "AtkGrow": 5,
-    "DefGrow": 2,
-    "AtkSpeedGrow": 0.05,
-    "MoveSpeedGrow": 0.02
+    "RequiredToNext": 16,
+    "HpGrow": 40,
+    "AtkGrow": 6,
+    "DefGrow": 5,
+    "MoveSpeedGrow": 0.03
   },
   {
     "DataId": "Star_5",
     "Star": 5,
     "MaxLevel": 30,
-    "RequiredToNext": 0,
-    "HpGrow": 20,
-    "AtkGrow": 10,
-    "DefGrow": 4,
-    "AtkSpeedGrow": 0.1,
-    "MoveSpeedGrow": 0.04
+    "RequiredToNext": 32,
+    "HpGrow": 50,
+    "AtkGrow": 7,
+    "DefGrow": 6,
+    "MoveSpeedGrow": 0.03
   }
 ]

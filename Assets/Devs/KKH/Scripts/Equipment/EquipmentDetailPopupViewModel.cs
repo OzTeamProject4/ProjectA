@@ -51,13 +51,11 @@ public class EquipmentDetailPopupViewModel
         float currentHp = null == current ? 0f : current.TotalHp;
         float currentAtk = null == current ? 0f : current.TotalAtk;
         float currentDef = null == current ? 0f : current.TotalDef;
-        float currentAtkSpeed = null == current ? 0f : current.TotalAtkSpeed;
         float currentMoveSpeed = null == current ? 0f : current.TotalMoveSpeed;
 
         AddBonusStat(deltas, StatType.MaxHp, _instance.TotalHp, currentHp, true);
         AddBonusStat(deltas, StatType.Atk, _instance.TotalAtk, currentAtk, true);
         AddBonusStat(deltas, StatType.Def, _instance.TotalDef, currentDef, true);
-        AddBonusStat(deltas, StatType.AtkSpeed, _instance.TotalAtkSpeed, currentAtkSpeed, false);
         AddBonusStat(deltas, StatType.MoveSpeed, _instance.TotalMoveSpeed, currentMoveSpeed, false);
 
         return deltas;

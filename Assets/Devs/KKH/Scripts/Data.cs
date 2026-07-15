@@ -69,13 +69,11 @@ public class CharacterData : BaseData
     public float Hp { get; init; }
     public float Atk { get; init; }
     public float Def { get; init; }
-    public float AtkSpeed { get; init; }
     public float MoveSpeed { get; init; }
 
     public float HpGrow { get; init; }
     public float AtkGrow { get; init; }
     public float DefGrow { get; init; }
-    public float AtkSpeedGrow { get; init; }
     public float MoveSpeedGrow { get; init; }
 
     public string CharacterIconPath { get; init; }
@@ -106,7 +104,6 @@ public class CharacterGradeData : BaseData
     public float HpGrow { get; init; }
     public float AtkGrow { get; init; }
     public float DefGrow { get; init; }
-    public float AtkSpeedGrow { get; init; }
     public float MoveSpeedGrow { get; init; }
 }
 
@@ -128,7 +125,6 @@ public class EquipmentData : BaseData
     public float MaxHp { get; init; }
     public float Atk { get; init; }
     public float Def { get; init; }
-    public float AtkSpeed { get; init; }
     public float MoveSpeed { get; init; }
     public string SpritePath { get; init; }
     public string Description { get; init; }
@@ -180,7 +176,6 @@ public class SignatureData : BaseData
     public float MaxHp { get; init; }
     public float Atk { get; init; }
     public float Def { get; init; }
-    public float AtkSpeed { get; init; }
     public float MoveSpeed { get; init; }
     public string RequiredItemId { get; init; }
     public string RequiredItemCount { get; init; }

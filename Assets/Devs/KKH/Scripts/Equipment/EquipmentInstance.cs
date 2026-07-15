@@ -33,11 +33,6 @@ public class EquipmentInstance
         get { return Data.Def + RolledStat.Def; } 
     }
 
-    public float TotalAtkSpeed
-    { 
-        get { return Data.AtkSpeed + RolledStat.AtkSpeed; } 
-    }
-
     public float TotalMoveSpeed 
     {
         get { return Data.MoveSpeed + RolledStat.MoveSpeed; }

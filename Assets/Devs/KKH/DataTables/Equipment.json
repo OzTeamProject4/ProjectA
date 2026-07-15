@@ -11,7 +11,6 @@
     "MaxHp": 0,
     "Atk": 1.5,
     "Def": 0,
-    "AtkSpeed": 0.04,
     "MoveSpeed": 0,
     "SpritePath": "Sprites/Equipment[Equipment_Staff_1]",
     "Description": "초보자가 쓰는 지팡이이다"
@@ -28,7 +27,6 @@
     "MaxHp": 0,
     "Atk": 3,
     "Def": 0,
-    "AtkSpeed": 0.08,
     "MoveSpeed": 0,
     "SpritePath": "Sprites/Equipment[Equipment_Staff_2]",
     "Description": "숙련자가 사용하는 강화된 지팡이이다"
@@ -45,7 +43,6 @@
     "MaxHp": 0,
     "Atk": 6,
     "Def": 0,
-    "AtkSpeed": 0.16,
     "MoveSpeed": 0,
     "SpritePath": "Sprites/Equipment[Equipment_Staff_3]",
     "Description": "대마도사만이 다룰 수 있는 강력한 지팡이이다"
@@ -62,7 +59,6 @@
     "MaxHp": 4.3,
     "Atk": 0,
     "Def": 0.8,
-    "AtkSpeed": 0,
     "MoveSpeed": 0,
     "SpritePath": "Sprites/Equipment[Equipment_Helmet_1]",
     "Description": "견습생에게 지급되는 기본 마법모자이다"
@@ -79,7 +75,6 @@
     "MaxHp": 8.6,
     "Atk": 0,
     "Def": 1.6,
-    "AtkSpeed": 0,
     "MoveSpeed": 0,
     "SpritePath": "Sprites/Equipment[Equipment_Helmet_2]",
     "Description": "숙련자의 마력을 견딜 수 있게 개조된 마법모자이다"
@@ -96,7 +91,6 @@
     "MaxHp": 17.5,
     "Atk": 0,
     "Def": 3.3,
-    "AtkSpeed": 0,
     "MoveSpeed": 0,
     "SpritePath": "Sprites/Equipment[Equipment_Helmet_3]",
     "Description": "대마도사의 상징이 새겨진 마법모자이다"
@@ -113,7 +107,6 @@
     "MaxHp": 8.6,
     "Atk": 0,
     "Def": 0.4,
-    "AtkSpeed": 0,
     "MoveSpeed": 0,
     "SpritePath": "Sprites/Equipment[Equipment_Robe_1]",
     "Description": "견습생에게 지급되는 기본 로브이다"
@@ -130,7 +123,6 @@
     "MaxHp": 17.5,
     "Atk": 0,
     "Def": 0.8,
-    "AtkSpeed": 0,
     "MoveSpeed": 0,
     "SpritePath": "Sprites/Equipment[Equipment_Robe_2]",
     "Description": "숙련자의 몸을 보호하도록 짜인 로브이다"
@@ -147,7 +139,6 @@
     "MaxHp": 34.5,
     "Atk": 0,
     "Def": 1.6,
-    "AtkSpeed": 0,
     "MoveSpeed": 0,
     "SpritePath": "Sprites/Equipment[Equipment_Robe_3]",
     "Description": "대마도사의 위엄이 깃든 로브이다"
@@ -164,7 +155,6 @@
     "MaxHp": 0,
     "Atk": 0,
     "Def": 0,
-    "AtkSpeed": 0.04,
     "MoveSpeed": 0.4,
     "SpritePath": "Sprites/Equipment[Equipment_Boots_1]",
     "Description": "견습생이 신는 기본 마법부츠이다"
@@ -181,7 +171,6 @@
     "MaxHp": 0,
     "Atk": 0,
     "Def": 0,
-    "AtkSpeed": 0.08,
     "MoveSpeed": 0.8,
     "SpritePath": "Sprites/Equipment[Equipment_Boots_2]",
     "Description": "숙련자의 발걸음에 맞춰 가벼워진 마법부츠이다"
@@ -198,7 +187,6 @@
     "MaxHp": 0,
     "Atk": 0,
     "Def": 0,
-    "AtkSpeed": 0.16,
     "MoveSpeed": 1.6,
     "SpritePath": "Sprites/Equipment[Equipment_Boots_3]",
     "Description": "대마도사의 이동을 돕는 최상급 마법부츠이다"
@@ -215,7 +203,6 @@
     "MaxHp": 0,
     "Atk": 0.75,
     "Def": 0,
-    "AtkSpeed": 0.04,
     "MoveSpeed": 0,
     "SpritePath": "Sprites/Equipment[Equipment_Accessory_1]",
     "Description": "견습생이 착용하는 기본 마력반지이다"
@@ -232,7 +219,6 @@
     "MaxHp": 0,
     "Atk": 1.5,
     "Def": 0,
-    "AtkSpeed": 0.08,
     "MoveSpeed": 0,
     "SpritePath": "Sprites/Equipment[Equipment_Accessory_2]",
     "Description": "숙련자의 마력을 증폭시키는 마력반지이다"
@@ -249,7 +235,6 @@
     "MaxHp": 0,
     "Atk": 3,
     "Def": 0,
-    "AtkSpeed": 0.16,
     "MoveSpeed": 0,
     "SpritePath": "Sprites/Equipment[Equipment_Accessory_3]",
     "Description": "대마도사의 마력이 응축된 마력반지이다"
@@ -266,7 +251,6 @@
     "MaxHp": 5,
     "Atk": 3,
     "Def": 0.5,
-    "AtkSpeed": 0.05,
     "MoveSpeed": 0.18,
     "SpritePath": null,
     "Description": "어떤 짐승이 물어뜯은 자국이 선명하게 남아있는 목걸이이다"
@@ -283,7 +267,6 @@
     "MaxHp": 7,
     "Atk": 0.7,
     "Def": 2.4,
-    "AtkSpeed": 0.04,
     "MoveSpeed": 0.16,
     "SpritePath": null,
     "Description": "아무리 세게 던져도 절대 깨지지 않는 유리구슬이다"
@@ -300,7 +283,6 @@
     "MaxHp": 12,
     "Atk": 1.3,
     "Def": 0.4,
-    "AtkSpeed": 0.06,
     "MoveSpeed": 0.2,
     "SpritePath": null,
     "Description": "태엽을 감지 않아도 영원히 초침이 움직이는 회중시계이다"
@@ -317,7 +299,6 @@
     "MaxHp": 4.7,
     "Atk": 0.8,
     "Def": 0.4,
-    "AtkSpeed": 0.21,
     "MoveSpeed": 0.21,
     "SpritePath": null,
     "Description": "누가 흔들기도 전에 항상 먼저 울리는 작은 종이다"
@@ -334,7 +315,6 @@
     "MaxHp": 8,
     "Atk": 1.1,
     "Def": 0.6,
-    "AtkSpeed": 0.04,
     "MoveSpeed": 0.45,
     "SpritePath": null,
     "Description": "아무리 오래 걸어도 닳지 않는 신발끈이다"

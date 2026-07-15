@@ -89,7 +89,6 @@ public class CharacterDetailView : BaseUI
         _hpValueText.text = $"MaxHp  {_viewModel.DisplayHp}";
         _atkValueText.text = $"Atk  {_viewModel.DisplayAtk}";
         _defValueText.text = $"Def  {_viewModel.DisplayDef}";
-        _atkSpeedValueText.text = $"AtkSpeed  {_viewModel.DisplayAtkSpeed:F2}";
         _moveSpeedValueText.text = $"MoveSpeed  {_viewModel.DisplayMoveSpeed:F2}";
         RefreshStars();
 

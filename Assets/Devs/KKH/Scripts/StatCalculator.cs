@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-// 최종 스텟 계산 공식 = 기본값 + (스탯 상승량 + 성급 상승량) × (레벨 - 1) + 장비 스탯
+// 최종 스텟 계산 공식 = 기본값 + 성급 상승량 + (스탯 상승량 * 레벨 - 1) + 장비 스탯
 public static class StatCalculator
 {
     public static StatData Calculate(CharacterData stat, CharacterGradeData grade, int level, StatData equipmentBonus)
@@ -21,7 +21,6 @@ public static class StatCalculator
         float gradeHpGrow = 0f;
         float gradeAtkGrow = 0f;
         float gradeDefGrow = 0f;
-        float gradeAtkSpeedGrow = 0f;
         float gradeMoveSpeedGrow = 0f;
 
         if (null == grade)
@@ -33,7 +32,6 @@ public static class StatCalculator
             gradeHpGrow = grade.HpGrow;
             gradeAtkGrow = grade.AtkGrow;
             gradeDefGrow = grade.DefGrow;
-            gradeAtkSpeedGrow = grade.AtkSpeedGrow;
             gradeMoveSpeedGrow = grade.MoveSpeedGrow;
         }
 
@@ -42,11 +40,10 @@ public static class StatCalculator
 
         return new StatData
         {
-            Hp = stat.Hp + (stat.HpGrow + gradeHpGrow) * levelStep + equipmentBonus.Hp,
-            Atk = stat.Atk + (stat.AtkGrow + gradeAtkGrow) * levelStep + equipmentBonus.Atk,
-            Def = stat.Def + (stat.DefGrow + gradeDefGrow) * levelStep + equipmentBonus.Def,
-            AtkSpeed = stat.AtkSpeed + (stat.AtkSpeedGrow + gradeAtkSpeedGrow) * levelStep + equipmentBonus.AtkSpeed,
-            MoveSpeed = stat.MoveSpeed + (stat.MoveSpeedGrow + gradeMoveSpeedGrow) * levelStep + equipmentBonus.MoveSpeed
+            Hp = stat.Hp + gradeHpGrow + (stat.HpGrow * levelStep ) + equipmentBonus.Hp,
+            Atk = stat.Atk + gradeAtkGrow + (stat.AtkGrow * levelStep) + equipmentBonus.Atk,
+            Def = stat.Def + gradeDefGrow + (stat.DefGrow * levelStep) + equipmentBonus.Def,
+            MoveSpeed = stat.MoveSpeed + gradeMoveSpeedGrow + (stat.MoveSpeedGrow * levelStep) + equipmentBonus.MoveSpeed
         };
     }
 
@@ -61,7 +58,6 @@ public static class StatCalculator
         float hp = 0f;
         float atk = 0f;
         float def = 0f;
-        float atkSpeed = 0f;
         float moveSpeed = 0f;
 
         foreach (EquipmentInstance instance in equippedItems)
@@ -74,7 +70,6 @@ public static class StatCalculator
             hp += instance.TotalHp;
             atk += instance.TotalAtk;
             def += instance.TotalDef;
-            atkSpeed += instance.TotalAtkSpeed;
             moveSpeed += instance.TotalMoveSpeed;
         }
 
@@ -83,7 +78,6 @@ public static class StatCalculator
             Hp = hp,
             Atk = atk,
             Def = def,
-            AtkSpeed = atkSpeed,
             MoveSpeed = moveSpeed
         };
     }

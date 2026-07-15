@@ -72,11 +72,6 @@ public class CharacterDetailViewModel
         get { return Mathf.RoundToInt(_finalStats.Def); }
     }
 
-    public float DisplayAtkSpeed
-    {
-        get { return _finalStats.AtkSpeed; }
-    }
-
     public float DisplayMoveSpeed
     {
         get { return _finalStats.MoveSpeed; }

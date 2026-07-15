@@ -20,7 +20,6 @@ public static class EquipmentCalculator
             Hp = RollStat(data.MaxHp, data.BonusRate),
             Atk = RollStat(data.Atk, data.BonusRate),
             Def = RollStat(data.Def, data.BonusRate),
-            AtkSpeed = RollStat(data.AtkSpeed, data.BonusRate),
             MoveSpeed = RollStat(data.MoveSpeed, data.BonusRate)
         };
     }
