@@ -17,7 +17,6 @@ public partial class CheckDistanceCondition : Condition
         {
             return false;
         }
-
         float distance = Vector3.Distance(Self.Value.transform.position, Target.Value.transform.position);
         return distance > FollowDistance.Value;
     }
