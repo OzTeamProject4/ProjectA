@@ -77,11 +77,21 @@ public class EnemyController : MonoBehaviour
         PlayStateAnimation(_currentStateEnum);
     }
 
-    public void TryAttackSkill()
-    {
-        Debug.Log("공격을 시도함");
-    }
+    
 
+    public bool CanAttack()
+    {
+        return Time.time - _lastAttackTime >= _coolDownDuration;
+    }
+    public bool TryAttackSkill()
+    {
+        if (!CanAttack()) return false;
+
+        Debug.Log("공격 실행!");
+
+        _lastAttackTime = Time.time; 
+        return true;
+    }
     private bool IsStateChangeable(EnemyBattleState newState)
     {
         // 예외처리 전용 (특정 상태일때는 현재 상태가 어떤지에 따라 전환 못하게 미리 막음)

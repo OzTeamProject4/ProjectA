@@ -11,8 +11,7 @@ public partial class TryAttackAction : Action
     [SerializeReference] public BlackboardVariable<GameObject> Self;
 
     private EnemyController _enemyController;
-    private float _coolDownDuration = 3.0f;
-    private float _lastAttackTime = -3.0f;
+   
     protected override Status OnStart()
     {
         if (_enemyController == null && Self.Value != null)
@@ -29,16 +28,13 @@ public partial class TryAttackAction : Action
     {
         if (_enemyController == null) return Status.Failure;
 
-        
-        if (Time.time - _lastAttackTime < _coolDownDuration)
+        if (!_enemyController.CanAttack())
         {
-            Debug.Log("쿨타임");
-            return Status.Failure; 
+            return Status.Failure;
         }
 
-        // [실행] 쿨타임이 지났다면 공격 호출 후 타이머 갱신
         _enemyController.TryAttackSkill();
-        _lastAttackTime = Time.time;
+
 
         return Status.Success;
     }
