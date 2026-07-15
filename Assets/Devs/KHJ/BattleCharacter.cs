@@ -10,6 +10,7 @@ public class BattleCharacter : MonoBehaviour
     private const float RunSpeedRatio = 1.0f;
     private const float JumpVelocityThreshold = 1.0f;
     private const float AnimSpeedDamping = 3.0f;
+    private const float RunSpeedMultiplier = 2.0f;
     // TODO 희준 캐릭터 모델링시 수치 변화 필요
     [SerializeField] private float _jumpForce = 5f;
     [SerializeField] private float _groundCheckDistance = 0.05f; 
@@ -28,7 +29,7 @@ public class BattleCharacter : MonoBehaviour
     private float _curRunSpeed;
     private bool _wasGrounded;
     private float _currentAnimSpeed;
-    
+    private float _curAtkSpeed;
 
     public string CharacterName
     {
@@ -76,12 +77,15 @@ public class BattleCharacter : MonoBehaviour
     {
         _data = data;
         _isSelectedCharacter = false;
-        _curHp = _data.BaseHp;
+        _curHp = _data.Hp + (int)(_data.Level * _data.HpGrow);
+        _curAtk = _data.Atk + (int)(_data.Level * _data.AtkGrow);
+        _curDef = _data.Def + (int)(_data.Level * _data.DefGrow);
+        _curMoveSpeed = _data.MoveSpeed + (_data.Level * _data.MoveSpeedGrow);
+        _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
+        _curAtkSpeed = _data.AtkSpeed + (_data.Level * _data.AtkSpeedGrow);
         _curSkillGauge = 0;
-        _curAtk = _data.BaseAtk;
-        _curDef = _data.BaseDef;
-        _curMoveSpeed = _data.BaseMoveSpeed;
-        _curRunSpeed = _data.BaseRunSpeed;
+
+        Debug.Log($"{_data.Name}: HP={_curHp}, Atk={_curAtk}, MoveSpeed={_curMoveSpeed}, Type={_data.Type}");
     }
 
     public void Move(Vector3 moveDirection, bool isRunning)

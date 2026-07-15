@@ -17,7 +17,7 @@ public partial class RunFollowAction : Action
         _battleCharacter = Self.Value.GetComponent<BattleCharacter>();
         if (_battleCharacter == null)
         {
-            Debug.Log("BattleCharacter가 null");
+            Debug.LogError("BattleCharacter가 null");
             return Status.Failure;
         }
         return Status.Running;
