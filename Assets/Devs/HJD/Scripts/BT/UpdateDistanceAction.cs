@@ -17,7 +17,14 @@ public partial class UpdateDistanceAction : Action
         if (Target.Value == null) {
             return Status.Failure;
         }
-        CurrentDist.Value = Vector2.Distance(Self.Value.transform.position, Target.Value.transform.position);
+        var selfEnemyController = Self.Value.GetComponent<EnemyController>();
+
+        if (selfEnemyController == null)
+        {
+            return Status.Failure;
+        }
+
+        CurrentDist.Value = Vector2.Distance(selfEnemyController._enemyTransform.transform.position, Target.Value.transform.position);
 
         return Status.Success;
     }

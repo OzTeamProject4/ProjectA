@@ -17,13 +17,16 @@ public partial class ChaseAction : Action
     protected override Status OnStart()
     {
         _agent = Self.Value.GetComponent<NavMeshAgent>();
-        _agent.SetDestination(Target.Value.transform.position);
 
         return Status.Running;
     }
 
     protected override Status OnUpdate()
     {
+        if (Target.Value != null)
+        {
+            _agent.SetDestination(Target.Value.transform.position);
+        }
         return Status.Success;
     }
 

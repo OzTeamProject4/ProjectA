@@ -1,7 +1,5 @@
-using System.Xml;
 using Unity.Behavior;
 using UnityEngine;
-using UnityEngine.AI;
 public enum EnemyBattleState
 {
     Idle,
@@ -9,40 +7,44 @@ public enum EnemyBattleState
     Run,
     Attack,
     Die,
-    
+
 }
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private Transform target;
-    private NavMeshAgent agent;
+    public Transform _enemyTransform;
+
+    private Animator _animator;
     private EnemyBattleState _currentStateEnum;
 
+    private float _coolDownDuration = 3.0f;
+    private float _lastAttackTime = -3.0f;
+
+    //private readonly int IdleHash = Animator.StringToHash("IsIdle");
+    private static readonly int WalkHash = Animator.StringToHash("IsWalk");
+    private static readonly int RunHash = Animator.StringToHash("IsRun");
+    private static readonly int AttackHash = Animator.StringToHash("IsAttack");
+    private static readonly int DieHash = Animator.StringToHash("IsDie");
 
     public EnemyViewModel vm;
     public Blackboard blackboard;
     public BehaviorGraphAgent behaviorGraphAgent;
-    public bool IsIdle = true;
 
     private void Awake()
     {
+        _animator = GetComponent<Animator>();
+        behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
     }
 
     private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
+
     }
     void Update()
     {
-       
-    }
-
-    [ContextMenu("Test")]
-    public void Test()
-    {
-        IsIdle = !IsIdle;
-        behaviorGraphAgent.SetVariableValue("IsIdle", IsIdle);
 
     }
+
+    
 
     public void RequestAddExpToEnemy(int exp)
     {
@@ -58,24 +60,27 @@ public class EnemyController : MonoBehaviour
             vm.BaseDamage += addDamageValue;
         }
     }
-    /*private void UpdateAnimation(EnemyState state)
+
+    public void ChangeState(EnemyBattleState newState)
     {
-        switch (state)
+
+
+        if (IsStateChangeable(newState) == false)
         {
-            case EnemyState.Idle:
-                Animator_Enemy.CrossFade("Idle", 0.1f);
-                break;
-            case EnemyState.Patrol:
-                Animator_Enemy.CrossFade("Walk", 0.1f);
-                break;
-            case EnemyState.Attack:
-                Animator_Enemy.SetTrigger("IsAttack"); // 트리거 형태도 가능
-                break;
-            case EnemyState.Die:
-                Animator_Enemy.SetTrigger("IsDie");
-                break;
+            return;
         }
-    }*/
+
+        _currentStateEnum = newState;
+
+        Debug.Log(_currentStateEnum);
+
+        PlayStateAnimation(_currentStateEnum);
+    }
+
+    public void TryAttackSkill()
+    {
+        Debug.Log("공격을 시도함");
+    }
 
     private bool IsStateChangeable(EnemyBattleState newState)
     {
@@ -90,19 +95,51 @@ public class EnemyController : MonoBehaviour
 
         return true;
     }
-    public void ChangeState(EnemyBattleState newState)
+    
+
+    private void PlayStateAnimation(EnemyBattleState state)
     {
-        
+        if (_animator == null) return;
 
-        if (IsStateChangeable(newState) == false)
+        switch (state)
         {
-            return;
+            case EnemyBattleState.Idle:
+                ResetBoolParameters();
+                break;
+
+            case EnemyBattleState.Walk:
+                ResetBoolParameters();
+                _animator.SetBool(WalkHash, true);
+                break;
+
+            case EnemyBattleState.Run:
+                ResetBoolParameters();
+                _animator.SetBool(RunHash, true);
+                break;
+
+            case EnemyBattleState.Attack:
+                // 일회성 트리거 예시
+                _animator.SetTrigger(AttackHash);
+                break;
+
+            case EnemyBattleState.Die:
+                _animator.SetTrigger(DieHash);
+                break;
         }
+    }
 
-        _currentStateEnum=newState;
+    // Bool 파라미터들을 초기화해주는 편의 메서드
+    private void ResetBoolParameters()
+    {
+        _animator.SetBool(WalkHash, false);
+        _animator.SetBool(RunHash, false);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Player")
+        {
+            behaviorGraphAgent.SetVariableValue("Target", other.gameObject);
 
-        Debug.Log(_currentStateEnum);
-
-
+        }
     }
 }
