@@ -28,10 +28,7 @@ public partial class TryAttackAction : Action
     {
         if (_enemyController == null) return Status.Failure;
 
-        if (!_enemyController.CanAttack())
-        {
-            return Status.Failure;
-        }
+        
 
         _enemyController.TryAttackSkill();
 

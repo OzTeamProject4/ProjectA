@@ -13,11 +13,9 @@ public class EnemyController : MonoBehaviour
 {
     public Transform _enemyTransform;
 
-    private Animator _animator;
+    [SerializeField] private Animator _animator;
     private EnemyBattleState _currentStateEnum;
 
-    private float _coolDownDuration = 3.0f;
-    private float _lastAttackTime = -3.0f;
 
     //private readonly int IdleHash = Animator.StringToHash("IsIdle");
     private static readonly int WalkHash = Animator.StringToHash("IsWalk");
@@ -31,7 +29,6 @@ public class EnemyController : MonoBehaviour
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
         behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
     }
 
@@ -63,41 +60,31 @@ public class EnemyController : MonoBehaviour
 
     public void ChangeState(EnemyBattleState newState)
     {
-
-
-        if (IsStateChangeable(newState) == false)
+       /* if (IsStateChangeable(newState) == false)
         {
             return;
-        }
+        }*/
 
         _currentStateEnum = newState;
-
         Debug.Log(_currentStateEnum);
-
         PlayStateAnimation(_currentStateEnum);
     }
 
     
 
-    public bool CanAttack()
+    
+    public void TryAttackSkill()
     {
-        return Time.time - _lastAttackTime >= _coolDownDuration;
-    }
-    public bool TryAttackSkill()
-    {
-        if (!CanAttack()) return false;
 
+        ChangeState(EnemyBattleState.Attack);
         Debug.Log("공격 실행!");
-
-        _lastAttackTime = Time.time; 
-        return true;
     }
     private bool IsStateChangeable(EnemyBattleState newState)
     {
         // 예외처리 전용 (특정 상태일때는 현재 상태가 어떤지에 따라 전환 못하게 미리 막음)
-        if (newState == EnemyBattleState.Attack)
+        if (newState == EnemyBattleState.Walk)
         {
-            if (_currentStateEnum == EnemyBattleState.Walk)
+            if (_currentStateEnum == EnemyBattleState.Attack)
             {
                 return false;
             }
