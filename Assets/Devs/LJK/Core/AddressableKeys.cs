@@ -3,7 +3,8 @@
     public static class Prefab
     {
         public const string UILayer = "Prefab/UILayer";
-        public const string AudioController = "Prefab/AudioView";
+        public const string AudioView = "Prefab/AudioView";
+        public const string ObjectPoolRoot = "Prefab/ObjectPoolRoot";
     }
 
     public static string GetUIKey(UIType uIType)
