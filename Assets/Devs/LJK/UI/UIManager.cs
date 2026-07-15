@@ -170,6 +170,7 @@ public class UIManager : BaseManager<UIManager>
         }
 
         _uiLayer = Instantiate(uiLayer);
+        _uiLayer.name = uiLayer.name;
     }
 
     private void CacheUIRoot(UIRoot uiRoot, RectTransform rectTransform)
