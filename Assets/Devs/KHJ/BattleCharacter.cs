@@ -84,8 +84,6 @@ public class BattleCharacter : MonoBehaviour
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
         _curAtkSpeed = _data.AtkSpeed + (_data.Level * _data.AtkSpeedGrow);
         _curSkillGauge = 0;
-
-        Debug.Log($"{_data.Name}: HP={_curHp}, Atk={_curAtk}, MoveSpeed={_curMoveSpeed}, Type={_data.Type}");
     }
 
     public void Move(Vector3 moveDirection, bool isRunning)
