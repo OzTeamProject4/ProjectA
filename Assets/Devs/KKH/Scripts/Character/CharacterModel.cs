@@ -339,4 +339,21 @@ public class CharacterModel
 
         return items;
     }
+
+    public string GetCharacterIconPath(string characterId)
+    {
+        if (string.IsNullOrEmpty(characterId))
+        {
+            return null;
+        }
+
+        CharacterData characterData = _dataProvider.GetStat(characterId);
+
+        if (null == characterData)
+        {
+            return null;
+        }
+
+        return characterData.CharacterIconPath;
+    }
 }

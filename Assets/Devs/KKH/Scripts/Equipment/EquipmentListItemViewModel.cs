@@ -33,6 +33,19 @@ public class EquipmentListItemViewModel
         get { return _instance.IsEquipped && !IsEquippedByThisCharacter; }
     }
 
+    public string EquippedCharacterIconPath
+    {
+        get
+        {
+            if (!_instance.IsEquipped)
+            {
+                return null;
+            }
+
+            return _characterModel.GetCharacterIconPath(_instance.EquippedBy);
+        }
+    }
+
     public bool IsSelected
     {
         get { return _isSelected; }

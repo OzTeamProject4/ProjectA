@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class EquipmentListItemView : MonoBehaviour
 {
     [SerializeField] private Image _iconImage;
+    [SerializeField] private Image _equippedCharacterIconImage;
     [SerializeField] private GameObject _selector;
     [SerializeField] private TMP_Text _equippedText;
     [SerializeField] private Button _itemButton;
@@ -46,6 +47,7 @@ public class EquipmentListItemView : MonoBehaviour
         _viewModel = viewModel;
 
         LoadIconAsync().Forget();
+        LoadEquippedCharacterIconAsync().Forget();
 
         Subscribe();
     }
@@ -81,6 +83,8 @@ public class EquipmentListItemView : MonoBehaviour
     private void HandleChanged()
     {
         RefreshDisplay();
+        // TODO: 이 화면이 열려있는 동안 장착 캐릭터가 바뀌는 경우의 초상화 실시간 갱신은 안됨
+        // 현재는 Bind 시점 1회 로드만 지원.
     }
 
     private void RefreshDisplay()
@@ -143,6 +147,46 @@ public class EquipmentListItemView : MonoBehaviour
         catch (Exception exception)
         {
             Debug.LogWarning($"[EquipmentListItemView] 스프라이트 로드 실패. spritePath={spritePath}\n{exception}");
+        }
+    }
+
+    private async UniTaskVoid LoadEquippedCharacterIconAsync()
+    {
+        if (null == _equippedCharacterIconImage)
+        {
+            return;
+        }
+
+        string iconPath = _viewModel.EquippedCharacterIconPath;
+
+        if (string.IsNullOrEmpty(iconPath))
+        {
+            _equippedCharacterIconImage.enabled = false;
+            return;
+        }
+
+        try
+        {
+            Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(iconPath, destroyCancellationToken);
+
+            if (null == sprite)
+            {
+                _equippedCharacterIconImage.enabled = false;
+                return;
+            }
+
+            _loadedSpriteKeys.Add(iconPath);
+
+            _equippedCharacterIconImage.enabled = true;
+            _equippedCharacterIconImage.sprite = sprite;
+        }
+        catch (OperationCanceledException)
+        {
+            // 오브젝트 파괴로 취소됨, 무시
+        }
+        catch (Exception exception)
+        {
+            Debug.LogWarning($"[EquipmentListItemView] 장착 캐릭터 초상화 로드 실패. iconPath={iconPath}\n{exception}");
         }
     }
 
