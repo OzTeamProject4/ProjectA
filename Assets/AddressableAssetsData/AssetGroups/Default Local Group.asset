@@ -13,56 +13,71 @@ MonoBehaviour:
   m_Name: Default Local Group
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: Default Local Group
-  m_GUID: 2ec5a78d4968bee4ca48b7f1e7939337
+  m_GUID: 6c3b65eb4f8cd5349a5ea4eb7c4658ed
   m_SerializeEntries:
-  - m_GUID: 0bdc6a894c3a596408bf988aade12cd8
-    m_Address: SkillWater003
+  - m_GUID: 071b721a7c13e024d8c25450330f95b1
+    m_Address: UI/EquipmentListPopup
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0c4da498aac1f2745add9d2d71bd894f
-    m_Address: CharacterSkillData
+  - m_GUID: 21888c59bd8ff894ea1296594f6f462d
+    m_Address: Prefab/UILayer
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0c63a716d2922af49b0329b189e4dafb
-    m_Address: SkillFire002
+  - m_GUID: 28cdce35451576f46903271196144346
+    m_Address: Prefab/AudioView
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1c3223c1ff11d914487a88e80b9c1a49
-    m_Address: SkillFire001
+  - m_GUID: 432390b53dcc953408182fec8874316e
+    m_Address: UI/EquipmentDetailPopup
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 43f77c92a81a6c34eb6e8238362abbc2
-    m_Address: Data_TestCharacter
+  - m_GUID: 72ae85101caacdb429efb8b599f97285
+    m_Address: UI/CharacterDetail
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 74826f15b8e0c444298c9c65e4aedee1
-    m_Address: SkillFire003
+  - m_GUID: 7e7a3890e38bdab4883d45a5373f053d
+    m_Address: UI/ExpItemSelectPopup
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7fab559bc6efff34083ca7bd8fd79488
-    m_Address: SkillWater002
+  - m_GUID: aea2e2ab5a48bc646a02695482318b45
+    m_Address: Sprites/Equipment
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 957d354e80b0b7b498197c777ce487a7
-    m_Address: Prefab_TestBattleCharacterBase
+  - m_GUID: b0c5d8fcdbf50ca4d9ad071e13e7aa1d
+    m_Address: UI/ItemPreviewPopup
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: abb6f022cbce4cd41a572f223436e9e7
-    m_Address: SkillWater001
+  - m_GUID: b71e2e97e30f3cc4790f4770721d7c21
+    m_Address: UI/CraftPopup
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c2535d6ed11afa6489e3afdb9df9bb7e
+    m_Address: Sprites/Items
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ea0a56ff7aeada64dbef6a435fc9661b
+    m_Address: UI/CharacterList
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb40ffa39297bb84fad6a9cd6c4f770b
+    m_Address: Prefab/ObjectPoolRoot
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
-  m_Settings: {fileID: 11400000, guid: 48e970b5511212147b16121d35aa1874, type: 2}
+  m_Settings: {fileID: 11400000, guid: a2c5544ffab75cb428ed6b2ff736503e, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 1a8e1b4b4c642a942b866d2dedecb976, type: 2}
-    - {fileID: 11400000, guid: 2335457974de63147ab3c08c7a1edeeb, type: 2}
+    - {fileID: 11400000, guid: f39ee91c6cb8b914f9c68fe77ce9b363, type: 2}
+    - {fileID: 11400000, guid: f2027b85aadf1554d9f0affcfd9db5bb, type: 2}
