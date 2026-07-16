@@ -28,6 +28,7 @@ public class CraftListItemView : MonoBehaviour
     [SerializeField] private TMP_Text _mat2TierText;
     [SerializeField] private TMP_Text _mat2CountText;
 
+    [SerializeField] private Button _iconButton;
     [SerializeField] private Button _craftButton;
     [SerializeField] private CanvasGroup _canvasGroup;
 
@@ -37,6 +38,7 @@ public class CraftListItemView : MonoBehaviour
     private bool _isSubscribed;
 
     public event Action<string> OnSpriteLoaded;
+    public event Action<string, RectTransform> OnIconClicked;
     public event Action<string> OnCrafted;
 
     private void OnDisable()
@@ -74,7 +76,9 @@ public class CraftListItemView : MonoBehaviour
             return;
         }
 
+        
         _viewModel.OnChanged += HandleChanged;
+        _iconButton.onClick.AddListener(HandleClickIcon);
         _craftButton.onClick.AddListener(HandleClickCraft);
         _isSubscribed = true;
 
@@ -91,6 +95,7 @@ public class CraftListItemView : MonoBehaviour
 
         _viewModel.OnChanged -= HandleChanged;
         _viewModel.Dispose();
+        _iconButton.onClick.RemoveListener(HandleClickIcon);
         _craftButton.onClick.RemoveListener(HandleClickCraft);
         _isSubscribed = false;
     }
@@ -206,6 +211,16 @@ public class CraftListItemView : MonoBehaviour
         {
             Debug.LogWarning($"[CraftListItemView] 스프라이트 로드 실패. spritePath={spritePath}\n{exception}");
         }
+    }
+
+    private void HandleClickIcon()
+    {
+        if (null == _viewModel)
+        {
+            return;
+        }
+
+        OnIconClicked?.Invoke(_viewModel.DataId, (RectTransform)_iconButton.transform);
     }
 
     private void HandleClickCraft()

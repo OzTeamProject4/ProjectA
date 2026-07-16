@@ -10,6 +10,7 @@ public class EquipmentController
     private EquipmentListPopupView _listPopup;
     private CraftPopupView _craftPopup;
     private EquipmentDetailPopupView _detailPopup;
+    private ItemPreviewPopupView _previewPopup;
 
     private CharacterModel _characterModel;
 
@@ -47,6 +48,7 @@ public class EquipmentController
 
     public void CloseAll()
     {
+        ClosePreviewPopup();
         CloseDetailPopup();
         CloseListPopup();
         CloseCraftPopup();
@@ -58,6 +60,7 @@ public class EquipmentController
         UnsubscribeListPopup();
         UnsubscribeCraftPopup();
         UnsubscribeDetailPopup();
+        UnsubscribePreviewPopup();
 
         _characterModel = null;
     }
@@ -125,8 +128,11 @@ public class EquipmentController
 
         _craftPopup.OnCrafted -= HandleCrafted;
         _craftPopup.OnCloseButtonClicked -= HandleCraftPopupClosed;
+        _craftPopup.OnItemPreviewRequested -= HandleItemPreviewRequested;
+
         _craftPopup.OnCrafted += HandleCrafted;
         _craftPopup.OnCloseButtonClicked += HandleCraftPopupClosed;
+        _craftPopup.OnItemPreviewRequested += HandleItemPreviewRequested;
 
         CraftPopupViewModel viewModel = new CraftPopupViewModel(_craftingModel, _inventory, slotType, _characterModel);
         _craftPopup.Bind(viewModel);
@@ -161,6 +167,7 @@ public class EquipmentController
 
         _craftPopup.OnCrafted -= HandleCrafted;
         _craftPopup.OnCloseButtonClicked -= HandleCraftPopupClosed;
+        _craftPopup.OnItemPreviewRequested -= HandleItemPreviewRequested;
         _craftPopup = null;
     }
 
@@ -247,5 +254,79 @@ public class EquipmentController
         _detailPopup.OnUnequipped -= HandleDetailPopupFinished;
         _detailPopup.OnCloseButtonClicked -= HandleDetailPopupFinished;
         _detailPopup = null;
+    }
+
+    // ===== 아이템 미리보기 팝업 (추가) =====
+    private void HandleItemPreviewRequested(string dataId, RectTransform iconRect)
+    {
+        OpenPreviewPopupAsync(dataId, iconRect).Forget();
+    }
+
+    private async UniTaskVoid OpenPreviewPopupAsync(string dataId, RectTransform iconRect)
+    {
+        EquipmentData data = _craftingModel.GetEquipmentData(dataId);
+
+        if (null == data)
+        {
+            Debug.LogWarning($"[EquipmentController] 미리보기 EquipmentData 를 찾을 수 없습니다. dataId={dataId}");
+            return;
+        }
+
+        _previewPopup = await GameManager.Instance.UIManager.OpenItemPreviewPopupAsync();
+
+        if (null == _previewPopup)
+        {
+            Debug.LogError("[EquipmentController] ItemPreviewPopupView 를 열지 못했습니다.");
+            return;
+        }
+
+        _previewPopup.OnCloseButtonClicked -= HandlePreviewPopupClosed;
+        _previewPopup.OnCloseButtonClicked += HandlePreviewPopupClosed;
+
+        ItemPreviewPopupViewModel viewModel = new ItemPreviewPopupViewModel(data);
+        _previewPopup.Bind(viewModel);
+
+        MovePreviewPopupTo(iconRect);
+    }
+
+    private void MovePreviewPopupTo(RectTransform iconRect)
+    {
+        if (null == iconRect || null == _previewPopup)
+        {
+            return;
+        }
+
+        Vector3[] iconCorners = new Vector3[4];
+        iconRect.GetWorldCorners(iconCorners);
+
+        Vector3 iconLeftCenter = (iconCorners[0] + iconCorners[1]) * 0.5f;
+
+        _previewPopup.MoveCardTo(iconLeftCenter);
+    }
+
+    private void HandlePreviewPopupClosed()
+    {
+        ClosePreviewPopup();
+    }
+
+    private void ClosePreviewPopup()
+    {
+        if (null == _previewPopup)
+        {
+            return;
+        }
+
+        GameManager.Instance.UIManager.CloseItemPreviewPopup();
+    }
+
+    private void UnsubscribePreviewPopup()
+    {
+        if (null == _previewPopup)
+        {
+            return;
+        }
+
+        _previewPopup.OnCloseButtonClicked -= HandlePreviewPopupClosed;
+        _previewPopup = null;
     }
 }

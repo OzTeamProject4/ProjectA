@@ -22,6 +22,13 @@ public readonly struct StatDelta
     public bool IsInteger { get; init; }
 }
 
+public readonly struct StatValue
+{
+    public StatType Type { get; init; }
+    public float Value { get; init; }
+    public bool IsInteger { get; init; }
+}
+
 public enum StatType
 {
     MaxHp,

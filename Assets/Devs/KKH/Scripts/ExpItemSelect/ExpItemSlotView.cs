@@ -59,8 +59,6 @@ public class ExpItemSlotView : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log($"[ExpItemSlot] OnPointerDown 호출됨. IsUsable={_viewModel?.IsUsable}");
-
         if (null == _viewModel || !_viewModel.IsUsable)
         {
             return;

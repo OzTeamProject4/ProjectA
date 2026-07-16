@@ -14,6 +14,7 @@ public class CraftPopupView : BaseUI
 
     public event Action<string> OnCrafted;
     public event Action OnCloseButtonClicked;
+    public event Action<string, RectTransform> OnItemPreviewRequested;
 
     private void OnEnable()
     {
@@ -60,6 +61,7 @@ public class CraftPopupView : BaseUI
             itemView.Bind(itemViewModel);
             itemView.OnCrafted += HandleCrafted;
             itemView.OnSpriteLoaded += HandleSpriteLoaded;
+            itemView.OnIconClicked += HandleIconClicked;
 
             _spawnedItems.Add(itemView);
         }
@@ -76,6 +78,7 @@ public class CraftPopupView : BaseUI
 
             item.OnCrafted -= HandleCrafted;
             item.OnSpriteLoaded -= HandleSpriteLoaded;
+            item.OnIconClicked -= HandleIconClicked;
             Destroy(item.gameObject);
         }
 
@@ -95,6 +98,11 @@ public class CraftPopupView : BaseUI
     private void HandleCloseClicked()
     {
         OnCloseButtonClicked?.Invoke();
+    }
+
+    private void HandleIconClicked(string dataId, RectTransform iconRect)
+    {
+        OnItemPreviewRequested?.Invoke(dataId, iconRect);
     }
 
     private void ReleaseAllSprites()

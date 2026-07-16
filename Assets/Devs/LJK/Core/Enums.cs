@@ -6,7 +6,8 @@
     ExpItemSelectPopup,
     CraftPopup,
     EquipmentListPopup,
-    EquipmentDetailPopup
+    EquipmentDetailPopup,
+    ItemPreviewPopup
 }
 
 public enum UIRoot

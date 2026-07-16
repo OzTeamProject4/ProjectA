@@ -79,6 +79,17 @@ public static class UIManagerExtension
         uiManager.Close(UIType.EquipmentDetailPopup);
     }
 
+    public static async UniTask<ItemPreviewPopupView> OpenItemPreviewPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        BaseUI baseUI = await uiManager.OpenOverlayRootAsync(UIType.ItemPreviewPopup, cancellationToken);
+        return GetView<ItemPreviewPopupView>(baseUI, UIType.ItemPreviewPopup);
+    }
+
+    public static void CloseItemPreviewPopup(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.ItemPreviewPopup);
+    }
+
     private static T GetView<T>(BaseUI baseUI, UIType uiType) where T : BaseUI
     {
         if (null == baseUI)

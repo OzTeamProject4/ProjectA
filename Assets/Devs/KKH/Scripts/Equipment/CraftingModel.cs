@@ -82,6 +82,11 @@ public class CraftingModel
         return true;
     }
 
+    public EquipmentData GetEquipmentData(string dataId)
+    {
+        return _dataProvider.GetEquipment(dataId);
+    }
+
     public EquipmentInstance Craft(string equipmentDataId)
     {
         EquipmentData data = _dataProvider.GetEquipment(equipmentDataId);

@@ -28,6 +28,20 @@ public class StatItemView : MonoBehaviour
         // TODO: 스텟별 아이콘 에셋 추가 시 _iconImage 에 스프라이트 설정
     }
 
+    public void SetValue(StatType type, float value, bool isInteger)
+    {
+        gameObject.SetActive(true);
+
+        _statText.text = FormatValue(value, isInteger);
+
+        if (null != _bonusText)
+        {
+            _bonusText.gameObject.SetActive(false);
+        }
+
+        RefreshIcon(type);
+    }
+
     public void Hide()
     {
         gameObject.SetActive(false);

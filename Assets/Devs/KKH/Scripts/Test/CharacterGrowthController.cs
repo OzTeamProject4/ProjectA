@@ -24,11 +24,6 @@ public class CharacterGrowthController : MonoBehaviour
 
     private CharacterModel _currentDetailModel;
 
-    private void Start()
-    {
-        InitializeAsync().Forget();
-    }
-
     private void OnDestroy()
     {
         UnsubscribeListView();
@@ -49,11 +44,8 @@ public class CharacterGrowthController : MonoBehaviour
     // ===== 초기화 =====
 
     // TODO: 로비 도입 시 이 흐름을 로비의 "캐릭터 화면 진입"으로 이관
-    private async UniTaskVoid InitializeAsync()
+    public async UniTaskVoid EnterAsync()
     {
-        // TODO: GameManager 초기화 완료를 기다리는 임시 방편. 초기화 완료 이벤트로 교체할 것.
-        await UniTask.Delay(1000, cancellationToken: destroyCancellationToken);
-
         if (_hasInitialized)
         {
             Debug.LogWarning("[CharacterGrowthController] 이미 초기화되었습니다. 중복 실행을 건너뜁니다.");
