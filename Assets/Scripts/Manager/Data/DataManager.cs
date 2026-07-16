@@ -24,7 +24,9 @@ public class DataManager : BaseManager<DataManager>
         await LoadDataAsync<LevelExpData>(AddressableKey.Data.LevelExp, destroyCancellationToken);
         await LoadDataAsync<ItemData>(AddressableKey.Data.Item, destroyCancellationToken);
         await LoadDataAsync<EquipmentData>(AddressableKey.Data.Equipment, destroyCancellationToken);
-        await LoadDataAsync<SignatureData>(AddressableKey.Data.Signature, destroyCancellationToken );
+        await LoadDataAsync<SignatureData>(AddressableKey.Data.Signature, destroyCancellationToken);
+        await LoadDataAsync<StageData>(AddressableKey.Data.Stage, destroyCancellationToken);
+        await LoadDataAsync<StageWaveData>(AddressableKey.Data.StageWave, destroyCancellationToken);
         //await LoadDataAsync<T>("Key", destroyCancellationToken);
         await UniTask.CompletedTask;
     }

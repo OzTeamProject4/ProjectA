@@ -14,7 +14,9 @@
         public const string LevelExp = "Data/LevelExp";
         public const string Item = "Data/Item";
         public const string Equipment = "Data/Equipment";
-        public const string Signature = "Data/Signature";   
+        public const string Signature = "Data/Signature";
+        public const string Stage = "Data/Stage";
+        public const string StageWave = "Data/StageWave";
     }
 
     public static string GetUIKey(UIType uIType)
