@@ -11,6 +11,7 @@ public partial class PlayerUseSkillAction : Action
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<GameObject> EnemyTarget;
     private CharacterSkillSystem _characterSkillSystem;
+    private BattleCharacter _battleCharacter;
 
     protected override Status OnStart()
     {
@@ -19,12 +20,17 @@ public partial class PlayerUseSkillAction : Action
             _characterSkillSystem = Self.Value.GetComponent<CharacterSkillSystem>();
         }
 
-        if (_characterSkillSystem == null || EnemyTarget.Value == null)
+        if (_battleCharacter == null)
+        {
+            _battleCharacter = Self.Value.GetComponent<BattleCharacter>();
+        }
+
+        if (_characterSkillSystem == null || _battleCharacter == null || EnemyTarget.Value == null)
         {
             return Status.Failure;
         }
-
-        _characterSkillSystem.UseSkill(EnemyTarget.Value.transform);
+        _battleCharacter.LookAt(EnemyTarget.Value.transform.position);
+        _characterSkillSystem.UseBasicSkill(EnemyTarget.Value.transform);
         return Status.Running;
     }
 

@@ -44,6 +44,14 @@ public class BattleCharacter : MonoBehaviour
             return _curHp;
         }
     }
+    
+    public int CurAtk
+    {
+        get
+        {
+            return _curAtk;
+        }
+    }
 
     public event Action<float> OnMoveSpeedChanged;
     public event Action<bool> OnGroundedChanged;

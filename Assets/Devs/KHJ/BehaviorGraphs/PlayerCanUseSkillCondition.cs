@@ -21,7 +21,7 @@ public partial class PlayerCanUseSkillCondition : Condition
             return false;
         }
 
-        return _characterSkillSystem.CanUseSkill();
+        return _characterSkillSystem.CanUseNormalSkill();
     }
 
     public override void OnStart()

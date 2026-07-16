@@ -11,6 +11,7 @@ public class Projectile : MonoBehaviour
 
     private Rigidbody _rigidbody;
     private Transform _target;
+    private int _damage;
 
     
     private void Awake()
@@ -42,13 +43,14 @@ public class Projectile : MonoBehaviour
         if (other.CompareTag(EnemyTag))
         {
             //TODO IDamageable.TakeDamage 호출 필요
-            // Debug.Log($"{other.name} 명중");
+            Debug.Log($"{other.name}에게 {_damage}데미지 전달");
             Destroy(gameObject);
         }
     }
-    public void Launch(Transform target)
+    public void Launch(Transform target, int damage)
     {
         _target = target;
+        _damage = damage;
         transform.rotation = Quaternion.LookRotation((target.position - transform.position).normalized);
         Destroy(gameObject, _lifeTime);
     }

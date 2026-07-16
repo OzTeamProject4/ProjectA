@@ -10,7 +10,7 @@ public partial class PlayerTryAttackAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<GameObject> EnemyTarget;
-    private CharacterAttack _characterAttack;
+    private CharacterSkillSystem _characterSkillSystem;
     private BattleCharacter _battleCharacter;
 
     protected override Status OnStart()
@@ -20,22 +20,22 @@ public partial class PlayerTryAttackAction : Action
 
     protected override Status OnUpdate()
     {
-        if (_characterAttack == null)
+        if (_characterSkillSystem == null)
         {
-            _characterAttack = Self.Value.GetComponent<CharacterAttack>();
+            _characterSkillSystem = Self.Value.GetComponent<CharacterSkillSystem>();
         }
 
         if (_battleCharacter == null)
         {
             _battleCharacter = Self.Value.GetComponent<BattleCharacter>();
         }
-        if (_characterAttack == null || EnemyTarget.Value == null)
+        if (_characterSkillSystem == null || _battleCharacter == null || EnemyTarget.Value == null)
         {
             return Status.Failure;   
         }
 
         _battleCharacter.LookAt(EnemyTarget.Value.transform.position);
-        _characterAttack.FireProjectile(EnemyTarget.Value.transform);
+        _characterSkillSystem.UseNormalSkill(EnemyTarget.Value.transform);
         return Status.Success;
     }
 

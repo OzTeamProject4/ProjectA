@@ -9,7 +9,7 @@ public class CharacterAttack : MonoBehaviour
 
     private float _lastAttackTime;
 
-    public void FireProjectile(Transform target)
+    public void FireProjectile(Transform target, int damage)
     {
         if (_projectilePrefab == null)
         {
@@ -37,7 +37,7 @@ public class CharacterAttack : MonoBehaviour
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
         if (projectileComponent != null)
         {
-            projectileComponent.Launch(target);
+            projectileComponent.Launch(target, damage);
         }
         _lastAttackTime = Time.time;
     }

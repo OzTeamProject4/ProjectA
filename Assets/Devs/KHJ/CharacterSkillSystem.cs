@@ -2,10 +2,30 @@
 
 public class CharacterSkillSystem : MonoBehaviour
 {
+    private const float SkillDamageMultiplier = 0.01f;
+
+    private CharacterAttack _characterAttack;
+    private BattleCharacter _battleCharacter;
     private RuntimeSkill _basicSkill;
     private RuntimeSkill _normalSkill;
     private RuntimeSkill _ultimateSkill;
-    
+
+    private void Awake()
+    {
+        _battleCharacter = GetComponent<BattleCharacter>();
+        _characterAttack = GetComponent<CharacterAttack>();
+
+        if (_battleCharacter == null )
+        {
+            Debug.LogError("BattleCharacter 컴포넌트가 null");
+        }
+
+        if (_characterAttack == null)
+        {
+            Debug.LogError("CharacterAttack 컴포넌트가 null");
+
+        }
+    }
 
     public void Initialize(CharacterData data)
     {
@@ -33,8 +53,26 @@ public class CharacterSkillSystem : MonoBehaviour
             }
         }
     }
+    public bool CanUseBasicSkill()
+    {
+        if (_basicSkill == null)
+        {
+            return false;
+        }
+        return _basicSkill.IsReady();
+    }
 
-    public bool CanUseSkill()
+    public void UseBasicSkill(Transform target)
+    {
+        if (_basicSkill == null || _basicSkill.IsReady() == false)
+        {
+            return;
+        }
+
+        ExecuteSkill(_basicSkill, target);
+        _basicSkill.MarkUsed();
+    }
+    public bool CanUseNormalSkill()
     {
         if (_normalSkill == null)
         {
@@ -43,20 +81,14 @@ public class CharacterSkillSystem : MonoBehaviour
         return _normalSkill.IsReady();
     }
 
-    public void UseSkill(Transform target)
+    public void UseNormalSkill(Transform target)
     {
-        if (_normalSkill == null)
-        {
-            return;
-        }
-        
-        if (_normalSkill.IsReady() == false)
+        if (_normalSkill == null || _normalSkill.IsReady() == false)
         {
             return;
         }
 
-        // TODO희준 : 실제 스킬 실행 필요
-        Debug.Log($"일반 스킬 사용: {_normalSkill.Data.Name}");
+        ExecuteSkill(_normalSkill, target);
         _normalSkill.MarkUsed();
     }
 
@@ -86,5 +118,22 @@ public class CharacterSkillSystem : MonoBehaviour
         // TODO희준 : 실제 스킬 실행 필요
         Debug.Log($"궁극 스킬 사용: {_ultimateSkill.Data.Name}");
         _ultimateSkill.MarkUsed();
+    }
+
+    private void ExecuteSkill(RuntimeSkill skill, Transform target)
+    {
+        switch (skill.Data.Type)
+        {
+            case CharacterSkillType.SingleAttack:
+                int damage = (int)(_battleCharacter.CurAtk * SkillDamageMultiplier * skill.Data.DamageCoefficient);
+                _characterAttack.FireProjectile(target, damage);
+                break;
+            case CharacterSkillType.AreaAttack:
+                //TODO
+                break;
+            case CharacterSkillType.HealBuff:
+                //TODO
+                break;
+        }
     }
 }
