@@ -1,12 +1,12 @@
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+[RequireComponent(typeof(Button))]
 public class CharacterGachaButtonView : MonoBehaviour
 {
-    [SerializeField] private GameObject _screenRoot;
-    [SerializeField] private GameObject _characterGachaScreen;
-
     private Button _button;
 
     private void Awake()
@@ -26,21 +26,39 @@ public class CharacterGachaButtonView : MonoBehaviour
 
     private void OnButtonClicked()
     {
-        if (_screenRoot == null)
+        if (GameManager.Instance == null)
         {
-            Debug.LogError("ScreenRoot is not assigned.");
+            Debug.LogError("GameManager.Instance is null.");
             return;
         }
 
-        if (_characterGachaScreen == null)
+        if (GameManager.Instance.UIManager == null)
         {
-            Debug.LogError("CharacterGachaScreen is not assigned.");
+            Debug.LogError("UIManager is null.");
             return;
         }
 
-        _characterGachaScreen.SetActive(true);
-        _screenRoot.SetActive(true);
+        OpenCharacterGachaScreenAsync(
+            destroyCancellationToken).Forget();
+    }
 
-        Debug.Log("Character Gacha Screen Opened.");
+    private async UniTask OpenCharacterGachaScreenAsync(
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            await GameManager.Instance.UIManager
+                .OpenCharacterGachaScreenAsync(
+                    cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        catch (Exception exception)
+        {
+            Debug.LogError(
+                $"Failed to open CharacterGachaScreen.\n{exception}");
+        }
     }
 }

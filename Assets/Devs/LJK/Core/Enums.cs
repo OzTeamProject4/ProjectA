@@ -1,6 +1,11 @@
 ﻿public enum UIType
 {
-    Test
+    Test,
+    StageSelectScreen,
+    DictionaryScreen,
+    FarmingDungeonScreen,
+    CharacterGachaScreen,
+    MissionScreen
 }
 
 public enum UIRoot

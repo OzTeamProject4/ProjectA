@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1555367555740777768
 CanvasRenderer:
@@ -84,9 +84,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7956046450310748131}
-  - component: {fileID: 7908597202033809749}
-  - component: {fileID: 5792939943128454479}
-  - component: {fileID: 8189558009097883086}
+  - component: {fileID: 6203194011048760053}
   m_Layer: 5
   m_Name: StageSelectScreen
   m_TagString: Untagged
@@ -116,30 +114,7 @@ RectTransform:
   m_AnchoredPosition: {x: 958.083, y: 603.8516}
   m_SizeDelta: {x: 1920, y: 1200.2373}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!223 &7908597202033809749
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080891335027388370}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 100
-  m_TargetDisplay: 0
---- !u!114 &5792939943128454479
+--- !u!114 &6203194011048760053
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,37 +123,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2080891335027388370}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Script: {fileID: 11500000, guid: 375d2016d0beefe409ac6b417021da9f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
-  m_PhysicalUnit: 3
-  m_FallbackScreenDPI: 96
-  m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
---- !u!114 &8189558009097883086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080891335027388370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
+  m_EditorClassIdentifier: Assembly-CSharp::StageSelectScreenView
+  _backToLobbyButton: {fileID: 1167029232571636994}
 --- !u!1 &6207974798179188257
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,7 +413,6 @@ GameObject:
   - component: {fileID: 928125116462014236}
   - component: {fileID: 267889349133227677}
   - component: {fileID: 1167029232571636994}
-  - component: {fileID: 6862231280146819385}
   m_Layer: 5
   m_Name: BackToLobbyButton_Stages
   m_TagString: Untagged
@@ -575,17 +522,3 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6862231280146819385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9048652275659634776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 259afd381250e1b4abfddeec5d4aafc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StageSelectBackButtonView
-  _screenRoot: {fileID: 0}
-  _stageSelectScreen: {fileID: 2080891335027388370}

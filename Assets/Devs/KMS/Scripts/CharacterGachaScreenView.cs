@@ -1,12 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterGachaScreenView : MonoBehaviour
+public class CharacterGachaScreenView : BaseUI
 {
     private const int OneDrawCount = 1;
     private const int TenDrawCount = 10;
-
-    [SerializeField] private GameObject _screenRoot;
 
     [SerializeField] private GameObject _characterGachaMainScreen;
     [SerializeField] private GameObject _characterGachaSelectScreen;
@@ -14,11 +12,9 @@ public class CharacterGachaScreenView : MonoBehaviour
 
     [SerializeField] private Button _backToLobbyButton;
     [SerializeField] private Button _openDrawSelectButton;
-
     [SerializeField] private Button _backToMainButton;
     [SerializeField] private Button _drawTenButton;
     [SerializeField] private Button _drawOneButton;
-
     [SerializeField] private Button _drawAgainButton;
     [SerializeField] private Button _confirmButton;
 
@@ -27,6 +23,8 @@ public class CharacterGachaScreenView : MonoBehaviour
 
     private void OnEnable()
     {
+        ResetRectTransform();
+
         if (HasMissingReference())
         {
             return;
@@ -35,7 +33,6 @@ public class CharacterGachaScreenView : MonoBehaviour
         RegisterButtonEvents();
 
         _lastDrawCount = 0;
-
         ShowMainScreen();
     }
 
@@ -53,11 +50,9 @@ public class CharacterGachaScreenView : MonoBehaviour
 
         _backToLobbyButton.onClick.AddListener(OnBackToLobbyButtonClicked);
         _openDrawSelectButton.onClick.AddListener(OnOpenDrawSelectButtonClicked);
-
         _backToMainButton.onClick.AddListener(OnBackToMainButtonClicked);
         _drawTenButton.onClick.AddListener(OnDrawTenButtonClicked);
         _drawOneButton.onClick.AddListener(OnDrawOneButtonClicked);
-
         _drawAgainButton.onClick.AddListener(OnDrawAgainButtonClicked);
         _confirmButton.onClick.AddListener(OnConfirmButtonClicked);
 
@@ -73,11 +68,9 @@ public class CharacterGachaScreenView : MonoBehaviour
 
         _backToLobbyButton.onClick.RemoveListener(OnBackToLobbyButtonClicked);
         _openDrawSelectButton.onClick.RemoveListener(OnOpenDrawSelectButtonClicked);
-
         _backToMainButton.onClick.RemoveListener(OnBackToMainButtonClicked);
         _drawTenButton.onClick.RemoveListener(OnDrawTenButtonClicked);
         _drawOneButton.onClick.RemoveListener(OnDrawOneButtonClicked);
-
         _drawAgainButton.onClick.RemoveListener(OnDrawAgainButtonClicked);
         _confirmButton.onClick.RemoveListener(OnConfirmButtonClicked);
 
@@ -86,10 +79,19 @@ public class CharacterGachaScreenView : MonoBehaviour
 
     private void OnBackToLobbyButtonClicked()
     {
-        gameObject.SetActive(false);
-        _screenRoot.SetActive(false);
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("GameManager.Instance is null.");
+            return;
+        }
 
-        Debug.Log("Returned To Lobby.");
+        if (GameManager.Instance.UIManager == null)
+        {
+            Debug.LogError("UIManager is null.");
+            return;
+        }
+
+        GameManager.Instance.UIManager.CloseCharacterGachaScreen();
     }
 
     private void OnOpenDrawSelectButtonClicked()
@@ -130,7 +132,6 @@ public class CharacterGachaScreenView : MonoBehaviour
     private void OnConfirmButtonClicked()
     {
         _lastDrawCount = 0;
-
         ShowMainScreen();
 
         Debug.Log("Gacha Result Confirmed.");
@@ -139,7 +140,6 @@ public class CharacterGachaScreenView : MonoBehaviour
     private void ExecuteDraw(int drawCount)
     {
         _lastDrawCount = drawCount;
-
         ShowResultScreen();
 
         Debug.Log($"{drawCount} Character Draw Executed.");
@@ -166,14 +166,24 @@ public class CharacterGachaScreenView : MonoBehaviour
         _characterGachaResultScreen.SetActive(true);
     }
 
-    private bool HasMissingReference()
+    private void ResetRectTransform()
     {
-        if (_screenRoot == null)
+        if (transform is not RectTransform rectTransform)
         {
-            Debug.LogError("ScreenRoot is not assigned.");
-            return true;
+            Debug.LogError("CharacterGachaScreen RectTransform was not found.");
+            return;
         }
 
+        rectTransform.anchorMin = Vector2.zero;
+        rectTransform.anchorMax = Vector2.one;
+        rectTransform.offsetMin = Vector2.zero;
+        rectTransform.offsetMax = Vector2.zero;
+        rectTransform.localScale = Vector3.one;
+        rectTransform.localRotation = Quaternion.identity;
+    }
+
+    private bool HasMissingReference()
+    {
         if (_characterGachaMainScreen == null)
         {
             Debug.LogError("CharacterGachaMainScreen is not assigned.");

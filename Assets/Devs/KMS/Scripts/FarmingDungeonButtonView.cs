@@ -1,11 +1,12 @@
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Button))]
 public class FarmingDungeonButtonView : MonoBehaviour
 {
-    [SerializeField] private GameObject _screenRoot;
-    [SerializeField] private GameObject _farmingDungeonScreen;
-
     private Button _button;
 
     private void Awake()
@@ -25,21 +26,39 @@ public class FarmingDungeonButtonView : MonoBehaviour
 
     private void OnButtonClicked()
     {
-        if (_screenRoot == null)
+        if (GameManager.Instance == null)
         {
-            Debug.LogError("ScreenRoot is not assigned.");
+            Debug.LogError("GameManager.Instance is null.");
             return;
         }
 
-        if (_farmingDungeonScreen == null)
+        if (GameManager.Instance.UIManager == null)
         {
-            Debug.LogError("FarmingDungeonScreen is not assigned.");
+            Debug.LogError("UIManager is null.");
             return;
         }
 
-        _screenRoot.SetActive(true);
-        _farmingDungeonScreen.SetActive(true);
+        OpenFarmingDungeonScreenAsync(
+            destroyCancellationToken).Forget();
+    }
 
-        Debug.Log("Farming Dungeon Screen Opened.");
+    private async UniTask OpenFarmingDungeonScreenAsync(
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            await GameManager.Instance.UIManager
+                .OpenFarmingDungeonScreenAsync(
+                    cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        catch (Exception exception)
+        {
+            Debug.LogError(
+                $"Failed to open FarmingDungeonScreen.\n{exception}");
+        }
     }
 }

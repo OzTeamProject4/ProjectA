@@ -15,6 +15,16 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 7ae454e63ee68024aaafa8837397ef1d
   m_SerializeEntries:
+  - m_GUID: 21888c59bd8ff894ea1296594f6f462d
+    m_Address: Prefab/UILayer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 28cdce35451576f46903271196144346
+    m_Address: Prefab/AudioView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 52d17b5f58ec80b41a820d772ea9c7b1
     m_Address: UI/DictionaryScreen
     m_ReadOnly: 0

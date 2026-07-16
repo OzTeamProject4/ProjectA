@@ -1,12 +1,12 @@
-using Unity.VisualScripting;
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Button))]
 public class MainDungeonButtonView : MonoBehaviour
 {
-    [SerializeField] private GameObject _screenRoot;
-    [SerializeField] private GameObject _stageSelectScreen;
-
     private Button _button;
 
     private void Awake()
@@ -26,21 +26,37 @@ public class MainDungeonButtonView : MonoBehaviour
 
     private void OnButtonClicked()
     {
-        if (_screenRoot == null)
+        if (GameManager.Instance == null)
         {
-            Debug.LogError("ScreenRoot is not assigned.");
+            Debug.LogError("GameManager.Instance is null.");
             return;
         }
 
-        if (_stageSelectScreen == null)
+        if (GameManager.Instance.UIManager == null)
         {
-            Debug.LogError("StageSelectScreen is not assigned.");
+            Debug.LogError("UIManager is null.");
             return;
         }
 
-        _screenRoot.SetActive(true);
-        _stageSelectScreen.SetActive(true);
+        OpenStageSelectScreenAsync(destroyCancellationToken).Forget();
+    }
 
-        Debug.Log("Stage Select Screen Opened");
+    private async UniTask OpenStageSelectScreenAsync(
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            await GameManager.Instance.UIManager
+                .OpenStageSelectScreenAsync(cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        catch (Exception exception)
+        {
+            Debug.LogError(
+                $"Failed to open StageSelectScreen.\n{exception}");
+        }
     }
 }
