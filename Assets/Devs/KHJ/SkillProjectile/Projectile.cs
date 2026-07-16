@@ -12,6 +12,8 @@ public class Projectile : MonoBehaviour
     private Rigidbody _rigidbody;
     private Transform _target;
     private int _damage;
+    private CharacterSkillSystem _ownerSkillSystem;
+    private int _gaugeRecovery;
 
     
     private void Awake()
@@ -44,13 +46,21 @@ public class Projectile : MonoBehaviour
         {
             //TODO IDamageable.TakeDamage 호출 필요
             Debug.Log($"{other.name}에게 {_damage}데미지 전달");
+
+            if (_ownerSkillSystem != null )
+            {
+                _ownerSkillSystem.AddGauge(_gaugeRecovery);
+            }
+
             Destroy(gameObject);
         }
     }
-    public void Launch(Transform target, int damage)
+    public void Launch(Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery)
     {
         _target = target;
         _damage = damage;
+        _ownerSkillSystem = owner;
+        _gaugeRecovery = gaugeRecovery;
         transform.rotation = Quaternion.LookRotation((target.position - transform.position).normalized);
         Destroy(gameObject, _lifeTime);
     }

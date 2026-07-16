@@ -1,14 +1,21 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class CharacterSkillSystem : MonoBehaviour
 {
     private const float SkillDamageMultiplier = 0.01f;
+    private const float GaugePerSecond = 5.0f;
 
     private CharacterAttack _characterAttack;
     private BattleCharacter _battleCharacter;
     private RuntimeSkill _basicSkill;
     private RuntimeSkill _normalSkill;
     private RuntimeSkill _ultimateSkill;
+    private int _currentGauge;
+    private int _maxGauge;
+    private float _gaugeAccumulator;
+
+    public event Action<int, int> OnGaugeChanged;
 
     private void Awake()
     {
@@ -27,8 +34,15 @@ public class CharacterSkillSystem : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        UpdateGauge();
+    }
     public void Initialize(CharacterData data)
     {
+        _maxGauge = data.SkillGauge;
+        ChangeGauge(0);
+
         foreach (string skillId in data.SkillList)
         {
             if (GameManager.Instance.DataManager.TryGetData<CharacterSkillData>(skillId, out CharacterSkillData skillData))
@@ -98,26 +112,21 @@ public class CharacterSkillSystem : MonoBehaviour
         {
             return false;
         }
-        
-        // TODO 희준: 궁극기는 쿨타임이 아닌 게이지 확인으로 판정
-        return _ultimateSkill.IsReady();
+
+        return _currentGauge >= _maxGauge;
     }
 
     public void UseUltSkill(Transform target)
     {
-        if (_ultimateSkill == null)
-        {
-            return;
-        }
-
-        if (_ultimateSkill.IsReady() == false)
+        if (_ultimateSkill == null || _currentGauge < _maxGauge)
         {
             return;
         }
 
         // TODO희준 : 실제 스킬 실행 필요
+        ExecuteSkill(_ultimateSkill, target);
         Debug.Log($"궁극 스킬 사용: {_ultimateSkill.Data.Name}");
-        _ultimateSkill.MarkUsed();
+        ChangeGauge(0);
     }
 
     private void ExecuteSkill(RuntimeSkill skill, Transform target)
@@ -126,7 +135,7 @@ public class CharacterSkillSystem : MonoBehaviour
         {
             case CharacterSkillType.SingleAttack:
                 int damage = (int)(_battleCharacter.CurAtk * SkillDamageMultiplier * skill.Data.DamageCoefficient);
-                _characterAttack.FireProjectile(target, damage);
+                _characterAttack.FireProjectile(target, damage, this, skill.Data.GaugeRecovery);
                 break;
             case CharacterSkillType.AreaAttack:
                 //TODO
@@ -135,5 +144,32 @@ public class CharacterSkillSystem : MonoBehaviour
                 //TODO
                 break;
         }
+    }
+
+    public void AddGauge(int amount)
+    {
+        ChangeGauge(_currentGauge + amount);
+    }
+
+    public void UpdateGauge()
+    {
+        if (_currentGauge >= _maxGauge)
+        {
+            return;
+        }
+
+        _gaugeAccumulator += GaugePerSecond * Time.deltaTime;
+        if (_gaugeAccumulator >= 1.0f)
+        {
+            int gain = (int)_gaugeAccumulator;
+            _gaugeAccumulator -= gain;
+            ChangeGauge(_currentGauge + gain);
+        }
+    }
+
+    private void ChangeGauge(int newValue)
+    {
+        _currentGauge = Mathf.Clamp(newValue, 0, _maxGauge);
+        OnGaugeChanged?.Invoke(_currentGauge, _maxGauge);
     }
 }
