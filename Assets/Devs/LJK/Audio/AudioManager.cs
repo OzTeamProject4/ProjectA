@@ -92,6 +92,12 @@ public class AudioManager : BaseManager<AudioManager>
     {
         GameObject audioControllerPrefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(AddressableKey.Prefab.AudioView, destroyCancellationToken);
 
+        if (audioControllerPrefab == null)
+        {
+            Debug.LogError($"[{nameof(AudioManager)}:{nameof(CreateAudioView)}] {AddressableKey.Prefab.AudioView} 오디오 뷰를 로드하지 못했습니다.");
+            return;
+        }
+
         if (!audioControllerPrefab.TryGetComponent(out AudioView audioView))
         {
             Debug.LogError($"[{nameof(AudioManager)}:{nameof(CreateAudioView)}] AudioView 프리팹에 AudioView 컴포넌트가 없습니다.");

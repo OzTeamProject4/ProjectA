@@ -106,31 +106,23 @@ public class UIManager : BaseManager<UIManager>
 
     private async UniTask<BaseUI> CreateUIAsync(UIType uiType, RectTransform rectTransform, CancellationToken cancellationToken)
     {
-        try
-        {
-            string addressableKey = AddressableKey.GetUIKey(uiType);
-            GameObject uiPrefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(addressableKey, cancellationToken);
-            
-            if (uiPrefab == null)
-            {
-                Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateUIAsync)}] '{uiType}' UI 프리팹을 로드하지 못했습니다.");
-                return null;
-            }
+        string addressableKey = AddressableKey.GetUIKey(uiType);
+        GameObject uiPrefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(addressableKey, cancellationToken);
 
-            if (!uiPrefab.TryGetComponent(out BaseUI uibase))
-            {
-                Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateUIAsync)}] '{uiType}' UI 프리팹에서 UIBase 컴포넌트를 찾을 수 없습니다.");
-                return null;
-            }
-
-            BaseUI uiInstance = Instantiate(uibase, rectTransform);
-            return uiInstance;
-        }
-        catch (Exception exception)
+        if (uiPrefab == null)
         {
-            Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateUIAsync)}] '{uiType}' UI 생성 중 예외가 발생했습니다.\n{exception}");
+            Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateUIAsync)}] '{uiType}' UI 프리팹을 로드하지 못했습니다.");
             return null;
         }
+
+        if (!uiPrefab.TryGetComponent(out BaseUI uibase))
+        {
+            Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateUIAsync)}] '{uiType}' UI 프리팹에서 UIBase 컴포넌트를 찾을 수 없습니다.");
+            return null;
+        }
+
+        BaseUI uiInstance = Instantiate(uibase, rectTransform);
+        return uiInstance;
     }
 
     private void CloseUI(UIType uiType)
