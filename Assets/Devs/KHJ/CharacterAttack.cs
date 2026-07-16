@@ -41,24 +41,4 @@ public class CharacterAttack : MonoBehaviour
         }
         _lastAttackTime = Time.time;
     }
-    // TODO 희준: 실제 게이지/쿨타임 로직으로 교체 
-    public bool CanUseUlt()
-    {
-        return false;   // 임시: 항상 궁극기 불가
-    }
-
-    public bool CanUseSkill()
-    {
-        return false;   // 임시: 항상 스킬 불가
-    }
-
-    public void UseUlt(Transform target)
-    {
-        Debug.Log("궁극기!");   // 임시
-    }
-
-    public void UseSkill(Transform target)
-    {
-        Debug.Log("스킬!");     // 임시
-    }
 }

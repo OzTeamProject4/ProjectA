@@ -7,21 +7,21 @@ using UnityEngine;
 public partial class PlayerCanUseUltCondition : Condition
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
-    private CharacterAttack _characterAttack;
+    private CharacterSkillSystem _characterSkillSystem;
 
     public override bool IsTrue()
     {
-        if (_characterAttack == null && Self.Value != null)
+        if (_characterSkillSystem == null && Self.Value != null)
         {
-            _characterAttack = Self.Value.GetComponent<CharacterAttack>();
+            _characterSkillSystem = Self.Value.GetComponent<CharacterSkillSystem>();
         }
 
-        if (_characterAttack == null)
+        if (_characterSkillSystem == null)
         {
             return false;
         }
 
-        return _characterAttack.CanUseUlt();
+        return _characterSkillSystem.CanUseUltSkill();
     }
 
     public override void OnStart()

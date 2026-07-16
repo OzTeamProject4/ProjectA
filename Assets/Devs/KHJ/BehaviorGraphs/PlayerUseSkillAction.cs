@@ -10,21 +10,21 @@ public partial class PlayerUseSkillAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<GameObject> EnemyTarget;
-    private CharacterAttack _characterAttack;
+    private CharacterSkillSystem _characterSkillSystem;
 
     protected override Status OnStart()
     {
-        if (_characterAttack == null)
+        if (_characterSkillSystem == null)
         {
-            _characterAttack = Self.Value.GetComponent<CharacterAttack>();
+            _characterSkillSystem = Self.Value.GetComponent<CharacterSkillSystem>();
         }
 
-        if (_characterAttack == null || EnemyTarget.Value == null)
+        if (_characterSkillSystem == null || EnemyTarget.Value == null)
         {
             return Status.Failure;
         }
 
-        _characterAttack.UseSkill(EnemyTarget.Value.transform);
+        _characterSkillSystem.UseSkill(EnemyTarget.Value.transform);
         return Status.Running;
     }
 

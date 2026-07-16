@@ -42,7 +42,7 @@ public class Projectile : MonoBehaviour
         if (other.CompareTag(EnemyTag))
         {
             //TODO IDamageable.TakeDamage 호출 필요
-            Debug.Log($"{other.name} 명중");
+            // Debug.Log($"{other.name} 명중");
             Destroy(gameObject);
         }
     }

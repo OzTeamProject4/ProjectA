@@ -82,6 +82,12 @@ public class BattleCharacter : MonoBehaviour
         _curMoveSpeed = _data.MoveSpeed + (_data.Level * _data.MoveSpeedGrow);
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
         _curSkillGauge = 0;
+
+        CharacterSkillSystem skillSystem = GetComponent<CharacterSkillSystem>();
+        if (skillSystem != null)
+        {
+            skillSystem.Initialize(data);
+        }
     }
 
     public void Move(Vector3 moveDirection, bool isRunning)

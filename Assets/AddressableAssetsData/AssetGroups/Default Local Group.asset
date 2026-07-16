@@ -15,13 +15,48 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 2ec5a78d4968bee4ca48b7f1e7939337
   m_SerializeEntries:
+  - m_GUID: 0bdc6a894c3a596408bf988aade12cd8
+    m_Address: SkillWater003
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0c4da498aac1f2745add9d2d71bd894f
+    m_Address: CharacterSkillData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0c63a716d2922af49b0329b189e4dafb
+    m_Address: SkillFire002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1c3223c1ff11d914487a88e80b9c1a49
+    m_Address: SkillFire001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 43f77c92a81a6c34eb6e8238362abbc2
     m_Address: Data_TestCharacter
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 74826f15b8e0c444298c9c65e4aedee1
+    m_Address: SkillFire003
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7fab559bc6efff34083ca7bd8fd79488
+    m_Address: SkillWater002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 957d354e80b0b7b498197c777ce487a7
     m_Address: Prefab_TestBattleCharacterBase
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: abb6f022cbce4cd41a572f223436e9e7
+    m_Address: SkillWater001
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
