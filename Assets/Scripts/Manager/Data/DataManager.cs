@@ -9,14 +9,22 @@ public class DataManager : BaseManager<DataManager>
 {
     private readonly Dictionary<Type, object> _dataTables = new Dictionary<Type, object>();
 
-    public override UniTask InitializeAsync()
+    public override async UniTask InitializeAsync()
     {
         _dataTables.Clear();
-        return UniTask.CompletedTask;
+        // return UniTask.CompletedTask;
+        await PreloadDataAsync();
     }
 
     public async UniTask PreloadDataAsync()
     {
+        //await LoadDataAsync<T>("Key");
+        await LoadDataAsync<CharacterData>(AddressableKey.Data.CharacterData, destroyCancellationToken);
+        await LoadDataAsync<CharacterGradeData>(AddressableKey.Data.CharacterGrade, destroyCancellationToken);
+        await LoadDataAsync<LevelExpData>(AddressableKey.Data.LevelExp, destroyCancellationToken);
+        await LoadDataAsync<ItemData>(AddressableKey.Data.Item, destroyCancellationToken);
+        await LoadDataAsync<EquipmentData>(AddressableKey.Data.Equipment, destroyCancellationToken);
+        await LoadDataAsync<SignatureData>(AddressableKey.Data.Signature, destroyCancellationToken );
         //await LoadDataAsync<T>("Key", destroyCancellationToken);
         await UniTask.CompletedTask;
     }

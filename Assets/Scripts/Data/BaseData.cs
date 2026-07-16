@@ -3,5 +3,5 @@
 [Serializable]
 public abstract class BaseData
 {
-    public string DataId;
+    public string DataId { get; init; }
 }
