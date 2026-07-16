@@ -19,12 +19,12 @@ public class DataManager : BaseManager<DataManager>
     public async UniTask PreloadDataAsync()
     {
         //await LoadDataAsync<T>("Key");
-        await LoadDataAsync<CharacterData>(DataKeys.CharacterData, destroyCancellationToken);
-        await LoadDataAsync<CharacterGradeData>(DataKeys.CharacterGrade, destroyCancellationToken);
-        await LoadDataAsync<LevelExpData>(DataKeys.LevelExp, destroyCancellationToken);
-        await LoadDataAsync<ItemData>(DataKeys.Item, destroyCancellationToken);
-        await LoadDataAsync<EquipmentData>(DataKeys.Equipment, destroyCancellationToken);
-        await LoadDataAsync<SignatureData>(DataKeys.Signature, destroyCancellationToken );
+        await LoadDataAsync<CharacterData>(AddressableKey.Data.CharacterData, destroyCancellationToken);
+        await LoadDataAsync<CharacterGradeData>(AddressableKey.Data.CharacterGrade, destroyCancellationToken);
+        await LoadDataAsync<LevelExpData>(AddressableKey.Data.LevelExp, destroyCancellationToken);
+        await LoadDataAsync<ItemData>(AddressableKey.Data.Item, destroyCancellationToken);
+        await LoadDataAsync<EquipmentData>(AddressableKey.Data.Equipment, destroyCancellationToken);
+        await LoadDataAsync<SignatureData>(AddressableKey.Data.Signature, destroyCancellationToken );
         //await LoadDataAsync<T>("Key", destroyCancellationToken);
         await UniTask.CompletedTask;
     }

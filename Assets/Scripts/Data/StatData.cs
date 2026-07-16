@@ -1,4 +1,9 @@
-﻿public readonly struct StatData
+﻿namespace System.Runtime.CompilerServices
+{
+    internal static class IsExternalInit { }
+}
+
+public readonly struct StatData
 {
     public float Hp { get; init; }
     public float Atk { get; init; }
@@ -27,12 +32,4 @@ public readonly struct StatValue
     public StatType Type { get; init; }
     public float Value { get; init; }
     public bool IsInteger { get; init; }
-}
-
-public enum StatType
-{
-    MaxHp,
-    Atk,
-    Def,
-    MoveSpeed
 }
