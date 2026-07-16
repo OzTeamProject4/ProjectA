@@ -45,13 +45,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 902e834f42adc75458c83a77999170c3
-    m_Address: Data/CharacterData
+  - m_GUID: aea2e2ab5a48bc646a02695482318b45
+    m_Address: Sprites/Equipment
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: aea2e2ab5a48bc646a02695482318b45
-    m_Address: Sprites/Equipment
+  - m_GUID: b0c5d8fcdbf50ca4d9ad071e13e7aa1d
+    m_Address: UI/ItemPreviewPopup
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -67,6 +67,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ea0a56ff7aeada64dbef6a435fc9661b
     m_Address: UI/CharacterList
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb40ffa39297bb84fad6a9cd6c4f770b
+    m_Address: Prefabs/ObjectPoolRoot
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

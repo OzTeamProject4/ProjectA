@@ -20,6 +20,11 @@ public class CharacterEntryTestButton : MonoBehaviour
         _enterButton.onClick.AddListener(HandleEnterButtonClicked);
     }
 
+    private async void Start()
+    {
+        await GameManager.Instance.InitializeManagersAsync();
+    }
+
     private void OnDisable()
     {
         if (null == _enterButton)
