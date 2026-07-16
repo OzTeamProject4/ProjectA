@@ -3,7 +3,8 @@
     public static class Prefab
     {
         public const string UILayer = "Prefab/UILayer";
-        public const string AudioController = "Prefab/AudioView";
+        public const string AudioView = "Prefab/AudioView";
+        public const string ObjectPoolRoot = "Prefab/ObjectPoolRoot";
     }
 
     public static class Data
@@ -13,9 +14,7 @@
         public const string LevelExp = "Data/LevelExp";
         public const string Item = "Data/Item";
         public const string Equipment = "Data/Equipment";
-        public const string Signature = "Data/Signature";
-        public const string AudioView = "Prefab/AudioView";
-        public const string ObjectPoolRoot = "Prefab/ObjectPoolRoot";
+        public const string Signature = "Data/Signature";   
     }
 
     public static string GetUIKey(UIType uIType)

@@ -59,17 +59,7 @@ public class GameManager : BaseManager<GameManager>
         AudioManager = this.GetRequiredComponent<AudioManager>();
         UIManager = this.GetRequiredComponent<UIManager>();
         InputManager = this.GetRequiredComponent<InputManager>();
-        Inventory = new Inventory();
-    }
-
-    private async UniTask InitializeManagersAsync()
-    {
-        await InitializeAsync();
-        await ResourceManager.InitializeAsync();
-        await DataManager.InitializeAsync();
-        await AudioManager.InitializeAsync();
-        await UIManager.InitializeAsync();
-        await InputManager.InitializeAsync();
         ObjectManager = this.GetRequiredComponent<ObjectManager>();
+        Inventory = new Inventory();
     }
 }
