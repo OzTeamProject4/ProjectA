@@ -93,12 +93,12 @@ public static class UIManagerExtension
     private static T GetView<T>(BaseUI baseUI, UIType uiType) where T : BaseUI
     {
         if (null == baseUI)
-        {
+    {
             return null;
-        }
+    }
 
         if (baseUI is not T view)
-        {
+    {
             return null;
         }
 

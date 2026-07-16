@@ -12,7 +12,7 @@ public class AudioManager : BaseManager<AudioManager>
     {
         if (_audioView == null)
         {
-            await CreateAudioController();
+            await CreateAudioView();
         }
     }
 
@@ -88,16 +88,23 @@ public class AudioManager : BaseManager<AudioManager>
         }
     }
 
-    private async UniTask CreateAudioController()
+    private async UniTask CreateAudioView()
     {
-        GameObject audioControllerPrefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(AddressableKey.Prefab.AudioController, destroyCancellationToken);
+        GameObject audioControllerPrefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(AddressableKey.Prefab.AudioView, destroyCancellationToken);
 
-        if (!audioControllerPrefab.TryGetComponent(out AudioView audioController))
+        if (audioControllerPrefab == null)
         {
-            Debug.LogError($"[{nameof(AudioManager)}:{nameof(CreateAudioController)}] AudioController 프리팹에 AudioController 컴포넌트가 없습니다.");
+            Debug.LogError($"[{nameof(AudioManager)}:{nameof(CreateAudioView)}] {AddressableKey.Prefab.AudioView} 오디오 뷰를 로드하지 못했습니다.");
             return;
         }
 
-        _audioView = Instantiate(audioController);
+        if (!audioControllerPrefab.TryGetComponent(out AudioView audioView))
+        {
+            Debug.LogError($"[{nameof(AudioManager)}:{nameof(CreateAudioView)}] AudioView 프리팹에 AudioView 컴포넌트가 없습니다.");
+            return;
+        }
+
+        _audioView = Instantiate(audioView);
+        _audioView.name = audioView.name;
     }
 }
