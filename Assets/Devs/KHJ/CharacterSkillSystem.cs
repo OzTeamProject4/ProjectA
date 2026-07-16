@@ -5,6 +5,7 @@ public class CharacterSkillSystem : MonoBehaviour
 {
     private const float SkillDamageMultiplier = 0.01f;
     private const float GaugePerSecond = 5.0f;
+    private const string EnemyTag = "Enemy";
 
     private CharacterAttack _characterAttack;
     private BattleCharacter _battleCharacter;
@@ -14,6 +15,7 @@ public class CharacterSkillSystem : MonoBehaviour
     private int _currentGauge;
     private int _maxGauge;
     private float _gaugeAccumulator;
+    
 
     public event Action<int, int> OnGaugeChanged;
 
@@ -51,12 +53,15 @@ public class CharacterSkillSystem : MonoBehaviour
                 {
                     case CharacterSkillCategory.Basic:
                         _basicSkill = new RuntimeSkill(skillData);
+                        Debug.Log($"Basic 등록: {skillData.Name}");
                         break;
                     case CharacterSkillCategory.Normal:
                         _normalSkill = new RuntimeSkill(skillData);
+                        Debug.Log($"Normal 등록: {skillData.Name}");
                         break;
                     case CharacterSkillCategory.Ultimate:
                         _ultimateSkill = new RuntimeSkill(skillData);
+                        Debug.Log($"Ult 등록: {skillData.Name}");
                         break;
                 }
             }
@@ -92,6 +97,8 @@ public class CharacterSkillSystem : MonoBehaviour
         {
             return false;
         }
+
+        bool ready = _normalSkill.IsReady();
         return _normalSkill.IsReady();
     }
 
@@ -131,14 +138,27 @@ public class CharacterSkillSystem : MonoBehaviour
 
     private void ExecuteSkill(RuntimeSkill skill, Transform target)
     {
+        int damage = (int)(_battleCharacter.CurAtk * SkillDamageMultiplier * skill.Data.DamageCoefficient);
+
         switch (skill.Data.Type)
         {
             case CharacterSkillType.SingleAttack:
-                int damage = (int)(_battleCharacter.CurAtk * SkillDamageMultiplier * skill.Data.DamageCoefficient);
                 _characterAttack.FireProjectile(target, damage, this, skill.Data.GaugeRecovery);
                 break;
             case CharacterSkillType.AreaAttack:
-                //TODO
+                Collider[] hits = Physics.OverlapSphere(target.position, skill.Data.AreaRadius);
+                foreach (Collider hit in hits)
+                {
+                    if (hit.CompareTag(EnemyTag))
+                    {
+                        IDamageable damageable = hit.GetComponent<IDamageable>();
+                        if (damageable != null)
+                        {
+                            damageable.TakeDamage(damage, gameObject);
+                        }
+                    }
+                }
+                AddGauge(skill.Data.GaugeRecovery);
                 break;
             case CharacterSkillType.HealBuff:
                 //TODO

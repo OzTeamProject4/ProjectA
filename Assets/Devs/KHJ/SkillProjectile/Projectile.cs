@@ -44,8 +44,18 @@ public class Projectile : MonoBehaviour
 
         if (other.CompareTag(EnemyTag))
         {
-            //TODO IDamageable.TakeDamage 호출 필요
-            Debug.Log($"{other.name}에게 {_damage}데미지 전달");
+            IDamageable damageable = other.GetComponent<IDamageable>();
+            if (damageable != null && _ownerSkillSystem != null)
+            {
+                damageable.TakeDamage(_damage, _ownerSkillSystem.gameObject);
+            }
+
+            else
+            {
+                // 임시 확인용 로그
+                // Debug.Log($"{other.name}에게 {_damage}데미지 전달 (IDamageable 미구현)");
+
+            }
 
             if (_ownerSkillSystem != null )
             {

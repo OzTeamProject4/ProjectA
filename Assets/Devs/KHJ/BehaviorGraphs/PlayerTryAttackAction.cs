@@ -5,7 +5,7 @@ using Action = Unity.Behavior.Action;
 using Unity.Properties;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "PlayerTryAttack", story: "[Self] attack [EnemyTarget]", category: "Action", id: "c137f24be9a0e83274a52cfd9a9132e5")]
+[NodeDescription(name: "PlayerUseBasicSkill", story: "[Self] use BasicSkill [EnemyTarget]", category: "Action", id: "c137f24be9a0e83274a52cfd9a9132e5")]
 public partial class PlayerTryAttackAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
@@ -35,7 +35,7 @@ public partial class PlayerTryAttackAction : Action
         }
 
         _battleCharacter.LookAt(EnemyTarget.Value.transform.position);
-        _characterSkillSystem.UseNormalSkill(EnemyTarget.Value.transform);
+        _characterSkillSystem.UseBasicSkill(EnemyTarget.Value.transform);
         return Status.Success;
     }
 
