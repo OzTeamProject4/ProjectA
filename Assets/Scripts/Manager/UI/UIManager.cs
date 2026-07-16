@@ -21,8 +21,6 @@ public class UIManager : BaseManager<UIManager>
             await CreateLayer();
             CacheRootDictionary();
         }
-
-        await this.OpenTestUIAsync();
     }
 
     public async UniTask<BaseUI> OpenTestRootAsync(UIType uiType, CancellationToken cancellationToken = default)
@@ -55,10 +53,19 @@ public class UIManager : BaseManager<UIManager>
             return null;
         }
 
-        if (_openedUISet.Contains(uiType) || _loadingUISet.Contains(uiType))
+
+        if (_loadingUISet.Contains(uiType))
         {
-            Debug.LogWarning($"[{nameof(UIManager)}:{nameof(OpenUIAsync)}] '{uiType}' UI가 이미 열려 있거나 로딩 중입니다.");
+            Debug.LogWarning($"[{nameof(UIManager)}:{nameof(OpenUIAsync)}] '{uiType}' UI가 이미 로딩 중입니다.");
             return null;
+        }
+
+        if (_openedUISet.Contains(uiType))
+        {
+            Debug.LogWarning($"[{nameof(UIManager)}:{nameof(OpenUIAsync)}] '{uiType}' UI가 이미 열려 있습니다.");
+
+            BaseUI cachedUI = _createdUICacheDictionary[uiType];
+            return cachedUI;
         }
 
         _loadingUISet.Add(uiType);
@@ -69,7 +76,7 @@ public class UIManager : BaseManager<UIManager>
             {
                 SetCreatedUIRoot(cachedUI, rootRectTransform);
                 OpenUI(uiType, cachedUI);
-                return null;
+                return cachedUI;
             }
 
             BaseUI createdUI = await CreateUIAsync(uiType, rootRectTransform, cancellationToken);
@@ -99,31 +106,23 @@ public class UIManager : BaseManager<UIManager>
 
     private async UniTask<BaseUI> CreateUIAsync(UIType uiType, RectTransform rectTransform, CancellationToken cancellationToken)
     {
-        try
-        {
-            string addressableKey = AddressableKey.GetUIKey(uiType);
-            GameObject uiPrefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(addressableKey, cancellationToken);
-            
-            if (uiPrefab == null)
-            {
-                Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateUIAsync)}] '{uiType}' UI 프리팹을 로드하지 못했습니다.");
-                return null;
-            }
+        string addressableKey = AddressableKey.GetUIKey(uiType);
+        GameObject uiPrefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(addressableKey, cancellationToken);
 
-            if (!uiPrefab.TryGetComponent(out BaseUI uibase))
-            {
-                Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateUIAsync)}] '{uiType}' UI 프리팹에서 UIBase 컴포넌트를 찾을 수 없습니다.");
-                return null;
-            }
-
-            BaseUI uiInstance = Instantiate(uibase, rectTransform);
-            return uiInstance;
-        }
-        catch (Exception exception)
+        if (uiPrefab == null)
         {
-            Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateUIAsync)}] '{uiType}' UI 생성 중 예외가 발생했습니다.\n{exception}");
+            Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateUIAsync)}] '{uiType}' UI 프리팹을 로드하지 못했습니다.");
             return null;
         }
+
+        if (!uiPrefab.TryGetComponent(out BaseUI uibase))
+        {
+            Debug.LogError($"[{nameof(UIManager)}:{nameof(CreateUIAsync)}] '{uiType}' UI 프리팹에서 UIBase 컴포넌트를 찾을 수 없습니다.");
+            return null;
+        }
+
+        BaseUI uiInstance = Instantiate(uibase, rectTransform);
+        return uiInstance;
     }
 
     private void CloseUI(UIType uiType)
@@ -163,6 +162,7 @@ public class UIManager : BaseManager<UIManager>
         }
 
         _uiLayer = Instantiate(uiLayer);
+        _uiLayer.name = uiLayer.name;
     }
 
     private void CacheUIRoot(UIRoot uiRoot, RectTransform rectTransform)

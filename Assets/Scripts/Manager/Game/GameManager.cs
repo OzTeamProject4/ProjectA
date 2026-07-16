@@ -15,7 +15,7 @@ public class GameManager : BaseManager<GameManager>
 
     public InputManager InputManager { get; private set; }
 
-    private UniTask _initializeTask;
+    public ObjectManager ObjectManager { get; private set; }
 
     private void Awake()
     {
@@ -23,15 +23,20 @@ public class GameManager : BaseManager<GameManager>
         SetupManagers();
     }
 
-    private void Start()
-    {
-        _initializeTask = InitializeManagersAsync();
-    }
-
     public override UniTask InitializeAsync()
     {
-        Debug.Log("게임 매니저 초기화");
         return UniTask.CompletedTask;
+    }
+
+    public async UniTask InitializeManagersAsync()
+    {
+        await InitializeAsync();
+        await ResourceManager.InitializeAsync();
+        await DataManager.InitializeAsync();
+        await AudioManager.InitializeAsync();
+        await UIManager.InitializeAsync();
+        await InputManager.InitializeAsync();
+        await ObjectManager.InitializeAsync();
     }
 
     private void EnsureSingleton()
@@ -53,15 +58,6 @@ public class GameManager : BaseManager<GameManager>
         AudioManager = this.GetRequiredComponent<AudioManager>();
         UIManager = this.GetRequiredComponent<UIManager>();
         InputManager = this.GetRequiredComponent<InputManager>();
-    }
-
-    private async UniTask InitializeManagersAsync()
-    {
-        await InitializeAsync();
-        await ResourceManager.InitializeAsync();
-        await DataManager.InitializeAsync();
-        await AudioManager.InitializeAsync();
-        await UIManager.InitializeAsync();
-        await InputManager.InitializeAsync();
+        ObjectManager = this.GetRequiredComponent<ObjectManager>();
     }
 }
