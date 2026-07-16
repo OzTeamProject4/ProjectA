@@ -57,3 +57,10 @@ public enum StatType
     Def,
     MoveSpeed
 }
+
+public enum ScreenType
+{
+    Lobby,
+    StageSelect,
+    Battle
+}
