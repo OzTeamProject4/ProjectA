@@ -66,7 +66,6 @@ public class EnemyController : MonoBehaviour
         }*/
 
         _currentStateEnum = newState;
-        Debug.Log(_currentStateEnum);
         PlayStateAnimation(_currentStateEnum);
     }
 
