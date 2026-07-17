@@ -17,10 +17,8 @@ public class SplashUI : MonoBehaviour
 
     private void Awake()
     {
-        if (_logoImage == null)
-        {
-            Debug.LogError($"[{nameof(SplashUI)}] Image 컴포넌트가 할당되지 않았습니다.");
-        }
+        UnityUtil.ValidateReference(_splashRoot, nameof(SplashUI), nameof(_splashRoot));
+        UnityUtil.ValidateReference(_logoImage, nameof(SplashUI), nameof(_logoImage));
     }
 
     private void Start()
