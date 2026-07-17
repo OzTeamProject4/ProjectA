@@ -9,6 +9,9 @@ public class AudioView : MonoBehaviour
 
     private void Awake()
     {
+        UnityUtil.ValidateReference(_audioSourceBGM, nameof(AudioClip), nameof(_audioSourceBGM));
+        UnityUtil.ValidateReference(_audioSourceSFX, nameof(AudioClip), nameof(_audioSourceSFX));
+
         AudioSettingData audioSettingData = CreateAudioSettingData();
         _audioViewModel = new AudioViewModel(audioSettingData);
     }
