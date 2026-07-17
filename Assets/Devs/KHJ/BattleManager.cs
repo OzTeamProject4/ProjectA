@@ -40,6 +40,7 @@ public class BattleManager : MonoBehaviour
             Debug.LogError("카메라 참조 null 인스펙터 확인");
             return;
         }
+        await GameManager.Instance.InitializeManagersAsync();
         await EnterBattle();
     }
 
@@ -53,7 +54,7 @@ public class BattleManager : MonoBehaviour
 
     private async UniTask EnterBattle()
     {
-        await GameManager.Instance.DataManager.LoadDataAsync<CharacterData>("Data_TestCharacter");
+        // await GameManager.Instance.DataManager.LoadDataAsync<CharacterData>("Data_TestCharacter");
 
         //TODO 희준: 임시파티 ID, 추후 파티편성창에서 id받아오는 방식으로 교체
         List<string> tempPartyIds = new List<string> { "Character_001", "Character_003", "Character_005" };

@@ -151,7 +151,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2324892288804292500}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b07a61caf5f54ac409cdc2574abc30b6, type: 3}
+  m_Script: {fileID: 11500000, guid: ead2929020f52b04988661d617347300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &4704190834911763005
@@ -163,11 +163,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2324892288804292500}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91f0791eee5f00f4aa5272fb731bc6fb, type: 3}
+  m_Script: {fileID: 11500000, guid: cd4e9bb61bdd9aa4d822fb47cfbd18f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
-  attackRange: 5
-  attackInterval: 2
+  attackRange: 2
+  attackInterval: 1
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024

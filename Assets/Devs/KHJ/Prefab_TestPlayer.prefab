@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3651912900195043550}
   - component: {fileID: 6347049169455090174}
   - component: {fileID: 4695524458161307206}
-  - component: {fileID: -2512745418131115240}
+  - component: {fileID: 7846571491742197363}
   m_Layer: 10
   m_Name: Prefab_TestPlayer
   m_TagString: Untagged
@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _cameraTransform: {fileID: 2111991461335267908}
-  _attack: {fileID: -2512745418131115240}
+  _attack: {fileID: 7846571491742197363}
 --- !u!114 &3651912900195043550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,7 +132,7 @@ CapsuleCollider:
   m_Height: 3.228006
   m_Direction: 1
   m_Center: {x: 0.032691717, y: 1.5432856, z: 0.0024687052}
---- !u!114 &-2512745418131115240
+--- !u!114 &7846571491742197363
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,10 +141,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2626719572058679806}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aeb5cbec76593c44f871d312f8cc5e26, type: 3}
+  m_Script: {fileID: 11500000, guid: 6e51968fb91d7c44b840fd28d83bdb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Attack
-  attackRadius: 5
+  attackRadius: 2
   enemyLayer:
     serializedVersion: 2
     m_Bits: 2048

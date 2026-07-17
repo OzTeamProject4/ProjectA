@@ -27,7 +27,7 @@ public class BattleCharacter : MonoBehaviour, IDamageable
 
     public string CharacterName => _data.Name;
     public int CurHp => _curHp;
-    public ElementType ElementType => _data.ElementType;
+    public ElementType ElementType => _data.Type;
     public int CurrentAttack => _curAtk;
 
     private void Awake()
@@ -58,11 +58,11 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     {
         _data = data;
         _isSelectedCharacter = false;
-        _curHp = _data.BaseHp;
+        _curHp = Mathf.RoundToInt(_data.Hp);
         _curSkillGauge = 0;
-        _curAtk = _data.BaseAtk;
-        _curDef = _data.BaseDef;
-        _curMoveSpeed = _data.BaseMoveSpeed;
+        _curAtk = Mathf.RoundToInt(_data.Atk);
+        _curDef = Mathf.RoundToInt(_data.Def);
+        _curMoveSpeed = _data.MoveSpeed;
     }
 
     public void Move(Vector3 moveDirection)
