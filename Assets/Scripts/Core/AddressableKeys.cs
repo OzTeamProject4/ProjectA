@@ -17,6 +17,11 @@
         public const string Signature = "Data/Signature";   
     }
 
+    public static class Asset
+    {
+        public const string LoadingVideoClip = "Video/Test";
+    }
+
     public static string GetUIKey(UIType uIType)
     {
         string key = $"UI/{uIType}";

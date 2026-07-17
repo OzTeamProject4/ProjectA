@@ -35,23 +35,10 @@ public class UILayer : MonoBehaviour
 
     private void Awake()
     {
-        ValidateReferences();
-    }
-
-    private void ValidateReferences()
-    {
-        ValidateReference(_a, nameof(_a));
-        ValidateReference(_b, nameof(_b));
-        ValidateReference(_c, nameof(_c));
-        ValidateReference(_d, nameof(_d));
-        ValidateReference(_e, nameof(_e));
-    }
-
-    private void ValidateReference(RectTransform rectTransform, string fieldName)
-    {
-        if (rectTransform == null)
-        {
-            Debug.LogError($"[{nameof(UILayer)}:{nameof(ValidateReference)}] {fieldName} 필드 레퍼런스가 할당되지 않았습니다.");
-        }
+        UnityUtil.ValidateReference(_a, nameof(UILayer), nameof(_a));
+        UnityUtil.ValidateReference(_b, nameof(UILayer), nameof(_b));
+        UnityUtil.ValidateReference(_c, nameof(UILayer), nameof(_c));
+        UnityUtil.ValidateReference(_d, nameof(UILayer), nameof(_d));
+        UnityUtil.ValidateReference(_e, nameof(UILayer), nameof(_e));
     }
 }
