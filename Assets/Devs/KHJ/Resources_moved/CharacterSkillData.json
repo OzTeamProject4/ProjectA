@@ -12,7 +12,8 @@
     "AreaRadius": 0,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
-    "BuffDuration": 0
+    "BuffDuration": 0,
+    "SkillRange": 10
   },
   {
     "DataId": "Skill_Fire_002",
@@ -27,7 +28,8 @@
     "AreaRadius": 5,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
-    "BuffDuration": 0
+    "BuffDuration": 0,
+    "SkillRange": 10
   },
   {
     "DataId": "Skill_Fire_003",
@@ -42,7 +44,8 @@
     "AreaRadius": 10,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
-    "BuffDuration": 0
+    "BuffDuration": 0,
+    "SkillRange": 20
   },
   {
     "DataId": "Skill_Water_001",
@@ -57,7 +60,8 @@
     "AreaRadius": 0,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
-    "BuffDuration": 0
+    "BuffDuration": 0,
+    "SkillRange": 10
   },
   {
     "DataId": "Skill_Water_002",
@@ -72,7 +76,8 @@
     "AreaRadius": 0,
     "HealAmount": 15,
     "MoveSpeedBuff": 5,
-    "BuffDuration": 10
+    "BuffDuration": 10,
+    "SkillRange": 0
   },
   {
     "DataId": "Skill_Water_003",
@@ -87,6 +92,7 @@
     "AreaRadius": 0,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
-    "BuffDuration": 0
+    "BuffDuration": 0,
+    "SkillRange": 20
   }
 ]

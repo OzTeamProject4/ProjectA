@@ -25,7 +25,7 @@ public partial class PlayerUseUltAction : Action
             return Status.Failure;
         }
 
-        _characterSkillSystem.UseUltSkill(EnemyTarget.Value.transform);
+        _characterSkillSystem.UseUltSkill();
         return Status.Success;
     }
 

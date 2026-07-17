@@ -53,15 +53,12 @@ public class CharacterSkillSystem : MonoBehaviour
                 {
                     case CharacterSkillCategory.Basic:
                         _basicSkill = new RuntimeSkill(skillData);
-                        Debug.Log($"Basic 등록: {skillData.Name}");
                         break;
                     case CharacterSkillCategory.Normal:
                         _normalSkill = new RuntimeSkill(skillData);
-                        Debug.Log($"Normal 등록: {skillData.Name}");
                         break;
                     case CharacterSkillCategory.Ultimate:
                         _ultimateSkill = new RuntimeSkill(skillData);
-                        Debug.Log($"Ult 등록: {skillData.Name}");
                         break;
                 }
             }
@@ -98,7 +95,6 @@ public class CharacterSkillSystem : MonoBehaviour
             return false;
         }
 
-        bool ready = _normalSkill.IsReady();
         return _normalSkill.IsReady();
     }
 
@@ -123,14 +119,20 @@ public class CharacterSkillSystem : MonoBehaviour
         return _currentGauge >= _maxGauge;
     }
 
-    public void UseUltSkill(Transform target)
+    public void UseUltSkill()
     {
-        if (_ultimateSkill == null || _currentGauge < _maxGauge)
+        if (_ultimateSkill == null /*|| _currentGauge < _maxGauge */)
         {
             return;
         }
 
-        // TODO희준 : 실제 스킬 실행 필요
+        Transform target = FindNearestEnemy(_ultimateSkill.Data.SkillRange);
+        if (target == null)
+        {
+            Debug.Log("사거리 내 적 없음");
+            return;
+        }
+
         ExecuteSkill(_ultimateSkill, target);
         Debug.Log($"궁극 스킬 사용: {_ultimateSkill.Data.Name}");
         ChangeGauge(0);
@@ -191,5 +193,34 @@ public class CharacterSkillSystem : MonoBehaviour
     {
         _currentGauge = Mathf.Clamp(newValue, 0, _maxGauge);
         OnGaugeChanged?.Invoke(_currentGauge, _maxGauge);
+    }
+    private Transform FindNearestEnemy(float range)
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, range);
+
+        Transform nearest = null;
+        float nearestDistance = float.MaxValue;
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.isTrigger == true)
+            {
+                continue;
+            }
+
+            if (hit.CompareTag(EnemyTag) == false)
+            {
+                continue;
+            }
+
+            float distance = Vector3.Distance(transform.position, hit.transform.position);
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearest = hit.transform;
+            }
+        }
+
+        return nearest;
     }
 }
