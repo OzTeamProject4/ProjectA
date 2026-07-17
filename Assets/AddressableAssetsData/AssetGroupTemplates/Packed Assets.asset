@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Packed Assets
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroupTemplate
   m_SchemaObjects:
-  - {fileID: 7009552731814632499}
-  - {fileID: 5124019652460462521}
+  - {fileID: 4572557461851057493}
+  - {fileID: 3356782311048389313}
   m_Description: Pack assets into asset bundles.
-  m_Settings: {fileID: 11400000, guid: 48e970b5511212147b16121d35aa1874, type: 2}
---- !u!114 &5124019652460462521
+  m_Settings: {fileID: 11400000, guid: a2c5544ffab75cb428ed6b2ff736503e, type: 2}
+--- !u!114 &3356782311048389313
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -31,7 +31,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.GroupSchemas.ContentUpdateGroupSchema
   m_Group: {fileID: 0}
   m_StaticContent: 0
---- !u!114 &7009552731814632499
+--- !u!114 &4572557461851057493
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
