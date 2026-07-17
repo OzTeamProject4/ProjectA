@@ -1,0 +1,101 @@
+[
+  {
+    "DataId": "Item_ExpBook_Small",
+    "Name": "경험치북(소)",
+    "Type": "ExpBook",
+    "Gold": 100,
+    "Crystal": 0,
+    "Value": 100,
+    "SpritePath": "Sprites/Items[Items_ExpBook_1]"
+  },
+  {
+    "DataId": "Item_ExpBook_Medium",
+    "Name": "경험치북(중)",
+    "Type": "ExpBook",
+    "Gold": 200,
+    "Crystal": 0,
+    "Value": 250,
+    "SpritePath": "Sprites/Items[Items_ExpBook_2]"
+  },
+  {
+    "DataId": "Item_ExpBook_Large",
+    "Name": "경험치북(대)",
+    "Type": "ExpBook",
+    "Gold": 400,
+    "Crystal": 0,
+    "Value": 500,
+    "SpritePath": "Sprites/Items[Items_ExpBook_3]"
+  },
+  {
+    "DataId": "Item_Ticket_Sweep",
+    "Name": "소탕권",
+    "Type": "Ticket",
+    "Gold": 200,
+    "Crystal": 0,
+    "Value": 1,
+    "SpritePath": null
+  },
+  {
+    "DataId": "Item_Ticket_Gacha",
+    "Name": "뽑기권",
+    "Type": "Ticket",
+    "Gold": 0,
+    "Crystal": 100,
+    "Value": 1,
+    "SpritePath": null
+  },
+  {
+    "DataId": "Item_Ticket_GoldDungeon",
+    "Name": "골드 던전 티켓",
+    "Type": "Ticket",
+    "Gold": 200,
+    "Crystal": 0,
+    "Value": 1,
+    "SpritePath": null
+  },
+  {
+    "DataId": "Item_Ticket_ExpDungeon",
+    "Name": "경험치 던전 티켓",
+    "Type": "Ticket",
+    "Gold": 200,
+    "Crystal": 0,
+    "Value": 1,
+    "SpritePath": null
+  },
+  {
+    "DataId": "Item_Mat_T1",
+    "Name": "마나 결정(T1)",
+    "Type": "Material",
+    "Gold": -1,
+    "Crystal": -1,
+    "Value": 1,
+    "SpritePath": "Sprites/Items[Items_Mat_Tier1]"
+  },
+  {
+    "DataId": "Item_Mat_T2",
+    "Name": "마나 결정(T2)",
+    "Type": "Material",
+    "Gold": -1,
+    "Crystal": -1,
+    "Value": 1,
+    "SpritePath": "Sprites/Items[Items_Mat_Tier2]"
+  },
+  {
+    "DataId": "Item_Mat_T3",
+    "Name": "마나 결정(T3)",
+    "Type": "Material",
+    "Gold": -1,
+    "Crystal": -1,
+    "Value": 1,
+    "SpritePath": "Sprites/Items[Items_Mat_Tier3]"
+  },
+  {
+    "DataId": "Item_Mat_Signature",
+    "Name": "응축된 마력석",
+    "Type": "Material",
+    "Gold": -1,
+    "Crystal": -1,
+    "Value": 1,
+    "SpritePath": null
+  }
+]
