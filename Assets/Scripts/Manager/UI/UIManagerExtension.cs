@@ -3,13 +3,23 @@ using System.Threading;
 
 public static class UIManagerExtension
 {
-    public static async UniTask OpenTestUIAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    public static async UniTask OpenOverlayUIAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
-        BaseUI baseUI = await uiManager.OpenTestRootAsync(UIType.Test, cancellationToken);
+        await uiManager.OpenTestRootAsync(UIType.Overlay, cancellationToken);
     }
 
-    public static void CloseTestUI(this UIManager uiManager)
+    public static void CloseOverlayUI(this UIManager uiManager)
     {
-        uiManager.Close(UIType.Test);
+        uiManager.Close(UIType.Overlay);
+    }
+
+    public static async UniTask OpenLoadingUIAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        await uiManager.OpenTestRootAsync(UIType.Loading, cancellationToken);
+    }
+
+    public static void CloseLoadingUI(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.Loading);
     }
 }

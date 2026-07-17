@@ -1,6 +1,7 @@
 ﻿public enum UIType
 {
-    Test
+    Overlay,
+    Loading
 }
 
 public enum UIRoot
