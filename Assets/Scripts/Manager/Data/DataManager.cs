@@ -15,16 +15,16 @@ public class DataManager : BaseManager<DataManager>
         return UniTask.CompletedTask;
     }
 
-    public async UniTask PreloadDataAsync()
+    public async UniTask LoadRuntimeDataAsync(IProgress<LoadingProgress> progress = null)
     {
-        //await LoadDataAsync<T>("Key", destroyCancellationToken);
-        await UniTask.CompletedTask;
-    }
+        CancellationToken cancellationToken = destroyCancellationToken;
 
-    public async UniTask LoadRuntimeDataAsync()
-    {
-        //await LoadDataAsync<T>("Key", destroyCancellationToken);
-        await UniTask.CompletedTask;
+        progress?.Report(new LoadingProgress(0, LoadingStep.Initialize));
+        //await LoadDataAsync<AudioData>("", cancellationToken);
+
+
+        progress?.Report(new LoadingProgress(1, LoadingStep.Complete));
+        await UniTask.Delay(1000);
     }
 
     public bool TryGetDataTable<T>(out Dictionary<string, T> dataTable) where T : BaseData
