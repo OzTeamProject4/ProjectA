@@ -13,6 +13,8 @@ public class InputManager : BaseManager<InputManager>
 
     public event Action OnJumpPerformed;
     public event Action OnSwitchPerformed;
+    public event Action OnUltimatePerformed;
+
 
     public override UniTask InitializeAsync()
     {
@@ -51,12 +53,14 @@ public class InputManager : BaseManager<InputManager>
         _inputActions.Player.Jump.performed += OnJump;
 
         _inputActions.Player.Switch.performed += OnSwitch;
+
+        _inputActions.Player.Ultimate.performed += OnUltimate;
     }
 
     private void OnMove(InputAction.CallbackContext context)
     {
         MoveInput = context.ReadValue<Vector2>();
-        Debug.Log(MoveInput);
+        // Debug.Log(MoveInput);
     }
 
     private void OnRun(InputAction.CallbackContext context)
@@ -82,5 +86,15 @@ public class InputManager : BaseManager<InputManager>
         }
 
         OnSwitchPerformed.Invoke();
+    }
+
+    private void OnUltimate(InputAction.CallbackContext context)
+    {
+        if (OnUltimatePerformed == null)
+        {
+            return;
+        }
+
+        OnUltimatePerformed.Invoke();
     }
 }

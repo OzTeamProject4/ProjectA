@@ -141,7 +141,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2626719572058679806}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
   m_Name: 
@@ -175,7 +175,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b56c62e382f37c3448e6b8ee0d8e592c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAttack
-  _projectilePrefab: {fileID: 7732313909885684191, guid: 1c3223c1ff11d914487a88e80b9c1a49, type: 3}
   _firePoint: {fileID: 8039770000814821959}
   _attackCooldown: 1
 --- !u!114 &5423809276147506849

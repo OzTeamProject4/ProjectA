@@ -32,7 +32,7 @@ public class TempPartySpawner
 
             GameObject obj = Object.Instantiate(prefab, new Vector3(index * 3, 2, 0), Quaternion.identity);
             BattleCharacter battleCharacter = obj.GetComponent<BattleCharacter>();
-            battleCharacter.Initialize(data, stats);
+            await battleCharacter.InitializeAsync(data, stats);
             characters.Add(battleCharacter);
             index++;
         }

@@ -45,7 +45,7 @@ public class BattleManager : MonoBehaviour
         Cursor.visible = false;
 
         //TODO 희준: 임시파티 ID, 추후 파티편성창에서 id받아오는 방식으로 교체
-        List<string> tempPartyIds = new List<string> { "Character_001", "Character_002", "Character_001" };
+        List<string> tempPartyIds = new List<string> { "Character_001", "Character_002", "Character_003" };
 
         _partySpawner = new TempPartySpawner();
         List<BattleCharacter> characters = await _partySpawner.SpawnPartyById(tempPartyIds);

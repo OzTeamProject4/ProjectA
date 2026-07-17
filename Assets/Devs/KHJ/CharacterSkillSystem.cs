@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterSkillSystem : MonoBehaviour
@@ -15,6 +17,7 @@ public class CharacterSkillSystem : MonoBehaviour
     private int _currentGauge;
     private int _maxGauge;
     private float _gaugeAccumulator;
+    private List<string> _loadedPrefabKeys = new List<string>();
     
 
     public event Action<int, int> OnGaugeChanged;
@@ -40,7 +43,21 @@ public class CharacterSkillSystem : MonoBehaviour
     {
         UpdateGauge();
     }
-    public void Initialize(CharacterData data)
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance == null)
+        {
+            return;
+        }
+
+        foreach (string key in _loadedPrefabKeys)
+        {
+            GameManager.Instance.ResourceManager.ReleaseAsset(key);
+        }
+        _loadedPrefabKeys.Clear();
+    }
+    public async UniTask InitializeAsync(CharacterData data)
     {
         _maxGauge = data.SkillGauge;
         ChangeGauge(0);
@@ -53,12 +70,17 @@ public class CharacterSkillSystem : MonoBehaviour
                 {
                     case CharacterSkillCategory.Basic:
                         _basicSkill = new RuntimeSkill(skillData);
+                        Debug.Log($"{skillData.Category}{skillData.Name} 로드");
                         break;
                     case CharacterSkillCategory.Normal:
                         _normalSkill = new RuntimeSkill(skillData);
+                        Debug.Log($"{skillData.Category}{skillData.Name} 로드");
+
                         break;
                     case CharacterSkillCategory.Ultimate:
                         _ultimateSkill = new RuntimeSkill(skillData);
+                        Debug.Log($"{skillData.Category}{skillData.Name} 로드");
+
                         break;
                 }
             }
@@ -68,6 +90,7 @@ public class CharacterSkillSystem : MonoBehaviour
                 Debug.LogError($"스킬 데이터 없음 {skillId}");
             }
         }
+        await LoadSkillPrefabs();
     }
     public bool CanUseBasicSkill()
     {
@@ -145,7 +168,11 @@ public class CharacterSkillSystem : MonoBehaviour
         switch (skill.Data.Type)
         {
             case CharacterSkillType.SingleAttack:
-                _characterAttack.FireProjectile(target, damage, this, skill.Data.GaugeRecovery);
+                if (skill.ProjectilePrefab == null)
+                {
+                    Debug.LogError($"[{skill.Data.Name}] SingleAttack인데 프리팹 null (경로: {skill.Data.PrefabPath})");
+                }
+                _characterAttack.FireProjectile(skill.ProjectilePrefab, target, damage, this, skill.Data.GaugeRecovery);
                 break;
             case CharacterSkillType.AreaAttack:
                 Collider[] hits = Physics.OverlapSphere(target.position, skill.Data.AreaRadius);
@@ -222,5 +249,40 @@ public class CharacterSkillSystem : MonoBehaviour
         }
 
         return nearest;
+    }
+
+    private async UniTask LoadSkillPrefabs()
+    {
+        await LoadPrefabForSkill(_basicSkill);
+        await LoadPrefabForSkill(_normalSkill);
+        await LoadPrefabForSkill(_ultimateSkill);
+
+    }
+
+    private async UniTask LoadPrefabForSkill(RuntimeSkill skill)
+    {
+        if (skill == null)
+        {
+            return;
+        }
+
+        if (string.IsNullOrEmpty(skill.Data.PrefabPath) == true)
+        {
+            return;
+        }
+
+        GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(skill.Data.PrefabPath);
+
+        if (prefab != null)
+        {
+            skill.SetProjectilePrefab(prefab);
+            _loadedPrefabKeys.Add(skill.Data.PrefabPath);
+            Debug.Log($"프리팹 로드 완료: {skill.Data.PrefabPath}");
+        }
+
+        else
+        {
+            Debug.LogError($"프리팹 로드 실패: {skill.Data.PrefabPath}");
+        }
     }
 }

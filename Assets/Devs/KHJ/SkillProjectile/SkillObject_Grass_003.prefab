@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 606544739881996630}
   - component: {fileID: 4757433398512575210}
   m_Layer: 0
-  m_Name: SkillObject_Basic
+  m_Name: SkillObject_Grass_003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f6d83a48bd8da534d9da065c9e2abee5, type: 2}
+  - {fileID: 2100000, guid: 55edbe69e80897a48b9d524b4569e598, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

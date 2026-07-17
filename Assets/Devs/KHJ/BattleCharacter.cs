@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -80,7 +81,7 @@ public class BattleCharacter : MonoBehaviour
 
         Debug.DrawRay(_groundCheckPoint.position, Vector3.down * _groundCheckDistance, Color.red);
     }
-    public void Initialize(CharacterData data, StatData stats)
+    public async UniTask InitializeAsync(CharacterData data, StatData stats)
     {
         _data = data;
         _isSelectedCharacter = false;
@@ -94,7 +95,7 @@ public class BattleCharacter : MonoBehaviour
         CharacterSkillSystem skillSystem = GetComponent<CharacterSkillSystem>();
         if (skillSystem != null)
         {
-            skillSystem.Initialize(data);
+            await skillSystem.InitializeAsync(data);
         }
     }
 

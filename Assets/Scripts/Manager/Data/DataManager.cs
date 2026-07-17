@@ -25,6 +25,7 @@ public class DataManager : BaseManager<DataManager>
         await LoadDataAsync<ItemData>(AddressableKey.Data.Item, destroyCancellationToken);
         await LoadDataAsync<EquipmentData>(AddressableKey.Data.Equipment, destroyCancellationToken);
         await LoadDataAsync<SignatureData>(AddressableKey.Data.Signature, destroyCancellationToken );
+        await LoadDataAsync<CharacterSkillData>(AddressableKey.Data.CharacterSkill, destroyCancellationToken);
         //await LoadDataAsync<T>("Key", destroyCancellationToken);
         await UniTask.CompletedTask;
     }
