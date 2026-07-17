@@ -8,7 +8,7 @@ public class CharacterAttack : MonoBehaviour
 
     private float _lastAttackTime;
 
-    public void FireProjectile(GameObject prefab, Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery)
+    public void FireProjectile(GameObject prefab, Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float explosionRadius = 0)
     {
         if (prefab == null)
         {
@@ -36,7 +36,7 @@ public class CharacterAttack : MonoBehaviour
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
         if (projectileComponent != null)
         {
-            projectileComponent.Launch(target, damage, owner, gaugeRecovery);
+            projectileComponent.Launch(target, damage, owner, gaugeRecovery, explosionRadius);
         }
         _lastAttackTime = Time.time;
     }

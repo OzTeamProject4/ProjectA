@@ -14,6 +14,7 @@ public class Projectile : MonoBehaviour
     private int _damage;
     private CharacterSkillSystem _ownerSkillSystem;
     private int _gaugeRecovery;
+    private float _explosionRadius;
 
     
     private void Awake()
@@ -44,10 +45,19 @@ public class Projectile : MonoBehaviour
 
         if (other.CompareTag(EnemyTag))
         {
-            IDamageable damageable = other.GetComponent<IDamageable>();
-            if (damageable != null && _ownerSkillSystem != null)
+            if (_explosionRadius > 0)
             {
-                damageable.TakeDamage(_damage, _ownerSkillSystem.gameObject);
+                Explode();
+            }
+
+            else
+            {
+                DealSingleDamage(other);
+            }
+            
+            if (_ownerSkillSystem != null)
+            {
+                _ownerSkillSystem.AddGauge(_gaugeRecovery);
             }
 
             else
@@ -57,21 +67,49 @@ public class Projectile : MonoBehaviour
 
             }
 
-            if (_ownerSkillSystem != null )
-            {
-                _ownerSkillSystem.AddGauge(_gaugeRecovery);
-            }
-
             Destroy(gameObject);
         }
     }
-    public void Launch(Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery)
+    public void Launch(Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float explosionRadius)
     {
         _target = target;
         _damage = damage;
         _ownerSkillSystem = owner;
         _gaugeRecovery = gaugeRecovery;
+        _explosionRadius = explosionRadius;
         transform.rotation = Quaternion.LookRotation((target.position - transform.position).normalized);
         Destroy(gameObject, _lifeTime);
+    }
+
+    private void DealSingleDamage(Collider other)
+    {
+        IDamageable damageable = other.GetComponent<IDamageable>();
+        if (damageable != null && _ownerSkillSystem != null)
+        {
+            damageable.TakeDamage(_damage, _ownerSkillSystem.gameObject);
+        }
+    }
+
+    private void Explode()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, _explosionRadius);
+        foreach (Collider hit in hits)
+        {
+            if (hit.isTrigger) 
+            {
+                continue;
+            }
+
+            if (hit.CompareTag(EnemyTag) == false)
+            {
+                continue;
+            }
+
+            IDamageable damageable = hit.GetComponent<IDamageable>();
+            if (damageable != null && _ownerSkillSystem != null)
+            {
+                damageable.TakeDamage(_damage, _ownerSkillSystem.gameObject);
+            }    
+        }
     }
 }

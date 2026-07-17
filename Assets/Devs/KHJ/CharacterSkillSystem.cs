@@ -163,6 +163,11 @@ public class CharacterSkillSystem : MonoBehaviour
 
     private void ExecuteSkill(RuntimeSkill skill, Transform target)
     {
+        if (target != null)
+        {
+            _battleCharacter.LookAtInstant(target.position);
+        }
+
         int damage = (int)(_battleCharacter.CurAtk * SkillDamageMultiplier * skill.Data.DamageCoefficient);
 
         switch (skill.Data.Type)
@@ -175,19 +180,28 @@ public class CharacterSkillSystem : MonoBehaviour
                 _characterAttack.FireProjectile(skill.ProjectilePrefab, target, damage, this, skill.Data.GaugeRecovery);
                 break;
             case CharacterSkillType.AreaAttack:
-                Collider[] hits = Physics.OverlapSphere(target.position, skill.Data.AreaRadius);
-                foreach (Collider hit in hits)
+                if (skill.Data.ProjectileSpeed > 0)
                 {
-                    if (hit.CompareTag(EnemyTag))
+                    _characterAttack.FireProjectile(skill.ProjectilePrefab, target, damage, this, skill.Data.GaugeRecovery, skill.Data.AreaRadius);
+                }
+
+                else
+                {
+                    Collider[] hits = Physics.OverlapSphere(target.position, skill.Data.AreaRadius);
+                    foreach (Collider hit in hits)
                     {
-                        IDamageable damageable = hit.GetComponent<IDamageable>();
-                        if (damageable != null)
+                        if (hit.CompareTag(EnemyTag))
                         {
-                            damageable.TakeDamage(damage, gameObject);
+                            IDamageable damageable = hit.GetComponent<IDamageable>();
+                            if (damageable != null)
+                            {
+                                damageable.TakeDamage(damage, gameObject);
+                            }
                         }
                     }
+                    AddGauge(skill.Data.GaugeRecovery);
                 }
-                AddGauge(skill.Data.GaugeRecovery);
+                
                 break;
             case CharacterSkillType.HealBuff:
                 //TODO

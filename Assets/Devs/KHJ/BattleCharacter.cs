@@ -169,4 +169,22 @@ public class BattleCharacter : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(direction.normalized);
         _modelTransform.rotation = Quaternion.Slerp(_modelTransform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
     }
+
+    public void LookAtInstant(Vector3 targetPosition)
+    {
+        if (_modelTransform == null)
+        {
+            return;
+        }
+
+        Vector3 direction = (targetPosition - transform.position);
+        direction.y = 0;
+        
+        if (direction.magnitude < MoveThreshold)
+        {
+            return;
+        }
+
+        _modelTransform.rotation = Quaternion.LookRotation(direction.normalized);
+    }
 }
