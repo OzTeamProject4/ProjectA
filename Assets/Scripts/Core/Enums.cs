@@ -6,7 +6,7 @@
     CraftPopup,
     EquipmentListPopup,
     EquipmentDetailPopup,
-    ItemPreviewPopup
+    ItemPreviewPopup,
     Overlay,
     Loading
 }
@@ -21,8 +21,12 @@ public enum LoadingStep
 {
     None,
     Initialize,
-    Load_1,
-    Load_2,
+    LoadCharacterData,
+    LoadCharacterGradeData,
+    LoadLevelExpData,
+    LoadItemData,
+    LoadEquipmentData,
+    LoadSignatureData,
     Complete
 }
 

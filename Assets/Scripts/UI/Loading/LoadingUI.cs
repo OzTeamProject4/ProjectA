@@ -14,8 +14,6 @@ public class LoadingUI : BaseUI
     [SerializeField] private LoadingSlider _loadingSlider;
     [SerializeField] private LoadingButton _loadingButton;
 
-    private const int LoadingCompleteDelay = 1000;
-
     public void Awake()
     {
         UnityUtil.ValidateReference(_videoPlayer, nameof(LoadingUI), nameof(_videoPlayer));
@@ -44,8 +42,6 @@ public class LoadingUI : BaseUI
         await GameManager.Instance.DataManager.LoadRuntimeDataAsync(progress);
 
         await UniTask.WaitUntil(IsLoadingCompleted);
-
-        await UniTask.Delay(LoadingCompleteDelay);
 
         UpdateLoadingState(LoadingState.Ready);
     }
@@ -100,7 +96,6 @@ public class LoadingUI : BaseUI
                 _loadingSlider.gameObject.SetActive(true);
                 _loadingButton.gameObject.SetActive(false);
                 break;
-
             case LoadingState.Ready:
                 _loadingSlider.gameObject.SetActive(false);
                 _loadingButton.gameObject.SetActive(true);

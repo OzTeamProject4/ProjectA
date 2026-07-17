@@ -48,10 +48,16 @@ public class LoadingSlider : MonoBehaviour
     {
         _loadingStepMessages.Clear();
 
-        _loadingStepMessages.Add(LoadingStep.Initialize, "Initialized...");
-        _loadingStepMessages.Add(LoadingStep.Load_1, "First job completed.");
-        _loadingStepMessages.Add(LoadingStep.Load_2, "Second job completed.");
-        _loadingStepMessages.Add(LoadingStep.Complete, "All jobs completed.");
+        _loadingStepMessages.Add(LoadingStep.Initialize, "Initializing...");
+
+        _loadingStepMessages.Add(LoadingStep.LoadCharacterData, "Preparing characters...");
+        _loadingStepMessages.Add(LoadingStep.LoadCharacterGradeData, "Preparing character grades...");
+        _loadingStepMessages.Add(LoadingStep.LoadLevelExpData, "Preparing level data...");
+        _loadingStepMessages.Add(LoadingStep.LoadItemData, "Preparing items...");
+        _loadingStepMessages.Add(LoadingStep.LoadEquipmentData, "Preparing equipment...");
+        _loadingStepMessages.Add(LoadingStep.LoadSignatureData, "Preparing signatures...");
+
+        _loadingStepMessages.Add(LoadingStep.Complete, "Loading complete.");
     }
 
     private void UpdateSliderValue()
