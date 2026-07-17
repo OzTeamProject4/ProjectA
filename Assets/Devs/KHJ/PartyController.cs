@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PartyController
 {
+    private const float UltTargetRange = 20.0f; // 임시 사거리
+    private const string EnemyTag = "Enemy";
+
     private List<BattleCharacter> _partyCharacters;
     private int _currentCharacterIndex;
     private CinemachineCamera _cinemachineCamera;
@@ -11,6 +14,7 @@ public class PartyController
     private float _lastSwitchTime;
     private List<CharacterAIController> _aiControllerList;
     private List<PlayerController> _playerControllerList;
+
     
 
     public void Initialize(List<BattleCharacter> characters, CinemachineCamera cinemachinCamera)
@@ -90,5 +94,54 @@ public class PartyController
         int nextIndex = (_currentCharacterIndex + 1) % _partyCharacters.Count;
         SwitchCharacter(nextIndex);
         _lastSwitchTime = Time.time;
+    }
+
+    public void UseCurrentCharacterUlt()
+    {
+        BattleCharacter current = _partyCharacters[_currentCharacterIndex];
+        Debug.Log($"궁 발동 시도 {current.CharacterName}");
+
+        Transform nearestEnemy = FindNearestEnemy(current.transform.position);
+        if (nearestEnemy == null )
+        {
+            Debug.Log("사거리 내 적 없음");
+            return;
+        }
+
+        CharacterSkillSystem skillSystem = current.GetComponent<CharacterSkillSystem>();
+        if (skillSystem != null)
+        {
+            skillSystem.UseUltSkill(nearestEnemy);
+        }
+    }
+
+    public Transform FindNearestEnemy(Vector3 center)
+    {
+        Collider[] hits = Physics.OverlapSphere(center, UltTargetRange);
+
+        Transform nearest = null;
+        float nearestDistance = float.MaxValue;
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.isTrigger == true)
+            {
+                continue;
+            }
+
+            if (hit.CompareTag(EnemyTag) == false)
+            {
+                continue;
+            }
+
+            float distance = Vector3.Distance(center, hit.transform.position);
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearest = hit.transform;
+            }
+        }
+
+        return nearest;
     }
 }

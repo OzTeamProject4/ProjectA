@@ -1,5 +1,4 @@
 ﻿using Cysharp.Threading.Tasks;
-using NUnit.Framework;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -14,42 +13,26 @@ public class BattleManager : MonoBehaviour
 
     private TempPartySpawner _partySpawner;
     private PartyController _partyController;
-    //TODO 희준 : InputManger 준비되면 입력처리 이관
-    private PlayerInputActions _inputAction;
-
-    private void Awake()
-    {
-        _inputAction = new PlayerInputActions();
-    }
-
-    private void OnEnable()
-    {
-        _inputAction.Player.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _inputAction?.Player.Disable();
-    }
 
     private async void Start()
     {
         if (_cinemachineCamera == null)
-        {;
+        {
             Debug.LogError("카메라 참조 null 인스펙터 확인");
             return;
         }
         await EnterBattle();
     }
+   
 
-    private void Update()
+    private void OnDisable()
     {
-        if (_inputAction.Player.Switch.WasPressedThisFrame())
+        if (GameManager.Instance != null)
         {
-            _partyController.TrySwitchToNextCharacter();
+            GameManager.Instance.InputManager.OnSwitchPerformed -= HandleSwitch;
+            GameManager.Instance.InputManager.OnUltimatePerformed -= HandleUltimate;
         }
     }
-
     private async UniTask EnterBattle()
     {
         //TODO 희준 매니저 담당과 로드시점 협의 필요
@@ -57,6 +40,9 @@ public class BattleManager : MonoBehaviour
         // GameManager InitializeTask 를 임시로 프로퍼티로 변경. 
         await GameManager.Instance.InitializeManagersAsync();
         GameManager.Instance.InputManager.EnablePlayerActions();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         //TODO 희준: 임시파티 ID, 추후 파티편성창에서 id받아오는 방식으로 교체
         List<string> tempPartyIds = new List<string> { "Character_001", "Character_002", "Character_001" };
@@ -73,5 +59,27 @@ public class BattleManager : MonoBehaviour
         _partyController = new PartyController();
         _partyController.Initialize(characters, _cinemachineCamera);
 
+        GameManager.Instance.InputManager.OnSwitchPerformed += HandleSwitch;
+        GameManager.Instance.InputManager.OnUltimatePerformed += HandleUltimate;
+
+    }
+
+    private void HandleSwitch()
+    {
+        if (_partyController == null)
+        {
+            return;
+        }
+        _partyController.TrySwitchToNextCharacter();
+    }
+
+    private void HandleUltimate()
+    {
+        if (_partyController == null)
+        {
+            return;
+        }
+
+        _partyController.UseCurrentCharacterUlt();
     }
 }

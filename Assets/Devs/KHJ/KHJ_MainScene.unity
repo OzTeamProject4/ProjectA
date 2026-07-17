@@ -1900,7 +1900,7 @@ MonoBehaviour:
       Owner: {fileID: 1335242195}
       Enabled: 1
       Input:
-        InputAction: {fileID: -506945162674309722, guid: 6a51b56f40a5a044ba21c85f81ab83eb, type: 3}
+        InputAction: {fileID: -506945162674309722, guid: e7395a1b034cfc84f98e394d6c1a4b27, type: 3}
         Gain: 6
         CancelDeltaTime: 0
       InputValue: 0
@@ -1911,7 +1911,7 @@ MonoBehaviour:
       Owner: {fileID: 1335242195}
       Enabled: 1
       Input:
-        InputAction: {fileID: -506945162674309722, guid: 6a51b56f40a5a044ba21c85f81ab83eb, type: 3}
+        InputAction: {fileID: -506945162674309722, guid: e7395a1b034cfc84f98e394d6c1a4b27, type: 3}
         Gain: -6
         CancelDeltaTime: 0
       InputValue: 0
@@ -1922,7 +1922,7 @@ MonoBehaviour:
       Owner: {fileID: 1335242195}
       Enabled: 1
       Input:
-        InputAction: {fileID: 0}
+        InputAction: {fileID: -506945162674309722, guid: e7395a1b034cfc84f98e394d6c1a4b27, type: 3}
         Gain: 1
         CancelDeltaTime: 0
       InputValue: 0
@@ -1953,7 +1953,7 @@ MonoBehaviour:
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: 0, z: 0}
+  TargetOffset: {x: 0, y: 3, z: 0}
   Damping: {x: 0.5, y: 0.5}
   Lookahead:
     Enabled: 0
