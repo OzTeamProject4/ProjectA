@@ -16,6 +16,8 @@ public class TempPartySpawner
             return characters;
         }
 
+        IGameDataProvider provider = new GameDataProvider();
+
         int index = 0;
         foreach (string dataId in partyDataId)
         {
@@ -25,9 +27,12 @@ public class TempPartySpawner
                 continue;
             }
 
+            CharacterGradeData grade = provider.GetGrade(data.Star);
+            StatData stats = StatCalculator.Calculate(data, grade, data.Level, default);
+
             GameObject obj = Object.Instantiate(prefab, new Vector3(index * 3, 2, 0), Quaternion.identity);
             BattleCharacter battleCharacter = obj.GetComponent<BattleCharacter>();
-            battleCharacter.Initialize(data);
+            battleCharacter.Initialize(data, stats);
             characters.Add(battleCharacter);
             index++;
         }
