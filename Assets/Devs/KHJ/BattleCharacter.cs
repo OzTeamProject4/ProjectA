@@ -21,10 +21,10 @@ public class BattleCharacter : MonoBehaviour
     private CharacterData _data;
     private Rigidbody _rigidbody;
     private bool _isSelectedCharacter;
-    private int _curHp;
+    private float _curHp;
     private int _curSkillGauge;
-    private int _curAtk;
-    private int _curDef;
+    private float _curAtk;
+    private float _curDef;
     private float _curMoveSpeed;
     private float _curRunSpeed;
     private bool _wasGrounded;
@@ -37,7 +37,7 @@ public class BattleCharacter : MonoBehaviour
             return _data.Name;
         }
     }
-    public int CurHp
+    public float CurHp
     {
         get
         {
@@ -45,7 +45,7 @@ public class BattleCharacter : MonoBehaviour
         }
     }
     
-    public int CurAtk
+    public float CurAtk
     {
         get
         {
@@ -84,9 +84,9 @@ public class BattleCharacter : MonoBehaviour
     {
         _data = data;
         _isSelectedCharacter = false;
-        _curHp = _data.Hp + (int)(_data.Level * _data.HpGrow);
-        _curAtk = _data.Atk + (int)(_data.Level * _data.AtkGrow);
-        _curDef = _data.Def + (int)(_data.Level * _data.DefGrow);
+        _curHp = _data.Hp + (_data.Level * _data.HpGrow);
+        _curAtk = _data.Atk + (_data.Level * _data.AtkGrow);
+        _curDef = _data.Def + (_data.Level * _data.DefGrow);
         _curMoveSpeed = _data.MoveSpeed + (_data.Level * _data.MoveSpeedGrow);
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
         _curSkillGauge = 0;
@@ -100,6 +100,7 @@ public class BattleCharacter : MonoBehaviour
 
     public void Move(Vector3 moveDirection, bool isRunning)
     {
+        Debug.Log($"Move 호출: {moveDirection}");
         float speed = isRunning ? _curRunSpeed : _curMoveSpeed;
         Vector3 velocity = moveDirection * speed;
         velocity.y = _rigidbody.linearVelocity.y;

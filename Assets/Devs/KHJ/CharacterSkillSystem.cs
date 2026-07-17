@@ -45,7 +45,7 @@ public class CharacterSkillSystem : MonoBehaviour
         _maxGauge = data.SkillGauge;
         ChangeGauge(0);
 
-        foreach (string skillId in data.SkillList)
+        foreach (string skillId in data.ParsedSkillList)
         {
             if (GameManager.Instance.DataManager.TryGetData<CharacterSkillData>(skillId, out CharacterSkillData skillData))
             {
