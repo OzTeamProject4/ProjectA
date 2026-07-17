@@ -32,6 +32,11 @@ public class AudioView : MonoBehaviour
         _audioViewModel = null;
     }
 
+    public AudioSource GetBgmAudioSource()
+    {
+        return _audioSourceBGM;
+    }
+
     public void PlayBGM(AudioClip audioClip)
     {
         if (audioClip == null)
