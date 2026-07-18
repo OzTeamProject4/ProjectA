@@ -42,13 +42,27 @@ public class Attack : MonoBehaviour
             // 임시 - 공격력을 그대로 사용
             int damageBeforeElement = battleCharacter.CurrentAttack;
 
+
+
             int finalDamage = ElementDamageCalculator.ApplyElementModifier(
                    damageBeforeElement,
                    battleCharacter.ElementType,
                    enemyHealth.ElementType
                );
 
+
+            Debug.Log(
+                $"[Attack] 공격자: {battleCharacter.name} | " +
+                $"공격 속성: {battleCharacter.ElementType} | " +
+                $"ATK(기본 데미지): {damageBeforeElement} | " +
+                $"대상: {enemyHealth.name} | " +
+                $"대상 속성: {enemyHealth.ElementType} | " +
+                $"속성 보정 후 최종 데미지: {finalDamage}"
+            );
+
+
             IDamageable damageable = enemyHealth;
+
             damageable.TakeDamage(finalDamage, gameObject);
         }
 
