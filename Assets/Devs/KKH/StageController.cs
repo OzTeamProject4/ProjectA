@@ -4,6 +4,7 @@ using UnityEngine;
 public class StageController : MonoBehaviour
 {
     [SerializeField] private StageMonsterParty _monsterPartyPrefab;
+    [SerializeField] private StagePlayerPartyRoot _playerPartyPrefab;
     [SerializeField] private StageSelectMap _selectMap; 
 
     private ScreenStateModel _screenStateModel;
@@ -27,7 +28,7 @@ public class StageController : MonoBehaviour
 
     public async UniTask EnterAsync()
     {
-        await UniTask.Delay(1000, cancellationToken: destroyCancellationToken);
+        await GameManager.Instance.InitializeManagersAsync();
 
         if (_hasEntered)
         {
@@ -40,7 +41,31 @@ public class StageController : MonoBehaviour
         _screenStateModel = new ScreenStateModel(ScreenType.StageSelect);
         _progressModel = new StageProgressModel();
 
-        _selectController = new StageSelectController(_monsterPartyPrefab, _selectMap, _progressModel);
+        IGameDataProvider dataProvider = new GameDataProvider();
+        StagePlayerParty playerParty = SpawnPlayerParty();
+
+        _selectController = new StageSelectController(_monsterPartyPrefab, _selectMap, _progressModel, dataProvider, _screenStateModel, playerParty);
         _selectController.SpawnParties();
+    }
+
+    private StagePlayerParty SpawnPlayerParty()
+    {
+        if (null == _playerPartyPrefab || null == _selectMap)
+        {
+            Debug.LogError("[StageController] _playerPartyPrefab 또는 _selectMap 이 null 입니다.");
+            return null;
+        }
+
+        Transform spawnPoint = _selectMap.PlayerSpawnPoint;
+
+        if (null == spawnPoint)
+        {
+            Debug.LogError("[StageController] 맵에 PlayerSpawnPoint 가 연결되지 않았습니다.");
+            return null;
+        }
+
+        StagePlayerPartyRoot root = Instantiate(_playerPartyPrefab, spawnPoint.position, spawnPoint.rotation);
+
+        return root.PlayerParty;
     }
 }

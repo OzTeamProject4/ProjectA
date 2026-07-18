@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class StagePlayerParty : MonoBehaviour
@@ -35,7 +36,33 @@ public class StagePlayerParty : MonoBehaviour
             return;
         }
 
+        if (null != EventSystem.current && EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         HandleClick(mouse.position.ReadValue());
+    }
+
+    public void StopMove()
+    {
+        if (null == _agent)
+        {
+            return;
+        }
+
+        _agent.ResetPath();
+        _agent.isStopped = true;
+    }
+
+    public void ResumeMove()
+    {
+        if (null == _agent)
+        {
+            return;
+        }
+
+        _agent.isStopped = false;
     }
 
     private void HandleClick(Vector2 screenPosition)

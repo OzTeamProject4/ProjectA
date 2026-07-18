@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9065094148794286400}
+  - component: {fileID: 2661236654406349164}
+  - component: {fileID: 2275099353202050293}
   m_Layer: 0
   m_Name: PlayerPartyRoot
   m_TagString: Untagged
@@ -33,6 +35,41 @@ Transform:
   - {fileID: 7016072026978207076}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &2661236654406349164
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4953195678908113183}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &2275099353202050293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4953195678908113183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47e361e1b6e330149a7576fdc12fd39e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StagePlayerPartyRoot
+  _playerParty: {fileID: 1852718406095024041}
 --- !u!1 &6665717400522172862
 GameObject:
   m_ObjectHideFlags: 0
@@ -42,12 +79,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6333858951492086165}
-  - component: {fileID: 4258923140055622587}
   - component: {fileID: 1445937000473744028}
   - component: {fileID: 6796469820891937346}
   - component: {fileID: 7232890975302326823}
   - component: {fileID: 7868898636183405512}
   - component: {fileID: 8636156878609389551}
+  - component: {fileID: 1852718406095024041}
   m_Layer: 0
   m_Name: PlayerParty
   m_TagString: Untagged
@@ -70,23 +107,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 9065094148794286400}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4258923140055622587
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6665717400522172862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bae796039544ac346b3a65a33f5bc19e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StagePlayerParty
-  _camera: {fileID: 0}
-  _clickableMask:
-    serializedVersion: 2
-    m_Bits: 3072
-  _sampleMaxDistance: 2
 --- !u!33 &1445937000473744028
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -216,6 +236,23 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1852718406095024041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6665717400522172862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae796039544ac346b3a65a33f5bc19e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StagePlayerParty
+  _camera: {fileID: 0}
+  _clickableMask:
+    serializedVersion: 2
+    m_Bits: 3072
+  _sampleMaxDistance: 2
 --- !u!1 &7297444930054537773
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,9 @@
     CraftPopup,
     EquipmentListPopup,
     EquipmentDetailPopup,
-    ItemPreviewPopup
+    ItemPreviewPopup,
+    StageInfoPopup,
+    PartySetupPopup
 }
 
 public enum UIRoot

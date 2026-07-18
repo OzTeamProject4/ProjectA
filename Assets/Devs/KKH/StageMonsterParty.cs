@@ -11,6 +11,7 @@ public class StageMonsterParty : MonoBehaviour
     }
 
     public event Action<string> OnPlayerReached;
+    public event Action<string> OnPlayerLeft;
 
     public void SetStageId(string stageId)
     {
@@ -31,5 +32,15 @@ public class StageMonsterParty : MonoBehaviour
         }
 
         OnPlayerReached?.Invoke(_stageId);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.TryGetComponent(out StagePlayerParty player))
+        {
+            return;
+        }
+
+        OnPlayerLeft?.Invoke(_stageId);
     }
 }
