@@ -8,6 +8,7 @@ public class CharacterSkillSystem : MonoBehaviour
     private const float SkillDamageMultiplier = 0.01f;
     private const float GaugePerSecond = 5.0f;
     private const string EnemyTag = "Enemy";
+    private const float EffectLifeTime = 3.0f;
 
     private CharacterAttack _characterAttack;
     private BattleCharacter _battleCharacter;
@@ -21,7 +22,7 @@ public class CharacterSkillSystem : MonoBehaviour
     
 
     public event Action<int, int> OnGaugeChanged;
-    public event Action<int, float, float> OnHealBuffRequested;
+    public event Action<int, float, float, GameObject> OnHealBuffRequested;
     
     private void Awake()
     {
@@ -168,6 +169,11 @@ public class CharacterSkillSystem : MonoBehaviour
 
     private void ExecuteSkill(RuntimeSkill skill, Transform target)
     {
+        if (skill.Data.Type != CharacterSkillType.HealBuff && target == null)
+        {
+            return;
+        }
+
         if (target != null)
         {
             _battleCharacter.LookAtInstant(target.position);
@@ -204,13 +210,18 @@ public class CharacterSkillSystem : MonoBehaviour
                             }
                         }
                     }
+                    if (skill.ProjectilePrefab != null)
+                    {
+                        GameObject effect = Instantiate(skill.ProjectilePrefab, target.position, Quaternion.identity);
+                        Destroy(effect, EffectLifeTime);
+                    }
                     AddGauge(skill.Data.GaugeRecovery);
                 }
                 
                 break;
             case CharacterSkillType.HealBuff:
                 int healAmount = (int)(_battleCharacter.CurAtk * SkillDamageMultiplier * skill.Data.HealAmount);
-                OnHealBuffRequested?.Invoke(healAmount, skill.Data.BuffDuration, skill.Data.MoveSpeedBuff);
+                OnHealBuffRequested?.Invoke(healAmount, skill.Data.BuffDuration, skill.Data.MoveSpeedBuff, skill.ProjectilePrefab);
                 break;
         }
     }

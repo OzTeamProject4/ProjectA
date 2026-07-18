@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PartyController
 {
+    private const float EffectLifeTime = 3.0f; // TODO 상수 모아야함
+
     private List<BattleCharacter> _partyCharacters;
     private int _currentCharacterIndex;
     private CinemachineCamera _cinemachineCamera;
@@ -113,9 +115,20 @@ public class PartyController
 
     public void Cleanup()
     {
+        if (_partyCharacters == null)
+        {
+            return;
+        }
+
         for (int i = 0; i < _partyCharacters.Count; i++)
         {
-            CharacterSkillSystem skillSystem = _partyCharacters[i].GetComponent<CharacterSkillSystem>();
+            BattleCharacter character = _partyCharacters[i];
+            if (character == null)
+            {
+                continue;
+            }
+
+            CharacterSkillSystem skillSystem = character.GetComponent<CharacterSkillSystem>();
             if (skillSystem != null)
             {
                 skillSystem.OnHealBuffRequested -= HandleHealBuff;
@@ -123,12 +136,24 @@ public class PartyController
         }
     }
 
-    private void HandleHealBuff(int healAmount, float buffDuration, float moveSpeedBuff)
+    private void HandleHealBuff(int healAmount, float buffDuration, float moveSpeedBuff, GameObject effectPrefab)
     {
         foreach (BattleCharacter character in _partyCharacters)
         {
+            if (character == null)
+            {
+                continue;
+            }
+            
             character.Heal(healAmount);
             character.ApplyMoveSpeedBuff(moveSpeedBuff, buffDuration);
+            if (effectPrefab != null)
+            {
+                GameObject effect = UnityEngine.Object.Instantiate(effectPrefab, character.transform);
+                effect.transform.localPosition = Vector3.zero;
+                UnityEngine.Object.Destroy(effect, EffectLifeTime);
+            }
+
             Debug.Log($"{character.CharacterName} 힐: +{healAmount}, 현재 {character.CurHp}");
         }
     }

@@ -3,11 +3,13 @@
 [RequireComponent(typeof(Rigidbody))]
 public class Projectile : MonoBehaviour
 {
+    private const string EnemyTag = "Enemy";
+    private const float HitEffectLifeTime = 3.0f;
+
     [SerializeField] private float _speed = 5.0f;
     [SerializeField] private float _turnSpeed = 200.0f;
     [SerializeField] private float _lifeTime = 3.0f;
-
-    private const string EnemyTag = "Enemy";
+    [SerializeField] private GameObject _hitEffectPrefab;
 
     private Rigidbody _rigidbody;
     private Transform _target;
@@ -15,7 +17,6 @@ public class Projectile : MonoBehaviour
     private CharacterSkillSystem _ownerSkillSystem;
     private int _gaugeRecovery;
     private float _explosionRadius;
-
     
     private void Awake()
     {
@@ -60,11 +61,10 @@ public class Projectile : MonoBehaviour
                 _ownerSkillSystem.AddGauge(_gaugeRecovery);
             }
 
-            else
+            if (_hitEffectPrefab != null)
             {
-                // 임시 확인용 로그
-                // Debug.Log($"{other.name}에게 {_damage}데미지 전달 (IDamageable 미구현)");
-
+                GameObject hitEffect = Instantiate(_hitEffectPrefab, transform.position, Quaternion.identity);
+                Destroy(hitEffect, HitEffectLifeTime);
             }
 
             Destroy(gameObject);
