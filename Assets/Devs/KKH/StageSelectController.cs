@@ -99,7 +99,17 @@ public class StageSelectController
 
     private void HandlePlayerLeft(string stageId)
     {
+        if (_progressModel.SelectedStageId != stageId)
+        {
+            return;
+        }
+
         CloseStageInfoPopup();
+
+        if (null != _playerParty)
+        {
+            _playerParty.ResumeMove();
+        }
     }
 
     private async UniTaskVoid OpenStageInfoPopupAsync(string stageId)
@@ -137,6 +147,8 @@ public class StageSelectController
         }
 
         GameManager.Instance.UIManager.CloseStageInfoPopup();
+
+        UnsubscribeStageInfoPopup();
     }
 
     private void UnsubscribeStageInfoPopup()
@@ -190,6 +202,8 @@ public class StageSelectController
         }
 
         GameManager.Instance.UIManager.ClosePartySetupPopup();
+
+        UnsubscribePartySetupPopup();
     }
 
     private void UnsubscribePartySetupPopup()
@@ -218,11 +232,6 @@ public class StageSelectController
     private void HandleGameStartClicked()
     {
         ClosePartySetupPopup();
-
-        if (null != _playerParty)
-        {
-            _playerParty.ResumeMove();
-        }
 
         _screenStateModel.ChangeScreen(ScreenType.Battle);
 
