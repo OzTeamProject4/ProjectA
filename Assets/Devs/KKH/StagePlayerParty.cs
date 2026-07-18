@@ -65,6 +65,23 @@ public class StagePlayerParty : MonoBehaviour
         _agent.isStopped = false;
     }
 
+    public void WarpTo(Vector3 position)
+    {
+        if (null == _agent)
+        {
+            Debug.LogError("[StagePlayerParty] WarpTo: _agent 가 null 입니다.");
+            return;
+        }
+
+        if (!NavMesh.SamplePosition(position, out NavMeshHit navHit, _sampleMaxDistance, NavMesh.AllAreas))
+        {
+            Debug.LogWarning($"[StagePlayerParty] WarpTo: NavMesh 위 유효한 지점을 찾지 못했습니다. pos={position}");
+            return;
+        }
+
+        _agent.Warp(navHit.position);
+    }
+
     private void HandleClick(Vector2 screenPosition)
     {
         if (null == _camera)

@@ -5,6 +5,7 @@
         public const string UILayer = "Prefab/UILayer";
         public const string AudioView = "Prefab/AudioView";
         public const string ObjectPoolRoot = "Prefab/ObjectPoolRoot";
+        public const string StageSelectMap01 = "Prefab/StageSelectMap_01";
     }
 
     public static class Data
