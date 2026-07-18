@@ -21,7 +21,8 @@ public class CharacterSkillSystem : MonoBehaviour
     
 
     public event Action<int, int> OnGaugeChanged;
-
+    public event Action<int, float, float> OnHealBuffRequested;
+    
     private void Awake()
     {
         _battleCharacter = GetComponent<BattleCharacter>();
@@ -70,17 +71,14 @@ public class CharacterSkillSystem : MonoBehaviour
                 {
                     case CharacterSkillCategory.Basic:
                         _basicSkill = new RuntimeSkill(skillData);
-                        Debug.Log($"{skillData.Category}{skillData.Name} 로드");
                         break;
+
                     case CharacterSkillCategory.Normal:
                         _normalSkill = new RuntimeSkill(skillData);
-                        Debug.Log($"{skillData.Category}{skillData.Name} 로드");
-
                         break;
+
                     case CharacterSkillCategory.Ultimate:
                         _ultimateSkill = new RuntimeSkill(skillData);
-                        Debug.Log($"{skillData.Category}{skillData.Name} 로드");
-
                         break;
                 }
             }
@@ -149,6 +147,13 @@ public class CharacterSkillSystem : MonoBehaviour
             return;
         }
 
+        if (_ultimateSkill.Data.Type == CharacterSkillType.HealBuff)
+        {
+            ExecuteSkill(_ultimateSkill, null);
+            ChangeGauge(0);
+            return;
+        }
+
         Transform target = FindNearestEnemy(_ultimateSkill.Data.SkillRange);
         if (target == null)
         {
@@ -204,7 +209,8 @@ public class CharacterSkillSystem : MonoBehaviour
                 
                 break;
             case CharacterSkillType.HealBuff:
-                //TODO
+                int healAmount = (int)(_battleCharacter.CurAtk * SkillDamageMultiplier * skill.Data.HealAmount);
+                OnHealBuffRequested?.Invoke(healAmount, skill.Data.BuffDuration, skill.Data.MoveSpeedBuff);
                 break;
         }
     }

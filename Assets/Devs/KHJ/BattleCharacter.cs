@@ -1,10 +1,11 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
+using System.Threading;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 
-public class BattleCharacter : MonoBehaviour
+public class BattleCharacter : MonoBehaviour, IDamageable
 {
     private const float MoveThreshold = 0.1f;
     private const float WalkSpeedRatio = 0.5f;
@@ -30,6 +31,9 @@ public class BattleCharacter : MonoBehaviour
     private float _curRunSpeed;
     private bool _wasGrounded;
     private float _currentAnimSpeed;
+    private float _maxHp;
+    private float _baseMoveSpeed;
+    private CancellationTokenSource _buffCts;
 
     public string CharacterName
     {
@@ -50,10 +54,25 @@ public class BattleCharacter : MonoBehaviour
     {
         get
         {
-            return _curAtk;
+            return _curAtk; // 임시 자료형 통합
         }
     }
 
+    public int CurrentAttack // 컴파일 통과용 프로퍼티 추가
+    {
+        get
+        {
+            return (int)_curAtk;
+        }
+    }
+
+    public ElementType ElementType
+    {
+        get
+        {
+            return _data.Type;   
+        }
+    }
     public event Action<float> OnMoveSpeedChanged;
     public event Action<bool> OnGroundedChanged;
 
@@ -81,6 +100,12 @@ public class BattleCharacter : MonoBehaviour
 
         Debug.DrawRay(_groundCheckPoint.position, Vector3.down * _groundCheckDistance, Color.red);
     }
+
+    private void OnDestroy()
+    {
+        _buffCts?.Cancel();
+        _buffCts?.Dispose();
+    }
     public async UniTask InitializeAsync(CharacterData data, StatData stats)
     {
         _data = data;
@@ -91,6 +116,10 @@ public class BattleCharacter : MonoBehaviour
         _curMoveSpeed = stats.MoveSpeed;
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
         _curSkillGauge = 0;
+        _maxHp = stats.Hp;
+        _curMoveSpeed = stats.MoveSpeed;
+        _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
+        _baseMoveSpeed = stats.MoveSpeed;
 
         CharacterSkillSystem skillSystem = GetComponent<CharacterSkillSystem>();
         if (skillSystem != null)
@@ -186,5 +215,52 @@ public class BattleCharacter : MonoBehaviour
         }
 
         _modelTransform.rotation = Quaternion.LookRotation(direction.normalized);
+    }
+
+    public void TakeDamage(int damage, GameObject attacker)
+    {
+        _curHp -= damage;
+        if(_curHp < 0)
+        {
+            _curHp = 0;
+        }
+    }
+
+    public void Heal(int amount)
+    {
+        _curHp += amount;
+        if (_curHp > _maxHp)
+        {
+            _curHp = _maxHp;
+        }
+    }
+
+    public void ApplyMoveSpeedBuff(float moveSpeedBuff, float duration)
+    {
+        _buffCts?.Cancel();
+        _buffCts?.Dispose();
+        _buffCts = new CancellationTokenSource();
+        ApplyMoveSpeedBuffAsync(moveSpeedBuff, duration, _buffCts.Token).Forget();
+    }
+
+    private async UniTask ApplyMoveSpeedBuffAsync(float speedBuffPercent, float duration, CancellationToken token)
+    {
+        _curMoveSpeed = _baseMoveSpeed * (1 + speedBuffPercent / 100f);
+        _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
+        Debug.Log($"{_data.Name} 이속 버프 적용: {_baseMoveSpeed} → {_curMoveSpeed} ({duration}초간)");
+
+        try
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(duration), cancellationToken: token);
+        }
+
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+
+        _curMoveSpeed = _baseMoveSpeed;
+        _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
+        Debug.Log($"{_data.Name} 이속 버프 종료: {_curMoveSpeed} (원복)");
     }
 }

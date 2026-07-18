@@ -33,11 +33,17 @@ public class PartyController
             BattleCharacter character = _partyCharacters[i];
             PlayerController player = character.GetComponent<PlayerController>();
             CharacterAIController ai = character.GetComponent<CharacterAIController>();
+            CharacterSkillSystem skillSystem = character.GetComponent<CharacterSkillSystem>();
 
             if (player == null || ai == null)
             {
                 Debug.LogError($"{character.name}에 필요한 컨트롤러가 없음. 프리팹 확인");
                 return;
+            }
+
+            if (skillSystem != null)
+            {
+                skillSystem.OnHealBuffRequested += HandleHealBuff;
             }
 
             player.enabled = false;
@@ -102,6 +108,28 @@ public class PartyController
         if (skillSystem != null)
         {
             skillSystem.UseUltSkill();
+        }
+    }
+
+    public void Cleanup()
+    {
+        for (int i = 0; i < _partyCharacters.Count; i++)
+        {
+            CharacterSkillSystem skillSystem = _partyCharacters[i].GetComponent<CharacterSkillSystem>();
+            if (skillSystem != null)
+            {
+                skillSystem.OnHealBuffRequested -= HandleHealBuff;
+            }
+        }
+    }
+
+    private void HandleHealBuff(int healAmount, float buffDuration, float moveSpeedBuff)
+    {
+        foreach (BattleCharacter character in _partyCharacters)
+        {
+            character.Heal(healAmount);
+            character.ApplyMoveSpeedBuff(moveSpeedBuff, buffDuration);
+            Debug.Log($"{character.CharacterName} 힐: +{healAmount}, 현재 {character.CurHp}");
         }
     }
 }
