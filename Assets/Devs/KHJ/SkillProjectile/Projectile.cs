@@ -72,6 +72,8 @@ public class Projectile : MonoBehaviour
     }
     public void Launch(Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float explosionRadius)
     {
+        Debug.Log($"Launch호출: target={target}");
+
         _target = target;
         _damage = damage;
         _ownerSkillSystem = owner;
