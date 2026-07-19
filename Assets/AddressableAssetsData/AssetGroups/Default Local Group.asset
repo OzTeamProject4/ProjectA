@@ -15,6 +15,16 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 7ae454e63ee68024aaafa8837397ef1d
   m_SerializeEntries:
+  - m_GUID: 0644c5eea3591064699b1ac92109c58a
+    m_Address: UI/PracticeFieldScreen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 160261f5e0939d54d8092f7d7f8826ad
+    m_Address: UI/KMS_LobbyCanvas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 21888c59bd8ff894ea1296594f6f462d
     m_Address: Prefab/UILayer
     m_ReadOnly: 0

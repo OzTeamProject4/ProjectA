@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-public class FarmingDungeonButtonView : MonoBehaviour
+public sealed class FarmingDungeonButtonView : MonoBehaviour
 {
     private Button _button;
 
@@ -28,28 +28,35 @@ public class FarmingDungeonButtonView : MonoBehaviour
     {
         if (GameManager.Instance == null)
         {
-            Debug.LogError("GameManager.Instance is null.");
+            Debug.LogError(
+                "[FarmingDungeonButtonView] GameManager.Instance가 존재하지 않습니다.");
             return;
         }
 
-        if (GameManager.Instance.UIManager == null)
+        UIManager uiManager = GameManager.Instance.UIManager;
+
+        if (uiManager == null)
         {
-            Debug.LogError("UIManager is null.");
+            Debug.LogError(
+                "[FarmingDungeonButtonView] UIManager가 존재하지 않습니다.");
             return;
         }
 
         OpenFarmingDungeonScreenAsync(
+            uiManager,
             destroyCancellationToken).Forget();
     }
 
     private async UniTask OpenFarmingDungeonScreenAsync(
+        UIManager uiManager,
         CancellationToken cancellationToken)
     {
         try
         {
-            await GameManager.Instance.UIManager
-                .OpenFarmingDungeonScreenAsync(
-                    cancellationToken);
+            await uiManager.OpenFarmingDungeonScreenAsync(
+                cancellationToken);
+
+            uiManager.ClosePracticeFieldScreen();
         }
         catch (OperationCanceledException)
         {
@@ -58,7 +65,7 @@ public class FarmingDungeonButtonView : MonoBehaviour
         catch (Exception exception)
         {
             Debug.LogError(
-                $"Failed to open FarmingDungeonScreen.\n{exception}");
+                $"[FarmingDungeonButtonView] FarmingDungeonScreen을 열지 못했습니다.\n{exception}");
         }
     }
 }

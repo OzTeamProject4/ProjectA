@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-public class MainDungeonButtonView : MonoBehaviour
+public sealed class MainDungeonButtonView : MonoBehaviour
 {
     private Button _button;
 
@@ -28,26 +28,35 @@ public class MainDungeonButtonView : MonoBehaviour
     {
         if (GameManager.Instance == null)
         {
-            Debug.LogError("GameManager.Instance is null.");
+            Debug.LogError(
+                "[MainDungeonButtonView] GameManager.Instance가 존재하지 않습니다.");
             return;
         }
 
-        if (GameManager.Instance.UIManager == null)
+        UIManager uiManager = GameManager.Instance.UIManager;
+
+        if (uiManager == null)
         {
-            Debug.LogError("UIManager is null.");
+            Debug.LogError(
+                "[MainDungeonButtonView] UIManager가 존재하지 않습니다.");
             return;
         }
 
-        OpenStageSelectScreenAsync(destroyCancellationToken).Forget();
+        OpenStageSelectScreenAsync(
+            uiManager,
+            destroyCancellationToken).Forget();
     }
 
     private async UniTask OpenStageSelectScreenAsync(
+        UIManager uiManager,
         CancellationToken cancellationToken)
     {
         try
         {
-            await GameManager.Instance.UIManager
-                .OpenStageSelectScreenAsync(cancellationToken);
+            await uiManager.OpenStageSelectScreenAsync(
+                cancellationToken);
+
+            uiManager.ClosePracticeFieldScreen();
         }
         catch (OperationCanceledException)
         {
@@ -56,7 +65,7 @@ public class MainDungeonButtonView : MonoBehaviour
         catch (Exception exception)
         {
             Debug.LogError(
-                $"Failed to open StageSelectScreen.\n{exception}");
+                $"[MainDungeonButtonView] StageSelectScreen을 열지 못했습니다.\n{exception}");
         }
     }
 }

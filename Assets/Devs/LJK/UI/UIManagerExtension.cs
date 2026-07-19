@@ -1,5 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
-using System.Threading;
+﻿using System.Threading;
+using Cysharp.Threading.Tasks;
 
 public static class UIManagerExtension
 {
@@ -15,6 +15,21 @@ public static class UIManagerExtension
     public static void CloseTestUI(this UIManager uiManager)
     {
         uiManager.Close(UIType.Test);
+    }
+
+    public static async UniTask OpenPracticeFieldScreenAsync(
+        this UIManager uiManager,
+        CancellationToken cancellationToken = default)
+    {
+        await uiManager.OpenTestRootAsync(
+            UIType.PracticeFieldScreen,
+            cancellationToken);
+    }
+
+    public static void ClosePracticeFieldScreen(
+        this UIManager uiManager)
+    {
+        uiManager.Close(UIType.PracticeFieldScreen);
     }
 
     public static async UniTask OpenStageSelectScreenAsync(

@@ -1,6 +1,7 @@
 ﻿public enum UIType
 {
     Test,
+    PracticeFieldScreen,
     StageSelectScreen,
     DictionaryScreen,
     FarmingDungeonScreen,
