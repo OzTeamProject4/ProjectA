@@ -100,6 +100,23 @@ public class CharacterSkillSystem : MonoBehaviour
         return _basicSkill.IsReady();
     }
 
+    public void UseBasicSkill()
+    {
+        if (_basicSkill == null || _basicSkill.IsReady() == false)
+        {
+            return;
+        }
+
+        Transform target = FindNearestEnemy(_basicSkill.Data.SkillRange);
+        if (target == null)
+        {
+            Debug.Log("사거리 내 적 없음");
+            return;
+        }
+
+        UseBasicSkill(target);
+    }
+
     public void UseBasicSkill(Transform target)
     {
         if (_basicSkill == null || _basicSkill.IsReady() == false)
@@ -107,9 +124,15 @@ public class CharacterSkillSystem : MonoBehaviour
             return;
         }
 
+        if (_basicSkill.Data.Type != CharacterSkillType.HealBuff && target == null)
+        {
+            return;
+        }
+
         ExecuteSkill(_basicSkill, target);
         _basicSkill.MarkUsed();
     }
+
     public bool CanUseNormalSkill()
     {
         if (_normalSkill == null)
@@ -120,9 +143,37 @@ public class CharacterSkillSystem : MonoBehaviour
         return _normalSkill.IsReady();
     }
 
+    public void UseNormalSkill()
+    {
+        if (_normalSkill == null || _normalSkill.IsReady() == false)
+        {
+            return;
+        }
+        
+        if (_normalSkill.Data.Type == CharacterSkillType.HealBuff)
+        {
+            ExecuteSkill(_normalSkill, null);
+            _normalSkill.MarkUsed();
+            return;
+        }
+
+        Transform target = FindNearestEnemy(_normalSkill.Data.SkillRange);
+        if (target == null)
+        {
+            Debug.Log("사거리 내 적 없음");
+            return;
+        }
+
+        UseNormalSkill(target);
+    }
     public void UseNormalSkill(Transform target)
     {
         if (_normalSkill == null || _normalSkill.IsReady() == false)
+        {
+            return;
+        }
+
+        if (_normalSkill.Data.Type != CharacterSkillType.HealBuff && target == null)
         {
             return;
         }
@@ -184,12 +235,34 @@ public class CharacterSkillSystem : MonoBehaviour
         switch (skill.Data.Type)
         {
             case CharacterSkillType.SingleAttack:
-                if (skill.ProjectilePrefab == null)
+                if (skill.Data.ProjectileSpeed > 0)
                 {
-                    Debug.LogError($"[{skill.Data.Name}] SingleAttack인데 프리팹 null (경로: {skill.Data.PrefabPath})");
+                    _characterAttack.FireProjectile(skill.ProjectilePrefab, target, damage, this, skill.Data.GaugeRecovery);
                 }
-                _characterAttack.FireProjectile(skill.ProjectilePrefab, target, damage, this, skill.Data.GaugeRecovery);
+
+                else
+                {
+                    if (skill.ProjectilePrefab == null)
+                    {
+                        Debug.LogError($"[{skill.Data.Name}] SingleAttack인데 프리팹 null (경로: {skill.Data.PrefabPath})");
+                    }
+
+                    IDamageable damageable = target.GetComponent<IDamageable>();
+                    if (damageable != null)
+                    {
+                        damageable.TakeDamage(damage, gameObject);
+                    }
+
+                    if (skill.ProjectilePrefab != null)
+                    {
+                        GameObject effect = Instantiate(skill.ProjectilePrefab, target.position, Quaternion.identity);
+                        Destroy(effect, EffectLifeTime);
+                    }
+
+                    AddGauge(skill.Data.GaugeRecovery);
+                }
                 break;
+
             case CharacterSkillType.AreaAttack:
                 if (skill.Data.ProjectileSpeed > 0)
                 {
@@ -217,7 +290,6 @@ public class CharacterSkillSystem : MonoBehaviour
                     }
                     AddGauge(skill.Data.GaugeRecovery);
                 }
-                
                 break;
             case CharacterSkillType.HealBuff:
                 int healAmount = (int)(_battleCharacter.CurAtk * SkillDamageMultiplier * skill.Data.HealAmount);
@@ -287,7 +359,6 @@ public class CharacterSkillSystem : MonoBehaviour
         await LoadPrefabForSkill(_basicSkill);
         await LoadPrefabForSkill(_normalSkill);
         await LoadPrefabForSkill(_ultimateSkill);
-
     }
 
     private async UniTask LoadPrefabForSkill(RuntimeSkill skill)

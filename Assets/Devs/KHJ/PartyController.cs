@@ -113,6 +113,26 @@ public class PartyController
         }
     }
 
+    public void UseCurrentCharacterBasicSkill()
+    {
+        BattleCharacter current = _partyCharacters[_currentCharacterIndex];
+        CharacterSkillSystem skillSystem = current.GetComponent<CharacterSkillSystem>();
+        if (skillSystem != null)
+        {
+            skillSystem.UseBasicSkill();
+        }
+    }
+
+    public void UseCurrentCharacterNormalSkill()
+    {
+        BattleCharacter current = _partyCharacters[_currentCharacterIndex];
+        CharacterSkillSystem skillSystem = current.GetComponent<CharacterSkillSystem>();
+        if (skillSystem != null)
+        {
+            skillSystem.UseNormalSkill();
+        }
+    }
+
     public void Cleanup()
     {
         if (_partyCharacters == null)
