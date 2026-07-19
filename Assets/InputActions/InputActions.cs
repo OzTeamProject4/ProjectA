@@ -136,6 +136,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BasicSkill"",
+                    ""type"": ""Button"",
+                    ""id"": ""8591db4d-bedd-4f29-be6e-be33c0dc3db9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NormalSkill"",
+                    ""type"": ""Button"",
+                    ""id"": ""c2d819a0-248d-4b04-a0ff-aa073a6cbf58"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -237,6 +255,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Ultimate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1c773aa4-69c8-4514-8e26-750a244e0b81"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BasicSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f37be2ea-e865-4506-a7bb-a6715e1c300b"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NormalSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -278,6 +318,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_Switch = m_Player.FindAction("Switch", throwIfNotFound: true);
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
         m_Player_Ultimate = m_Player.FindAction("Ultimate", throwIfNotFound: true);
+        m_Player_BasicSkill = m_Player.FindAction("BasicSkill", throwIfNotFound: true);
+        m_Player_NormalSkill = m_Player.FindAction("NormalSkill", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Look = m_Camera.FindAction("Look", throwIfNotFound: true);
@@ -367,6 +409,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Switch;
     private readonly InputAction m_Player_Run;
     private readonly InputAction m_Player_Ultimate;
+    private readonly InputAction m_Player_BasicSkill;
+    private readonly InputAction m_Player_NormalSkill;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -398,6 +442,14 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Ultimate".
         /// </summary>
         public InputAction @Ultimate => m_Wrapper.m_Player_Ultimate;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/BasicSkill".
+        /// </summary>
+        public InputAction @BasicSkill => m_Wrapper.m_Player_BasicSkill;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/NormalSkill".
+        /// </summary>
+        public InputAction @NormalSkill => m_Wrapper.m_Player_NormalSkill;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -439,6 +491,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Ultimate.started += instance.OnUltimate;
             @Ultimate.performed += instance.OnUltimate;
             @Ultimate.canceled += instance.OnUltimate;
+            @BasicSkill.started += instance.OnBasicSkill;
+            @BasicSkill.performed += instance.OnBasicSkill;
+            @BasicSkill.canceled += instance.OnBasicSkill;
+            @NormalSkill.started += instance.OnNormalSkill;
+            @NormalSkill.performed += instance.OnNormalSkill;
+            @NormalSkill.canceled += instance.OnNormalSkill;
         }
 
         /// <summary>
@@ -465,6 +523,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Ultimate.started -= instance.OnUltimate;
             @Ultimate.performed -= instance.OnUltimate;
             @Ultimate.canceled -= instance.OnUltimate;
+            @BasicSkill.started -= instance.OnBasicSkill;
+            @BasicSkill.performed -= instance.OnBasicSkill;
+            @BasicSkill.canceled -= instance.OnBasicSkill;
+            @NormalSkill.started -= instance.OnNormalSkill;
+            @NormalSkill.performed -= instance.OnNormalSkill;
+            @NormalSkill.canceled -= instance.OnNormalSkill;
         }
 
         /// <summary>
@@ -636,6 +700,20 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnUltimate(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BasicSkill" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBasicSkill(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "NormalSkill" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnNormalSkill(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Camera" which allows adding and removing callbacks.

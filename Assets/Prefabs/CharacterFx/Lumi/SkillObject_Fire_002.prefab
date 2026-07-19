@@ -45,8 +45,20 @@ PrefabInstance:
       value: Fire002_Hit
       objectReference: {fileID: 0}
     - target: {fileID: 598766811397016321, guid: 923be6099606b744ba7becab0070e2b0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 598766811397016321, guid: 923be6099606b744ba7becab0070e2b0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 598766811397016321, guid: 923be6099606b744ba7becab0070e2b0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 598766811397016321, guid: 923be6099606b744ba7becab0070e2b0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.5304
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 598766811397016321, guid: 923be6099606b744ba7becab0070e2b0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -54,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 598766811397016321, guid: 923be6099606b744ba7becab0070e2b0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.27813333
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 598766811397016321, guid: 923be6099606b744ba7becab0070e2b0, type: 3}
       propertyPath: m_LocalRotation.w

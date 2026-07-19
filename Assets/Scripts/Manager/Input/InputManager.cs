@@ -14,7 +14,8 @@ public class InputManager : BaseManager<InputManager>
     public event Action OnJumpPerformed;
     public event Action OnSwitchPerformed;
     public event Action OnUltimatePerformed;
-
+    public event Action OnBasicSkillPerformed;
+    public event Action OnNormalSkillPerformed;
 
     public override UniTask InitializeAsync()
     {
@@ -54,6 +55,8 @@ public class InputManager : BaseManager<InputManager>
 
         _inputActions.Player.Switch.performed += OnSwitch;
 
+        _inputActions.Player.BasicSkill.performed += OnBasicSkill;
+        _inputActions.Player.NormalSkill.performed += OnNormalSkill;
         _inputActions.Player.Ultimate.performed += OnUltimate;
     }
 
@@ -96,5 +99,25 @@ public class InputManager : BaseManager<InputManager>
         }
 
         OnUltimatePerformed.Invoke();
+    }
+
+    private void OnBasicSkill(InputAction.CallbackContext context)
+    {
+        if (OnBasicSkillPerformed == null)
+        {
+            return;
+        }
+
+        OnBasicSkillPerformed.Invoke();
+    }
+
+    private void OnNormalSkill(InputAction.CallbackContext context)
+    {
+        if (OnNormalSkillPerformed == null)
+        {
+            return;
+        }
+
+        OnNormalSkillPerformed.Invoke();
     }
 }
