@@ -12,23 +12,15 @@ public class AudioView : MonoBehaviour
         UnityUtil.ValidateReference(_audioSourceBGM, nameof(AudioClip), nameof(_audioSourceBGM));
         UnityUtil.ValidateReference(_audioSourceSFX, nameof(AudioClip), nameof(_audioSourceSFX));
 
-        AudioSettingData audioSettingData = CreateAudioSettingData();
-        _audioViewModel = new AudioViewModel(audioSettingData);
-    }
-
-    private void OnEnable()
-    {
+        _audioViewModel = new AudioViewModel();
         _audioViewModel.ModelPropertyChanged += OnModelPropertyChanged;
-    }
-
-    private void OnDisable()
-    {
-        _audioViewModel.ModelPropertyChanged -= OnModelPropertyChanged;
+        _audioViewModel.RequestRefreshProperties();
     }
 
     private void OnDestroy()
     {
         _audioViewModel.Dispose();
+        _audioViewModel.ModelPropertyChanged -= OnModelPropertyChanged;
         _audioViewModel = null;
     }
 
@@ -84,24 +76,6 @@ public class AudioView : MonoBehaviour
         }
 
         _audioSourceBGM.clip = audioClip;
-    }
-
-    private AudioSettingData CreateAudioSettingData()
-    {
-        if (_audioSourceBGM == null)
-        {
-            Debug.LogError($"[{nameof(AudioView)}:{nameof(CreateAudioSettingData)}] BGM AudioSource가 없습니다.");
-            return null;
-        }
-
-        if (_audioSourceSFX == null)
-        {
-            Debug.LogError($"[{nameof(AudioView)}:{nameof(CreateAudioSettingData)}] SFX AudioSource가 없습니다.");
-            return null;
-        }
-
-        AudioSettingData audioSettingData = new AudioSettingData(_audioSourceBGM.volume, _audioSourceSFX.volume);
-        return audioSettingData;
     }
 
     private void OnModelPropertyChanged(string propertyName)

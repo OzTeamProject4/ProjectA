@@ -9,14 +9,17 @@ public class GameManager : BaseManager<GameManager>
 
     public DataManager DataManager { get; private set; }
 
+    public NetworkManager NetworkManager { get; private set; }
+
     public AudioManager AudioManager { get; private set; }
 
     public UIManager UIManager { get; private set; }
-    public Inventory Inventory { get; private set; }
 
     public InputManager InputManager { get; private set; }
 
     public ObjectManager ObjectManager { get; private set; }
+
+    public Inventory Inventory { get; private set; }
 
     private void Awake()
     {
@@ -34,6 +37,7 @@ public class GameManager : BaseManager<GameManager>
         await InitializeAsync();
         await ResourceManager.InitializeAsync();
         await DataManager.InitializeAsync();
+        await NetworkManager.InitializeAsync();
         await AudioManager.InitializeAsync();
         await UIManager.InitializeAsync();
         await InputManager.InitializeAsync();
@@ -56,6 +60,7 @@ public class GameManager : BaseManager<GameManager>
     {
         ResourceManager = this.GetRequiredComponent<ResourceManager>();
         DataManager = this.GetRequiredComponent<DataManager>();
+        NetworkManager = this.GetRequiredComponent<NetworkManager>();
         AudioManager = this.GetRequiredComponent<AudioManager>();
         UIManager = this.GetRequiredComponent<UIManager>();
         InputManager = this.GetRequiredComponent<InputManager>();

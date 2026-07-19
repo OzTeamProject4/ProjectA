@@ -6,9 +6,9 @@ public class AudioViewModel
 {
     private AudioModel _audioModel;
 
-    public AudioViewModel(AudioSettingData audioSettingData)
+    public AudioViewModel()
     {
-        _audioModel = new AudioModel(audioSettingData);
+        _audioModel = GameManager.Instance.NetworkManager.ModelContainer.GetModel<AudioModel>();
         _audioModel.PropertyChanged += OnModelPropertyChanged;
     }
 
@@ -34,6 +34,11 @@ public class AudioViewModel
         {
             return _audioModel.SfxVolume;
         }
+    }
+
+    public void RequestRefreshProperties()
+    {
+        _audioModel.RefreshProperties();
     }
 
     public void RequestSetBgmVolume(float volume)

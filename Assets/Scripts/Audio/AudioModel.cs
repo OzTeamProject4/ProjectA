@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-public class AudioModel : INotifyPropertyChanged
+public class AudioModel : DataModel, INotifyPropertyChanged
 {
     private static readonly PropertyChangedEventArgs BgmVolumeChanged = new PropertyChangedEventArgs(nameof(BgmVolume));
     private static readonly PropertyChangedEventArgs SfxVolumeChanged = new PropertyChangedEventArgs(nameof(SfxVolume));
@@ -40,6 +40,12 @@ public class AudioModel : INotifyPropertyChanged
                 OnPropertyChanged(SfxVolumeChanged);
             }
         }
+    }
+
+    public void RefreshProperties()
+    {
+        OnPropertyChanged(BgmVolumeChanged);
+        OnPropertyChanged(SfxVolumeChanged);
     }
 
     public void SetBgmVolume(float volume)
