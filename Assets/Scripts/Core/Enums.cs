@@ -27,7 +27,8 @@ public enum LoadingStep
     LoadItemData,
     LoadEquipmentData,
     LoadSignatureData,
-    Complete
+    Complete,
+    LoadSkillData
 }
 
 public enum UIRoot

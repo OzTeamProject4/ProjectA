@@ -46,6 +46,8 @@ public class BattleManager : MonoBehaviour
         //await GameManager.Instance.DataManager.LoadDataAsync<CharacterData>("Data_TestCharacter");
         // GameManager InitializeTask 를 임시로 프로퍼티로 변경. 
         await GameManager.Instance.InitializeManagersAsync();
+        await GameManager.Instance.DataManager.LoadRuntimeDataAsync();
+
         GameManager.Instance.InputManager.EnablePlayerActions();
 
         Cursor.lockState = CursorLockMode.Locked;
