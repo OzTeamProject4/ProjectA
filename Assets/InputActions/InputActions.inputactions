@@ -25,15 +25,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Switch",
-                    "type": "Button",
-                    "id": "5aceacb3-84ae-4340-9a32-dc40ead629a9",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Run",
                     "type": "Button",
                     "id": "8c8e4e7d-dfe0-444c-af78-bf1cf7e89cd4",
@@ -64,6 +55,33 @@
                     "name": "NormalSkill",
                     "type": "Button",
                     "id": "c2d819a0-248d-4b04-a0ff-aa073a6cbf58",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Switch1",
+                    "type": "Button",
+                    "id": "1b41dd80-654b-41da-9919-a978ae6dd070",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Switch2",
+                    "type": "Button",
+                    "id": "bb1065f3-0c27-44aa-93d8-1a1f36eba061",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Switch3",
+                    "type": "Button",
+                    "id": "4ac00a37-0e94-4d83-8efb-83785ba0d861",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -139,17 +157,6 @@
                 },
                 {
                     "name": "",
-                    "id": "049854d3-448d-4e9b-92c9-8b1556d44f94",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Switch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "30579d83-42d9-49a2-b7e9-d5d0d39daeac",
                     "path": "<Keyboard>/shift",
                     "interactions": "",
@@ -189,6 +196,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "NormalSkill",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "20223ea6-7b52-4d74-813d-3abbcf749fad",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1f5b338d-8f76-4c06-b57c-e17f75386d13",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2bbd77aa-d618-41f5-8f47-ba21f112af69",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch3",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

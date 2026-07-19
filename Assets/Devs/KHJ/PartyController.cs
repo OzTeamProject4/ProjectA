@@ -20,6 +20,7 @@ public class PartyController
     {
         _partyCharacters = characters;
         _cinemachineCamera = cinemachinCamera;
+        _lastSwitchTime = -_switchCoolTime;
 
         SetupControllers();
         SwitchCharacter(0);
@@ -87,8 +88,18 @@ public class PartyController
         _cinemachineCamera.Target.TrackingTarget = target.transform;
     }
    
-    public void TrySwitchToNextCharacter()
+    public void TrySwitchToCharacter(int index)
     {
+        if (index < 0 || index >= _partyCharacters.Count)
+        {
+            return;
+        }
+
+        if (index == _currentCharacterIndex)
+        {
+            return;
+        }
+        
         if (Time.time - _lastSwitchTime < _switchCoolTime)
         {
             // TODO 희준 : 추후 UI에 표시 필요
@@ -96,8 +107,7 @@ public class PartyController
             return;
         }
 
-        int nextIndex = (_currentCharacterIndex + 1) % _partyCharacters.Count;
-        SwitchCharacter(nextIndex);
+        SwitchCharacter(index);
         _lastSwitchTime = Time.time;
     }
 

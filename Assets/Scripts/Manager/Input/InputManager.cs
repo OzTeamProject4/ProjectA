@@ -12,10 +12,10 @@ public class InputManager : BaseManager<InputManager>
     public bool IsRunPressed { get; private set; }
 
     public event Action OnJumpPerformed;
-    public event Action OnSwitchPerformed;
     public event Action OnUltimatePerformed;
     public event Action OnBasicSkillPerformed;
     public event Action OnNormalSkillPerformed;
+    public event Action<int> OnSwitchIndexPerformed;
 
     public override UniTask InitializeAsync()
     {
@@ -53,11 +53,13 @@ public class InputManager : BaseManager<InputManager>
 
         _inputActions.Player.Jump.performed += OnJump;
 
-        _inputActions.Player.Switch.performed += OnSwitch;
-
         _inputActions.Player.BasicSkill.performed += OnBasicSkill;
         _inputActions.Player.NormalSkill.performed += OnNormalSkill;
         _inputActions.Player.Ultimate.performed += OnUltimate;
+        
+        _inputActions.Player.Switch1.performed += OnSwitch1;
+        _inputActions.Player.Switch2.performed += OnSwitch2;
+        _inputActions.Player.Switch3.performed += OnSwitch3;
     }
 
     private void OnMove(InputAction.CallbackContext context)
@@ -81,16 +83,34 @@ public class InputManager : BaseManager<InputManager>
         OnJumpPerformed.Invoke();
     }
 
-    private void OnSwitch(InputAction.CallbackContext context)
+    
+    private void OnSwitch1(InputAction.CallbackContext context)
     {
-        if (OnSwitchPerformed == null)
+        if (OnSwitchIndexPerformed == null)
         {
             return;
         }
 
-        OnSwitchPerformed.Invoke();
+        OnSwitchIndexPerformed.Invoke(0);
     }
+    private void OnSwitch2(InputAction.CallbackContext context)
+    {
+        if (OnSwitchIndexPerformed == null)
+        {
+            return;
+        }
 
+        OnSwitchIndexPerformed.Invoke(1);
+    }
+    private void OnSwitch3(InputAction.CallbackContext context)
+    {
+        if (OnSwitchIndexPerformed == null)
+        {
+            return;
+        }
+
+        OnSwitchIndexPerformed.Invoke(2);
+    }
     private void OnUltimate(InputAction.CallbackContext context)
     {
         if (OnUltimatePerformed == null)
@@ -120,4 +140,6 @@ public class InputManager : BaseManager<InputManager>
 
         OnNormalSkillPerformed.Invoke();
     }
+
+    
 }

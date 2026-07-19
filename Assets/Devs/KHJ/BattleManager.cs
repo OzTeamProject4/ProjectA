@@ -29,12 +29,12 @@ public class BattleManager : MonoBehaviour
     {
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.InputManager.OnSwitchPerformed -= HandleSwitch;
             GameManager.Instance.InputManager.OnUltimatePerformed -= HandleUltimate;
             GameManager.Instance.InputManager.OnBasicSkillPerformed -= HandleBasicSkill;
             GameManager.Instance.InputManager.OnNormalSkillPerformed -= HandleNormalSkill;
+            GameManager.Instance.InputManager.OnSwitchIndexPerformed -= HandleSwitchIndex;
         }
-        
+
         if (_partyController != null)
         {
             _partyController.Cleanup();
@@ -52,7 +52,7 @@ public class BattleManager : MonoBehaviour
         Cursor.visible = false;
 
         //TODO 희준: 임시파티 ID, 추후 파티편성창에서 id받아오는 방식으로 교체
-        List<string> tempPartyIds = new List<string> { "Character_001", "Character_002", "Character_003" };
+        List<string> tempPartyIds = new List<string> { "Character_004", "Character_005", "Character_003" };
 
         _partySpawner = new TempPartySpawner();
         List<BattleCharacter> characters = await _partySpawner.SpawnPartyById(tempPartyIds);
@@ -66,20 +66,12 @@ public class BattleManager : MonoBehaviour
         _partyController = new PartyController();
         _partyController.Initialize(characters, _cinemachineCamera);
 
-        GameManager.Instance.InputManager.OnSwitchPerformed += HandleSwitch;
         GameManager.Instance.InputManager.OnUltimatePerformed += HandleUltimate;
         GameManager.Instance.InputManager.OnBasicSkillPerformed += HandleBasicSkill;
         GameManager.Instance.InputManager.OnNormalSkillPerformed += HandleNormalSkill;
+        GameManager.Instance.InputManager.OnSwitchIndexPerformed += HandleSwitchIndex;
     }
 
-    private void HandleSwitch()
-    {
-        if (_partyController == null)
-        {
-            return;
-        }
-        _partyController.TrySwitchToNextCharacter();
-    }
 
     private void HandleUltimate()
     {
@@ -110,4 +102,15 @@ public class BattleManager : MonoBehaviour
 
         _partyController.UseCurrentCharacterNormalSkill();
     }
+
+    private void HandleSwitchIndex(int index)
+    {
+        if (_partyController == null)
+        {
+            return;
+        }
+
+        _partyController.TrySwitchToCharacter(index);
+    }
+
 }
