@@ -9,31 +9,68 @@ public class DataManager : BaseManager<DataManager>
 {
     private readonly Dictionary<Type, object> _dataTables = new Dictionary<Type, object>();
 
+    private const int LoadingTransitionDelay = 1000;
+
     public override async UniTask InitializeAsync()
     {
         _dataTables.Clear();
-        // return UniTask.CompletedTask;
         await PreloadDataAsync();
     }
 
-    public async UniTask PreloadDataAsync()
+    public async UniTask PreloadDataAsync(IProgress<LoadingProgress> progress = null)
     {
-        //await LoadDataAsync<T>("Key");
-        await LoadDataAsync<CharacterData>(AddressableKey.Data.CharacterData, destroyCancellationToken);
-        await LoadDataAsync<CharacterGradeData>(AddressableKey.Data.CharacterGrade, destroyCancellationToken);
-        await LoadDataAsync<LevelExpData>(AddressableKey.Data.LevelExp, destroyCancellationToken);
-        await LoadDataAsync<ItemData>(AddressableKey.Data.Item, destroyCancellationToken);
-        await LoadDataAsync<EquipmentData>(AddressableKey.Data.Equipment, destroyCancellationToken);
-        await LoadDataAsync<SignatureData>(AddressableKey.Data.Signature, destroyCancellationToken );
-        await LoadDataAsync<CharacterSkillData>(AddressableKey.Data.CharacterSkill, destroyCancellationToken);
-        //await LoadDataAsync<T>("Key", destroyCancellationToken);
-        await UniTask.CompletedTask;
+        await UniTask.Delay(1);
     }
 
-    public async UniTask LoadRuntimeDataAsync()
+    public async UniTask LoadRuntimeDataAsync(IProgress<LoadingProgress> progress = null)
     {
-        //await LoadDataAsync<T>("Key", destroyCancellationToken);
-        await UniTask.CompletedTask;
+        List<LoadingTask> loadingTasks = CreateLoadingTasks();
+
+        ReportLoadingProgress(progress, 0f, LoadingStep.Initialize);
+
+        await UniTask.Delay(LoadingTransitionDelay);
+
+        float progressStep = 1f / loadingTasks.Count;
+
+        for (int index = 0; index < loadingTasks.Count; index++)
+        {
+            LoadingTask loadingTask = loadingTasks[index];
+
+            await loadingTask.Execute(loadingTask.Key, destroyCancellationToken);
+
+            float progressValue = progressStep * (index + 1);
+
+            ReportLoadingProgress(progress, progressValue, loadingTask.Step);
+        }
+
+        ReportLoadingProgress(progress, 1f, LoadingStep.Complete);
+
+        await UniTask.Delay(LoadingTransitionDelay);
+    }
+
+    private List<LoadingTask> CreateLoadingTasks()
+    {
+        List<LoadingTask> jobs = new List<LoadingTask>
+        {
+            new LoadingTask(LoadingStep.LoadCharacterData, AddressableKey.Data.CharacterData, LoadDataAsync<CharacterData>),
+            new LoadingTask(LoadingStep.LoadCharacterGradeData, AddressableKey.Data.CharacterGrade, LoadDataAsync<CharacterGradeData>),
+            new LoadingTask(LoadingStep.LoadLevelExpData, AddressableKey.Data.LevelExp, LoadDataAsync<LevelExpData>),
+            new LoadingTask(LoadingStep.LoadItemData, AddressableKey.Data.Item, LoadDataAsync<ItemData>),
+            new LoadingTask(LoadingStep.LoadEquipmentData, AddressableKey.Data.Equipment, LoadDataAsync<EquipmentData>),
+            new LoadingTask(LoadingStep.LoadSignatureData, AddressableKey.Data.Signature, LoadDataAsync<SignatureData>)
+        };
+
+        return jobs;
+    }
+
+    private void ReportLoadingProgress(IProgress<LoadingProgress> progress, float value, LoadingStep step)
+    {
+        if (progress == null)
+        {
+            return;
+        }
+
+        progress.Report(new LoadingProgress(value, step));
     }
 
     public bool TryGetDataTable<T>(out Dictionary<string, T> dataTable) where T : BaseData

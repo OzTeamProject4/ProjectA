@@ -1,13 +1,33 @@
 ﻿public enum UIType
 {
-    Test,
     CharacterList,
     CharacterDetail,
     ExpItemSelectPopup,
     CraftPopup,
     EquipmentListPopup,
     EquipmentDetailPopup,
-    ItemPreviewPopup
+    ItemPreviewPopup,
+    Overlay,
+    Loading
+}
+
+public enum LoadingState
+{
+    Loading,
+    Ready
+}
+
+public enum LoadingStep
+{
+    None,
+    Initialize,
+    LoadCharacterData,
+    LoadCharacterGradeData,
+    LoadLevelExpData,
+    LoadItemData,
+    LoadEquipmentData,
+    LoadSignatureData,
+    Complete
 }
 
 public enum UIRoot

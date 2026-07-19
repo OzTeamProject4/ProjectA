@@ -9,6 +9,9 @@ public class AudioView : MonoBehaviour
 
     private void Awake()
     {
+        UnityUtil.ValidateReference(_audioSourceBGM, nameof(AudioClip), nameof(_audioSourceBGM));
+        UnityUtil.ValidateReference(_audioSourceSFX, nameof(AudioClip), nameof(_audioSourceSFX));
+
         AudioSettingData audioSettingData = CreateAudioSettingData();
         _audioViewModel = new AudioViewModel(audioSettingData);
     }
@@ -27,6 +30,11 @@ public class AudioView : MonoBehaviour
     {
         _audioViewModel.Dispose();
         _audioViewModel = null;
+    }
+
+    public AudioSource GetBgmAudioSource()
+    {
+        return _audioSourceBGM;
     }
 
     public void PlayBGM(AudioClip audioClip)
