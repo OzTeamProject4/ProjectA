@@ -9,6 +9,8 @@ public class GameManager : BaseManager<GameManager>
 
     public DataManager DataManager { get; private set; }
 
+    public SaveManager SaveManager { get; private set; }
+
     public NetworkManager NetworkManager { get; private set; }
 
     public AudioManager AudioManager { get; private set; }
@@ -18,7 +20,7 @@ public class GameManager : BaseManager<GameManager>
     public InputManager InputManager { get; private set; }
 
     public ObjectManager ObjectManager { get; private set; }
-
+    
     public Inventory Inventory { get; private set; }
 
     private void Awake()
@@ -66,5 +68,26 @@ public class GameManager : BaseManager<GameManager>
         InputManager = this.GetRequiredComponent<InputManager>();
         ObjectManager = this.GetRequiredComponent<ObjectManager>();
         Inventory = new Inventory();
+    }
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        if (!hasFocus)
+        {
+            NetworkManager.SaveGame();
+        }
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            NetworkManager.SaveGame();
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        NetworkManager.SaveGame();
     }
 }
