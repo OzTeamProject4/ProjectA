@@ -35,23 +35,28 @@ public class ModelContainer
 
 public class NetworkManager : BaseManager<NetworkManager>
 {
-    public ModelContainer ModelContainer { get; private set; } = new ModelContainer();
+    private SaveManager _saveManager;
 
-    public override UniTask InitializeAsync()
+    public ModelContainer ModelContainer { get; private set; }
+
+    public async override UniTask InitializeAsync()
     {
-        LoadModel();
-        return UniTask.CompletedTask;
+        if (_saveManager == null)
+        {
+            _saveManager = new SaveManager();
+        }
+
+        LoadGame();
+        await UniTask.CompletedTask;
     }
 
-    public void SaveModel()
+    public void SaveGame()
     {
-      
+        _saveManager.RequstSaveGame(ModelContainer);
     }
 
-    public void LoadModel()
+    public void LoadGame()
     {
-        AudioModel audioModel = new AudioModel(new AudioSettingData(1,1));
-
-        ModelContainer.SetModel(audioModel);
+        ModelContainer = _saveManager.RequstLoadGame();
     }
 }
