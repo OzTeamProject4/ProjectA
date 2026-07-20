@@ -61,6 +61,8 @@ public class StageSelectController
 
             party.OnPlayerReached -= HandlePlayerReached;
             party.OnPlayerLeft -= HandlePlayerLeft;
+
+            Object.Destroy(party.gameObject);   
         }
 
         _spawnedParties.Clear();
@@ -71,7 +73,7 @@ public class StageSelectController
 
     private void SpawnPartyAt(MonsterPartySpawner spawner)
     {
-        StageMonsterParty party = Object.Instantiate(_partyPrefab, spawner.SpawnPosition, Quaternion.identity);
+        StageMonsterParty party = Object.Instantiate(_partyPrefab, spawner.SpawnPosition, Quaternion.identity, _map.transform);
 
         party.SetStageId(spawner.StageId);
 

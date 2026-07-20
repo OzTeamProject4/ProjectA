@@ -6,6 +6,8 @@ public class PartySetupPopupView : BaseUI
 {
     [SerializeField] private Button _startButton;
     [SerializeField] private Button _closeButton;
+
+    // TODO: 파티 편성 로직 구현 시 각 슬롯 버튼에 캐릭터 선택 UI 연결
     [SerializeField] private Button[] _characterSlotButtons;
     [SerializeField] private Button _blockerButton;
 

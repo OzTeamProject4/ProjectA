@@ -5,6 +5,7 @@ public class BattleMap : MonoBehaviour
 {
     [SerializeField] private Transform _playerSpawnPoint;
     [SerializeField] private WaveTriggerZone[] _waveTriggerZones;
+    [SerializeField] private Transform _cameraAnchor;
 
     public Transform PlayerSpawnPoint
     {
@@ -14,5 +15,10 @@ public class BattleMap : MonoBehaviour
     public IReadOnlyList<WaveTriggerZone> WaveTriggerZones
     {
         get { return _waveTriggerZones; }
+    }
+
+    public Transform CameraAnchor
+    {
+        get { return _cameraAnchor; }
     }
 }
