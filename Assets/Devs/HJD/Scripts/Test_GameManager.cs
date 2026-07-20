@@ -19,6 +19,7 @@ public class Test_GameManager : MonoBehaviour
     {
 
         Test_GameObjectManager.Inst.SpawnEnemyAsync(enemyDataId).Forget();
+
     }
     public void  PreloadData()
     {

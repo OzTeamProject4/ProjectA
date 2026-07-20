@@ -314,7 +314,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3953484306444555658}
   - component: {fileID: 9185673474458938038}
-  - component: {fileID: 2639396279472552512}
   - component: {fileID: 3097224844243519375}
   - component: {fileID: 3710799506084892989}
   - component: {fileID: 260131505114852858}
@@ -360,19 +359,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyView
   TextMesh_Name: {fileID: 5322068127504751908}
   TextMesh_Level: {fileID: 401625125016857345}
---- !u!114 &2639396279472552512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8639818450953181258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6a4eaf1023a036408add03e785b1908, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BehaviorAgent_Enemy
-  _behaviorAgnet_Self: {fileID: 2279304244387654077}
 --- !u!114 &3097224844243519375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,16 +372,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   _enemyTransform: {fileID: 4328385525343379646}
+  _skillTransform: {fileID: 1992103505155221568}
   _animator: {fileID: 1537486074642472274}
   blackboard:
-    m_Variables:
-    - rid: -2
+    m_Variables: []
   behaviorGraphAgent: {fileID: 2279304244387654077}
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    RefIds: []
 --- !u!65 &3710799506084892989
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -649,6 +633,11 @@ PrefabInstance:
 --- !u!95 &1537486074642472274 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: f2d83b6b70a622f40bc6921063ff39e9, type: 3}
+  m_PrefabInstance: {fileID: 4916992744950079683}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1992103505155221568 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6888806815857526915, guid: f2d83b6b70a622f40bc6921063ff39e9, type: 3}
   m_PrefabInstance: {fileID: 4916992744950079683}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &4879108845077612328 stripped

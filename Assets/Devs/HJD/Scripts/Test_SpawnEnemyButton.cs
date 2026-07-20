@@ -9,7 +9,7 @@ public class Test_SpawnEnemyButton : MonoBehaviour
     public void OnClickSpawnButton()
     {
 
-        Test_GameManager.Inst.RequestCreateEnemy(_spawnEnemyDataId);
+        Test_GameObjectManager.Inst.SpawnEnemyAsync(_spawnEnemyDataId).Forget();
 
     }
 

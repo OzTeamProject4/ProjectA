@@ -1,44 +1,39 @@
 using System.Buffers.Text;
 using UnityEngine;
-public class EnemyViewModel : ViewModelBase
+public class EnemySkillViewModel : ViewModelBase
 {
     public void InvokeOnceOnInit()
     {
         OnPropertyChanged(nameof(EnemyViewModel));
-        OnPropertyChanged(nameof(EnemyDataId));
+        OnPropertyChanged(nameof(SkillDataId));
         OnPropertyChanged(nameof(InstanceId));
         OnPropertyChanged(nameof(Name));
-        OnPropertyChanged(nameof(TotalExp));
-        OnPropertyChanged(nameof(CurrentLevel));
+        OnPropertyChanged(nameof(User));
         OnPropertyChanged(nameof(ElementalType));
-        OnPropertyChanged(nameof(BaseHp));
         OnPropertyChanged(nameof(BaseDamage));
         OnPropertyChanged(nameof(PrefabAddress));
 
     }
 
-    private string _enemyDataId;
+    private string _skillDataId;
     private int _instanceId;
     private string _name;
-    private int _totalExp;
-    private int _currentLevel;
+    private GameObject _user;
     private string _elementalType;
-    private float _baseHp;
     private float _baseDamage;
     private string _prefabAddress;
-    private string _skillPrefabAddress;
 
 
 
-    public string EnemyDataId
+    public string SkillDataId
     {
-        get => _enemyDataId;
+        get => _skillDataId;
         set
         {
-            if (_enemyDataId != value)
+            if (_skillDataId != value)
             {
-                _enemyDataId = value;
-                OnPropertyChanged(nameof(EnemyDataId));
+                _skillDataId = value;
+                OnPropertyChanged(nameof(SkillDataId));
             }
         }
     }
@@ -55,6 +50,7 @@ public class EnemyViewModel : ViewModelBase
             }
         }
     }
+
     public string Name
     {
         get => _name;
@@ -68,32 +64,20 @@ public class EnemyViewModel : ViewModelBase
         }
     }
 
-    public int TotalExp
+    public GameObject User
     {
-        get => _totalExp;
+        get => _user;
         set
         {
-            if (_totalExp != value)
+            if (_user != value)
             {
-                _totalExp = value;
-                CurrentLevel = (int)_totalExp / 100;
-                OnPropertyChanged(nameof(TotalExp));
+                _user = value;
+                OnPropertyChanged(nameof(User));
             }
         }
     }
 
-    public int CurrentLevel
-    {
-        get => _currentLevel;
-        set
-        {
-            if (_currentLevel != value)
-            {
-                _currentLevel = value;
-                OnPropertyChanged(nameof(CurrentLevel));
-            }
-        }
-    }
+    
 
     public string ElementalType
     {
@@ -108,18 +92,7 @@ public class EnemyViewModel : ViewModelBase
         }
     }
 
-    public float BaseHp
-    {
-        get => _baseHp;
-        set
-        {
-            if (_baseHp != value)
-            {
-                _baseHp = value;
-                OnPropertyChanged(nameof(BaseHp));
-            }
-        }
-    }
+    
     public float BaseDamage
     {
         get => _baseDamage;
@@ -144,19 +117,5 @@ public class EnemyViewModel : ViewModelBase
             }
         }
     }
-
-    public string SkillPrefabAddress
-    {
-        get => _skillPrefabAddress;
-        set
-        {
-            if (_skillPrefabAddress != value)
-            {
-                _skillPrefabAddress = value;
-                OnPropertyChanged(nameof(SkillPrefabAddress));
-            }
-        }
-    }
-
 
 }

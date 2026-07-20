@@ -1,11 +1,12 @@
 [
   {
     "DataId": "Enemy_Wizard_Fire_01",
-    "Name": "Wizard_Fire",
+    "Name": "불꽃 마법사",
     "TotalExp": 100,
     "ElementalType": "Fire",
     "BaseHp": 100,
     "BaseDamage": 10,
-    "PrefabAddress": "Prefabs/Enemy_Wizard_Fire"
+    "PrefabAddress": "Prefabs/Enemy_Wizard_Fire",
+    "SkillPrefabAddress": "Skill_Fireball_01"
   }
 ]

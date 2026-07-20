@@ -1,3 +1,6 @@
+using Cysharp.Threading.Tasks;
+using System;
+using System.Threading;
 using Unity.Behavior;
 using UnityEngine;
 public enum EnemyBattleState
@@ -13,6 +16,7 @@ public class EnemyController : MonoBehaviour
 {
     public Transform _enemyTransform;
 
+    [SerializeField] private Transform _skillTransform;
     [SerializeField] private Animator _animator;
     private EnemyBattleState _currentStateEnum;
 
@@ -30,6 +34,11 @@ public class EnemyController : MonoBehaviour
     private void Awake()
     {
         behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
+
+        if (_skillTransform == null)
+        {
+            _skillTransform = this.transform;
+        }
     }
 
     private void Start()
@@ -41,7 +50,7 @@ public class EnemyController : MonoBehaviour
 
     }
 
-    
+
 
     public void RequestAddExpToEnemy(int exp)
     {
@@ -60,24 +69,54 @@ public class EnemyController : MonoBehaviour
 
     public void ChangeState(EnemyBattleState newState)
     {
-       /* if (IsStateChangeable(newState) == false)
-        {
-            return;
-        }*/
+        /* if (IsStateChangeable(newState) == false)
+         {
+             return;
+         }*/
 
         _currentStateEnum = newState;
         PlayStateAnimation(_currentStateEnum);
     }
 
-    
 
-    
-    public void TryAttackSkill()
+
+
+    public async UniTask TryAttackSkillAsync(CancellationToken cancellationToken = default)
     {
-
         ChangeState(EnemyBattleState.Attack);
-        Debug.Log("공격 실행!");
+
+        float attackDuration = 1.0f; 
+
+        for (int i = 0; i < 10; i++)
+        {
+            await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
+            if (_animator == null) return;
+
+            AnimatorStateInfo currentInfo = _animator.GetCurrentAnimatorStateInfo(0);
+            AnimatorStateInfo nextInfo = _animator.GetNextAnimatorStateInfo(0);
+
+            if (currentInfo.IsName("Attack"))
+            {
+                attackDuration = currentInfo.length;
+                break;
+            }
+            else if (nextInfo.IsName("Attack"))
+            {
+                attackDuration = nextInfo.length;
+                break;
+            }
+        }
+
+        Test_GameObjectManager.Inst.SpawnSkillAsync(
+            vm.InstanceId, vm.SkillPrefabAddress, _skillTransform, this.transform
+        ).Forget();
+
+        await UniTask.Delay(TimeSpan.FromSeconds(attackDuration), cancellationToken: cancellationToken);
+
+        if (_animator == null) return;
+
     }
+
     private bool IsStateChangeable(EnemyBattleState newState)
     {
         // 예외처리 전용 (특정 상태일때는 현재 상태가 어떤지에 따라 전환 못하게 미리 막음)
@@ -91,7 +130,7 @@ public class EnemyController : MonoBehaviour
 
         return true;
     }
-    
+
 
     private void PlayStateAnimation(EnemyBattleState state)
     {
@@ -132,7 +171,7 @@ public class EnemyController : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             behaviorGraphAgent.SetVariableValue("Target", other.gameObject);
 
