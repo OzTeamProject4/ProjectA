@@ -20,31 +20,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0bdc6a894c3a596408bf988aade12cd8
-    m_Address: SkillWater001
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0c4da498aac1f2745add9d2d71bd894f
-    m_Address: Data/CharacterSkill
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0c63a716d2922af49b0329b189e4dafb
-    m_Address: SkillFire003
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0d12a758ff6bee94aadfd29c9fe1d37c
-    m_Address: SkillNormal002
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1c3223c1ff11d914487a88e80b9c1a49
-    m_Address: SkillFire002
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 21888c59bd8ff894ea1296594f6f462d
     m_Address: Prefab/UILayer
     m_ReadOnly: 0
@@ -55,18 +30,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 38e32be9e8d35ab4294b8804c81f8947
-    m_Address: SkillNormal030
+  - m_GUID: 306aacece41374f42b6be8c1c0ae993b
+    m_Address: TestEnemy
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 432390b53dcc953408182fec8874316e
     m_Address: UI/EquipmentDetailPopup
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 460ad52afffbeab4bbe4d152039813e7
-    m_Address: SkillGrass003
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -80,43 +50,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 74826f15b8e0c444298c9c65e4aedee1
-    m_Address: SkillFire001
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7e7a3890e38bdab4883d45a5373f053d
     m_Address: UI/ExpItemSelectPopup
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7fab559bc6efff34083ca7bd8fd79488
-    m_Address: SkillWater002
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 81b5b5132d82d0945b015a4774925758
-    m_Address: SkillGrass001
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8f608efd2ed77e24e95190ff4d907bdd
-    m_Address: SkillNormal020
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 92d75f3b3a842b1429dccc1c77ca9ec0
-    m_Address: SkillGrass002
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 957d354e80b0b7b498197c777ce487a7
     m_Address: Prefab_TestBattleCharacterBase
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: abb6f022cbce4cd41a572f223436e9e7
-    m_Address: SkillWater003
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -130,18 +70,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b48cedf2dcc0a794fa7ab6910fedd8d3
-    m_Address: SkillNormal001
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b71e2e97e30f3cc4790f4770721d7c21
     m_Address: UI/CraftPopup
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c153b211ade2f3346bf0ae05400498d6
-    m_Address: SkillNormal010
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -160,13 +90,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: eb0c00885daf88646bb59b5ae199b765
-    m_Address: SkillNormal003
+  - m_GUID: eb40ffa39297bb84fad6a9cd6c4f770b
+    m_Address: Prefab/ObjectPoolRoot
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: eb40ffa39297bb84fad6a9cd6c4f770b
-    m_Address: Prefab/ObjectPoolRoot
+  - m_GUID: f4e4808b7fade814abf5b88b7976d010
+    m_Address: EnemyData
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

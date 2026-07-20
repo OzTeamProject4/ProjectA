@@ -4,7 +4,14 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(BattleCharacter))]
 public class PlayerController : MonoBehaviour
 {
+<<<<<<< HEAD:Assets/Scripts/Character/PlayerController.cs
     private Transform _cameraTransform;
+=======
+    [SerializeField] private Transform _cameraTransform;
+    [SerializeField] private Attack _attack;
+
+
+>>>>>>> master:Assets/Devs/KHJ/PlayerController.cs
     private BattleCharacter _battleCharacter;
     private Vector3 _moveDirection;
     private bool _isRunning;
@@ -14,6 +21,7 @@ public class PlayerController : MonoBehaviour
         // TODO 희준 카메라와 플레이어 입력 중복 추후 매니저 준비시 통일화
         _battleCharacter = GetComponent<BattleCharacter>();
 
+<<<<<<< HEAD:Assets/Scripts/Character/PlayerController.cs
         if (Camera.main == null)
         {
             Debug.LogError("MainCamer를 찾을수 없습니다");
@@ -21,6 +29,8 @@ public class PlayerController : MonoBehaviour
         }
 
         _cameraTransform = Camera.main.transform;
+=======
+>>>>>>> master:Assets/Devs/KHJ/PlayerController.cs
     }
 
     private void OnEnable()
@@ -33,6 +43,13 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
+
+        if (_inputAction.Player.Attack.WasPressedThisFrame())
+        {
+            _attack.AttackEnemy();
+        }
+
+
         if (_cameraTransform == null)
         {
             return;
