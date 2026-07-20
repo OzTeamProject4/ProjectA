@@ -236,7 +236,7 @@ public class CharacterSkillSystem : MonoBehaviour
             case CharacterSkillType.SingleAttack:
                 if (skill.Data.ProjectileSpeed > 0)
                 {
-                    _characterAttack.FireProjectile(skill.ProjectilePrefab, target, damage, this, skill.Data.GaugeRecovery);
+                    _characterAttack.FireProjectile(skill.ProjectilePrefab, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed);
                 }
 
                 else
@@ -265,7 +265,7 @@ public class CharacterSkillSystem : MonoBehaviour
             case CharacterSkillType.AreaAttack:
                 if (skill.Data.ProjectileSpeed > 0)
                 {
-                    _characterAttack.FireProjectile(skill.ProjectilePrefab, target, damage, this, skill.Data.GaugeRecovery, skill.Data.AreaRadius);
+                    _characterAttack.FireProjectile(skill.ProjectilePrefab, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed, skill.Data.AreaRadius);
                 }
 
                 else

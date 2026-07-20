@@ -7,8 +7,9 @@ public class CharacterAttack : MonoBehaviour
     [SerializeField] private float _attackCooldown = 1.0f;
 
     private float _lastAttackTime;
+    private float _projectileSpeed;
 
-    public void FireProjectile(GameObject prefab, Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float explosionRadius = 0)
+    public void FireProjectile(GameObject prefab, Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float projectileSpeed, float explosionRadius = 0)
     {
         if (prefab == null)
         {
@@ -27,16 +28,11 @@ public class CharacterAttack : MonoBehaviour
             return;
         }
 
-        if (Time.time - _lastAttackTime < _attackCooldown)
-        {
-            return;
-        }
-
         GameObject projectile = Instantiate(prefab, _firePoint.position, _firePoint.rotation);
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
         if (projectileComponent != null)
         {
-            projectileComponent.Launch(target, damage, owner, gaugeRecovery, explosionRadius);
+            projectileComponent.Launch(target, damage, owner, gaugeRecovery, projectileSpeed, explosionRadius);
         }
         _lastAttackTime = Time.time;
     }

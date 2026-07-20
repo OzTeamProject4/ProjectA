@@ -6,7 +6,6 @@ public class Projectile : MonoBehaviour
     private const string EnemyTag = "Enemy";
     private const float HitEffectLifeTime = 3.0f;
 
-    [SerializeField] private float _speed = 5.0f;
     [SerializeField] private float _turnSpeed = 200.0f;
     [SerializeField] private float _lifeTime = 3.0f;
     [SerializeField] private GameObject _hitEffectPrefab;
@@ -17,6 +16,7 @@ public class Projectile : MonoBehaviour
     private CharacterSkillSystem _ownerSkillSystem;
     private int _gaugeRecovery;
     private float _explosionRadius;
+    private float _projectileSpeed;
     
     private void Awake()
     {
@@ -34,7 +34,7 @@ public class Projectile : MonoBehaviour
 
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         _rigidbody.rotation = Quaternion.RotateTowards(_rigidbody.rotation, targetRotation, _turnSpeed * Time.fixedDeltaTime);
-        _rigidbody.linearVelocity = transform.forward * _speed;
+        _rigidbody.linearVelocity = transform.forward * _projectileSpeed;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -70,13 +70,14 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public void Launch(Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float explosionRadius)
+    public void Launch(Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float projectileSpeed, float explosionRadius)
     {
         _target = target;
         _damage = damage;
         _ownerSkillSystem = owner;
         _gaugeRecovery = gaugeRecovery;
         _explosionRadius = explosionRadius;
+        _projectileSpeed = projectileSpeed;
         transform.rotation = Quaternion.LookRotation((target.position - transform.position).normalized);
         Destroy(gameObject, _lifeTime);
     }
