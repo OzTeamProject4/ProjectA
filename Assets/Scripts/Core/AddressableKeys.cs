@@ -18,6 +18,12 @@
         public const string Signature = "Data/Signature";
         public const string Stage = "Data/Stage";
         public const string StageWave = "Data/StageWave";
+        public const string CharacterSkill = "Data/CharacterSkill";
+    }
+
+    public static class Asset
+    {
+        public const string LoadingVideoClip = "Video/Test";
     }
 
     public static string GetUIKey(UIType uIType)

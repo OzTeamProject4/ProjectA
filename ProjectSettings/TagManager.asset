@@ -8,7 +8,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - 
@@ -18,6 +18,9 @@ TagManager:
   - Ground
   - MonsterParty
   - Obstacles
+  - Player
+  - Enemy
+  - 
   - 
   - 
   - 

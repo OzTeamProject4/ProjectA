@@ -1,12 +1,38 @@
 ﻿public enum UIType
 {
-    Test,
     CharacterList,
     CharacterDetail,
     ExpItemSelectPopup,
     CraftPopup,
     EquipmentListPopup,
     EquipmentDetailPopup,
+    ItemPreviewPopup,
+    StageInfoPopup,
+    PartySetupPopup,
+    Overlay,
+    Loading
+}
+
+public enum LoadingState
+{
+    Loading,
+    Ready
+}
+
+public enum LoadingStep
+{
+    None,
+    Initialize,
+    LoadCharacterData,
+    LoadCharacterGradeData,
+    LoadLevelExpData,
+    LoadItemData,
+    LoadEquipmentData,
+    LoadSignatureData,
+    LoadStageData,
+    LoadStageWaveData,
+    Complete,
+    LoadSkillData,
     ItemPreviewPopup,
     StageInfoPopup,
     PartySetupPopup

@@ -127,4 +127,24 @@ public static class UIManagerExtension
 
         return view;
     }
+
+    public static async UniTask OpenOverlayUIAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        await uiManager.OpenTestRootAsync(UIType.Overlay, cancellationToken);
+    }
+
+    public static void CloseOverlayUI(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.Overlay);
+    }
+
+    public static async UniTask OpenLoadingUIAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        await uiManager.OpenTestRootAsync(UIType.Loading, cancellationToken);
+    }
+
+    public static void CloseLoadingUI(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.Loading);
+    }
 }
