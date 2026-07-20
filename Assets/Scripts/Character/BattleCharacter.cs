@@ -19,10 +19,10 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     [SerializeField] private float _rotationSpeed = 4.0f;
     [SerializeField] private Transform _groundCheckPoint;
     [SerializeField] private Transform _modelTransform;
+    [SerializeField] private LayerMask _groundLayer;
 
     private CharacterData _data;
     private Rigidbody _rigidbody;
-    private bool _isSelectedCharacter;
     private float _curHp;
     private int _curSkillGauge;
     private float _curAtk;
@@ -109,7 +109,6 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     public async UniTask InitializeAsync(CharacterData data, StatData stats)
     {
         _data = data;
-        _isSelectedCharacter = false;
         _curHp = stats.Hp;
         _curAtk = stats.Atk;
         _curDef = stats.Def;
@@ -173,11 +172,11 @@ public class BattleCharacter : MonoBehaviour, IDamageable
             return false;
         }
 
-        if (_rigidbody.linearVelocity.y > JumpVelocityThreshold)
+        if (Mathf.Abs(_rigidbody.linearVelocity.y) > JumpVelocityThreshold)
         {
             return false;
         }
-        return Physics.Raycast(_groundCheckPoint.position, Vector3.down, _groundCheckDistance);
+        return Physics.Raycast(_groundCheckPoint.position, Vector3.down, _groundCheckDistance, _groundLayer, QueryTriggerInteraction.Ignore);
     }
 
     public void LookAt(Vector3 targetPosition)
