@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using Unity.AppUI.Redux;
 using UnityEngine;
@@ -98,7 +98,8 @@ public class PartySpawn : MonoBehaviour
 
 
             // 찾아온 캐릭터 정보 데이터 적용
-            battleCharacter.Initialize(data);
+            // battleCharacter.Initialize(data);
+            // BattleCharacter.InitializeAsync(data, stats);
 
 
 
