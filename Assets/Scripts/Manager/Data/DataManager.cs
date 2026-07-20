@@ -14,7 +14,7 @@ public class DataManager : BaseManager<DataManager>
     public override async UniTask InitializeAsync()
     {
         _dataTables.Clear();
-        await PreloadDataAsync();
+        await LoadRuntimeDataAsync();
     }
 
     public async UniTask PreloadDataAsync(IProgress<LoadingProgress> progress = null)

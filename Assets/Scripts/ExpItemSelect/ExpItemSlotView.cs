@@ -70,12 +70,26 @@ public class ExpItemSlotView : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        bool wasHolding = null != _holdCts;
+
         CancelHold();
+
+        if (wasHolding)
+        {
+            GameManager.Instance.NetworkManager.SaveGame();
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        bool wasHolding = null != _holdCts;
+
         CancelHold();
+
+        if (wasHolding)
+        {
+            GameManager.Instance.NetworkManager.SaveGame();
+        }
     }
 
     private void RefreshDisplay()

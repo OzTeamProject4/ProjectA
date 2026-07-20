@@ -478,6 +478,7 @@ GameObject:
   - component: {fileID: 1405607147}
   - component: {fileID: 1405607149}
   - component: {fileID: 1405607150}
+  - component: {fileID: 1405607151}
   m_Layer: 0
   m_Name: =======Managers========
   m_TagString: Untagged
@@ -584,6 +585,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6656b761b3417f4408e42de06fc39b53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectManager
+--- !u!114 &1405607151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405607142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75dee5471662cfe429690ec28d1a5ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NetworkManager
 --- !u!1 &1568249429
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// TODO - 세이브/영속성 시스템 도입 시 BuildTestCharacterModels() 를 "보유 캐릭터 + 저장된 성장 상태 로드"로 교체
-/// TODO - UserManager 도입 시 _characterModels / _dataProvider / _craftingModel 소유를 그쪽으로 이관
-/// TODO - 로비 도입 시 Start() 자동 시작 대신 외부에서 진입하도록 변경
-/// </summary>
 public class CharacterGrowthController : MonoBehaviour
 {
     private bool _hasInitialized;
@@ -16,7 +11,7 @@ public class CharacterGrowthController : MonoBehaviour
     private EquipmentController _equipmentFlow;
     private GrowthIconPreloader _iconPreloader;
 
-    private readonly Dictionary<string, CharacterModel> _characterModels = new();
+    private GrowthModel _growthModel;
 
     private CharacterListView _listView;
     private CharacterDetailView _detailView;
@@ -29,6 +24,7 @@ public class CharacterGrowthController : MonoBehaviour
         UnsubscribeListView();
         UnsubscribeDetailView();
         UnsubscribeItemSelectPopup();
+        UnsubscribeCurrentDetailModel();
 
         if (null != _equipmentFlow)
         {
@@ -43,8 +39,8 @@ public class CharacterGrowthController : MonoBehaviour
 
     // ===== 초기화 =====
 
-    // TODO: 로비 도입 시 이 흐름을 로비의 "캐릭터 화면 진입"으로 이관
-    public async UniTaskVoid EnterAsync()
+    // 로비 진입점. 로비 담당자는 이 오브젝트 생성 후 EnterAsync() 호출만 하면 됨.
+    public async UniTask EnterAsync()
     {
         if (_hasInitialized)
         {
@@ -61,51 +57,24 @@ public class CharacterGrowthController : MonoBehaviour
         _equipmentFlow = new EquipmentController(inventory, _craftingModel);
         _iconPreloader = new GrowthIconPreloader(_dataProvider);
 
-        BuildTestCharacterModels();
+        _growthModel = GameManager.Instance.NetworkManager.ModelContainer.GetModel<GrowthModel>();
+
+        if (null == _growthModel)
+        {
+            Debug.LogError("[CharacterGrowthController] GrowthModel 을 찾을 수 없습니다.");
+            return;
+        }
 
         _iconPreloader.PreloadAsync(destroyCancellationToken).Forget();
 
         await OpenCharacterListAsync();
     }
 
-    // TODO: 세이브 시스템 도입 시 저장된 성장 상태 로드로 교체. 임시 재화/아이템 지급도 제거.
-    private void BuildTestCharacterModels()
-    {
-        Inventory inventory = GameManager.Instance.Inventory;
-
-        foreach (string expItemDataId in _dataProvider.GetAllExpItemIds())
-        {
-            inventory.AddItem(expItemDataId, 999);
-        }
-
-        inventory.AddItem("Item_Mat_T1", 999);
-        inventory.AddItem("Item_Mat_T2", 999);
-        inventory.AddItem("Item_Mat_T3", 999);
-        inventory.AddItem("Item_Mat_Signature", 999);
-        inventory.AddGold(999999);
-
-        foreach (string dataId in _dataProvider.GetAllCharacterIds())
-        {
-            CharacterData data = _dataProvider.GetStat(dataId);
-
-            if (null == data)
-            {
-                Debug.LogWarning($"[CharacterGrowthController] CharacterData 를 찾을 수 없습니다. dataId={dataId}");
-                continue;
-            }
-
-            CharacterModel model = new CharacterModel(dataId, data.Star, _dataProvider, inventory);
-            model.AddDuplicate(999);
-
-            _characterModels[dataId] = model;
-        }
-    }
-
     private List<CharacterDisplayInfo> BuildDisplayInfos()
     {
         List<CharacterDisplayInfo> infos = new();
 
-        foreach (string dataId in _characterModels.Keys)
+        foreach (string dataId in _growthModel.GetAllCharacters().Keys)
         {
             CharacterData data = _dataProvider.GetStat(dataId);
 
@@ -137,7 +106,7 @@ public class CharacterGrowthController : MonoBehaviour
         _listView.OnItemSelected += HandleCharacterSelected;
         _listView.OnCloseButtonClicked += HandleListClosed;
 
-        CharacterListViewModel viewModel = new CharacterListViewModel(new List<CharacterModel>(_characterModels.Values));
+        CharacterListViewModel viewModel = new CharacterListViewModel(new List<CharacterModel>(_growthModel.GetAllCharacters().Values));
         _listView.Bind(viewModel, BuildDisplayInfos());
     }
 
@@ -146,9 +115,11 @@ public class CharacterGrowthController : MonoBehaviour
         OpenCharacterDetailAsync(dataId).Forget();
     }
 
+    // TODO: 로비 도입 시 "로비 진입" 시점으로 이 저장 호출 이관. 지금은 캐릭터 목록 닫기를 임시 대체 지점으로 사용.
     private void HandleListClosed()
     {
         GameManager.Instance.UIManager.CloseCharacterList();
+        GameManager.Instance.NetworkManager.SaveGame();
     }
 
     private void UnsubscribeListView()
@@ -167,7 +138,9 @@ public class CharacterGrowthController : MonoBehaviour
 
     private async UniTaskVoid OpenCharacterDetailAsync(string dataId)
     {
-        if (!_characterModels.TryGetValue(dataId, out CharacterModel model))
+        CharacterModel model = _growthModel.GetCharacter(dataId);
+
+        if (null == model)
         {
             Debug.LogWarning($"[CharacterGrowthController] CharacterModel 을 찾을 수 없습니다. dataId={dataId}");
             return;
@@ -175,7 +148,12 @@ public class CharacterGrowthController : MonoBehaviour
 
         CloseAllPopups();
 
+        UnsubscribeCurrentDetailModel();
+
         _currentDetailModel = model;
+        _currentDetailModel.OnEquipmentChanged += HandleStatChanged;
+        _currentDetailModel.OnStarChanged += HandleStatChanged;
+
         _equipmentFlow.SetCharacter(model);
 
         _detailView = await GameManager.Instance.UIManager.OpenCharacterDetailAsync(destroyCancellationToken);
@@ -208,9 +186,26 @@ public class CharacterGrowthController : MonoBehaviour
 
         GameManager.Instance.UIManager.CloseCharacterDetail();
 
-        _currentDetailModel = null;
+        UnsubscribeCurrentDetailModel();
 
         OpenCharacterListAsync().Forget();
+    }
+
+    private void HandleStatChanged()
+    {
+        GameManager.Instance.NetworkManager.SaveGame();
+    }
+
+    private void UnsubscribeCurrentDetailModel()
+    {
+        if (null == _currentDetailModel)
+        {
+            return;
+        }
+
+        _currentDetailModel.OnEquipmentChanged -= HandleStatChanged;
+        _currentDetailModel.OnStarChanged -= HandleStatChanged;
+        _currentDetailModel = null;
     }
 
     private void UnsubscribeDetailView()

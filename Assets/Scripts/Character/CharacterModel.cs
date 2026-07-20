@@ -356,4 +356,12 @@ public class CharacterModel
 
         return characterData.CharacterIconPath;
     }
+
+    public void RestoreProgress(int star, int level, int exp, int duplicates)
+    {
+        CurrentStar = star;
+        CurrentLevel = level;
+        CurrentExp = exp;
+        OwnedDuplicates = duplicates;
+    }
 }

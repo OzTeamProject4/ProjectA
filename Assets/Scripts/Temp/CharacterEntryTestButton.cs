@@ -22,7 +22,17 @@ public class CharacterEntryTestButton : MonoBehaviour
 
     private async void Start()
     {
+        if (null != _enterButton)
+        {
+            _enterButton.interactable = false;
+        }
+
         await GameManager.Instance.InitializeManagersAsync();
+
+        if (null != _enterButton)
+        {
+            _enterButton.interactable = true;
+        }
     }
 
     private void OnDisable()

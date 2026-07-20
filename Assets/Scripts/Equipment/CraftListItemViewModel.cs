@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public class CraftListItemViewModel
 {
@@ -79,7 +80,12 @@ public class CraftListItemViewModel
 
     public void CraftCommand()
     {
-        _crafting.Craft(DataId);
+        EquipmentInstance instance = _crafting.Craft(DataId);
+
+        if (null != instance)
+        {
+            GameManager.Instance.NetworkManager.SaveGame();
+        }
     }
 
     private void HandleChanged()

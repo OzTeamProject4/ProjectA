@@ -186,4 +186,70 @@ public class Inventory
 
         return null;
     }
+
+    // ===== 세이브 로드 전용 =====
+
+    public void RestoreGold(int amount)
+    {
+        Gold = amount;
+    }
+
+    public void RestoreItemCount(string dataId, int count)
+    {
+        if (string.IsNullOrEmpty(dataId) || count < 0)
+        {
+            Debug.LogWarning($"[Inventory:RestoreItemCount] 유효하지 않은 입력. dataId={dataId}, count={count}");
+            return;
+        }
+
+        _itemCounts[dataId] = count;
+    }
+
+    public void RestoreEquipment(string instanceId, EquipmentData data, RolledStats rolledStat, string equippedBy)
+    {
+        if (string.IsNullOrEmpty(instanceId) || null == data)
+        {
+            Debug.LogWarning($"[Inventory:RestoreEquipment] 유효하지 않은 입력. instanceId={instanceId}");
+            return;
+        }
+
+        EquipmentInstance instance = new EquipmentInstance(instanceId, data, rolledStat);
+
+        if (!string.IsNullOrEmpty(equippedBy))
+        {
+            instance.SetEquippedBy(equippedBy);
+        }
+
+        _equipment[instanceId] = instance;
+
+        SyncInstanceCounter(instanceId);
+    }
+
+    // 인스턴스 Id 충돌 방지용 Sync
+    private void SyncInstanceCounter(string instanceId)
+    {
+        const string prefix = "equip_";
+
+        if (!instanceId.StartsWith(prefix))
+        {
+            return;
+        }
+
+        string numberPart = instanceId.Substring(prefix.Length);
+
+        if (int.TryParse(numberPart, out int number) && number > _instanceCounter)
+        {
+            _instanceCounter = number;
+        }
+    }
+
+    public IReadOnlyList<EquipmentInstance> GetAllEquipment()
+    {
+        return new List<EquipmentInstance>(_equipment.Values);
+    }
+
+    public IReadOnlyList<string> GetAllItemDataIds()
+    {
+        return new List<string>(_itemCounts.Keys);
+    }
 }
