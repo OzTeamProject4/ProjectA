@@ -72,4 +72,6 @@ public class BattleManager : MonoBehaviour
         _partyController.Initialize(characters, _cinemachineCamera);
 
     }
+
+
 }

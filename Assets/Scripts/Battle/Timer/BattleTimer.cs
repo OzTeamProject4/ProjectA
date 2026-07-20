@@ -2,7 +2,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
 
-
 // 해당 파일을 EnemySpawnManager의 OnBattleEnd에 넣어주세요
 
 public class BattleTimer : MonoBehaviour
@@ -43,7 +42,8 @@ public class BattleTimer : MonoBehaviour
 
             Debug.Log("Time Over - Lose");
             onTimeOver.Invoke();
-            
+            // UI 먼저 띄우고 Time.timeScale = 0f가 되어야 합니다!!!!
+            Time.timeScale = 0f;
             return;
         }
 
@@ -59,8 +59,6 @@ public class BattleTimer : MonoBehaviour
 
 
     // 제한 시간 만료 전 전투 종료시
-    // 전투 목표 달성 OR 플레이어 캐릭터 전멸
-    // 미완성
     public void StopTimer()
     {
         isBattleRunning = false;
