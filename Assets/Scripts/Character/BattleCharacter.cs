@@ -247,7 +247,6 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     {
         _curMoveSpeed = _baseMoveSpeed * (1 + speedBuffPercent / 100f);
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
-        Debug.Log($"{_data.Name} 이속 버프 적용: {_baseMoveSpeed} → {_curMoveSpeed} ({duration}초간)");
 
         try
         {
@@ -261,6 +260,5 @@ public class BattleCharacter : MonoBehaviour, IDamageable
 
         _curMoveSpeed = _baseMoveSpeed;
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
-        Debug.Log($"{_data.Name} 이속 버프 종료: {_curMoveSpeed} (원복)");
     }
 }

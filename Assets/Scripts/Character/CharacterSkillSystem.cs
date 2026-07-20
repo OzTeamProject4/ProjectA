@@ -214,7 +214,6 @@ public class CharacterSkillSystem : MonoBehaviour
         }
 
         ExecuteSkill(_ultimateSkill, target);
-        Debug.Log($"궁극 스킬 사용: {_ultimateSkill.Data.Name}");
         ChangeGauge(0);
     }
 
@@ -379,7 +378,6 @@ public class CharacterSkillSystem : MonoBehaviour
         {
             skill.SetProjectilePrefab(prefab);
             _loadedPrefabKeys.Add(skill.Data.PrefabPath);
-            Debug.Log($"프리팹 로드 완료: {skill.Data.PrefabPath}");
         }
 
         else

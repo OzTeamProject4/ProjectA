@@ -114,7 +114,6 @@ public class PartyController
     public void UseCurrentCharacterUlt()
     {
         BattleCharacter current = _partyCharacters[_currentCharacterIndex];
-        Debug.Log($"궁 발동 시도 {current.CharacterName}");
 
         CharacterSkillSystem skillSystem = current.GetComponent<CharacterSkillSystem>();
         if (skillSystem != null)
@@ -183,8 +182,6 @@ public class PartyController
                 effect.transform.localPosition = Vector3.zero;
                 UnityEngine.Object.Destroy(effect, EffectLifeTime);
             }
-
-            Debug.Log($"{character.CharacterName} 힐: +{healAmount}, 현재 {character.CurHp}");
         }
     }
 }
