@@ -16,6 +16,11 @@ public class AudioManager : BaseManager<AudioManager>
         }
     }
 
+    public AudioSource GetBgmAudioSource()
+    {
+        return _audioView.GetBgmAudioSource();
+    }
+
     public void PlayBGM(string audioId)
     {
         if (string.IsNullOrWhiteSpace(audioId))

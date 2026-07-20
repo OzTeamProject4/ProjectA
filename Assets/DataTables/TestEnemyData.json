@@ -1,0 +1,11 @@
+[
+  {
+    "DataId": "Enemy_Test_01",
+    "Name": "TestEnemy",
+    "TotalExp": 100,
+    "ElementalType": "water",
+    "BaseHp": 100,
+    "BaseDamage": 10,
+    "PrefabAddress": "TestEnemy"
+  }
+]
