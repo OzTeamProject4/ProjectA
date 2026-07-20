@@ -52,11 +52,16 @@ public class NetworkManager : BaseManager<NetworkManager>
 
     public void SaveGame()
     {
-        _saveManager.RequstSaveGame(ModelContainer);
+        if (ModelContainer == null)
+        {
+            return;
+        }
+
+        _saveManager.RequestSaveGame(ModelContainer);
     }
 
     public void LoadGame()
     {
-        ModelContainer = _saveManager.RequstLoadGame();
+        ModelContainer = _saveManager.RequestLoadGame();
     }
 }

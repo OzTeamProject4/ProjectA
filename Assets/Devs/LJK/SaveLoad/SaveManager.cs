@@ -6,81 +6,127 @@ using UnityEngine;
 [Serializable]
 public class SaveData
 {
-    public AudioSettingData Audio;
+    public AudioSettingData AudioSettingData;
+}
+
+public static class FileName
+{
+    public static string SaveFileName = "SaveData.json";
+}
+
+public static class Default
+{
+    public static float DefaultVolume = 0.5f;
 }
 
 public class SaveManager
 {
-    private readonly string NetworkPath;
+    private readonly string _savePath;
+
+    private readonly AudioSettingData _cachedAudioSettingData = new AudioSettingData();
 
     public SaveManager()
     {
-        NetworkPath = Path.Combine(Application.persistentDataPath, "SaveData.json");
+        _savePath = Path.Combine(Application.persistentDataPath, FileName.SaveFileName);
     }
 
-    public void RequstSaveGame(ModelContainer modelContainer)
+    public void RequestSaveGame(ModelContainer modelContainer)
     {
         SaveData saveData = CreateSaveData(modelContainer);
 
         string jsonString = JsonConvert.SerializeObject(saveData, Formatting.Indented);
-        File.WriteAllText(NetworkPath, jsonString);
+        File.WriteAllText(_savePath, jsonString);
     }
 
+    public ModelContainer RequestLoadGame()
+    {
+        if (!File.Exists(_savePath))
+        {
+            ModelContainer defaultModelContainer = CreateDefaultModelContainer();
+            return defaultModelContainer;
+        }
+
+        string jsonString = File.ReadAllText(_savePath);
+        SaveData saveData = JsonConvert.DeserializeObject<SaveData>(jsonString);
+
+        ModelContainer saveModelContainer =  CreateModelContainer(saveData);
+        return saveModelContainer;
+    }
+
+    #region Save
     private SaveData CreateSaveData(ModelContainer modelContainer)
     {
-        SaveData data = new SaveData();
+        UpdateCachedAudioSettingData(modelContainer);
 
-        AudioModel audioModel = modelContainer.GetModel<AudioModel>();
+        SaveData saveData = new SaveData();
+        saveData.AudioSettingData = _cachedAudioSettingData;
 
-        data.Audio = CreateSetting(audioModel);
-
-        return data;
+        return saveData;
     }
 
-    private AudioSettingData CreateSetting(AudioModel audioModel)
+    private T GetModel<T>(ModelContainer modelContainer) where T : DataModel
+    {
+        T model = modelContainer.GetModel<T>();
+
+        if (model == null)
+        {
+            Debug.LogError($"[{nameof(SaveManager)}:{nameof(GetModel)}] '{typeof(T).Name}' 을(를) 가져오지 못했습니다.");
+        }
+
+        return model;
+    }
+
+    private void UpdateCachedAudioSettingData(ModelContainer modelContainer)
+    {
+        AudioModel audioModel = GetModel<AudioModel>(modelContainer);
+
+        _cachedAudioSettingData.BgmVolume = audioModel.BgmVolume;
+        _cachedAudioSettingData.SfxVolume = audioModel.SfxVolume;
+    }
+    #endregion
+
+    #region Load
+    private ModelContainer CreateModelContainer(SaveData saveData)
+    {
+        ModelContainer modelContainer = new ModelContainer();
+
+        AudioModel audioModel = CreateAudioModel(saveData.AudioSettingData);
+
+        modelContainer.SetModel(audioModel);
+
+        return modelContainer;
+    }
+
+    private ModelContainer CreateDefaultModelContainer()
+    {
+        ModelContainer modelContainer = new ModelContainer();
+
+        AudioModel audioModel = CreateAudioModel();
+
+        modelContainer.SetModel(audioModel);
+
+        return modelContainer;
+    }
+
+    private AudioModel CreateAudioModel(AudioSettingData audioSettingData = null)
+    {
+        if (audioSettingData == null)
+        {
+            audioSettingData = CreateDefaultAudioSettingData();
+        }
+
+        AudioModel audioModel = new AudioModel(audioSettingData);
+        return audioModel;
+    }
+
+    private AudioSettingData CreateDefaultAudioSettingData()
     {
         AudioSettingData audioSettingData = new AudioSettingData();
-        audioSettingData.BgmVolume = audioModel.BgmVolume;
-        audioSettingData.SfxVolume = audioModel.SfxVolume;
+
+        audioSettingData.BgmVolume = Default.DefaultVolume;
+        audioSettingData.SfxVolume = Default.DefaultVolume;
+
         return audioSettingData;
     }
-
-    public ModelContainer RequstLoadGame()
-    {
-        if (File.Exists(NetworkPath))
-        {
-            string jsonString = File.ReadAllText(NetworkPath);
-            SaveData data = JsonConvert.DeserializeObject<SaveData>(jsonString);
-            ModelContainer modelContainer = CreateModelC(data);
-            return modelContainer;
-        }
-        else
-        {
-            return DefaultLoad();
-        }
-    }
-
-    private ModelContainer CreateModelC(SaveData data)
-    {
-        ModelContainer modelContainer = new ModelContainer();
-
-        AudioSettingData audioSettingData = new AudioSettingData();
-        audioSettingData.BgmVolume = data.Audio.BgmVolume;
-        audioSettingData.SfxVolume = data.Audio.BgmVolume;
-        AudioModel model = new AudioModel(audioSettingData);
-        modelContainer.SetModel(model);
-        
-        return modelContainer;
-    }
-
-    private ModelContainer DefaultLoad()
-    {
-        ModelContainer modelContainer = new ModelContainer();
-        AudioSettingData audioSettingData = new AudioSettingData();
-        audioSettingData.BgmVolume = 0.5f;
-        audioSettingData.SfxVolume = 0.5f;
-        AudioModel model = new AudioModel(audioSettingData);
-        modelContainer.SetModel(model);
-        return modelContainer;
-    }
+    #endregion
 }
