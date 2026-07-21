@@ -40,14 +40,16 @@ public class Projectile : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.forward, checkDistance, _obstacleLayer, QueryTriggerInteraction.Ignore) == true)
         {
             SpawnHitEffect();
-            Destroy(gameObject);
+            GameManager.Instance.ObjectManager.Despawn(gameObject);
+
             return;
         }
 
         if (Time.time - _spawnTime >= _lifeTime)
         {
             SpawnHitEffect();
-            Destroy(gameObject);
+            GameManager.Instance.ObjectManager.Despawn(gameObject);
+
         }
     }
 
@@ -77,11 +79,13 @@ public class Projectile : MonoBehaviour
 
             SpawnHitEffect();
 
-            Destroy(gameObject);
+            GameManager.Instance.ObjectManager.Despawn(gameObject);
         }
     }
     public void Launch(Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float projectileSpeed, float explosionRadius)
     {
+        _rigidbody.linearVelocity = Vector3.zero;
+        _rigidbody.angularVelocity = Vector3.zero;
         _target = target;
         _damage = damage;
         _ownerSkillSystem = owner;

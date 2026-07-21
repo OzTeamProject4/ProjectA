@@ -9,6 +9,7 @@ public class CharacterSkillSystem : MonoBehaviour
     private const float GaugePerSecond = 5.0f;
     private const string EnemyTag = "Enemy";
     private const float EffectLifeTime = 3.0f;
+    private const int SkillPrewarmCount = 5;
 
     private CharacterAttack _characterAttack;
     private BattleCharacter _battleCharacter;
@@ -226,7 +227,7 @@ public class CharacterSkillSystem : MonoBehaviour
             case CharacterSkillType.SingleAttack:
                 if (skill.Data.ProjectileSpeed > 0)
                 {
-                    _characterAttack.FireProjectile(skill.ProjectilePrefab, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed);
+                    _characterAttack.FireProjectile(skill.Data.PrefabPath, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed);
                 }
 
                 else
@@ -255,7 +256,7 @@ public class CharacterSkillSystem : MonoBehaviour
             case CharacterSkillType.AreaAttack:
                 if (skill.Data.ProjectileSpeed > 0)
                 {
-                    _characterAttack.FireProjectile(skill.ProjectilePrefab, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed, skill.Data.AreaRadius);
+                    _characterAttack.FireProjectile(skill.Data.PrefabPath, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed, skill.Data.AreaRadius);
                 }
 
                 else
@@ -364,15 +365,19 @@ public class CharacterSkillSystem : MonoBehaviour
 
         GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(skill.Data.PrefabPath);
 
-        if (prefab != null)
+        if (prefab == null)
         {
-            skill.SetProjectilePrefab(prefab);
-            _loadedPrefabKeys.Add(skill.Data.PrefabPath);
+            Debug.LogError($"프리팹 로드 실패 {skill.Data.PrefabPath}");
+            return;
         }
 
-        else
+        skill.SetProjectilePrefab(prefab);
+        _loadedPrefabKeys.Add(skill.Data.PrefabPath);
+
+        
+        if (skill.Data.ProjectileSpeed > 0)
         {
-            Debug.LogError($"프리팹 로드 실패: {skill.Data.PrefabPath}");
+            await GameManager.Instance.ObjectManager.PrewarmAsync(skill.Data.PrefabPath, SkillPrewarmCount, destroyCancellationToken);
         }
     }
 }
