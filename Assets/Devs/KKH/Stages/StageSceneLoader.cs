@@ -211,7 +211,36 @@ public class StageSceneLoader : MonoBehaviour
         DeactivateSelectPlayer();
 
         ActivateBattleCamera();
+
+        await EnterBattleAsync(stageData);
+
+        await UniTask.Yield(PlayerLoopTiming.Update, destroyCancellationToken);
+
         GameManager.Instance.UIManager.CloseOverlayUI();
+    }
+
+    private async UniTask EnterBattleAsync(StageData stageData)
+    {
+        BattleManager battleManager = _battleMap.BattleManager;
+
+        if (null == battleManager)
+        {
+            Debug.LogError("[StageSceneLoader] 전투맵에 BattleManager 가 연결되지 않았습니다.");
+            return;
+        }
+
+        Transform spawnPoint = _battleMap.PlayerSpawnPoint;
+
+        if (null == spawnPoint)
+        {
+            Debug.LogError("[StageSceneLoader] 전투맵에 PlayerSpawnPoint 가 연결되지 않았습니다.");
+            return;
+        }
+
+        await battleManager.EnterBattle(spawnPoint.position);
+
+        // TODO: BattleTimer 배선 - 전투맵에 BattleTimer 붙으면 여기 또는 EnterBattle 내부에서 StartTimer(stageData.TimeLimit) 호출
+        // TODO: 웨이브(StageWaveData) 기반 EnemySpawn 순차 호출 배선
     }
 
     private void ClearSelectMap()
