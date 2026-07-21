@@ -130,7 +130,7 @@ public class BattleCharacter : MonoBehaviour, IDamageable
 
     public void Move(Vector3 moveDirection, bool isRunning)
     {
-        // Debug.Log($"Move 호출: {moveDirection}");
+        moveDirection.y = 0;
         float speed = isRunning ? _curRunSpeed : _curMoveSpeed;
         Vector3 velocity = moveDirection * speed;
         velocity.y = _rigidbody.linearVelocity.y;

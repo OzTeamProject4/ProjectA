@@ -108,13 +108,8 @@ public class CharacterSkillSystem : MonoBehaviour
         }
 
         Transform target = FindNearestEnemy(_basicSkill.Data.SkillRange);
-        if (target == null)
-        {
-            Debug.Log("사거리 내 적 없음");
-            return;
-        }
-
-        UseBasicSkill(target);
+        ExecuteSkill(_basicSkill, target);
+        _basicSkill.MarkUsed();
     }
 
     public void UseBasicSkill(Transform target)
@@ -158,13 +153,8 @@ public class CharacterSkillSystem : MonoBehaviour
         }
 
         Transform target = FindNearestEnemy(_normalSkill.Data.SkillRange);
-        if (target == null)
-        {
-            Debug.Log("사거리 내 적 없음");
-            return;
-        }
-
-        UseNormalSkill(target);
+        ExecuteSkill(_normalSkill, target);
+        _normalSkill.MarkUsed();
     }
     public void UseNormalSkill(Transform target)
     {
@@ -219,14 +209,14 @@ public class CharacterSkillSystem : MonoBehaviour
 
     private void ExecuteSkill(RuntimeSkill skill, Transform target)
     {
-        if (skill.Data.Type != CharacterSkillType.HealBuff && target == null)
+        if (skill.Data.Type != CharacterSkillType.HealBuff && target == null && skill.Data.ProjectileSpeed <= 0)
         {
             return;
         }
 
         if (target != null)
         {
-            _battleCharacter.LookAtInstant(target.position);
+            _battleCharacter.LookAtInstant(target.position); 
         }
 
         int damage = (int)(_battleCharacter.CurAtk * SkillDamageMultiplier * skill.Data.DamageCoefficient);

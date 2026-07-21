@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float _turnSpeed = 200.0f;
     [SerializeField] private float _lifeTime = 3.0f;
     [SerializeField] private GameObject _hitEffectPrefab;
+    [SerializeField] private LayerMask _obstacleLayer;
 
     private Rigidbody _rigidbody;
     private Transform _target;
@@ -17,6 +18,7 @@ public class Projectile : MonoBehaviour
     private int _gaugeRecovery;
     private float _explosionRadius;
     private float _projectileSpeed;
+    private float _spawnTime = float.MaxValue;
     
     private void Awake()
     {
@@ -25,16 +27,28 @@ public class Projectile : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_target == null)
+        if (_target != null)
         {
+            Vector3 direction = (_target.position - transform.position).normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            _rigidbody.rotation = Quaternion.RotateTowards(_rigidbody.rotation, targetRotation, _turnSpeed * Time.fixedDeltaTime);
+        }
+
+        _rigidbody.linearVelocity = transform.forward * _projectileSpeed;
+
+        float checkDistance = _projectileSpeed * Time.fixedDeltaTime;
+        if (Physics.Raycast(transform.position, transform.forward, checkDistance, _obstacleLayer, QueryTriggerInteraction.Ignore) == true)
+        {
+            SpawnHitEffect();
+            Destroy(gameObject);
             return;
         }
 
-        Vector3 direction = (_target.position - transform.position).normalized;
-
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        _rigidbody.rotation = Quaternion.RotateTowards(_rigidbody.rotation, targetRotation, _turnSpeed * Time.fixedDeltaTime);
-        _rigidbody.linearVelocity = transform.forward * _projectileSpeed;
+        if (Time.time - _spawnTime >= _lifeTime)
+        {
+            SpawnHitEffect();
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -61,11 +75,7 @@ public class Projectile : MonoBehaviour
                 _ownerSkillSystem.AddGauge(_gaugeRecovery);
             }
 
-            if (_hitEffectPrefab != null)
-            {
-                GameObject hitEffect = Instantiate(_hitEffectPrefab, transform.position, Quaternion.identity);
-                Destroy(hitEffect, HitEffectLifeTime);
-            }
+            SpawnHitEffect();
 
             Destroy(gameObject);
         }
@@ -78,8 +88,13 @@ public class Projectile : MonoBehaviour
         _gaugeRecovery = gaugeRecovery;
         _explosionRadius = explosionRadius;
         _projectileSpeed = projectileSpeed;
-        transform.rotation = Quaternion.LookRotation((target.position - transform.position).normalized);
-        Destroy(gameObject, _lifeTime);
+        _spawnTime = Time.time;
+
+        if (target != null)
+        {
+            transform.rotation = Quaternion.LookRotation((target.position - transform.position).normalized);
+        }
+
     }
 
     private void DealSingleDamage(Collider other)
@@ -112,5 +127,16 @@ public class Projectile : MonoBehaviour
                 damageable.TakeDamage(_damage, _ownerSkillSystem.gameObject);
             }    
         }
+    }
+
+    private void SpawnHitEffect()
+    {
+        if (_hitEffectPrefab == null)
+        {
+            return;
+        }
+
+        GameObject hitEffect = Instantiate(_hitEffectPrefab, transform.position, Quaternion.identity);
+        Destroy(hitEffect, HitEffectLifeTime);
     }
 }
