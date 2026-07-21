@@ -3,6 +3,7 @@
     Lobby,
     CharacterList,
     CharacterDetail,
+    InventoryDetail,
     ExpItemSelectPopup,
     CraftPopup,
     EquipmentListPopup,
