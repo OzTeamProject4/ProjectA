@@ -10,6 +10,8 @@ public class GameDataProvider : IGameDataProvider
     private List<string> _expItemId;
     private List<EquipmentData> _allEquipment;
     private List<ItemData> _allItems;
+    private List<StageData> _allStages;
+    private Dictionary<string, List<StageWaveData>> _wavesByStageId;
 
     public CharacterData GetStat(string characterId)
     {
@@ -143,6 +145,54 @@ public class GameDataProvider : IGameDataProvider
         return _allItems;
     }
 
+    public StageData GetStage(string stageId)
+    {
+        if (string.IsNullOrEmpty(stageId))
+        {
+            Debug.LogWarning("[GameDataProvider:GetStage] stageId 가 비어 있습니다.");
+            return null;
+        }
+
+        GameManager.Instance.DataManager.TryGetData(stageId, out StageData data);
+        return data;
+    }
+
+    public IReadOnlyList<StageData> GetAllStages()
+    {
+        if (null != _allStages)
+        {
+            return _allStages;
+        }
+
+        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, StageData> table))
+        {
+            return Array.Empty<StageData>();
+        }
+
+        _allStages = new List<StageData>(table.Values);
+        return _allStages;
+    }
+
+    public IReadOnlyList<StageWaveData> GetStageWaves(string stageId)
+    {
+        if (string.IsNullOrEmpty(stageId))
+        {
+            Debug.LogWarning("[GameDataProvider:GetStageWaves] stageId 가 비어 있습니다.");
+            return Array.Empty<StageWaveData>();
+        }
+
+        if (null == _wavesByStageId && !TryBuildWaveLookup())
+        {
+            return Array.Empty<StageWaveData>();
+        }
+
+        if (!_wavesByStageId.TryGetValue(stageId, out List<StageWaveData> waves))
+        {
+            return Array.Empty<StageWaveData>();
+        }
+
+        return waves;
+    }
 
     private bool TryBuildGradeLookup()
     {
@@ -174,5 +224,37 @@ public class GameDataProvider : IGameDataProvider
         }
 
         return true;
+    }
+
+    private bool TryBuildWaveLookup()
+    {
+        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, StageWaveData> table))
+        {
+            return false;
+        }
+
+        _wavesByStageId = new Dictionary<string, List<StageWaveData>>();
+        foreach (StageWaveData wave in table.Values)
+        {
+            if (!_wavesByStageId.TryGetValue(wave.StageId, out List<StageWaveData> list))
+            {
+                list = new List<StageWaveData>();
+                _wavesByStageId[wave.StageId] = list;
+            }
+
+            list.Add(wave);
+        }
+
+        foreach (List<StageWaveData> list in _wavesByStageId.Values)
+        {
+            list.Sort(CompareByWaveNumber);
+        }
+
+        return true;
+    }
+
+    private int CompareByWaveNumber(StageWaveData a, StageWaveData b)
+    {
+        return a.WaveNumber.CompareTo(b.WaveNumber);
     }
 }
