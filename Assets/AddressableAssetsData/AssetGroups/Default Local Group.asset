@@ -40,6 +40,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 12a20e8eb75dd3946ab2ee7505596076
+    m_Address: Prefabs/Enemy_Wizard_Fire
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1c3223c1ff11d914487a88e80b9c1a49
     m_Address: SkillFire001
     m_ReadOnly: 0
@@ -117,6 +122,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 957d354e80b0b7b498197c777ce487a7
     m_Address: Prefab_TestBattleCharacterBase
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9b4617be87cce744a6cb785f0f900a4
+    m_Address: Prefabs/Skill_Fireball
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

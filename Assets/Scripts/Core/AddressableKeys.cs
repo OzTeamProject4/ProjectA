@@ -16,6 +16,9 @@
         public const string Equipment = "Data/Equipment";
         public const string Signature = "Data/Signature";
         public const string CharacterSkill = "Data/CharacterSkill";
+        public const string Enemy = "Data/EnemyData";
+        public const string EnemySkill = "Data/EnemySkillData";
+        
     }
 
     public static class Asset

@@ -27,7 +27,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     private static readonly int AttackHash = Animator.StringToHash("IsAttack");
     private static readonly int DieHash = Animator.StringToHash("IsDie");
 
-    public EnemyViewModel vm;
+    public EnemyViewModel _vm;
     public Blackboard blackboard;
     public BehaviorGraphAgent behaviorGraphAgent;
 
@@ -41,43 +41,45 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
     }
 
-    public void Bind(EnemyData enemyData)
+    public void Bind(EnemyData enemyData, EnemyViewModel vm)
     {
-        vm.EnemyDataId = enemyData.DataId;
-        vm.Name = enemyData.Name;
-        vm.TotalExp = enemyData.TotalExp;
-        vm.ElementalType = enemyData.ElementalType;
-        vm.BaseHp = enemyData.BaseHp;
-        vm.CurrentHp = enemyData.BaseHp;
-        vm.MaxHp = enemyData.BaseHp;
-        vm.BaseDamage = enemyData.BaseDamage;
-        vm.CurrentDamage = enemyData.BaseDamage;
-        vm.PrefabAddress = enemyData.PrefabAddress;
-        vm.SkillPrefabAddress = enemyData.SkillPrefabAddress;
+        _vm = vm;
+
+        _vm.EnemyDataId = enemyData.DataId;
+        _vm.Name = enemyData.Name;
+        _vm.TotalExp = enemyData.TotalExp;
+        _vm.ElementalType = enemyData.ElementalType;
+        _vm.BaseHp = enemyData.BaseHp;
+        _vm.CurrentHp = enemyData.BaseHp;
+        _vm.MaxHp = enemyData.BaseHp;
+        _vm.BaseDamage = enemyData.BaseDamage;
+        _vm.CurrentDamage = enemyData.BaseDamage;
+        _vm.PrefabAddress = enemyData.PrefabAddress;
+        _vm.SkillPrefabAddress = enemyData.SkillPrefabAddress;
     }
 
     public void TakeDamage(int damage, GameObject attacker)
     {
-        if (vm.CurrentHp <= 0 || damage <= 0)
+        if (_vm.CurrentHp <= 0 || damage <= 0)
         {
             return;
         }
 
-        vm.CurrentHp -= damage;
+        _vm.CurrentHp -= damage;
 
-        if (vm.CurrentHp < 0)
+        if (_vm.CurrentHp < 0)
         {
-            vm.CurrentHp = 0;
+            _vm.CurrentHp = 0;
         }
 
-        if (vm == null)
+        if (_vm == null)
         {
             Debug.LogError("컨트롤러에 뷰 모델이 없습니다");
             return;
         }
 
 
-        if (vm.CurrentHp == 0)
+        if (_vm.CurrentHp == 0)
         {
             // 체력이 0이면 사망 알림
         }
@@ -86,16 +88,16 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     public void RequestAddExpToEnemy(int exp)
     {
-        if (vm != null)
+        if (_vm != null)
         {
-            vm.TotalExp += exp;
+            _vm.TotalExp += exp;
         }
     }
     public void RequestAddStatToEnemy(int addDamageValue)
     {
-        if (vm != null)
+        if (_vm != null)
         {
-            vm.BaseDamage += addDamageValue;
+            _vm.BaseDamage += addDamageValue;
         }
     }
 
@@ -140,7 +142,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
 
         Test_GameObjectManager.Inst.SpawnSkillAsync(
-            vm.SkillPrefabAddress,
+            _vm.SkillPrefabAddress,
             _skillTransform,
             this.transform
         ).Forget();

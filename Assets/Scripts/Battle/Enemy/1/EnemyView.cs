@@ -45,7 +45,7 @@ public class EnemyView : ViewBase
                 break;
             case nameof(EnemyViewModel.CurrentHp):
                 {
-                    _textMesh_Level.text = $"Hp.{_vm.CurrentHp}";
+                    _textMesh_CurrentHp.text = $"Hp.{_vm.CurrentHp}";
                 }
                 break;
 

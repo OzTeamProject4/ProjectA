@@ -36,7 +36,7 @@ public class Test_GameObjectManager : MonoBehaviour
 
             EnemyController enemyController = enemyInstance.GetComponent<EnemyController>();
 
-            enemyController.Bind(enemyData);
+            enemyController.Bind(enemyData,vm);
 
 
             enemyInstance.gameObject.transform.position = _root_enemy.position;

@@ -1,21 +1,35 @@
 using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Test_EnemySpawn : MonoBehaviour
 {
-    [SerializeField] Transform Transform;
+    [SerializeField] Transform _transform;
     [SerializeField] string _enemyDataId;
-    
 
-    void Start()
+    private void OnEnable()
     {
-        GameManager.Instance.
+        EnemySpawn(_enemyDataId).Forget();
+
+
     }
-    public async UniTaskVoid SpawnEnemyAsync(string enemyDataId)
+    
+    private async UniTaskVoid EnemySpawn(string dataId)
+    {
+        await SpawnEnemyAsync(dataId, _transform);
+
+    }
+    public async UniTask SpawnEnemyAsync(string enemyDataId, Transform enemySpawnTransform)
     {
         EnemyViewModel vm = new EnemyViewModel();
         if (GameManager.Instance.DataManager.TryGetData<EnemyData>(enemyDataId, out EnemyData enemyData))
         {
+
+            if (enemyData == null)
+            {
+                Debug.LogError("적 데이터를 로드하지 못했습니다.");
+                return;
+            }
             GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(enemyData.PrefabAddress);
 
 
@@ -28,10 +42,10 @@ public class Test_EnemySpawn : MonoBehaviour
 
             EnemyController enemyController = enemyInstance.GetComponent<EnemyController>();
 
-            enemyController.Bind(enemyData);
+            enemyController.Bind(enemyData,vm);
 
 
-            enemyInstance.gameObject.transform.position = _root_enemy.position;
+            enemyInstance.gameObject.transform.position = enemySpawnTransform.position;
 
             if (enemyInstance.TryGetComponent<EnemyView>(out var enemyView))
             {
@@ -44,9 +58,9 @@ public class Test_EnemySpawn : MonoBehaviour
         }
     }
 
-    
 
-    public async UniTaskVoid SpawnSkillAsync(string skillDataId, Transform spawnTransform, Transform rotationTransform)
+
+    public async UniTask SpawnSkillAsync(string skillDataId, Transform spawnTransform, Transform rotationTransform)
     {
 
         EnemySkillViewModel vm = new EnemySkillViewModel();
@@ -67,8 +81,6 @@ public class Test_EnemySpawn : MonoBehaviour
             return;
         }
         GameObject enemyInstance = Instantiate(prefab);
-
-        _spawnSkillList.Add(currentSkillInstanceId, enemyInstance);
 
         var enemySkillController = enemyInstance.GetComponent<EnemySkillController>();
         enemySkillController.vm = vm;
