@@ -14,7 +14,8 @@
         public const string LevelExp = "Data/LevelExp";
         public const string Item = "Data/Item";
         public const string Equipment = "Data/Equipment";
-        public const string Signature = "Data/Signature";   
+        public const string Signature = "Data/Signature";
+        public const string CharacterSkill = "Data/CharacterSkill";
     }
 
     public static class Asset
