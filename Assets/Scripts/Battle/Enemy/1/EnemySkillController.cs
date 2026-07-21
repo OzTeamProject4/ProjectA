@@ -23,8 +23,9 @@ public class EnemySkillController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
-            Test_GameObjectManager.Inst.DespawnSkill(vm.InstanceId);
-        
+
+            Destroy(this.gameObject);
+
     }
 
 }

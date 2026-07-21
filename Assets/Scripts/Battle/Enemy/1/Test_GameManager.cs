@@ -10,21 +10,7 @@ public class Test_GameManager : MonoBehaviour
     {
         Inst = this;
     }
-    private void Start()
-    {
-
-
-    }
-    public void RequestCreateEnemy(string enemyDataId)
-    {
-
-        Test_GameObjectManager.Inst.SpawnEnemyAsync(enemyDataId).Forget();
-
-    }
-    public void  PreloadData()
-    {
-        GameManager.Instance.DataManager.PreloadDataAsync().Forget();
-    }
+   
     
 
 
