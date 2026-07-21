@@ -4,8 +4,10 @@ using UnityEngine;
 public class EnemyView : ViewBase
 {
     // 플레이어 3D 모델, 애니메이션, 물리에 관한 뷰
-    [SerializeField] TextMesh TextMesh_Name;
-    [SerializeField] TextMesh TextMesh_Level;
+    [SerializeField] private TextMesh _textMesh_Name;
+    [SerializeField] private TextMesh _textMesh_Level;
+    [SerializeField] private TextMesh _textMesh_CurrentHp;
+
     // 뷰에서 절대 new로 VewModel을 하지 않고, 매니저를 통해
     // 실제 생성된 뷰 모델을 받아와야한다!
     private EnemyViewModel _vm;
@@ -33,15 +35,20 @@ public class EnemyView : ViewBase
         {
             case nameof(EnemyViewModel.Name):
                 {
-                    TextMesh_Name.text = _vm.Name;
+                    _textMesh_Name.text = _vm.Name;
                 }
                 break;
             case nameof(EnemyViewModel.CurrentLevel):
                 {
-                    TextMesh_Level.text = $"Lv.{_vm.CurrentLevel}";
+                    _textMesh_Level.text = $"Lv.{_vm.CurrentLevel}";
                 }
                 break;
-           
+            case nameof(EnemyViewModel.CurrentHp):
+                {
+                    _textMesh_Level.text = $"Hp.{_vm.CurrentHp}";
+                }
+                break;
+
         }
     }
 

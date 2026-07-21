@@ -6,25 +6,28 @@ public class EnemyViewModel : ViewModelBase
     {
         OnPropertyChanged(nameof(EnemyViewModel));
         OnPropertyChanged(nameof(EnemyDataId));
-        OnPropertyChanged(nameof(InstanceId));
         OnPropertyChanged(nameof(Name));
         OnPropertyChanged(nameof(TotalExp));
         OnPropertyChanged(nameof(CurrentLevel));
         OnPropertyChanged(nameof(ElementalType));
         OnPropertyChanged(nameof(BaseHp));
+        OnPropertyChanged(nameof(CurrentHp));
         OnPropertyChanged(nameof(BaseDamage));
+        OnPropertyChanged(nameof(CurrentDamage));
         OnPropertyChanged(nameof(PrefabAddress));
 
     }
 
     private string _enemyDataId;
-    private int _instanceId;
     private string _name;
     private int _totalExp;
     private int _currentLevel;
-    private string _elementalType;
-    private float _baseHp;
-    private float _baseDamage;
+    private ElementType _elementalType;
+    private int _baseHp;
+    private int _maxHp;
+    private int _currentHp;
+    private int _baseDamage;
+    private int _currentDamage;
     private string _prefabAddress;
     private string _skillPrefabAddress;
 
@@ -43,18 +46,6 @@ public class EnemyViewModel : ViewModelBase
         }
     }
 
-    public int InstanceId
-    {
-        get => _instanceId;
-        set
-        {
-            if (_instanceId != value)
-            {
-                _instanceId = value;
-                OnPropertyChanged(nameof(InstanceId));
-            }
-        }
-    }
     public string Name
     {
         get => _name;
@@ -95,7 +86,7 @@ public class EnemyViewModel : ViewModelBase
         }
     }
 
-    public string ElementalType
+    public ElementType ElementalType
     {
         get => _elementalType;
         set
@@ -108,7 +99,7 @@ public class EnemyViewModel : ViewModelBase
         }
     }
 
-    public float BaseHp
+    public int BaseHp
     {
         get => _baseHp;
         set
@@ -120,7 +111,34 @@ public class EnemyViewModel : ViewModelBase
             }
         }
     }
-    public float BaseDamage
+
+    public int CurrentHp
+    {
+        get => _currentHp;
+        set
+        {
+            if (_currentHp != value)
+            {
+                _currentHp = value;
+                OnPropertyChanged(nameof(CurrentHp));
+            }
+        }
+    }
+
+    public int MaxHp
+    {
+        get => _maxHp;
+        set
+        {
+            if (_maxHp != value)
+            {
+                _maxHp = value;
+                OnPropertyChanged(nameof(MaxHp));
+            }
+        }
+    }
+
+    public int BaseDamage
     {
         get => _baseDamage;
         set
@@ -132,6 +150,19 @@ public class EnemyViewModel : ViewModelBase
             }
         }
     }
+    public int CurrentDamage
+    {
+        get => _currentDamage;
+        set
+        {
+            if (_currentDamage != value)
+            {
+                _currentDamage = value;
+                OnPropertyChanged(nameof(CurrentDamage));
+            }
+        }
+    }
+
     public string PrefabAddress
     {
         get => _prefabAddress;

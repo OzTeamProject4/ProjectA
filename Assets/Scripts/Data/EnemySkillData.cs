@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SkillData : BaseData
+public class EnemySkillData : BaseData
 {
     public string Name { get; set; }
 

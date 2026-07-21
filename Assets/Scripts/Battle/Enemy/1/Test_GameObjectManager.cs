@@ -22,45 +22,34 @@ public class Test_GameObjectManager : MonoBehaviour
 
     public async UniTaskVoid SpawnEnemyAsync(string enemyDataId)
     {
-        int currentEnemyInstanceId = _spawnEnemyInstanceId++;
-
         EnemyViewModel vm = new EnemyViewModel();
         if (GameManager.Instance.DataManager.TryGetData<EnemyData>(enemyDataId, out EnemyData enemyData)) {
-            vm.EnemyDataId= enemyData.DataId;
-            vm.InstanceId = currentEnemyInstanceId;
-            vm.Name = enemyData.Name;
-            vm.TotalExp = enemyData.TotalExp;
-            vm.ElementalType = enemyData.ElementalType;
-            vm.BaseHp = enemyData.BaseHp;
-            vm.BaseDamage = enemyData.BaseDamage;
-            vm.PrefabAddress = enemyData.PrefabAddress;
-            vm.SkillPrefabAddress = enemyData.SkillPrefabAddress;
+            GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(enemyData.PrefabAddress);
 
-        }
-       
-        GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(vm.PrefabAddress);
-        if (prefab == null)
-        {
-            Debug.LogError("적 프리팹을 로드하지 못했습니다.");
-            return;
-        }
-        GameObject enemyInstance = Instantiate(prefab);
-        EnemyController enemyController =  enemyInstance.GetComponent<EnemyController>();
-        enemyController.vm = vm;
 
-        _spawnEnemyList.Add(currentEnemyInstanceId, enemyInstance);
+            if (prefab == null)
+            {
+                Debug.LogError("적 프리팹을 로드하지 못했습니다.");
+                return;
+            }
+            GameObject enemyInstance = Instantiate(prefab);
 
-        enemyInstance.gameObject.transform.position = _root_enemy.position;
+            EnemyController enemyController = enemyInstance.GetComponent<EnemyController>();
 
-        if (enemyInstance.TryGetComponent<EnemyView>(out var enemyView))
-        {
-            enemyView.BindEnemyViewModel(vm);
+            enemyController.Bind(enemyData);
+
+
+            enemyInstance.gameObject.transform.position = _root_enemy.position;
+
+            if (enemyInstance.TryGetComponent<EnemyView>(out var enemyView))
+            {
+                enemyView.BindEnemyViewModel(vm);
+            }
+            else
+            {
+                Debug.LogError("생성된 에셋에 EnemyView 컴포넌트가 없습니다.");
+            }
         }
-        else
-        {
-            Debug.LogError("생성된 에셋에 EnemyView 컴포넌트가 없습니다.");
-        }
-        
     }
 
     public void DespawnEnemy(int enemyInstanceId)
@@ -80,17 +69,16 @@ public class Test_GameObjectManager : MonoBehaviour
         }
     }
 
-    public async UniTaskVoid SpawnSkillAsync(int instanceId, string skillDataId,Transform spawnTransform,Transform rotationTransform)
+    public async UniTaskVoid SpawnSkillAsync( string skillDataId,Transform spawnTransform,Transform rotationTransform)
     {
         int currentSkillInstanceId = _spawnSkillInstanceId++;
 
         EnemySkillViewModel vm = new EnemySkillViewModel();
-        if (GameManager.Instance.DataManager.TryGetData<SkillData>(skillDataId, out SkillData skillData))
+        if (GameManager.Instance.DataManager.TryGetData<EnemySkillData>(skillDataId, out EnemySkillData skillData))
         {
             vm.SkillDataId = skillData.DataId;
             vm.InstanceId = currentSkillInstanceId;
             vm.Name = skillData.Name;
-            vm.User = _spawnEnemyList[instanceId];
             vm.ElementalType = skillData.ElementalType;
             vm.BaseDamage = skillData.BaseDamage;
             vm.PrefabAddress = skillData.PrefabAddress;

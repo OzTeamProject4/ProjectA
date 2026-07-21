@@ -12,7 +12,7 @@ public enum EnemyBattleState
     Die,
 
 }
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IDamageable
 {
     public Transform _enemyTransform;
 
@@ -41,15 +41,47 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void Bind(EnemyData enemyData)
     {
-
+        vm.EnemyDataId = enemyData.DataId;
+        vm.Name = enemyData.Name;
+        vm.TotalExp = enemyData.TotalExp;
+        vm.ElementalType = enemyData.ElementalType;
+        vm.BaseHp = enemyData.BaseHp;
+        vm.CurrentHp = enemyData.BaseHp;
+        vm.MaxHp = enemyData.BaseHp;
+        vm.BaseDamage = enemyData.BaseDamage;
+        vm.CurrentDamage = enemyData.BaseDamage;
+        vm.PrefabAddress = enemyData.PrefabAddress;
+        vm.SkillPrefabAddress = enemyData.SkillPrefabAddress;
     }
-    void Update()
+
+    public void TakeDamage(int damage, GameObject attacker)
     {
+        if (vm.CurrentHp <= 0 || damage <= 0)
+        {
+            return;
+        }
 
+        vm.CurrentHp -= damage;
+
+        if (vm.CurrentHp < 0)
+        {
+            vm.CurrentHp = 0;
+        }
+
+        if (vm == null)
+        {
+            Debug.LogError("컨트롤러에 뷰 모델이 없습니다");
+            return;
+        }
+
+
+        if (vm.CurrentHp == 0)
+        {
+            // 체력이 0이면 사망 알림
+        }
     }
-
 
 
     public void RequestAddExpToEnemy(int exp)
@@ -85,7 +117,7 @@ public class EnemyController : MonoBehaviour
     {
         ChangeState(EnemyBattleState.Attack);
 
-        float attackDuration = 1.0f; 
+        float attackDuration = 1.0f;
 
         for (int i = 0; i < 10; i++)
         {
@@ -108,7 +140,9 @@ public class EnemyController : MonoBehaviour
         }
 
         Test_GameObjectManager.Inst.SpawnSkillAsync(
-            vm.InstanceId, vm.SkillPrefabAddress, _skillTransform, this.transform
+            vm.SkillPrefabAddress,
+            _skillTransform,
+            this.transform
         ).Forget();
 
         await UniTask.Delay(TimeSpan.FromSeconds(attackDuration), cancellationToken: cancellationToken);

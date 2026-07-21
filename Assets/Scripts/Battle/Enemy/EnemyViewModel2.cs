@@ -1,6 +1,6 @@
 using System;
 
-public sealed class EnemyViewModel
+public sealed class EnemyViewModel2
 {
     // JSON 원본 적 정보
     public EnemyData Data { get; }
@@ -17,7 +17,7 @@ public sealed class EnemyViewModel
     public event Action onDead;
 
     // JSON 능력치로 전투 상태 생성
-    public EnemyViewModel(EnemyData enemyData)
+    public EnemyViewModel2(EnemyData enemyData)
     {
         if (enemyData == null)
         {
