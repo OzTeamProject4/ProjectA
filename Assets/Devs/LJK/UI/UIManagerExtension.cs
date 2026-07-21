@@ -106,4 +106,34 @@ public static class UIManagerExtension
     {
         uiManager.Close(UIType.MissionScreen);
     }
+
+    public static UniTask OpenInventoryScreenAsync(
+    this UIManager uiManager,
+    CancellationToken cancellationToken)
+    {
+        return uiManager.OpenTestRootAsync(
+            UIType.InventoryScreen,
+            cancellationToken);
+    }
+
+    public static void CloseInventoryScreen(
+        this UIManager uiManager)
+    {
+        uiManager.Close(UIType.InventoryScreen);
+    }
+
+    public static UniTask OpenAchievementScreenAsync(
+    this UIManager uiManager,
+    CancellationToken cancellationToken)
+    {
+        return uiManager.OpenTestRootAsync(
+            UIType.AchievementScreen,
+            cancellationToken);
+    }
+
+    public static void CloseAchievementScreen(
+        this UIManager uiManager)
+    {
+        uiManager.Close(UIType.AchievementScreen);
+    }
 }

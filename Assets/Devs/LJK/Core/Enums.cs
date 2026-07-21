@@ -6,7 +6,9 @@
     DictionaryScreen,
     FarmingDungeonScreen,
     CharacterGachaScreen,
-    MissionScreen
+    MissionScreen,
+    InventoryScreen,
+    AchievementScreen
 }
 
 public enum UIRoot
