@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StageInfoPopupViewModel
@@ -19,6 +20,9 @@ public class StageInfoPopupViewModel
         }
     }
 
+    public event Action OnPartySetupRequested;
+    public event Action OnCloseRequested;
+
     public StageInfoPopupViewModel(StageData stageData, IReadOnlyList<StageWaveData> waves)
     {
         if (null == stageData)
@@ -28,6 +32,16 @@ public class StageInfoPopupViewModel
 
         _stageData = stageData;
         _waves = waves;
+    }
+
+    public void PartySetupCommand()
+    {
+        OnPartySetupRequested?.Invoke();
+    }
+
+    public void CloseCommand()
+    {
+        OnCloseRequested?.Invoke();
     }
 
     public IReadOnlyList<string> GetMonsterIds()

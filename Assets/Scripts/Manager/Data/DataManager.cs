@@ -60,7 +60,7 @@ public class DataManager : BaseManager<DataManager>
             new LoadingTask(LoadingStep.LoadSignatureData, AddressableKey.Data.Signature, LoadDataAsync<SignatureData>),
             new LoadingTask(LoadingStep.LoadSkillData, AddressableKey.Data.CharacterSkill, LoadDataAsync<CharacterSkillData>),
             new LoadingTask(LoadingStep.LoadStageData, AddressableKey.Data.Stage, LoadDataAsync<StageData>),
-            new LoadingTask(LoadingStep.LoadStageWaveData, AddressableKey.Data.Stage, LoadDataAsync<StageWaveData>)
+            new LoadingTask(LoadingStep.LoadStageWaveData, AddressableKey.Data.StageWave, LoadDataAsync<StageWaveData>)
         };
 
         return jobs;

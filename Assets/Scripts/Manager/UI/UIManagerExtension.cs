@@ -130,7 +130,7 @@ public static class UIManagerExtension
 
     public static async UniTask OpenOverlayUIAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
-        await uiManager.OpenTestRootAsync(UIType.Overlay, cancellationToken);
+        await uiManager.OpenOverlayRootAsync(UIType.Overlay, cancellationToken);
     }
 
     public static void CloseOverlayUI(this UIManager uiManager)

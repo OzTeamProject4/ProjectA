@@ -18,6 +18,8 @@ public class GameManager : BaseManager<GameManager>
 
     public ObjectManager ObjectManager { get; private set; }
 
+    public BattleManager BattleManager {  get; private set; }
+
     private void Awake()
     {
         EnsureSingleton();
@@ -60,6 +62,7 @@ public class GameManager : BaseManager<GameManager>
         UIManager = this.GetRequiredComponent<UIManager>();
         InputManager = this.GetRequiredComponent<InputManager>();
         ObjectManager = this.GetRequiredComponent<ObjectManager>();
+        BattleManager = this.GetRequiredComponent<BattleManager>();
         Inventory = new Inventory();
     }
 }

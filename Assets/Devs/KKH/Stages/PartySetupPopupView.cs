@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PartySetupPopupView : BaseUI
@@ -7,28 +6,36 @@ public class PartySetupPopupView : BaseUI
     [SerializeField] private Button _startButton;
     [SerializeField] private Button _closeButton;
 
-    // TODO: 파티 편성 로직 구현 시 각 슬롯 버튼에 캐릭터 선택 UI 연결
     [SerializeField] private Button[] _characterSlotButtons;
+
     [SerializeField] private Button _blockerButton;
 
+    private PartySetupPopupViewModel _viewModel;
     private bool _isSubscribed;
-
-    public event Action OnStartButtonClicked;
-    public event Action OnCloseButtonClicked;
-
-    private void OnEnable()
-    {
-        Subscribe();
-    }
 
     private void OnDisable()
     {
         Unsubscribe();
     }
 
+    public void Bind(PartySetupPopupViewModel viewModel)
+    {
+        if (null == viewModel)
+        {
+            Debug.LogError("[PartySetupPopupView] Bind: viewModel 이 null 입니다.");
+            return;
+        }
+
+        Unsubscribe();
+
+        _viewModel = viewModel;
+
+        Subscribe();
+    }
+
     private void Subscribe()
     {
-        if (_isSubscribed)
+        if (_isSubscribed || null == _viewModel)
         {
             return;
         }
@@ -47,7 +54,6 @@ public class PartySetupPopupView : BaseUI
         {
             _blockerButton.onClick.AddListener(HandleClickClose);
         }
-
 
         _isSubscribed = true;
     }
@@ -79,11 +85,21 @@ public class PartySetupPopupView : BaseUI
 
     private void HandleClickStart()
     {
-        OnStartButtonClicked?.Invoke();
+        if (null == _viewModel)
+        {
+            return;
+        }
+
+        _viewModel.StartBattleCommand();
     }
 
     private void HandleClickClose()
     {
-        OnCloseButtonClicked?.Invoke();
+        if (null == _viewModel)
+        {
+            return;
+        }
+
+        _viewModel.CloseCommand();
     }
 }

@@ -6,6 +6,7 @@
         public const string AudioView = "Prefab/AudioView";
         public const string ObjectPoolRoot = "Prefab/ObjectPoolRoot";
         public const string StageSelectMap01 = "Prefab/StageSelectMap_01";
+        public const string StageEntry = "Prefab/StageEntry";
     }
 
     public static class Data

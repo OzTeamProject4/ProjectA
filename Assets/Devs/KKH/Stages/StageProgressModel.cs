@@ -50,7 +50,6 @@ public class StageProgressModel
         OnStageSelected?.Invoke(stageId);
     }
 
-    // TODO: Save 시스템 도입 시 위치 저장/복원을 그쪽으로 이관
     public void SetPlayerPosition(Vector3 position)
     {
         PlayerPosition = position;

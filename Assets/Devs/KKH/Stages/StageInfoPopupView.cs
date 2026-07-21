@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,9 +15,6 @@ public class StageInfoPopupView : BaseUI
 
     private StageInfoPopupViewModel _viewModel;
     private bool _isSubscribed;
-
-    public event Action OnPartySettingButtonClicked;
-    public event Action OnCloseButtonClicked;
 
     private void OnDisable()
     {
@@ -138,11 +134,21 @@ public class StageInfoPopupView : BaseUI
 
     private void HandleClickPartySetting()
     {
-        OnPartySettingButtonClicked?.Invoke();
+        if (null == _viewModel)
+        {
+            return;
+        }
+
+        _viewModel.PartySetupCommand();
     }
 
     private void HandleClickClose()
     {
-        OnCloseButtonClicked?.Invoke();
+        if (null == _viewModel)
+        {
+            return;
+        }
+
+        _viewModel.CloseCommand();
     }
 }
