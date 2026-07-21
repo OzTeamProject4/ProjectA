@@ -24,7 +24,6 @@ public class BattleManager : MonoBehaviour
     //    await EnterBattle();
     //}
    
-
     private void OnDisable()
     {
         if (GameManager.Instance != null)

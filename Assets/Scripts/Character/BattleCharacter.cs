@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     private const float RunSpeedMultiplier = 2.0f;
     // TODO 희준 캐릭터 모델링시 수치 변화 필요
     [SerializeField] private float _jumpForce = 5f;
-    [SerializeField] private float _groundCheckDistance = 0.05f; 
+    [SerializeField] private float _groundCheckDistance = 0.1f; 
     [SerializeField] private float _rotationSpeed = 4.0f;
     [SerializeField] private Transform _groundCheckPoint;
     [SerializeField] private Transform _modelTransform;
@@ -154,8 +155,10 @@ public class BattleCharacter : MonoBehaviour, IDamageable
 
     public void Jump()
     {
+        Debug.Log("점프 시작");
         if (IsGrounded() == false) 
         {
+            Debug.Log("점프 실패");
             return;
         }
 
@@ -259,5 +262,16 @@ public class BattleCharacter : MonoBehaviour, IDamageable
 
         _curMoveSpeed = _baseMoveSpeed;
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (null == _groundCheckPoint)
+        {
+            return;
+        }
+
+        Gizmos.color = IsGrounded() ? Color.green : Color.red;
+        Gizmos.DrawWireSphere(_groundCheckPoint.position, _groundCheckDistance);
     }
 }
