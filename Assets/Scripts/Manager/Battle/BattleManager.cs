@@ -14,6 +14,22 @@ public class BattleManager : MonoBehaviour
     private TempPartySpawner _partySpawner;
     private PartyController _partyController;
 
+    private GameObject _enemyRoot;
+    private GameObject _enemySkillRoot;
+
+    private void Awake()
+    {
+        if (_enemyRoot == null)
+        {
+            _enemyRoot = new GameObject("EnemyRoot");
+        }
+
+        if(_enemySkillRoot == null)
+        {
+            _enemySkillRoot = new GameObject("EnemySkillRoot");
+        }
+    }
+
     //private async void Start()
     //{
     //    if (_cinemachineCamera == null)
@@ -114,6 +130,71 @@ public class BattleManager : MonoBehaviour
         }
 
         _partyController.TrySwitchToCharacter(index);
+    }
+    
+
+    public async UniTask SpawnEnemyAsync(string enemyDataId, Transform enemySpawnTransform)
+    {
+        EnemyViewModel vm = new EnemyViewModel();
+        if (GameManager.Instance.DataManager.TryGetData<EnemyData>(enemyDataId, out EnemyData enemyData))
+        {
+            if (enemyData == null)
+            {
+                Debug.LogError("적 데이터를 로드하지 못했습니다.");
+                return;
+            }
+            GameObject prefab = await GameManager.Instance.ObjectManager.SpawnAsync(enemyData.PrefabAddress, _enemyRoot.transform, enemySpawnTransform);
+
+
+            if (prefab == null)
+            {
+                Debug.LogError("적 프리팹을 로드하지 못했습니다.");
+                return;
+            }
+
+            EnemyController enemyController = prefab.GetComponent<EnemyController>();
+
+            enemyController.Bind(enemyData, vm);
+
+
+
+            if (prefab.TryGetComponent<EnemyView>(out var enemyView))
+            {
+                enemyView.BindEnemyViewModel(vm);
+            }
+            else
+            {
+                Debug.LogError("생성된 에셋에 EnemyView 컴포넌트가 없습니다.");
+            }
+        }
+    }
+    public async UniTask SpawnSkillAsync(string skillDataId, Transform spawnTransform, Transform rotationTransform)
+    {
+
+        EnemySkillViewModel vm = new EnemySkillViewModel();
+        if (GameManager.Instance.DataManager.TryGetData<EnemySkillData>(skillDataId, out EnemySkillData skillData))
+        {
+            vm.SkillDataId = skillData.DataId;
+            vm.Name = skillData.Name;
+            vm.ElementalType = skillData.ElementalType;
+            vm.BaseDamage = skillData.BaseDamage;
+            vm.PrefabAddress = skillData.PrefabAddress;
+
+        }
+
+        GameObject prefab = await GameManager.Instance.ObjectManager.SpawnAsync(vm.PrefabAddress,_enemySkillRoot.transform, spawnTransform);
+        if (prefab == null)
+        {
+            Debug.LogError("스킬 프리팹을 로드하지 못했습니다.");
+            return;
+        }
+
+        var enemySkillController = prefab.GetComponent<EnemySkillController>();
+        enemySkillController.vm = vm;
+
+        prefab.transform.rotation = rotationTransform.rotation;
+
+
     }
 
 }

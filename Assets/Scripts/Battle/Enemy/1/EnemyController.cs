@@ -31,6 +31,9 @@ public class EnemyController : MonoBehaviour, IDamageable
     public Blackboard blackboard;
     public BehaviorGraphAgent behaviorGraphAgent;
 
+    private BattleManager _battleManager;
+
+
     private void Awake()
     {
         behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
@@ -141,17 +144,31 @@ public class EnemyController : MonoBehaviour, IDamageable
             }
         }
 
-        Test_GameObjectManager.Inst.SpawnSkillAsync(
-            _vm.SkillPrefabAddress,
-            _skillTransform,
-            this.transform
-        ).Forget();
+        SpawnSkill();
 
         await UniTask.Delay(TimeSpan.FromSeconds(attackDuration), cancellationToken: cancellationToken);
 
         if (_animator == null) return;
 
     }
+
+
+    private void SpawnSkill()
+    {
+        if(_battleManager == null)
+        {
+            _battleManager = new BattleManager();
+
+        }
+
+
+        _battleManager.SpawnSkillAsync(
+            _vm.SkillPrefabAddress,
+            _skillTransform,
+            this.transform
+        ).Forget();
+    }
+
 
     private bool IsStateChangeable(EnemyBattleState newState)
     {

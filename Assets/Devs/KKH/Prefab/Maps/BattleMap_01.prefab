@@ -1029,6 +1029,8 @@ MonoBehaviour:
   - {fileID: 2456588808232991509}
   - {fileID: 9120509135574886312}
   _bossSpawnPoint: {fileID: 0}
+  _stageWaveDataId: Stage_001_Wave_1
+  battleManager: {fileID: 1506372717735690033}
 --- !u!1 &6128746918156450205
 GameObject:
   m_ObjectHideFlags: 0
@@ -1234,6 +1236,8 @@ MonoBehaviour:
   - {fileID: 6448071927148788644}
   - {fileID: 512264116144960547}
   _bossSpawnPoint: {fileID: 9009014376157863864}
+  _stageWaveDataId: Stage_001_Wave_1
+  battleManager: {fileID: 1506372717735690033}
 --- !u!1 &7091754151423743559
 GameObject:
   m_ObjectHideFlags: 0
@@ -1681,6 +1685,8 @@ MonoBehaviour:
   - {fileID: 5041234837731049116}
   - {fileID: 7202699504609271669}
   _bossSpawnPoint: {fileID: 0}
+  _stageWaveDataId: Stage_001_Wave_1
+  battleManager: {fileID: 1506372717735690033}
 --- !u!1 &9201760008933263683
 GameObject:
   m_ObjectHideFlags: 0
