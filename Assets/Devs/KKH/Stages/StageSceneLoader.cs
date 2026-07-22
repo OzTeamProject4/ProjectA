@@ -11,9 +11,9 @@ public class StageSceneLoader : MonoBehaviour
 
     private ScreenStateModel _screenStateModel;
     private StageProgressModel _progressModel;
-    private IGameDataProvider _dataProvider;
 
     private StageSelectMap _selectMap;
+    private StageSelectMapViewModel _selectMapViewModel;
     private BattleMap _battleMap;
     private string _battleMapKey;
     private Transform _mapRoot;
@@ -41,6 +41,12 @@ public class StageSceneLoader : MonoBehaviour
         if (null != _screenStateModel)
         {
             _screenStateModel.OnScreenChanged -= HandleScreenChanged;
+        }
+
+        if (null != _selectMapViewModel)
+        {
+            _selectMapViewModel.Dispose();
+            _selectMapViewModel = null;
         }
 
         GameManager.Instance.ResourceManager.ReleaseAsset(AddressableKey.Prefab.StageSelectMap01);
@@ -77,10 +83,10 @@ public class StageSceneLoader : MonoBehaviour
             return;
         }
 
-        _dataProvider = new GameDataProvider();
         _playerParty = SpawnPlayerParty();
 
-        _selectMap.Initialize(_progressModel, _screenStateModel, _dataProvider, _playerParty);
+        _selectMapViewModel = new StageSelectMapViewModel(_progressModel, _screenStateModel, _playerParty);
+        _selectMap.Bind(_selectMapViewModel);
 
         _hasEntered = true;
         GameManager.Instance.UIManager.CloseOverlayUI();
@@ -170,6 +176,18 @@ public class StageSceneLoader : MonoBehaviour
         return root.PlayerParty;
     }
 
+    private StageData GetStage(string stageId)
+    {
+        if (string.IsNullOrEmpty(stageId))
+        {
+            Debug.LogWarning("[StageSceneLoader] GetStage: stageId 가 비어 있습니다.");
+            return null;
+        }
+
+        GameManager.Instance.DataManager.TryGetData(stageId, out StageData data);
+        return data;
+    }
+
     // ===== 전투맵 전환 =====
 
     private void HandleScreenChanged(ScreenType screen)
@@ -185,7 +203,7 @@ public class StageSceneLoader : MonoBehaviour
     private async UniTask TransitionToBattleAsync()
     {
         await GameManager.Instance.UIManager.OpenOverlayUIAsync();
-        StageData stageData = _dataProvider.GetStage(_progressModel.SelectedStageId);
+        StageData stageData = GetStage(_progressModel.SelectedStageId);
 
         if (null == stageData)
         {
@@ -193,9 +211,9 @@ public class StageSceneLoader : MonoBehaviour
             return;
         }
 
-        if (null != _selectMap)
+        if (null != _selectMapViewModel)
         {
-            _selectMap.CloseAllPopups();
+            _selectMapViewModel.CloseAllPopups();
         }
 
         ClearSelectMap();
