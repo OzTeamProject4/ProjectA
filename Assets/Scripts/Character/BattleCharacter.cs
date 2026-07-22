@@ -15,7 +15,7 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     private const float RunSpeedMultiplier = 2.0f;
     // TODO 희준 캐릭터 모델링시 수치 변화 필요
     [SerializeField] private float _jumpForce = 5f;
-    [SerializeField] private float _groundCheckDistance = 0.05f; 
+    [SerializeField] private float _groundCheckDistance = 0.1f; 
     [SerializeField] private float _rotationSpeed = 4.0f;
     [SerializeField] private Transform _groundCheckPoint;
     [SerializeField] private Transform _modelTransform;
@@ -83,7 +83,6 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
-   
     private void Update()
     {
         if (_groundCheckPoint == null)
@@ -97,8 +96,6 @@ public class BattleCharacter : MonoBehaviour, IDamageable
             OnGroundedChanged?.Invoke(grounded);
             _wasGrounded = grounded;
         }
-
-        Debug.DrawRay(_groundCheckPoint.position, Vector3.down * _groundCheckDistance, Color.red);
     }
 
     private void OnDestroy()
@@ -154,7 +151,7 @@ public class BattleCharacter : MonoBehaviour, IDamageable
 
     public void Jump()
     {
-        if (IsGrounded() == false) 
+        if (IsGrounded() == false)
         {
             return;
         }
@@ -176,7 +173,9 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         {
             return false;
         }
-        return Physics.Raycast(_groundCheckPoint.position, Vector3.down, _groundCheckDistance, _groundLayer, QueryTriggerInteraction.Ignore);
+
+        bool result = Physics.CheckSphere(_groundCheckPoint.position, _groundCheckDistance, _groundLayer, QueryTriggerInteraction.Ignore);
+        return result;
     }
 
     public void LookAt(Vector3 targetPosition)
@@ -259,5 +258,23 @@ public class BattleCharacter : MonoBehaviour, IDamageable
 
         _curMoveSpeed = _baseMoveSpeed;
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (null == _groundCheckPoint)
+        {
+            return;
+        }
+
+        if (null == _rigidbody)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(_groundCheckPoint.position, _groundCheckDistance);
+            return;
+        }
+
+        Gizmos.color = IsGrounded() ? Color.green : Color.red;
+        Gizmos.DrawWireSphere(_groundCheckPoint.position, _groundCheckDistance);
     }
 }

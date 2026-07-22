@@ -58,7 +58,9 @@ public class DataManager : BaseManager<DataManager>
             new LoadingTask(LoadingStep.LoadItemData, AddressableKey.Data.Item, LoadDataAsync<ItemData>),
             new LoadingTask(LoadingStep.LoadEquipmentData, AddressableKey.Data.Equipment, LoadDataAsync<EquipmentData>),
             new LoadingTask(LoadingStep.LoadSignatureData, AddressableKey.Data.Signature, LoadDataAsync<SignatureData>),
-            new LoadingTask(LoadingStep.LoadSkillData, AddressableKey.Data.CharacterSkill, LoadDataAsync<CharacterSkillData>)
+            new LoadingTask(LoadingStep.LoadSkillData, AddressableKey.Data.CharacterSkill, LoadDataAsync<CharacterSkillData>),
+            new LoadingTask(LoadingStep.LoadStageData, AddressableKey.Data.Stage, LoadDataAsync<StageData>),
+            new LoadingTask(LoadingStep.LoadStageWaveData, AddressableKey.Data.StageWave, LoadDataAsync<StageWaveData>)
         };
 
         return jobs;
