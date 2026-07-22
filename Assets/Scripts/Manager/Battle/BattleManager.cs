@@ -14,15 +14,15 @@ public class BattleManager : MonoBehaviour
     private TempPartySpawner _partySpawner;
     private PartyController _partyController;
 
-    //private async void Start()
-    //{
-    //    if (_cinemachineCamera == null)
-    //    {
-    //        Debug.LogError("카메라 참조 null 인스펙터 확인");
-    //        return;
-    //    }
-    //    await EnterBattle();
-    //}
+    private async void Start()
+    {
+        if (_cinemachineCamera == null)
+        {
+            Debug.LogError("카메라 참조 null 인스펙터 확인");
+            return;
+        }
+        await EnterBattle();
+    }
    
     private void OnDisable()
     {
@@ -39,14 +39,13 @@ public class BattleManager : MonoBehaviour
             _partyController.Cleanup();
         }
     }
-
-    public async UniTask EnterBattle(Vector3 playerSpawnPosition)
+    private async UniTask EnterBattle()
     {
-        if (_cinemachineCamera == null)
-        {
-            Debug.LogError("카메라 참조 null 인스펙터 확인");
-            return;
-        }
+        //TODO 희준 매니저 담당과 로드시점 협의 필요
+        //await GameManager.Instance.DataManager.LoadDataAsync<CharacterData>("Data_TestCharacter");
+        // GameManager InitializeTask 를 임시로 프로퍼티로 변경. 
+        await GameManager.Instance.InitializeManagersAsync();
+        await GameManager.Instance.DataManager.LoadRuntimeDataAsync();
 
         GameManager.Instance.InputManager.EnablePlayerActions();
 
@@ -55,9 +54,9 @@ public class BattleManager : MonoBehaviour
 
         //TODO 희준: 임시파티 ID, 추후 파티편성창에서 id받아오는 방식으로 교체
         List<string> tempPartyIds = new List<string> { "Character_004", "Character_005", "Character_003" };
-        _partySpawner = new TempPartySpawner();
 
-        List<BattleCharacter> characters = await _partySpawner.SpawnPartyById(tempPartyIds, playerSpawnPosition);
+        _partySpawner = new TempPartySpawner();
+        List<BattleCharacter> characters = await _partySpawner.SpawnPartyById(tempPartyIds);
 
         if (characters == null || characters.Count == 0)
         {
@@ -72,9 +71,8 @@ public class BattleManager : MonoBehaviour
         GameManager.Instance.InputManager.OnBasicSkillPerformed += HandleBasicSkill;
         GameManager.Instance.InputManager.OnNormalSkillPerformed += HandleNormalSkill;
         GameManager.Instance.InputManager.OnSwitchIndexPerformed += HandleSwitchIndex;
-
-        // 첫 몬스터 스폰
     }
+
 
     private void HandleUltimate()
     {

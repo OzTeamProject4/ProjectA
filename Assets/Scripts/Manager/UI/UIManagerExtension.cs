@@ -90,29 +90,6 @@ public static class UIManagerExtension
         uiManager.Close(UIType.ItemPreviewPopup);
     }
 
-    public static async UniTask<StageInfoPopupView> OpenStageInfoPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
-    {
-        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.StageInfoPopup, cancellationToken);
-        return GetView<StageInfoPopupView>(baseUI, UIType.StageInfoPopup);
-    }
-
-    public static void CloseStageInfoPopup(this UIManager uiManager)
-    {
-        uiManager.Close(UIType.StageInfoPopup);
-    }
-
-    public static async UniTask<PartySetupPopupView> OpenPartySetupPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
-    {
-        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.PartySetupPopup, cancellationToken);
-        return GetView<PartySetupPopupView>(baseUI, UIType.PartySetupPopup);
-    }
-
-    public static void ClosePartySetupPopup(this UIManager uiManager)
-    {
-        uiManager.Close(UIType.PartySetupPopup);
-    }
-
-
     private static T GetView<T>(BaseUI baseUI, UIType uiType) where T : BaseUI
     {
         if (null == baseUI)
@@ -130,7 +107,7 @@ public static class UIManagerExtension
 
     public static async UniTask OpenOverlayUIAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
-        await uiManager.OpenOverlayRootAsync(UIType.Overlay, cancellationToken);
+        await uiManager.OpenTestRootAsync(UIType.Overlay, cancellationToken);
     }
 
     public static void CloseOverlayUI(this UIManager uiManager)

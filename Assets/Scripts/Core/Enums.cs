@@ -1,6 +1,5 @@
 ﻿public enum UIType
 {
-    Lobby,
     CharacterList,
     CharacterDetail,
     ExpItemSelectPopup,
@@ -8,8 +7,6 @@
     EquipmentListPopup,
     EquipmentDetailPopup,
     ItemPreviewPopup,
-    StageInfoPopup,
-    PartySetupPopup,
     Overlay,
     Loading
 }
@@ -30,13 +27,10 @@ public enum LoadingStep
     LoadItemData,
     LoadEquipmentData,
     LoadSignatureData,
-    LoadStageData,
-    LoadStageWaveData,
     Complete,
     LoadSkillData,
-    ItemPreviewPopup,
-    StageInfoPopup,
-    PartySetupPopup
+    LoadEnemyData,
+    LoadEnemySkillData
 }
 
 public enum UIRoot
@@ -85,11 +79,4 @@ public enum StatType
     Atk,
     Def,
     MoveSpeed
-}
-
-public enum ScreenType
-{
-    Lobby,
-    StageSelect,
-    Battle
 }

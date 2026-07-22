@@ -5,8 +5,6 @@
         public const string UILayer = "Prefab/UILayer";
         public const string AudioView = "Prefab/AudioView";
         public const string ObjectPoolRoot = "Prefab/ObjectPoolRoot";
-        public const string StageSelectMap01 = "Prefab/StageSelectMap_01";
-        public const string StageEntry = "Prefab/StageEntry";
     }
 
     public static class Data
@@ -17,9 +15,10 @@
         public const string Item = "Data/Item";
         public const string Equipment = "Data/Equipment";
         public const string Signature = "Data/Signature";
-        public const string Stage = "Data/Stage";
-        public const string StageWave = "Data/StageWave";
         public const string CharacterSkill = "Data/CharacterSkill";
+        public const string Enemy = "Data/EnemyData";
+        public const string EnemySkill = "Data/EnemySkillData";
+        
     }
 
     public static class Asset
