@@ -350,6 +350,7 @@ GameObject:
   - component: {fileID: 1567400121}
   - component: {fileID: 1567400120}
   - component: {fileID: 1567400119}
+  - component: {fileID: 1567400126}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -402,7 +403,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1567400118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3e7cd8c2bfbff04aa30d1af6718db58, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d25bd969b1e70b4da56786c457adac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DataManager
 --- !u!114 &1567400123
@@ -414,7 +415,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1567400118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23f6832070adc324a98808a0db9bdba8, type: 3}
+  m_Script: {fileID: 11500000, guid: d53558357ad383f4ba5995813c5bd7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResourceManager
 --- !u!114 &1567400124
@@ -426,7 +427,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1567400118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76361461808221c43959e94a5675543e, type: 3}
+  m_Script: {fileID: 11500000, guid: 89ec96253c3460b43bb5b65ba47600b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
 --- !u!4 &1567400125
@@ -444,6 +445,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1567400126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567400118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6656b761b3417f4408e42de06fc39b53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectManager
 --- !u!1 &1629871032
 GameObject:
   m_ObjectHideFlags: 0
