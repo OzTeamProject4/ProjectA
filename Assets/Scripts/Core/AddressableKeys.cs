@@ -15,6 +15,7 @@
         public const string CharacterGrade = "Data/CharacterGrade";
         public const string LevelExp = "Data/LevelExp";
         public const string Item = "Data/Item";
+        public const string Currency = "Data/Currency";
         public const string Equipment = "Data/Equipment";
         public const string Signature = "Data/Signature";
         public const string Stage = "Data/Stage";

@@ -56,6 +56,7 @@ public class DataManager : BaseManager<DataManager>
             new LoadingTask(LoadingStep.LoadCharacterGradeData, AddressableKey.Data.CharacterGrade, LoadDataAsync<CharacterGradeData>),
             new LoadingTask(LoadingStep.LoadLevelExpData, AddressableKey.Data.LevelExp, LoadDataAsync<LevelExpData>),
             new LoadingTask(LoadingStep.LoadItemData, AddressableKey.Data.Item, LoadDataAsync<ItemData>),
+            new LoadingTask(LoadingStep.LoadCurrencyData, AddressableKey.Data.Currency, LoadDataAsync<CurrencyData>),
             new LoadingTask(LoadingStep.LoadEquipmentData, AddressableKey.Data.Equipment, LoadDataAsync<EquipmentData>),
             new LoadingTask(LoadingStep.LoadSignatureData, AddressableKey.Data.Signature, LoadDataAsync<SignatureData>),
             new LoadingTask(LoadingStep.LoadSkillData, AddressableKey.Data.CharacterSkill, LoadDataAsync<CharacterSkillData>),

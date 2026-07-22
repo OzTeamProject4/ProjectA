@@ -103,19 +103,19 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         _buffCts?.Cancel();
         _buffCts?.Dispose();
     }
-    public async UniTask InitializeAsync(CharacterData data, StatData stats)
+    public async UniTask InitializeAsync(CharacterData data)
     {
         _data = data;
-        _curHp = stats.Hp;
-        _curAtk = stats.Atk;
-        _curDef = stats.Def;
-        _curMoveSpeed = stats.MoveSpeed;
+        _curHp = data.Hp;
+        _curAtk = data.Attack;
+        _curDef = data.Defence;
+        _curMoveSpeed = data.MoveSpeed;
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
         _curSkillGauge = 0;
-        _maxHp = stats.Hp;
-        _curMoveSpeed = stats.MoveSpeed;
+        _maxHp = data.Hp;
+        _curMoveSpeed = data.MoveSpeed;
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
-        _baseMoveSpeed = stats.MoveSpeed;
+        _baseMoveSpeed = data.MoveSpeed;
 
         CharacterSkillSystem skillSystem = GetComponent<CharacterSkillSystem>();
         if (skillSystem != null)

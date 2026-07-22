@@ -10,8 +10,8 @@ public class CharacterData : BaseData
     public int SkillGauge { get; init; }
 
     public float Hp { get; init; }
-    public float Atk { get; init; }
-    public float Def { get; init; }
+    public float Attack { get; init; }
+    public float Defence { get; init; }
     public float MoveSpeed { get; init; }
 
     public float HpGrow { get; init; }
