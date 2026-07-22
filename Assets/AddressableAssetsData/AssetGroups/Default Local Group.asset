@@ -13,15 +13,45 @@ MonoBehaviour:
   m_Name: Default Local Group
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: Default Local Group
-  m_GUID: 7ae454e63ee68024aaafa8837397ef1d
+  m_GUID: 6c3b65eb4f8cd5349a5ea4eb7c4658ed
   m_SerializeEntries:
-  - m_GUID: 0644c5eea3591064699b1ac92109c58a
-    m_Address: UI/PracticeFieldScreen
+  - m_GUID: 071b721a7c13e024d8c25450330f95b1
+    m_Address: UI/EquipmentListPopup
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0bdc6a894c3a596408bf988aade12cd8
+    m_Address: SkillWater001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0c4da498aac1f2745add9d2d71bd894f
+    m_Address: Data/CharacterSkill
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0c63a716d2922af49b0329b189e4dafb
+    m_Address: SkillFire002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0d12a758ff6bee94aadfd29c9fe1d37c
+    m_Address: SkillNormal002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 10e3024174d5ebf4197616748bfb3835
+    m_Address: UI/StageInfoPopup
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 160261f5e0939d54d8092f7d7f8826ad
-    m_Address: UI/KMS_LobbyCanvas
+    m_Address: UI/Lobby
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1c3223c1ff11d914487a88e80b9c1a49
+    m_Address: SkillFire001
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -35,38 +65,148 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 52d17b5f58ec80b41a820d772ea9c7b1
-    m_Address: UI/DictionaryScreen
+  - m_GUID: 306aacece41374f42b6be8c1c0ae993b
+    m_Address: TestEnemy
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7ee7ce5e760411243b062d92409f2762
-    m_Address: UI/AchievementScreen
+  - m_GUID: 38e32be9e8d35ab4294b8804c81f8947
+    m_Address: SkillNormal030
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 86646c29a77d1394aad299bba3073903
-    m_Address: UI/InventoryScreen
+  - m_GUID: 3a73d4cd95e27de4f906eb4ec04a079f
+    m_Address: Prefab/StageSelectMap_01
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a65b8b8a730922c4888faa8bcee0a18e
-    m_Address: UI/MissionScreen
+  - m_GUID: 432390b53dcc953408182fec8874316e
+    m_Address: UI/EquipmentDetailPopup
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: abc6b5d3a7b00e347ac667ebe88f41ae
-    m_Address: UI/FarmingDungeonScreen
+  - m_GUID: 460ad52afffbeab4bbe4d152039813e7
+    m_Address: SkillGrass003
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: aea1469c8523a28439d5d2b34efa9519
-    m_Address: UI/StageSelectScreen
+  - m_GUID: 4e291bdf7f3aec941b355064fb0bb5c2
+    m_Address: UI/Overlay
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d82682934db1e884dbf33eda39249a85
-    m_Address: UI/CharacterGachaScreen
+  - m_GUID: 72ae85101caacdb429efb8b599f97285
+    m_Address: UI/CharacterDetail
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 74826f15b8e0c444298c9c65e4aedee1
+    m_Address: SkillFire003
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7e7a3890e38bdab4883d45a5373f053d
+    m_Address: UI/ExpItemSelectPopup
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7fab559bc6efff34083ca7bd8fd79488
+    m_Address: SkillWater002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81b5b5132d82d0945b015a4774925758
+    m_Address: SkillGrass001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8f608efd2ed77e24e95190ff4d907bdd
+    m_Address: SkillNormal020
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 92d75f3b3a842b1429dccc1c77ca9ec0
+    m_Address: SkillGrass002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 957d354e80b0b7b498197c777ce487a7
+    m_Address: Prefab_TestBattleCharacterBase
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: abb6f022cbce4cd41a572f223436e9e7
+    m_Address: SkillWater003
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aea2e2ab5a48bc646a02695482318b45
+    m_Address: Sprites/Equipment
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: af0fcfb100ebdfc43a8cbd1dd50bb601
+    m_Address: Prefab/BattleMap_Straight_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b0c5d8fcdbf50ca4d9ad071e13e7aa1d
+    m_Address: UI/ItemPreviewPopup
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b48cedf2dcc0a794fa7ab6910fedd8d3
+    m_Address: SkillNormal001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b71e2e97e30f3cc4790f4770721d7c21
+    m_Address: UI/CraftPopup
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c153b211ade2f3346bf0ae05400498d6
+    m_Address: SkillNormal010
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1e3f459ebd31684a9bf8772ff117721
+    m_Address: Video/Test
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c2535d6ed11afa6489e3afdb9df9bb7e
+    m_Address: Sprites/Items
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d08d3e35a3192a94eb6399da3013b866
+    m_Address: UI/PartySetupPopup
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d8ebe98eb77cd1649b4003bddaeb4c96
+    m_Address: UI/Loading
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ea0a56ff7aeada64dbef6a435fc9661b
+    m_Address: UI/CharacterList
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb0c00885daf88646bb59b5ae199b765
+    m_Address: SkillNormal003
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb40ffa39297bb84fad6a9cd6c4f770b
+    m_Address: Prefab/ObjectPoolRoot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f4e4808b7fade814abf5b88b7976d010
+    m_Address: EnemyData
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
