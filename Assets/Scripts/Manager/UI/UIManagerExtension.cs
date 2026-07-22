@@ -101,17 +101,27 @@ public static class UIManagerExtension
         uiManager.Close(UIType.StageInfoPopup);
     }
 
-    public static async UniTask<PartySetupPopupView> OpenPartySetupPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    public static async UniTask<PartySelectPopupView> OpenPartySelectPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
-        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.PartySetupPopup, cancellationToken);
-        return GetView<PartySetupPopupView>(baseUI, UIType.PartySetupPopup);
+        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.PartySelectPopup, cancellationToken);
+        return GetView<PartySelectPopupView>(baseUI, UIType.PartySelectPopup);
     }
 
-    public static void ClosePartySetupPopup(this UIManager uiManager)
+    public static void ClosePartySelectPopup(this UIManager uiManager)
     {
-        uiManager.Close(UIType.PartySetupPopup);
+        uiManager.Close(UIType.PartySelectPopup);
     }
 
+    //public static async UniTask<PartySetupPopupView> OpenPartySetupPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    //{
+    //    BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.PartySetupPopup, cancellationToken);
+    //    return GetView<PartySetupPopupView>(baseUI, UIType.PartySetupPopup);
+    //}
+
+    //public static void ClosePartySetupPopup(this UIManager uiManager)
+    //{
+    //    uiManager.Close(UIType.PartySetupPopup);
+    //}
 
     private static T GetView<T>(BaseUI baseUI, UIType uiType) where T : BaseUI
     {

@@ -12,7 +12,8 @@
     StageInfoPopup,
     PartySetupPopup,
     Overlay,
-    Loading
+    Loading,
+    PartySelectPopup
 }
 
 public enum LoadingState

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -14,7 +14,6 @@ public class StageSelectMap : MonoBehaviour
     private bool _isSubscribed;
 
     private StageInfoPopupView _stageInfoPopup;
-    private PartySetupPopupView _partySetupPopup;
 
     public Transform PlayerSpawnPoint
     {
@@ -28,7 +27,6 @@ public class StageSelectMap : MonoBehaviour
 
         // 종료 중 GameManager 파괴 상황을 피하기 위해 UIManager 호출 없이 참조만 정리
         _stageInfoPopup = null;
-        _partySetupPopup = null;
     }
 
     public void Bind(StageSelectMapViewModel viewModel)
@@ -57,8 +55,6 @@ public class StageSelectMap : MonoBehaviour
 
         _viewModel.OnStageInfoPopupOpenRequested += HandleStageInfoPopupOpenRequested;
         _viewModel.OnStageInfoPopupCloseRequested += HandleStageInfoPopupCloseRequested;
-        _viewModel.OnPartySetupPopupOpenRequested += HandlePartySetupPopupOpenRequested;
-        _viewModel.OnPartySetupPopupCloseRequested += HandlePartySetupPopupCloseRequested;
 
         _isSubscribed = true;
     }
@@ -72,8 +68,6 @@ public class StageSelectMap : MonoBehaviour
 
         _viewModel.OnStageInfoPopupOpenRequested -= HandleStageInfoPopupOpenRequested;
         _viewModel.OnStageInfoPopupCloseRequested -= HandleStageInfoPopupCloseRequested;
-        _viewModel.OnPartySetupPopupOpenRequested -= HandlePartySetupPopupOpenRequested;
-        _viewModel.OnPartySetupPopupCloseRequested -= HandlePartySetupPopupCloseRequested;
 
         _isSubscribed = false;
     }
@@ -149,7 +143,7 @@ public class StageSelectMap : MonoBehaviour
         _viewModel.HandlePartyLeft(stageId);
     }
 
-    // ===== 스테이지 정보 팝업 (ViewModel 요청 → 실제 UIManager 조작) =====
+    // ===== 스테이지 정보 팝업 =====
 
     private void HandleStageInfoPopupOpenRequested(StageInfoPopupViewModel viewModel)
     {
@@ -184,42 +178,5 @@ public class StageSelectMap : MonoBehaviour
         GameManager.Instance.UIManager.CloseStageInfoPopup();
 
         _stageInfoPopup = null;
-    }
-
-    // ===== 파티 편성 팝업 (ViewModel 요청 → 실제 UIManager 조작) =====
-
-    private void HandlePartySetupPopupOpenRequested(PartySetupPopupViewModel viewModel)
-    {
-        OpenPartySetupPopupAsync(viewModel).Forget();
-    }
-
-    private async UniTaskVoid OpenPartySetupPopupAsync(PartySetupPopupViewModel viewModel)
-    {
-        _partySetupPopup = await GameManager.Instance.UIManager.OpenPartySetupPopupAsync();
-
-        if (null == _partySetupPopup)
-        {
-            Debug.LogError("[StageSelectMap] PartySetupPopupView 를 열지 못했습니다.");
-            return;
-        }
-
-        _partySetupPopup.Bind(viewModel);
-    }
-
-    private void HandlePartySetupPopupCloseRequested()
-    {
-        ClosePartySetupPopupView();
-    }
-
-    private void ClosePartySetupPopupView()
-    {
-        if (null == _partySetupPopup)
-        {
-            return;
-        }
-
-        GameManager.Instance.UIManager.ClosePartySetupPopup();
-
-        _partySetupPopup = null;
     }
 }

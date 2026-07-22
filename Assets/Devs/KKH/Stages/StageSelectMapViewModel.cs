@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,12 +9,9 @@ public class StageSelectMapViewModel
     private readonly StagePlayerParty _playerParty;
 
     private StageInfoPopupViewModel _stageInfoViewModel;
-    private PartySetupPopupViewModel _partySetupViewModel;
 
     public event Action<StageInfoPopupViewModel> OnStageInfoPopupOpenRequested;
     public event Action OnStageInfoPopupCloseRequested;
-    public event Action<PartySetupPopupViewModel> OnPartySetupPopupOpenRequested;
-    public event Action OnPartySetupPopupCloseRequested;
 
     public StageSelectMapViewModel(StageProgressModel progressModel, ScreenStateModel screenStateModel,
         StagePlayerParty playerParty)
@@ -37,7 +34,6 @@ public class StageSelectMapViewModel
     public void CloseAllPopups()
     {
         RequestCloseStageInfoPopup();
-        RequestClosePartySetupPopup();
     }
 
     // ===== 몬스터 파티 도달/이탈 =====
@@ -81,8 +77,7 @@ public class StageSelectMapViewModel
             return;
         }
 
-        _stageInfoViewModel = new StageInfoPopupViewModel(stageData, GetStageWaves(stageId));
-        _stageInfoViewModel.OnPartySetupRequested += HandlePartySetupRequested;
+        _stageInfoViewModel = new StageInfoPopupViewModel(stageData, GetStageWaves(stageId), _screenStateModel);
         _stageInfoViewModel.OnCloseRequested += HandleStageInfoCloseRequested;
 
         OnStageInfoPopupOpenRequested?.Invoke(_stageInfoViewModel);
@@ -152,7 +147,8 @@ public class StageSelectMapViewModel
             return;
         }
 
-        _stageInfoViewModel.OnPartySetupRequested -= HandlePartySetupRequested;
+        _stageInfoViewModel.Dispose();
+
         _stageInfoViewModel.OnCloseRequested -= HandleStageInfoCloseRequested;
         _stageInfoViewModel = null;
     }
@@ -165,52 +161,5 @@ public class StageSelectMapViewModel
         {
             _playerParty.ResumeMove();
         }
-    }
-
-    // ===== 파티 편성 팝업 =====
-
-    private void HandlePartySetupRequested()
-    {
-        RequestCloseStageInfoPopup();
-
-        RequestOpenPartySetupPopup();
-    }
-
-    private void RequestOpenPartySetupPopup()
-    {
-        _partySetupViewModel = new PartySetupPopupViewModel(_screenStateModel);
-        _partySetupViewModel.OnCloseRequested += HandlePartySetupCloseRequested;
-
-        OnPartySetupPopupOpenRequested?.Invoke(_partySetupViewModel);
-    }
-
-    private void RequestClosePartySetupPopup()
-    {
-        if (null == _partySetupViewModel)
-        {
-            return;
-        }
-
-        UnsubscribePartySetupViewModel();
-
-        OnPartySetupPopupCloseRequested?.Invoke();
-    }
-
-    private void UnsubscribePartySetupViewModel()
-    {
-        if (null == _partySetupViewModel)
-        {
-            return;
-        }
-
-        _partySetupViewModel.OnCloseRequested -= HandlePartySetupCloseRequested;
-        _partySetupViewModel = null;
-    }
-
-    private void HandlePartySetupCloseRequested()
-    {
-        RequestClosePartySetupPopup();
-
-        RequestOpenStageInfoPopup(_progressModel.SelectedStageId);
     }
 }
