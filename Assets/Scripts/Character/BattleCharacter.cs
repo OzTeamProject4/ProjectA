@@ -101,7 +101,6 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         }
     }
 
-   
     private void Update()
     {
         if (_groundCheckPoint == null)
@@ -115,8 +114,6 @@ public class BattleCharacter : MonoBehaviour, IDamageable
             OnGroundedChanged?.Invoke(grounded);
             _wasGrounded = grounded;
         }
-
-        Debug.DrawRay(_groundCheckPoint.position, Vector3.down * _groundCheckDistance, Color.red);
     }
 
     private void OnDestroy()
@@ -174,10 +171,8 @@ public class BattleCharacter : MonoBehaviour, IDamageable
 
     public void Jump()
     {
-        Debug.Log("점프 시작");
-        if (IsGrounded() == false) 
+        if (IsGrounded() == false)
         {
-            Debug.Log("점프 실패");
             return;
         }
 
@@ -198,7 +193,9 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         {
             return false;
         }
-        return Physics.Raycast(_groundCheckPoint.position, Vector3.down, _groundCheckDistance, _groundLayer, QueryTriggerInteraction.Ignore);
+
+        bool result = Physics.CheckSphere(_groundCheckPoint.position, _groundCheckDistance, _groundLayer, QueryTriggerInteraction.Ignore);
+        return result;
     }
 
     public void LookAt(Vector3 targetPosition)
@@ -287,6 +284,13 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     {
         if (null == _groundCheckPoint)
         {
+            return;
+        }
+
+        if (null == _rigidbody)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(_groundCheckPoint.position, _groundCheckDistance);
             return;
         }
 
