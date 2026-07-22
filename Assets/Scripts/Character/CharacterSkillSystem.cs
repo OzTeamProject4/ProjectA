@@ -10,6 +10,7 @@ public class CharacterSkillSystem : MonoBehaviour
     private const string EnemyTag = "Enemy";
     private const float EffectLifeTime = 3.0f;
     private const int SkillPrewarmCount = 5;
+    private const float MinAttackRanggeRatio = 0.3f;
 
     private CharacterAttack _characterAttack;
     private BattleCharacter _battleCharacter;
@@ -20,7 +21,61 @@ public class CharacterSkillSystem : MonoBehaviour
     private int _maxGauge;
     private float _gaugeAccumulator;
     private List<string> _loadedPrefabKeys = new List<string>();
-    
+
+    public float MaxSkillRange
+    {
+        get
+        {
+            float maxRange = 0f;
+
+            if (_basicSkill != null)
+            {
+                maxRange = Mathf.Max(maxRange, _basicSkill.Data.SkillRange);
+            }
+
+            if (_normalSkill != null)
+            {
+                maxRange = Mathf.Max(maxRange, _normalSkill.Data.SkillRange);
+            }
+
+            if (_ultimateSkill != null)
+            {
+                maxRange = Mathf.Max(maxRange, _ultimateSkill.Data.SkillRange);
+            }
+            return maxRange;
+        }
+    }
+
+    public float AttackRange
+    {
+        get
+        {
+            if (_basicSkill == null && _normalSkill == null)
+            {
+                return 0f;
+            }
+
+            if (_basicSkill == null)
+            {
+                return _normalSkill.Data.SkillRange;
+            }
+
+            if (_normalSkill == null)
+            {
+                return _basicSkill.Data.SkillRange;
+            }
+
+            return Mathf.Min(_basicSkill.Data.SkillRange, _normalSkill.Data.SkillRange);
+        }
+    }
+
+    public float MinAttackRange
+    {
+        get
+        {
+            return AttackRange * MinAttackRanggeRatio;
+        }
+    }
 
     public event Action<int, int> OnGaugeChanged;
     public event Action<int, float, float, GameObject> OnHealBuffRequested;
