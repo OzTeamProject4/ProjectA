@@ -68,15 +68,4 @@ public class CharacterAIController : MonoBehaviour
         _agent.SetVariableValue("EnemyTarget", (GameObject)null);
     }
 
-    public void SetSkillRanges(CharacterSkillSystem skillSystem)
-    {
-        if (skillSystem == null)
-        {
-            Debug.LogError("SkillSystem이 null");
-            return;
-        }
-
-        _agent.SetVariableValue("AttackRange", skillSystem.AttackRange);
-        _agent.SetVariableValue("MinAttackRange", skillSystem.MinAttackRange);
-    }
 }

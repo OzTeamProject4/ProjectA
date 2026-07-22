@@ -10,7 +10,7 @@ public class CharacterSkillSystem : MonoBehaviour
     private const string EnemyTag = "Enemy";
     private const float EffectLifeTime = 3.0f;
     private const int SkillPrewarmCount = 5;
-    private const float MinAttackRanggeRatio = 0.3f;
+    private const float MinAttackRangeRatio = 0.4f;
 
     private CharacterAttack _characterAttack;
     private BattleCharacter _battleCharacter;
@@ -50,22 +50,25 @@ public class CharacterSkillSystem : MonoBehaviour
     {
         get
         {
-            if (_basicSkill == null && _normalSkill == null)
+            float basicRange = GetAttackSkillRange(_basicSkill);
+            float normalRange = GetAttackSkillRange(_normalSkill);
+
+            if (basicRange <= 0f && normalRange <= 0f)
             {
                 return 0f;
             }
 
-            if (_basicSkill == null)
+            if (basicRange <= 0f)
             {
-                return _normalSkill.Data.SkillRange;
+                return normalRange;
             }
 
-            if (_normalSkill == null)
+            if (normalRange <= 0f)
             {
-                return _basicSkill.Data.SkillRange;
+                return basicRange;
             }
 
-            return Mathf.Min(_basicSkill.Data.SkillRange, _normalSkill.Data.SkillRange);
+            return Mathf.Min(basicRange, normalRange);
         }
     }
 
@@ -73,7 +76,7 @@ public class CharacterSkillSystem : MonoBehaviour
     {
         get
         {
-            return AttackRange * MinAttackRanggeRatio;
+            return AttackRange * MinAttackRangeRatio;
         }
     }
 
@@ -434,5 +437,20 @@ public class CharacterSkillSystem : MonoBehaviour
         {
             await GameManager.Instance.ObjectManager.PrewarmAsync(skill.Data.PrefabPath, SkillPrewarmCount, destroyCancellationToken);
         }
+    }
+
+    private float GetAttackSkillRange(RuntimeSkill skill)
+    {
+        if (skill == null)
+        {
+            return 0f;
+        }
+
+        if (skill.Data.Type == CharacterSkillType.HealBuff)
+        {
+            return 0f;
+        }
+
+        return skill.Data.SkillRange;
     }
 }

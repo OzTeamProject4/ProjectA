@@ -144,7 +144,7 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         }
     }
 
-    public void Move(Vector3 moveDirection, bool isRunning)
+    public void Move(Vector3 moveDirection, bool isRunning, bool rotateToMoveDirection = true)
     {
         moveDirection.y = 0;
         float speed = isRunning ? _curRunSpeed : _curMoveSpeed;
