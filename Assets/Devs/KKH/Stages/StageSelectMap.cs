@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -10,20 +10,11 @@ public class StageSelectMap : MonoBehaviour
 
     private readonly List<StageMonsterParty> _spawnedParties = new List<StageMonsterParty>();
 
-    private StageProgressModel _progressModel;
-    private ScreenStateModel _screenStateModel;
-    private IGameDataProvider _dataProvider;
-    private StagePlayerParty _playerParty;
+    private StageSelectMapViewModel _viewModel;
+    private bool _isSubscribed;
 
     private StageInfoPopupView _stageInfoPopup;
-    private StageInfoPopupViewModel _stageInfoViewModel;
     private PartySetupPopupView _partySetupPopup;
-    private PartySetupPopupViewModel _partySetupViewModel;
-
-    public IReadOnlyList<MonsterPartySpawner> Spawners
-    {
-        get { return _spawners; }
-    }
 
     public Transform PlayerSpawnPoint
     {
@@ -33,31 +24,58 @@ public class StageSelectMap : MonoBehaviour
     private void OnDestroy()
     {
         UnsubscribeParties();
-        UnsubscribeStageInfoPopup();
-        UnsubscribePartySetupPopup();
+        UnsubscribeViewModel();
+
+        // 종료 중 GameManager 파괴 상황을 피하기 위해 UIManager 호출 없이 참조만 정리
+        _stageInfoPopup = null;
+        _partySetupPopup = null;
     }
 
-    public void Initialize(StageProgressModel progressModel, ScreenStateModel screenStateModel,
-        IGameDataProvider dataProvider, StagePlayerParty playerParty)
+    public void Bind(StageSelectMapViewModel viewModel)
     {
-        if (null == progressModel || null == screenStateModel || null == dataProvider || null == playerParty)
+        if (null == viewModel)
         {
-            Debug.LogError("[StageSelectMap] Initialize 인자 중 null 이 있습니다.");
+            Debug.LogError("[StageSelectMap] Bind: viewModel 이 null 입니다.");
             return;
         }
 
-        _progressModel = progressModel;
-        _screenStateModel = screenStateModel;
-        _dataProvider = dataProvider;
-        _playerParty = playerParty;
+        UnsubscribeViewModel();
+
+        _viewModel = viewModel;
+
+        SubscribeViewModel();
 
         SpawnParties();
     }
 
-    public void CloseAllPopups()
+    private void SubscribeViewModel()
     {
-        CloseStageInfoPopup();
-        ClosePartySetupPopup();
+        if (_isSubscribed || null == _viewModel)
+        {
+            return;
+        }
+
+        _viewModel.OnStageInfoPopupOpenRequested += HandleStageInfoPopupOpenRequested;
+        _viewModel.OnStageInfoPopupCloseRequested += HandleStageInfoPopupCloseRequested;
+        _viewModel.OnPartySetupPopupOpenRequested += HandlePartySetupPopupOpenRequested;
+        _viewModel.OnPartySetupPopupCloseRequested += HandlePartySetupPopupCloseRequested;
+
+        _isSubscribed = true;
+    }
+
+    private void UnsubscribeViewModel()
+    {
+        if (!_isSubscribed || null == _viewModel)
+        {
+            return;
+        }
+
+        _viewModel.OnStageInfoPopupOpenRequested -= HandleStageInfoPopupOpenRequested;
+        _viewModel.OnStageInfoPopupCloseRequested -= HandleStageInfoPopupCloseRequested;
+        _viewModel.OnPartySetupPopupOpenRequested -= HandlePartySetupPopupOpenRequested;
+        _viewModel.OnPartySetupPopupCloseRequested -= HandlePartySetupPopupCloseRequested;
+
+        _isSubscribed = false;
     }
 
     // ===== 몬스터 파티 스폰 =====
@@ -111,45 +129,35 @@ public class StageSelectMap : MonoBehaviour
         _spawnedParties.Clear();
     }
 
-    // ===== 스테이지 정보 팝업 =====
-
     private void HandlePlayerReached(string stageId)
     {
-        _progressModel.SelectStage(stageId);
-
-        if (null != _playerParty)
+        if (null == _viewModel)
         {
-            _playerParty.StopMove();
+            return;
         }
 
-        OpenStageInfoPopupAsync(stageId).Forget();
+        _viewModel.HandlePartyReached(stageId);
     }
 
     private void HandlePlayerLeft(string stageId)
     {
-        if (_progressModel.SelectedStageId != stageId)
+        if (null == _viewModel)
         {
             return;
         }
 
-        CloseStageInfoPopup();
-
-        if (null != _playerParty)
-        {
-            _playerParty.ResumeMove();
-        }
+        _viewModel.HandlePartyLeft(stageId);
     }
 
-    private async UniTaskVoid OpenStageInfoPopupAsync(string stageId)
+    // ===== 스테이지 정보 팝업 (ViewModel 요청 → 실제 UIManager 조작) =====
+
+    private void HandleStageInfoPopupOpenRequested(StageInfoPopupViewModel viewModel)
     {
-        StageData stageData = _dataProvider.GetStage(stageId);
+        OpenStageInfoPopupAsync(viewModel).Forget();
+    }
 
-        if (null == stageData)
-        {
-            Debug.LogWarning($"[StageSelectMap] StageData 를 찾을 수 없습니다. stageId={stageId}");
-            return;
-        }
-
+    private async UniTaskVoid OpenStageInfoPopupAsync(StageInfoPopupViewModel viewModel)
+    {
         _stageInfoPopup = await GameManager.Instance.UIManager.OpenStageInfoPopupAsync();
 
         if (null == _stageInfoPopup)
@@ -158,14 +166,15 @@ public class StageSelectMap : MonoBehaviour
             return;
         }
 
-        _stageInfoViewModel = new StageInfoPopupViewModel(stageData, _dataProvider.GetStageWaves(stageId));
-        _stageInfoViewModel.OnPartySetupRequested += HandlePartySetupRequested;
-        _stageInfoViewModel.OnCloseRequested += HandleStageInfoCloseRequested;
-
-        _stageInfoPopup.Bind(_stageInfoViewModel);
+        _stageInfoPopup.Bind(viewModel);
     }
 
-    private void CloseStageInfoPopup()
+    private void HandleStageInfoPopupCloseRequested()
+    {
+        CloseStageInfoPopupView();
+    }
+
+    private void CloseStageInfoPopupView()
     {
         if (null == _stageInfoPopup)
         {
@@ -174,41 +183,17 @@ public class StageSelectMap : MonoBehaviour
 
         GameManager.Instance.UIManager.CloseStageInfoPopup();
 
-        UnsubscribeStageInfoPopup();
-    }
-
-    private void UnsubscribeStageInfoPopup()
-    {
-        if (null != _stageInfoViewModel)
-        {
-            _stageInfoViewModel.OnPartySetupRequested -= HandlePartySetupRequested;
-            _stageInfoViewModel.OnCloseRequested -= HandleStageInfoCloseRequested;
-            _stageInfoViewModel = null;
-        }
-
         _stageInfoPopup = null;
     }
 
-    private void HandleStageInfoCloseRequested()
-    {
-        CloseStageInfoPopup();
+    // ===== 파티 편성 팝업 (ViewModel 요청 → 실제 UIManager 조작) =====
 
-        if (null != _playerParty)
-        {
-            _playerParty.ResumeMove();
-        }
+    private void HandlePartySetupPopupOpenRequested(PartySetupPopupViewModel viewModel)
+    {
+        OpenPartySetupPopupAsync(viewModel).Forget();
     }
 
-    // ===== 파티 편성 팝업 =====
-
-    private void HandlePartySetupRequested()
-    {
-        CloseStageInfoPopup();
-
-        OpenPartySetupPopupAsync().Forget();
-    }
-
-    private async UniTaskVoid OpenPartySetupPopupAsync()
+    private async UniTaskVoid OpenPartySetupPopupAsync(PartySetupPopupViewModel viewModel)
     {
         _partySetupPopup = await GameManager.Instance.UIManager.OpenPartySetupPopupAsync();
 
@@ -218,19 +203,15 @@ public class StageSelectMap : MonoBehaviour
             return;
         }
 
-        _partySetupViewModel = new PartySetupPopupViewModel(_screenStateModel);
-        _partySetupViewModel.OnCloseRequested += HandlePartySetupCloseRequested;
-
-        _partySetupPopup.Bind(_partySetupViewModel);
+        _partySetupPopup.Bind(viewModel);
     }
 
-    private void HandlePartySetupCloseRequested()
+    private void HandlePartySetupPopupCloseRequested()
     {
-        ClosePartySetupPopup();
-        OpenStageInfoPopupAsync(_progressModel.SelectedStageId).Forget();
+        ClosePartySetupPopupView();
     }
 
-    private void ClosePartySetupPopup()
+    private void ClosePartySetupPopupView()
     {
         if (null == _partySetupPopup)
         {
@@ -238,17 +219,6 @@ public class StageSelectMap : MonoBehaviour
         }
 
         GameManager.Instance.UIManager.ClosePartySetupPopup();
-
-        UnsubscribePartySetupPopup();
-    }
-
-    private void UnsubscribePartySetupPopup()
-    {
-        if (null != _partySetupViewModel)
-        {
-            _partySetupViewModel.OnCloseRequested -= HandlePartySetupCloseRequested;
-            _partySetupViewModel = null;
-        }
 
         _partySetupPopup = null;
     }
