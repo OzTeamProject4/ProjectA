@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public sealed class LobbyView : MonoBehaviour
+public sealed class LobbyView : BaseUI
 {
     [SerializeField] private Button _profileButton;
     [SerializeField] private Button _giftBoxButton;
