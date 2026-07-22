@@ -3,23 +3,24 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Ground
+  - 
   - Water
   - UI
   - 
   - 
   - 
   - 
+  - Ground
+  - MonsterParty
+  - Obstacles
   - Player
   - Enemy
-  - 
-  - 
-  - 
   - 
   - 
   - 

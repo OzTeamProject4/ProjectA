@@ -40,6 +40,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 10e3024174d5ebf4197616748bfb3835
+    m_Address: UI/StageInfoPopup
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 160261f5e0939d54d8092f7d7f8826ad
+    m_Address: UI/Lobby
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1c3223c1ff11d914487a88e80b9c1a49
     m_Address: SkillFire001
     m_ReadOnly: 0
@@ -62,6 +72,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 38e32be9e8d35ab4294b8804c81f8947
     m_Address: SkillNormal030
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3a73d4cd95e27de4f906eb4ec04a079f
+    m_Address: Prefab/StageSelectMap_01
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -130,6 +145,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: af0fcfb100ebdfc43a8cbd1dd50bb601
+    m_Address: Prefab/BattleMap_Straight_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b0c5d8fcdbf50ca4d9ad071e13e7aa1d
     m_Address: UI/ItemPreviewPopup
     m_ReadOnly: 0
@@ -150,8 +170,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1e3f459ebd31684a9bf8772ff117721
+    m_Address: Video/Test
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c2535d6ed11afa6489e3afdb9df9bb7e
     m_Address: Sprites/Items
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d08d3e35a3192a94eb6399da3013b866
+    m_Address: UI/PartySetupPopup
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

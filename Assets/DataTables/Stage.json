@@ -1,0 +1,23 @@
+[
+  {
+    "DataId": "Stage_001",
+    "StageName": "현장학습 시작!",
+    "WaveCount": 3,
+    "TimeLimit": "180",
+    "MapPrefabKey": "Prefab/BattleMap_Straight_01"
+  },
+  {
+    "DataId": "Stage_002",
+    "StageName": "마법의 숲 초입",
+    "WaveCount": 3,
+    "TimeLimit": "180",
+    "MapPrefabKey": "Prefab/BattleMap_Straight_01"
+  },
+  {
+    "DataId": "Stage_003",
+    "StageName": "아름다운 호숫가",
+    "WaveCount": 4,
+    "TimeLimit": "180",
+    "MapPrefabKey": "Prefab/BattleMap_Straight_01"
+  }
+]

@@ -62,7 +62,7 @@ MonoBehaviour:
   _modelTransform: {fileID: 3961262410320416453}
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 1024
 --- !u!114 &5112161469702357605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,26 +328,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8711644934950729740}
     m_Modifications:
-    - target: {fileID: 5866666021909216657, guid: cdf3a9ea75b889e4c939cabe7c63af7d, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: a7e69e8050c7fd743bb142e735a6b5ad, type: 2}
-    - target: {fileID: 5866666021909216657, guid: cdf3a9ea75b889e4c939cabe7c63af7d, type: 3}
-      propertyPath: m_CullingMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5866666021909216657, guid: ec18a4c5deca6a64d856ee059524da4b, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5866666021909216657, guid: ec18a4c5deca6a64d856ee059524da4b, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 52ef9504217c41d45b7fafeb7c40627c, type: 2}
-    - target: {fileID: 5866666021909216657, guid: ec18a4c5deca6a64d856ee059524da4b, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e47fc971554bd864dbd7504a87e5b805, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -379,6 +359,26 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e47fc971554bd864dbd7504a87e5b805, type: 3}
       propertyPath: m_Name
       value: Modeling_Neri
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: cdf3a9ea75b889e4c939cabe7c63af7d, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a7e69e8050c7fd743bb142e735a6b5ad, type: 2}
+    - target: {fileID: 5866666021909216657, guid: cdf3a9ea75b889e4c939cabe7c63af7d, type: 3}
+      propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: ec18a4c5deca6a64d856ee059524da4b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: ec18a4c5deca6a64d856ee059524da4b, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 52ef9504217c41d45b7fafeb7c40627c, type: 2}
+    - target: {fileID: 5866666021909216657, guid: ec18a4c5deca6a64d856ee059524da4b, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

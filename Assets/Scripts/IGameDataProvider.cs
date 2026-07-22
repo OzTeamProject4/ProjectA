@@ -13,4 +13,8 @@ public interface IGameDataProvider
     EquipmentData GetEquipment(string dataId);
     IReadOnlyList<EquipmentData> GetAllEquipment();
     IReadOnlyList<ItemData> GetAllItems();
+
+    StageData GetStage(string stageId);
+    IReadOnlyList<StageData> GetAllStages();
+    IReadOnlyList<StageWaveData> GetStageWaves(string stageId);
 }
