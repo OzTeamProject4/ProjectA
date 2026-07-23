@@ -61,11 +61,17 @@ public class StageManager : BaseManager <StageManager>
             _selectMapViewModel = null;
         }
 
+        if (null == GameManager.Instance)
+        {
+            return;
+        }
+
         GameManager.Instance.ResourceManager.ReleaseAsset(AddressableKey.Prefab.StageSelectMap01);
 
         if (!string.IsNullOrEmpty(_battleMapKey))
         {
             GameManager.Instance.ResourceManager.ReleaseAsset(_battleMapKey);
+            _battleMapKey = null;
         }
     }
 
@@ -223,6 +229,19 @@ public class StageManager : BaseManager <StageManager>
     private async UniTask TransitionToBattleAsync()
     {
         await GameManager.Instance.UIManager.OpenOverlayUIAsync();
+
+        try
+        {
+            await TransitionToBattleInternalAsync();
+        }
+        finally
+        {
+            GameManager.Instance.UIManager.CloseOverlayUI();
+        }
+    }
+
+    private async UniTask TransitionToBattleInternalAsync()
+    {
         StageData stageData = GetStage(_progressModel.SelectedStageId);
 
         if (null == stageData)
@@ -261,8 +280,6 @@ public class StageManager : BaseManager <StageManager>
         await EnterBattleAsync(stageData, battleCamera);
         await UniTask.Yield(PlayerLoopTiming.Update, destroyCancellationToken);
         await UniTask.Delay((int)(FadeDuration * 1000f), cancellationToken: destroyCancellationToken);
-
-        GameManager.Instance.UIManager.CloseOverlayUI();
     }
 
     private async UniTask EnterBattleAsync(StageData stageData, CinemachineCamera battleCamera)

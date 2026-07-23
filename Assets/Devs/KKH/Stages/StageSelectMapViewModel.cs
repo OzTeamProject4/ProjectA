@@ -147,9 +147,9 @@ public class StageSelectMapViewModel
             return;
         }
 
-        _stageInfoViewModel.Dispose();
-
         _stageInfoViewModel.OnCloseRequested -= HandleStageInfoCloseRequested;
+
+        _stageInfoViewModel.Dispose();
         _stageInfoViewModel = null;
     }
 

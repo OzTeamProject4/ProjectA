@@ -15,6 +15,8 @@ public class StageSelectMap : MonoBehaviour
 
     private StageInfoPopupView _stageInfoPopup;
 
+    private bool _isStageInfoPopupRequested;
+
     public Transform PlayerSpawnPoint
     {
         get { return _playerSpawnPoint; }
@@ -147,24 +149,35 @@ public class StageSelectMap : MonoBehaviour
 
     private void HandleStageInfoPopupOpenRequested(StageInfoPopupViewModel viewModel)
     {
+        _isStageInfoPopupRequested = true;
+
         OpenStageInfoPopupAsync(viewModel).Forget();
     }
 
     private async UniTaskVoid OpenStageInfoPopupAsync(StageInfoPopupViewModel viewModel)
     {
-        _stageInfoPopup = await GameManager.Instance.UIManager.OpenStageInfoPopupAsync();
+        StageInfoPopupView popup = await GameManager.Instance.UIManager.OpenStageInfoPopupAsync();
 
-        if (null == _stageInfoPopup)
+        if (null == popup)
         {
             Debug.LogError("[StageSelectMap] StageInfoPopupView 를 열지 못했습니다.");
             return;
         }
 
+        if (!_isStageInfoPopupRequested)
+        {
+            GameManager.Instance.UIManager.CloseStageInfoPopup();
+            return;
+        }
+
+        _stageInfoPopup = popup;
         _stageInfoPopup.Bind(viewModel);
     }
 
     private void HandleStageInfoPopupCloseRequested()
     {
+        _isStageInfoPopupRequested = false;
+
         CloseStageInfoPopupView();
     }
 

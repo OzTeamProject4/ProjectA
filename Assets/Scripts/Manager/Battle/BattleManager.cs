@@ -21,6 +21,7 @@ public class BattleManager : BaseManager<BattleManager>
     private string _stageId;
     private bool _isBattleActive;
     private bool _isPaused;
+    private bool _isInputSubscribed;
 
     private GameObject _enemyRoot;
     private GameObject _enemySkillRoot;
@@ -44,6 +45,37 @@ public class BattleManager : BaseManager<BattleManager>
     {
         Time.timeScale = 1f;
 
+        UnsubscribeInputActions();
+        CleanupPartyController();
+    }
+
+    private void SubscribeInputActions()
+    {
+        if (_isInputSubscribed)
+        {
+            return;
+        }
+
+        if (GameManager.Instance == null)
+        {
+            return;
+        }
+
+        GameManager.Instance.InputManager.OnUltimatePerformed += HandleUltimate;
+        GameManager.Instance.InputManager.OnBasicSkillPerformed += HandleBasicSkill;
+        GameManager.Instance.InputManager.OnNormalSkillPerformed += HandleNormalSkill;
+        GameManager.Instance.InputManager.OnSwitchIndexPerformed += HandleSwitchIndex;
+
+        _isInputSubscribed = true;
+    }
+
+    private void UnsubscribeInputActions()
+    {
+        if (!_isInputSubscribed)
+        {
+            return;
+        }
+
         if (GameManager.Instance != null)
         {
             GameManager.Instance.InputManager.OnUltimatePerformed -= HandleUltimate;
@@ -52,10 +84,18 @@ public class BattleManager : BaseManager<BattleManager>
             GameManager.Instance.InputManager.OnSwitchIndexPerformed -= HandleSwitchIndex;
         }
 
-        if (_partyController != null)
+        _isInputSubscribed = false;
+    }
+
+    private void CleanupPartyController()
+    {
+        if (_partyController == null)
         {
-            _partyController.Cleanup();
+            return;
         }
+
+        _partyController.Cleanup();
+        _partyController = null;
     }
 
     private void Update()
@@ -100,16 +140,17 @@ public class BattleManager : BaseManager<BattleManager>
         if (characters == null || characters.Count == 0)
         {
             Debug.LogError("파티 캐릭터가 null");
+
+            _isBattleActive = false;
             return;
         }
+
+        CleanupPartyController();
 
         _partyController = new PartyController();
         _partyController.Initialize(characters, _cinemachineCamera);
 
-        GameManager.Instance.InputManager.OnUltimatePerformed += HandleUltimate;
-        GameManager.Instance.InputManager.OnBasicSkillPerformed += HandleBasicSkill;
-        GameManager.Instance.InputManager.OnNormalSkillPerformed += HandleNormalSkill;
-        GameManager.Instance.InputManager.OnSwitchIndexPerformed += HandleSwitchIndex;
+        SubscribeInputActions();
     }
 
     public void EndBattle(bool isVictory)
@@ -119,6 +160,8 @@ public class BattleManager : BaseManager<BattleManager>
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         GameManager.Instance.InputManager.DisablePlayerActions();
+
+        UnsubscribeInputActions();
 
         OnBattleEnded?.Invoke(isVictory);
 
@@ -144,6 +187,9 @@ public class BattleManager : BaseManager<BattleManager>
         if (choice == BattlePauseChoice.BackToStage)
         {
             _isBattleActive = false;
+
+            UnsubscribeInputActions();
+
             OnReturnToSelectRequested?.Invoke();
             return;
         }
@@ -224,6 +270,12 @@ public class BattleManager : BaseManager<BattleManager>
             }
 
             EnemyController enemyController = prefab.GetComponent<EnemyController>();
+
+            if (enemyController == null)
+            {
+                Debug.LogError($"[BattleManager] 생성된 적 프리팹에 {nameof(EnemyController)} 가 없습니다. key={enemyData.PrefabAddress}");
+                return;
+            }
 
             enemyController.Bind(enemyData, vm);
 

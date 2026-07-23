@@ -20,6 +20,8 @@ public class StageInfoPopupView : BaseUI
 
     private PartySelectPopupView _partySelectPopup;
 
+    private bool _isPartySelectPopupRequested;
+
     private void OnDisable()
     {
         Unsubscribe();
@@ -256,24 +258,35 @@ public class StageInfoPopupView : BaseUI
 
     private void HandlePartySelectOpenRequested(PartySelectPopupViewModel selectViewModel)
     {
+        _isPartySelectPopupRequested = true;
+
         OpenPartySelectPopupAsync(selectViewModel).Forget();
     }
 
     private async UniTaskVoid OpenPartySelectPopupAsync(PartySelectPopupViewModel selectViewModel)
     {
-        _partySelectPopup = await GameManager.Instance.UIManager.OpenPartySelectPopupAsync();
+        PartySelectPopupView popup = await GameManager.Instance.UIManager.OpenPartySelectPopupAsync();
 
-        if (null == _partySelectPopup)
+        if (null == popup)
         {
             Debug.LogError("[StageInfoPopupView] PartySelectPopupView 를 열지 못했습니다.");
             return;
         }
 
+        if (!_isPartySelectPopupRequested)
+        {
+            GameManager.Instance.UIManager.ClosePartySelectPopup();
+            return;
+        }
+
+        _partySelectPopup = popup;
         _partySelectPopup.Bind(selectViewModel);
     }
 
     private void HandlePartySelectCloseRequested()
     {
+        _isPartySelectPopupRequested = false;
+
         if (null == _partySelectPopup)
         {
             return;
