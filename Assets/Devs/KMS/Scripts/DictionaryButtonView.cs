@@ -1,10 +1,12 @@
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+
+[RequireComponent(typeof(Button))]
 public class DictionaryButtonView : MonoBehaviour
 {
-    [SerializeField] private GameObject _screenRoot;
-    [SerializeField] private GameObject _dictionaryScreen;
-
     private Button _button;
 
     private void Awake()
@@ -24,21 +26,37 @@ public class DictionaryButtonView : MonoBehaviour
 
     private void OnButtonClicked()
     {
-        if (_screenRoot == null)
+        if (GameManager.Instance == null)
         {
-            Debug.LogError("ScreenRoot is not assigned.");
+            Debug.LogError("GameManager.Instance is null.");
             return;
         }
 
-        if (_dictionaryScreen == null)
+        if (GameManager.Instance.UIManager == null)
         {
-            Debug.LogError("DictionaryScreen is not assigned.");
+            Debug.LogError("UIManager is null.");
             return;
         }
 
-        _screenRoot.SetActive(true);
-        _dictionaryScreen.SetActive(true);
+        OpenDictionaryScreenAsync(destroyCancellationToken).Forget();
+    }
 
-        Debug.Log("Dictionary Screen Opened");
+    private async UniTask OpenDictionaryScreenAsync(
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            await GameManager.Instance.UIManager
+                .OpenDictionaryScreenAsync(cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        catch (Exception exception)
+        {
+            Debug.LogError(
+                $"Failed to open DictionaryScreen.\n{exception}");
+        }
     }
 }

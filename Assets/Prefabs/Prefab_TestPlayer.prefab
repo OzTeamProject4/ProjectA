@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2621311783931791263}
   - component: {fileID: 6964039221327992280}
   - component: {fileID: 5423809276147506849}
+  - component: {fileID: 2724347780181515819}
   m_Layer: 0
   m_Name: Prefab_TestPlayer
   m_TagString: Player
@@ -40,7 +41,6 @@ Transform:
   - {fileID: 3961262410320416453}
   - {fileID: 9005055626130884636}
   - {fileID: 1923041187963803852}
-  - {fileID: 8039770000814821959}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5081647649573151466
@@ -179,7 +179,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAttack
   _firePoint: {fileID: 8039770000814821959}
-  _attackCooldown: 1
 --- !u!114 &5423809276147506849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,6 +191,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59f19a13daf97244faa9eb85fa22aa14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSkillSystem
+--- !u!195 &2724347780181515819
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626719572058679806}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 2
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 3.228006
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &2672419490777090849
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,12 +237,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2672419490777090849}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.104, y: 1.722, z: 1.047}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8711644934950729740}
+  m_Father: {fileID: 3961262410320416453}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6019765236692963031
 GameObject:
@@ -306,7 +327,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 11
+  m_Radius: 30
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6873697945220260000
 MonoBehaviour:
@@ -382,7 +403,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: e47fc971554bd864dbd7504a87e5b805, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8039770000814821959}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e47fc971554bd864dbd7504a87e5b805, type: 3}
       insertIndex: -1

@@ -2,6 +2,7 @@
 using System;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(Rigidbody))]
 
@@ -34,6 +35,7 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     private float _maxHp;
     private float _baseMoveSpeed;
     private CancellationTokenSource _buffCts;
+    private NavMeshAgent _navMeshAgent;
 
     public string CharacterName
     {
@@ -73,6 +75,14 @@ public class BattleCharacter : MonoBehaviour, IDamageable
             return _data.Type;   
         }
     }
+    public NavMeshAgent NavMeshAgent
+    {
+        get
+        {
+            return _navMeshAgent;
+        }
+    }
+
     public event Action<float> OnMoveSpeedChanged;
     public event Action<bool> OnGroundedChanged;
 
@@ -81,6 +91,14 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+
+        if (_navMeshAgent != null)
+        {
+            _navMeshAgent.updatePosition = false;
+            _navMeshAgent.updateRotation = false;
+            _navMeshAgent.updateUpAxis = false;
+        }
     }
 
     private void Update()
@@ -103,6 +121,8 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         _buffCts?.Cancel();
         _buffCts?.Dispose();
     }
+
+    
     public async UniTask InitializeAsync(CharacterData data, StatData stats)
     {
         _data = data;
@@ -124,9 +144,9 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         }
     }
 
-    public void Move(Vector3 moveDirection, bool isRunning)
+    public void Move(Vector3 moveDirection, bool isRunning, bool rotateToMoveDirection = true)
     {
-        // Debug.Log($"Move 호출: {moveDirection}");
+        moveDirection.y = 0;
         float speed = isRunning ? _curRunSpeed : _curMoveSpeed;
         Vector3 velocity = moveDirection * speed;
         velocity.y = _rigidbody.linearVelocity.y;

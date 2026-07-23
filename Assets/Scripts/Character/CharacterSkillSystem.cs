@@ -9,6 +9,8 @@ public class CharacterSkillSystem : MonoBehaviour
     private const float GaugePerSecond = 5.0f;
     private const string EnemyTag = "Enemy";
     private const float EffectLifeTime = 3.0f;
+    private const int SkillPrewarmCount = 5;
+    private const float MinAttackRangeRatio = 0.4f;
 
     private CharacterAttack _characterAttack;
     private BattleCharacter _battleCharacter;
@@ -19,7 +21,64 @@ public class CharacterSkillSystem : MonoBehaviour
     private int _maxGauge;
     private float _gaugeAccumulator;
     private List<string> _loadedPrefabKeys = new List<string>();
-    
+
+    public float MaxSkillRange
+    {
+        get
+        {
+            float maxRange = 0f;
+
+            if (_basicSkill != null)
+            {
+                maxRange = Mathf.Max(maxRange, _basicSkill.Data.SkillRange);
+            }
+
+            if (_normalSkill != null)
+            {
+                maxRange = Mathf.Max(maxRange, _normalSkill.Data.SkillRange);
+            }
+
+            if (_ultimateSkill != null)
+            {
+                maxRange = Mathf.Max(maxRange, _ultimateSkill.Data.SkillRange);
+            }
+            return maxRange;
+        }
+    }
+
+    public float AttackRange
+    {
+        get
+        {
+            float basicRange = GetAttackSkillRange(_basicSkill);
+            float normalRange = GetAttackSkillRange(_normalSkill);
+
+            if (basicRange <= 0f && normalRange <= 0f)
+            {
+                return 0f;
+            }
+
+            if (basicRange <= 0f)
+            {
+                return normalRange;
+            }
+
+            if (normalRange <= 0f)
+            {
+                return basicRange;
+            }
+
+            return Mathf.Min(basicRange, normalRange);
+        }
+    }
+
+    public float MinAttackRange
+    {
+        get
+        {
+            return AttackRange * MinAttackRangeRatio;
+        }
+    }
 
     public event Action<int, int> OnGaugeChanged;
     public event Action<int, float, float, GameObject> OnHealBuffRequested;
@@ -108,13 +167,8 @@ public class CharacterSkillSystem : MonoBehaviour
         }
 
         Transform target = FindNearestEnemy(_basicSkill.Data.SkillRange);
-        if (target == null)
-        {
-            Debug.Log("사거리 내 적 없음");
-            return;
-        }
-
-        UseBasicSkill(target);
+        ExecuteSkill(_basicSkill, target);
+        _basicSkill.MarkUsed();
     }
 
     public void UseBasicSkill(Transform target)
@@ -158,13 +212,8 @@ public class CharacterSkillSystem : MonoBehaviour
         }
 
         Transform target = FindNearestEnemy(_normalSkill.Data.SkillRange);
-        if (target == null)
-        {
-            Debug.Log("사거리 내 적 없음");
-            return;
-        }
-
-        UseNormalSkill(target);
+        ExecuteSkill(_normalSkill, target);
+        _normalSkill.MarkUsed();
     }
     public void UseNormalSkill(Transform target)
     {
@@ -219,14 +268,14 @@ public class CharacterSkillSystem : MonoBehaviour
 
     private void ExecuteSkill(RuntimeSkill skill, Transform target)
     {
-        if (skill.Data.Type != CharacterSkillType.HealBuff && target == null)
+        if (skill.Data.Type != CharacterSkillType.HealBuff && target == null && skill.Data.ProjectileSpeed <= 0)
         {
             return;
         }
 
         if (target != null)
         {
-            _battleCharacter.LookAtInstant(target.position);
+            _battleCharacter.LookAtInstant(target.position); 
         }
 
         int damage = (int)(_battleCharacter.CurAtk * SkillDamageMultiplier * skill.Data.DamageCoefficient);
@@ -236,7 +285,7 @@ public class CharacterSkillSystem : MonoBehaviour
             case CharacterSkillType.SingleAttack:
                 if (skill.Data.ProjectileSpeed > 0)
                 {
-                    _characterAttack.FireProjectile(skill.ProjectilePrefab, target, damage, this, skill.Data.GaugeRecovery);
+                    _characterAttack.FireProjectile(skill.Data.PrefabPath, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed);
                 }
 
                 else
@@ -265,7 +314,7 @@ public class CharacterSkillSystem : MonoBehaviour
             case CharacterSkillType.AreaAttack:
                 if (skill.Data.ProjectileSpeed > 0)
                 {
-                    _characterAttack.FireProjectile(skill.ProjectilePrefab, target, damage, this, skill.Data.GaugeRecovery, skill.Data.AreaRadius);
+                    _characterAttack.FireProjectile(skill.Data.PrefabPath, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed, skill.Data.AreaRadius);
                 }
 
                 else
@@ -374,15 +423,34 @@ public class CharacterSkillSystem : MonoBehaviour
 
         GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(skill.Data.PrefabPath);
 
-        if (prefab != null)
+        if (prefab == null)
         {
-            skill.SetProjectilePrefab(prefab);
-            _loadedPrefabKeys.Add(skill.Data.PrefabPath);
+            Debug.LogError($"프리팹 로드 실패 {skill.Data.PrefabPath}");
+            return;
         }
 
-        else
+        skill.SetProjectilePrefab(prefab);
+        _loadedPrefabKeys.Add(skill.Data.PrefabPath);
+
+        
+        if (skill.Data.ProjectileSpeed > 0)
         {
-            Debug.LogError($"프리팹 로드 실패: {skill.Data.PrefabPath}");
+            await GameManager.Instance.ObjectManager.PrewarmAsync(skill.Data.PrefabPath, SkillPrewarmCount, destroyCancellationToken);
         }
+    }
+
+    private float GetAttackSkillRange(RuntimeSkill skill)
+    {
+        if (skill == null)
+        {
+            return 0f;
+        }
+
+        if (skill.Data.Type == CharacterSkillType.HealBuff)
+        {
+            return 0f;
+        }
+
+        return skill.Data.SkillRange;
     }
 }
