@@ -1,13 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PartySelectPopupViewModel
 {
-    private readonly List<PartySelectItemViewModel> _items = new List<PartySelectItemViewModel>();
+    private readonly List<PartySelectSlotViewModel> _items = new List<PartySelectSlotViewModel>();
     private readonly Dictionary<string, CharacterModel> _modelById = new Dictionary<string, CharacterModel>();
 
-    public IReadOnlyList<PartySelectItemViewModel> Items
+    public IReadOnlyList<PartySelectSlotViewModel> Items
     {
         get { return _items; }
     }
@@ -30,7 +30,7 @@ public class PartySelectPopupViewModel
                 continue;
             }
 
-            _items.Add(new PartySelectItemViewModel(model));
+            _items.Add(new PartySelectSlotViewModel(model));
             _modelById[model.Id] = model;
         }
     }

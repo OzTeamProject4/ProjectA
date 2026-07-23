@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class MonsterListItemView : MonoBehaviour
+public class MonsterListSlotView : MonoBehaviour
 {
     [SerializeField] private Image _portraitImage;
 

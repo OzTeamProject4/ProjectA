@@ -1,14 +1,14 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PartySelectPopupView : BaseUI
 {
-    [SerializeField] private PartySelectItemView _itemPrefab;
+    [SerializeField] private PartySelectSlotView _itemPrefab;
     [SerializeField] private Transform _contentParent;
     [SerializeField] private Button _closeButton;
 
-    private readonly List<PartySelectItemView> _spawnedItems = new List<PartySelectItemView>();
+    private readonly List<PartySelectSlotView> _spawnedItems = new List<PartySelectSlotView>();
 
     private PartySelectPopupViewModel _viewModel;
     private bool _isSubscribed;
@@ -83,9 +83,9 @@ public class PartySelectPopupView : BaseUI
             return;
         }
 
-        foreach (PartySelectItemViewModel itemViewModel in _viewModel.Items)
+        foreach (PartySelectSlotViewModel itemViewModel in _viewModel.Items)
         {
-            PartySelectItemView itemView = Instantiate(_itemPrefab, _contentParent);
+            PartySelectSlotView itemView = Instantiate(_itemPrefab, _contentParent);
             itemView.Bind(itemViewModel);
 
             itemView.OnClicked -= HandleItemClicked;
@@ -97,7 +97,7 @@ public class PartySelectPopupView : BaseUI
 
     private void UnsubscribeItems()
     {
-        foreach (PartySelectItemView item in _spawnedItems)
+        foreach (PartySelectSlotView item in _spawnedItems)
         {
             if (null == item)
             {
@@ -110,7 +110,7 @@ public class PartySelectPopupView : BaseUI
 
     private void ClearItems()
     {
-        foreach (PartySelectItemView item in _spawnedItems)
+        foreach (PartySelectSlotView item in _spawnedItems)
         {
             if (null == item)
             {

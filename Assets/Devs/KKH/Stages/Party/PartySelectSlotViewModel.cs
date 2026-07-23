@@ -1,6 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PartySelectItemViewModel
+public class PartySelectSlotViewModel
 {
     private readonly CharacterModel _model;
 
@@ -56,7 +56,7 @@ public class PartySelectItemViewModel
         }
     }
 
-    public PartySelectItemViewModel(CharacterModel model)
+    public PartySelectSlotViewModel(CharacterModel model)
     {
         if (null == model)
         {

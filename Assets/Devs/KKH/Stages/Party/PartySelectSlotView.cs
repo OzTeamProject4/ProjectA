@@ -4,14 +4,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PartySelectItemView : MonoBehaviour
+public class PartySelectSlotView : MonoBehaviour
 {
     [SerializeField] private Image _portraitImage;
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private GameObject[] _starIcons;
     [SerializeField] private Button _selectButton;
 
-    private PartySelectItemViewModel _viewModel;
+    private PartySelectSlotViewModel _viewModel;
     private bool _isSubscribed;
 
     public event Action<string> OnClicked;
@@ -26,7 +26,7 @@ public class PartySelectItemView : MonoBehaviour
         Unsubscribe();
     }
 
-    public void Bind(PartySelectItemViewModel viewModel)
+    public void Bind(PartySelectSlotViewModel viewModel)
     {
         if (null == viewModel)
         {

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -8,12 +8,12 @@ public class StageInfoPopupView : BaseUI
 {
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private Transform _monsterListContainer;
-    [SerializeField] private MonsterListItemView _monsterItemPrefab;
+    [SerializeField] private MonsterListSlotView _monsterItemPrefab;
     [SerializeField] private Button _startButton;
     [SerializeField] private Button _blockerButton;
     [SerializeField] private PartySlotButton[] _partySlots;
 
-    private readonly List<MonsterListItemView> _spawnedItems = new List<MonsterListItemView>();
+    private readonly List<MonsterListSlotView> _spawnedItems = new List<MonsterListSlotView>();
 
     private StageInfoPopupViewModel _viewModel;
     private bool _isSubscribed;
@@ -131,7 +131,7 @@ public class StageInfoPopupView : BaseUI
 
         foreach (string monsterId in _viewModel.GetMonsterIds())
         {
-            MonsterListItemView item = Instantiate(_monsterItemPrefab, _monsterListContainer);
+            MonsterListSlotView item = Instantiate(_monsterItemPrefab, _monsterListContainer);
             item.Bind(monsterId);
 
             _spawnedItems.Add(item);
@@ -140,7 +140,7 @@ public class StageInfoPopupView : BaseUI
 
     private void ClearItems()
     {
-        foreach (MonsterListItemView item in _spawnedItems)
+        foreach (MonsterListSlotView item in _spawnedItems)
         {
             if (null == item)
             {
