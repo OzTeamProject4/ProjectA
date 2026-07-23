@@ -2983,6 +2983,7 @@ GameObject:
   - component: {fileID: 5356803709557562635}
   - component: {fileID: 3634727342701048868}
   - component: {fileID: 5059857509494386769}
+  - component: {fileID: 6239070718161347579}
   m_Layer: 5
   m_Name: StoryButton
   m_TagString: Untagged
@@ -3092,6 +3093,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6239070718161347579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2249682360456620700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ac1722f766db5846aead89026df192d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterButtonView
 --- !u!1 &2506677039692808906
 GameObject:
   m_ObjectHideFlags: 0

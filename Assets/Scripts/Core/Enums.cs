@@ -13,7 +13,7 @@
     Overlay,
     Loading,
 
-        PracticeFieldScreen,
+    PracticeFieldScreen,
     StageSelectScreen,
     DictionaryScreen,
     FarmingDungeonScreen,
