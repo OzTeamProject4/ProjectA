@@ -17,7 +17,6 @@ public partial class PlayerFollowTargetAction : Action
     private NavMeshAgent _navMeshAgent;
     protected override Status OnStart()
     {
-        Debug.Log("PlayerFollowTarget OnStart");
         if (Self.Value == null)
         {
             return Status.Failure;

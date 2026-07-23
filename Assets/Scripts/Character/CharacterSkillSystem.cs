@@ -22,6 +22,10 @@ public class CharacterSkillSystem : MonoBehaviour
     private float _gaugeAccumulator;
     private List<string> _loadedPrefabKeys = new List<string>();
 
+    public event Action<int, int> OnGaugeChanged;
+    public event Action<int, float, float, GameObject> OnHealBuffRequested;
+    public event Action<CharacterSkillCategory> OnSkillUsed;
+
     public float MaxSkillRange
     {
         get
@@ -80,8 +84,7 @@ public class CharacterSkillSystem : MonoBehaviour
         }
     }
 
-    public event Action<int, int> OnGaugeChanged;
-    public event Action<int, float, float, GameObject> OnHealBuffRequested;
+    
     
     private void Awake()
     {
@@ -277,6 +280,8 @@ public class CharacterSkillSystem : MonoBehaviour
         {
             _battleCharacter.LookAtInstant(target.position); 
         }
+
+        OnSkillUsed?.Invoke(skill.Data.Category);
 
         int damage = (int)(_battleCharacter.CurAtk * SkillDamageMultiplier * skill.Data.DamageCoefficient);
 
