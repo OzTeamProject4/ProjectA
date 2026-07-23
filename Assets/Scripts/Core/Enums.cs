@@ -13,15 +13,17 @@
     PartySetupPopup,
     Overlay,
     Loading,
-
-        PracticeFieldScreen,
+    PracticeFieldScreen,
     StageSelectScreen,
     DictionaryScreen,
     FarmingDungeonScreen,
     CharacterGachaScreen,
     MissionScreen,
     InventoryScreen,
-    AchievementScreen
+    AchievementScreen,
+    PartySelectPopup,
+    BattleResultPopup,
+    BattlePausePopup
 }
 
 public enum LoadingState

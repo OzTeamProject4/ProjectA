@@ -3,86 +3,10 @@ using System.Threading;
 
 public static class UIManagerExtension
 {
-    public static async UniTask<CharacterListView> OpenCharacterListAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
-    {
-        BaseUI baseUI = await uiManager.OpenContentRootAsync(UIType.CharacterList, cancellationToken);
-        return GetView<CharacterListView>(baseUI, UIType.CharacterList);
-    }
-
-    public static void CloseCharacterList(this UIManager uiManager)
-    {
-        uiManager.Close(UIType.CharacterList);
-    }
-
-    public static async UniTask<CharacterDetailView> OpenCharacterDetailAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
-    {
-        BaseUI baseUI = await uiManager.OpenContentRootAsync(UIType.CharacterDetail, cancellationToken);
-        return GetView<CharacterDetailView>(baseUI, UIType.CharacterDetail);
-    }
-
-    public static void CloseCharacterDetail(this UIManager uiManager)
-    {
-        uiManager.Close(UIType.CharacterDetail);
-    }
-
-    public static async UniTask<ExpItemSelectPopupView> OpenExpItemSelectPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
-    {
-        BaseUI baseUI = await uiManager.OpenOverlayRootAsync(UIType.ExpItemSelectPopup, cancellationToken);
-        return GetView<ExpItemSelectPopupView>(baseUI, UIType.ExpItemSelectPopup);
-    }
-
-    public static void CloseExpItemSelectPopup(this UIManager uiManager)
-    {
-        uiManager.Close(UIType.ExpItemSelectPopup);
-    }
-
-    public static async UniTask<CraftPopupView> OpenCraftPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
-    {
-        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.CraftPopup, cancellationToken);
-        return GetView<CraftPopupView>(baseUI, UIType.CraftPopup);
-    }
-
-    public static void CloseCraftPopup(this UIManager uiManager)
-    {
-        uiManager.Close(UIType.CraftPopup);
-    }
-
-    public static async UniTask<EquipmentListPopupView> OpenEquipmentListPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
-    {
-        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.EquipmentListPopup, cancellationToken);
-        return GetView<EquipmentListPopupView>(baseUI, UIType.EquipmentListPopup);
-    }
-
-    public static void CloseEquipmentListPopup(this UIManager uiManager)
-    {
-        uiManager.Close(UIType.EquipmentListPopup);
-    }
-
-    public static async UniTask<EquipmentDetailPopupView> OpenEquipmentDetailPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
-    {
-        BaseUI baseUI = await uiManager.OpenOverlayRootAsync(UIType.EquipmentDetailPopup, cancellationToken);
-        return GetView<EquipmentDetailPopupView>(baseUI, UIType.EquipmentDetailPopup);
-    }
-
-    public static void CloseEquipmentDetailPopup(this UIManager uiManager)
-    {
-        uiManager.Close(UIType.EquipmentDetailPopup);
-    }
-
-    public static async UniTask<ItemPreviewPopupView> OpenItemPreviewPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
-    {
-        BaseUI baseUI = await uiManager.OpenOverlayRootAsync(UIType.ItemPreviewPopup, cancellationToken);
-        return GetView<ItemPreviewPopupView>(baseUI, UIType.ItemPreviewPopup);
-    }
-
-    public static void CloseItemPreviewPopup(this UIManager uiManager)
-    {
-        uiManager.Close(UIType.ItemPreviewPopup);
-    }
-
     public static async UniTask<StageInfoPopupView> OpenStageInfoPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
         BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.StageInfoPopup, cancellationToken);
+
         return GetView<StageInfoPopupView>(baseUI, UIType.StageInfoPopup);
     }
 
@@ -156,9 +80,26 @@ public static class UIManagerExtension
         await uiManager.OpenTestRootAsync(UIType.CharacterGachaScreen, cancellationToken);
     }
 
-    public static void CloseCharacterGachaScreen(this UIManager uiManager)
+    public static async UniTask<BattleResultPopupView> OpenBattleResultAsync(this UIManager uiManager, bool isVictory, string stageId, CancellationToken cancellationToken = default)
     {
-        uiManager.Close(UIType.CharacterGachaScreen);
+        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.BattleResultPopup, cancellationToken);
+        return GetView<BattleResultPopupView>(baseUI, UIType.BattleResultPopup);
+    }
+
+    public static void CloseBattleResultAsync(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.BattleResultPopup);
+    }
+
+    public static async UniTask<BattlePausePopupView> OpenBattlePauseAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.BattlePausePopup, cancellationToken);
+        return GetView<BattlePausePopupView>(baseUI, UIType.BattlePausePopup);
+    }
+
+    public static void CloseBattlePauseAsync(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.BattleResultPopup);
     }
 
     public static async UniTask OpenMissionScreenAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
@@ -173,7 +114,7 @@ public static class UIManagerExtension
 
     public static async UniTask OpenInventoryScreenAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
-        await uiManager.OpenTestRootAsync(UIType.InventoryScreen, cancellationToken);
+        await uiManager.OpenTestRootAsync( UIType.InventoryScreen, cancellationToken);
     }
 
     public static void CloseInventoryScreen(this UIManager uiManager)
@@ -181,7 +122,7 @@ public static class UIManagerExtension
         uiManager.Close(UIType.InventoryScreen);
     }
 
-    public static async UniTask OpenAchievementScreenAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    public static async UniTask OpenAchievementScreenAsync(this UIManager uiManager,CancellationToken cancellationToken = default)
     {
         await uiManager.OpenTestRootAsync(UIType.AchievementScreen, cancellationToken);
     }

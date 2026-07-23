@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -14,13 +15,14 @@ public class BattleManager : BaseManager<BattleManager>
     private TempPartySpawner _partySpawner;
     private PartyController _partyController;
 
+    // 전투 종료(승/패) 알림. 실제 승패 판정 로직에서 EndBattle 을 호출하면 발행됨
+    public event Action<bool> OnBattleEnded;
+
     private GameObject _enemyRoot;
     private GameObject _enemySkillRoot;
 
-    public override async UniTask InitializeAsync()
+    public override UniTask InitializeAsync()
     {
-
-
         if (_enemyRoot == null)
         {
             _enemyRoot = new GameObject("EnemyRoot");
@@ -30,19 +32,9 @@ public class BattleManager : BaseManager<BattleManager>
         {
             _enemySkillRoot = new GameObject("EnemySkillRoot");
         }
+
+        return UniTask.CompletedTask;
     }
-
-
-
-    //private async void Start()
-    //{
-    //    if (_cinemachineCamera == null)
-    //    {
-    //        Debug.LogError("카메라 참조 null 인스펙터 확인");
-    //        return;
-    //    }
-    //    await EnterBattle();
-    //}
 
     private void OnDisable()
     {
@@ -94,6 +86,15 @@ public class BattleManager : BaseManager<BattleManager>
         GameManager.Instance.InputManager.OnSwitchIndexPerformed += HandleSwitchIndex;
 
         // 첫 몬스터 스폰
+    }
+
+    // 승패 판정 로직에서 호출. 커서를 풀어 결과 UI 를 조작할 수 있게 하고 종료를 알린다
+    public void EndBattle(bool isVictory)
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        OnBattleEnded?.Invoke(isVictory);
     }
 
     private void HandleUltimate()
