@@ -159,6 +159,28 @@ public static class UIManagerExtension
         uiManager.Close(UIType.PartySetupPopup);
     }
 
+
+
+   
+    public static async UniTask<SettingPopupView> OpenSettingPopupAsync(
+        this UIManager uiManager,  CancellationToken cancellationToken = default)
+    {
+        BaseUI baseUI = await uiManager.OpenPopupRootAsync(
+        UIType.SettingPopup,
+        cancellationToken);
+
+        return GetView<SettingPopupView>(
+            baseUI,
+            UIType.SettingPopup);
+    }
+
+
+    public static void CloseSettingPopup(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.SettingPopup);
+    }
+
+
     public static async UniTask OpenOverlayUIAsync(
         this UIManager uiManager,
         CancellationToken cancellationToken = default)

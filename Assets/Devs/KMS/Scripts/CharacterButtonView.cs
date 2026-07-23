@@ -1,15 +1,12 @@
 using Cysharp.Threading.Tasks;
-using System;
-using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
 public class CharacterButtonView : MonoBehaviour
 {
-
     private Button _button;
+    private CharacterGrowthController _controller;
 
     private void Awake()
     {
@@ -28,39 +25,24 @@ public class CharacterButtonView : MonoBehaviour
 
     private void OnButtonClicked()
     {
-        CancellationToken cancellationToken =
-            this.GetCancellationTokenOnDestroy();
-
-        OpenCharacterListAsync(cancellationToken).Forget();
-    }
-
-    private async UniTaskVoid OpenCharacterListAsync(
-            CancellationToken cancellationToken)
-    {
-        try
+        if (GameManager.Instance == null)
         {
-            if (GameManager.Instance == null)
-            {
-                Debug.LogError("GameManager.Instance is null.");
-                return;
-            }
+            Debug.LogError("GameManager.Instance is null.");
+            return;
+        }
 
-            if (GameManager.Instance.UIManager == null)
-            {
-                Debug.LogError("UIManager is null.");
-                return;
-            }
+        if (_controller != null)
+        {
+            Debug.Log("이미 캐릭터 화면에 진입한 상태입니다.");
+            return;
+        }
 
-            await GameManager.Instance.UIManager.OpenCharacterListAsync(
-                cancellationToken);
-        }
-        catch (OperationCanceledException)
-        {
-        }
-        catch (Exception exception)
-        {
-            Debug.LogError(
-                $"Failed to open CharacterList.\n{exception}");
-        }
+        GameObject controllerObject =
+            new GameObject(nameof(CharacterGrowthController));
+
+        _controller =
+            controllerObject.AddComponent<CharacterGrowthController>();
+
+        _controller.EnterAsync().Forget();
     }
 }

@@ -10,6 +10,7 @@
     ItemPreviewPopup,
     StageInfoPopup,
     PartySetupPopup,
+    SettingPopup,
     Overlay,
     Loading,
 
