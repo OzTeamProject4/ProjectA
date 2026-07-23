@@ -8,7 +8,7 @@ public class EnemySkillViewModel : ViewModelBase
         OnPropertyChanged(nameof(SkillDataId));
         OnPropertyChanged(nameof(InstanceId));
         OnPropertyChanged(nameof(Name));
-        OnPropertyChanged(nameof(User));
+        OnPropertyChanged(nameof(_useEnemyController));
         OnPropertyChanged(nameof(ElementalType));
         OnPropertyChanged(nameof(BaseDamage));
         OnPropertyChanged(nameof(PrefabAddress));
@@ -18,7 +18,7 @@ public class EnemySkillViewModel : ViewModelBase
     private string _skillDataId;
     private int _instanceId;
     private string _name;
-    private GameObject _user;
+    private EnemyController _useEnemyController;
     private string _elementalType;
     private float _baseDamage;
     private string _prefabAddress;
@@ -64,15 +64,15 @@ public class EnemySkillViewModel : ViewModelBase
         }
     }
 
-    public GameObject User
+    public EnemyController UseEnemyController
     {
-        get => _user;
+        get => _useEnemyController;
         set
         {
-            if (_user != value)
+            if (_useEnemyController != value)
             {
-                _user = value;
-                OnPropertyChanged(nameof(User));
+                _useEnemyController = value;
+                OnPropertyChanged(nameof(UseEnemyController));
             }
         }
     }

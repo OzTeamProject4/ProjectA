@@ -383,79 +383,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1001 &646039738
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1285517884081619568, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -15.38955
-      objectReference: {fileID: 0}
-    - target: {fileID: 1285517884081619568, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1285517884081619568, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 41.27879
-      objectReference: {fileID: 0}
-    - target: {fileID: 1285517884081619568, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1285517884081619568, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1285517884081619568, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1285517884081619568, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1285517884081619568, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1285517884081619568, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1285517884081619568, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1863523625727659535, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
-      propertyPath: battleManager
-      value: 
-      objectReference: {fileID: 1598167889}
-    - target: {fileID: 4110061108041611052, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
-      propertyPath: m_Name
-      value: BattleMap_01
-      objectReference: {fileID: 0}
-    - target: {fileID: 6615737576690439366, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
-      propertyPath: _stageWaveDataId
-      value: Stage_001_Wave_3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8519480206827254846, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
-      propertyPath: _stageWaveDataId
-      value: Stage_001_Wave_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8977012362379493557, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
 --- !u!1 &746603613
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,7 +554,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb3fdb66ccc77b47a8b7a5c92f496e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Test_GameObjectManager
-  _root_enemy: {fileID: 0}
 --- !u!4 &1120021144
 Transform:
   m_ObjectHideFlags: 0
@@ -768,17 +694,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1598167889 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1506372717735690033, guid: af0fcfb100ebdfc43a8cbd1dd50bb601, type: 3}
-  m_PrefabInstance: {fileID: 646039738}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fceef11ce8623dc4ba28e7fadfe5193c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BattleManager
 --- !u!1 &1798434101
 GameObject:
   m_ObjectHideFlags: 0
@@ -1279,4 +1194,3 @@ SceneRoots:
   - {fileID: 1897260476}
   - {fileID: 1433136092}
   - {fileID: 2118366090}
-  - {fileID: 646039738}

@@ -427,7 +427,7 @@ GameObject:
   - component: {fileID: 3426494785411927130}
   m_Layer: 0
   m_Name: Enemy_Wizard_Fire
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -480,12 +480,7 @@ MonoBehaviour:
   _enemyTransform: {fileID: 4328385525343379646}
   _skillTransform: {fileID: 1992103505155221568}
   _animator: {fileID: 1537486074642472274}
-  blackboard:
-    m_Variables: []
   behaviorGraphAgent: {fileID: 2279304244387654077}
-  references:
-    version: 2
-    RefIds: []
 --- !u!65 &3710799506084892989
 BoxCollider:
   m_ObjectHideFlags: 0

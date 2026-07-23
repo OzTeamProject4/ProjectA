@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 using Unity.Behavior;
+using Unity.VisualScripting;
 using UnityEngine;
 public enum EnemyBattleState
 {
@@ -20,7 +21,6 @@ public class EnemyController : MonoBehaviour, IDamageable
     [SerializeField] private Animator _animator;
     private EnemyBattleState _currentStateEnum;
 
-
     //private readonly int IdleHash = Animator.StringToHash("IsIdle");
     private static readonly int WalkHash = Animator.StringToHash("IsWalk");
     private static readonly int RunHash = Animator.StringToHash("IsRun");
@@ -28,20 +28,22 @@ public class EnemyController : MonoBehaviour, IDamageable
     private static readonly int DieHash = Animator.StringToHash("IsDie");
 
     public EnemyViewModel _vm;
-    public Blackboard blackboard;
     public BehaviorGraphAgent behaviorGraphAgent;
 
-    private BattleManager _battleManager;
 
 
     private void Awake()
     {
-        behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
+        if(behaviorGraphAgent == null)
+        {
+            behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
+        }
 
         if (_skillTransform == null)
         {
             _skillTransform = this.transform;
         }
+
     }
 
     public void Bind(EnemyData enemyData, EnemyViewModel vm)
@@ -58,9 +60,10 @@ public class EnemyController : MonoBehaviour, IDamageable
         _vm.BaseDamage = enemyData.BaseDamage;
         _vm.CurrentDamage = enemyData.BaseDamage;
         _vm.PrefabAddress = enemyData.PrefabAddress;
-        _vm.SkillPrefabAddress = enemyData.SkillPrefabAddress;
-    }
+        _vm.SkillDataId = enemyData.SkillDataId;
 
+    }
+    
     public void TakeDamage(int damage, GameObject attacker)
     {
         if (_vm.CurrentHp <= 0 || damage <= 0)
@@ -84,6 +87,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
         if (_vm.CurrentHp == 0)
         {
+            Die();
             // 체력이 0이면 사망 알림
         }
     }
@@ -155,20 +159,15 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void SpawnSkill()
     {
-        if(_battleManager == null)
-        {
-            _battleManager = new BattleManager();
-
-        }
-
-
-        _battleManager.SpawnSkillAsync(
-            _vm.SkillPrefabAddress,
+        
+        GameManager.Instance.BattleManager.SpawnEnemySkillAsync(
+            _vm.SkillDataId,
             _skillTransform,
-            this.transform
+            this.gameObject.transform,
+            this
         ).Forget();
     }
-
+    
 
     private bool IsStateChangeable(EnemyBattleState newState)
     {
@@ -224,10 +223,16 @@ public class EnemyController : MonoBehaviour, IDamageable
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             behaviorGraphAgent.SetVariableValue("Target", other.gameObject);
 
         }
+    }
+
+    private void Die()
+    {
+
+        GameManager.Instance.ObjectManager.Despawn(this.gameObject);
     }
 }

@@ -7,6 +7,6 @@
     "BaseHp": 100,
     "BaseDamage": 10,
     "PrefabAddress": "Prefabs/Enemy_Wizard_Fire",
-    "SkillPrefabAddress": "Skill_Fireball_01"
+    "SkillDataId": "Skill_Fireball_01"
   }
 ]

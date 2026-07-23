@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -13,7 +13,6 @@ public class WaveTriggerZone : MonoBehaviour
     [SerializeField] private string _stageWaveDataId = "Stage_001_Wave_1";
 
 
-    [SerializeField] private BattleManager battleManager;
 
     private void Start()
     {
@@ -53,6 +52,7 @@ public class WaveTriggerZone : MonoBehaviour
     }
     private async UniTask PlayerFind()
     {
+        
 
         if (GameManager.Instance.DataManager.TryGetData<StageWaveData>(_stageWaveDataId, out StageWaveData waveData))
         {
@@ -66,12 +66,9 @@ public class WaveTriggerZone : MonoBehaviour
                     for (int i = 0; i < count; i++)
                     {
                         //GameManager.Instance.BattleManager.SpawnEnemyById(monsterId, GetRandomSpawnPoint());
-                        if(battleManager == null)
-                        {
-                            battleManager = new BattleManager();
-                        }
-                         await battleManager.SpawnEnemyAsync(monsterId, GetRandomSpawnPoint());
-
+                        
+                         await GameManager.Instance.BattleManager.SpawnEnemyAsync(monsterId, GetRandomSpawnPoint());
+                        await UniTask.Delay(TimeSpan.FromSeconds(0.05f));
                     }
                 }
             }
@@ -86,7 +83,7 @@ public class WaveTriggerZone : MonoBehaviour
             return null;
         }
 
-        int randomIndex = Random.Range(0, _monsterSpawnPoints.Length);
+        int randomIndex = UnityEngine.Random.Range(0, _monsterSpawnPoints.Length);
 
         return _monsterSpawnPoints[randomIndex];
     }

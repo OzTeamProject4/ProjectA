@@ -29,7 +29,7 @@ public class EnemyViewModel : ViewModelBase
     private int _baseDamage;
     private int _currentDamage;
     private string _prefabAddress;
-    private string _skillPrefabAddress;
+    private string _skillDataId;
 
 
 
@@ -176,15 +176,15 @@ public class EnemyViewModel : ViewModelBase
         }
     }
 
-    public string SkillPrefabAddress
+    public string SkillDataId
     {
-        get => _skillPrefabAddress;
+        get => _skillDataId;
         set
         {
-            if (_skillPrefabAddress != value)
+            if (_skillDataId != value)
             {
-                _skillPrefabAddress = value;
-                OnPropertyChanged(nameof(SkillPrefabAddress));
+                _skillDataId = value;
+                OnPropertyChanged(nameof(SkillDataId));
             }
         }
     }

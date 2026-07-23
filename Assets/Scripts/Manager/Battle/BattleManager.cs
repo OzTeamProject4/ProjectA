@@ -7,7 +7,7 @@ using UnityEngine;
 // - BaseManager<BattleManager> 상속으로 변경
 // - Awake의 초기화를 Initialize() 오버라이드로 이동
 // - GameManager에 BattleManager 프로퍼티/Setup/Initialzie 추가 요청
-public class BattleManager : MonoBehaviour
+public class BattleManager : BaseManager<BattleManager>
 {
     [SerializeField] private CinemachineCamera _cinemachineCamera;
 
@@ -17,18 +17,22 @@ public class BattleManager : MonoBehaviour
     private GameObject _enemyRoot;
     private GameObject _enemySkillRoot;
 
-    private void Awake()
+    public override async UniTask InitializeAsync()
     {
+
+
         if (_enemyRoot == null)
         {
             _enemyRoot = new GameObject("EnemyRoot");
         }
 
-        if(_enemySkillRoot == null)
+        if (_enemySkillRoot == null)
         {
             _enemySkillRoot = new GameObject("EnemySkillRoot");
         }
     }
+
+
 
     //private async void Start()
     //{
@@ -131,7 +135,7 @@ public class BattleManager : MonoBehaviour
 
         _partyController.TrySwitchToCharacter(index);
     }
-    
+
 
     public async UniTask SpawnEnemyAsync(string enemyDataId, Transform enemySpawnTransform)
     {
@@ -156,8 +160,6 @@ public class BattleManager : MonoBehaviour
 
             enemyController.Bind(enemyData, vm);
 
-
-
             if (prefab.TryGetComponent<EnemyView>(out var enemyView))
             {
                 enemyView.BindEnemyViewModel(vm);
@@ -166,35 +168,50 @@ public class BattleManager : MonoBehaviour
             {
                 Debug.LogError("생성된 에셋에 EnemyView 컴포넌트가 없습니다.");
             }
+
+            if (GameManager.Instance.DataManager.TryGetData<EnemySkillData>(enemyData.SkillDataId, out EnemySkillData enemySkillData))
+            {
+                await GameManager.Instance.ObjectManager.PrewarmAsync(
+           enemySkillData.PrefabAddress,
+           10,
+           destroyCancellationToken
+           );
+            }
+
         }
     }
-    public async UniTask SpawnSkillAsync(string skillDataId, Transform spawnTransform, Transform rotationTransform)
+    public async UniTask SpawnEnemySkillAsync(string skillDataId, Transform spawnTransform, Transform rotationTransform, EnemyController enemyController)
     {
-
-        EnemySkillViewModel vm = new EnemySkillViewModel();
-        if (GameManager.Instance.DataManager.TryGetData<EnemySkillData>(skillDataId, out EnemySkillData skillData))
+        if (spawnTransform == null || rotationTransform == null)
         {
-            vm.SkillDataId = skillData.DataId;
-            vm.Name = skillData.Name;
-            vm.ElementalType = skillData.ElementalType;
-            vm.BaseDamage = skillData.BaseDamage;
-            vm.PrefabAddress = skillData.PrefabAddress;
-
-        }
-
-        GameObject prefab = await GameManager.Instance.ObjectManager.SpawnAsync(vm.PrefabAddress,_enemySkillRoot.transform, spawnTransform);
-        if (prefab == null)
-        {
-            Debug.LogError("스킬 프리팹을 로드하지 못했습니다.");
+            Debug.LogError($"[SpawnEnemySkillAsync] spawnTransform 또는 rotationTransform이 null입니다. (SkillId: {skillDataId})");
             return;
         }
 
-        var enemySkillController = prefab.GetComponent<EnemySkillController>();
-        enemySkillController.vm = vm;
+        EnemySkillViewModel vm = new EnemySkillViewModel();
 
-        prefab.transform.rotation = rotationTransform.rotation;
+        if (GameManager.Instance.DataManager.TryGetData<EnemySkillData>(skillDataId, out EnemySkillData skillData))
+        {
+            if (skillData == null)
+            {
+                Debug.LogError("적 데이터를 로드하지 못했습니다.");
+                return;
+            }
+
+           
+
+            GameObject prefab = await GameManager.Instance.ObjectManager.SpawnAsync(skillData.PrefabAddress, _enemySkillRoot.transform, spawnTransform);
+            if (prefab == null)
+            {
+                Debug.LogError("스킬 프리팹을 로드하지 못했습니다.");
+                return;
+            }
+            prefab.transform.rotation = rotationTransform.rotation;
 
 
+            var enemySkillController = prefab.GetComponent<EnemySkillController>();
+            enemySkillController.Bind(skillData, vm, enemyController);
+
+        }
     }
-
 }

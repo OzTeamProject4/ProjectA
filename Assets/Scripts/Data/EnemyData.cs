@@ -12,6 +12,6 @@ public class EnemyData : BaseData
 
     public int BaseDamage { get; set; }
     public string PrefabAddress { get; set; }
-    public string SkillPrefabAddress { get; set; }
+    public string SkillDataId { get; set; }
 
 }
