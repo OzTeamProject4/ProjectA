@@ -20,9 +20,11 @@ public static class CharId
 
 public class StudentModel : INotifyPropertyChanged
 {
-    private static readonly PropertyChangedEventArgs IdChanged = new PropertyChangedEventArgs(nameof(Id));
     private static readonly PropertyChangedEventArgs NameChanged = new PropertyChangedEventArgs(nameof(Name));
     private static readonly PropertyChangedEventArgs StarChanged = new PropertyChangedEventArgs(nameof(Star));
+    private static readonly PropertyChangedEventArgs PortraitKeyChanged = new PropertyChangedEventArgs(nameof(PortraitKey));
+
+
     private static readonly PropertyChangedEventArgs ExpChanged = new PropertyChangedEventArgs(nameof(Exp));
     private static readonly PropertyChangedEventArgs LevelChanged = new PropertyChangedEventArgs(nameof(Level));
     private static readonly PropertyChangedEventArgs IsMaxLevelChanged = new PropertyChangedEventArgs(nameof(IsMaxLevel));
@@ -34,9 +36,11 @@ public class StudentModel : INotifyPropertyChanged
 
     //private static readonly PropertyChangedEventArgs EquipChanged = new PropertyChangedEventArgs(nameof(EquipItem));
 
-    private string _id;
+    private string _dataId;
     private string _name;
     private int _star;
+    private string _portraitKey;
+
     private int _exp;
     private int _level;
 
@@ -51,18 +55,69 @@ public class StudentModel : INotifyPropertyChanged
     private float _addMoveSpeed;
 
     private readonly ElementType _elementType;
-    private readonly string _iconPath;
+
     private bool _isMaxLevel;
-    private bool _isMaxStar;
 
     private CharacterGradeData _currentGradeData;
     private LevelExpData _currentLevelData;
 
+    public string DataId
+    {
+        get { return _dataId; }
+    }
+
+    public string Name
+    {
+        get { return _name; }
+    }
+
+    public int Star
+    {
+        get { return _star; }
+        private set
+        {
+            if (IsMaxStar)
+            {
+                return;
+            }
+
+            if (_star != value)
+            {
+                _star = value;
+
+                //TODO 승급시 캐릭터 스텟 반영 메서드 호출
+                TryUpdateCurrentGradeData(_star);
+
+                OnPropertyChanged(StarChanged);
+            }
+        }
+    }
+
+    public bool IsMaxStar
+    {
+        get
+        {
+            return _currentGradeData.RequiredToNext <= 0;
+        }
+    }
+
+    public string PortraitKey
+    {
+        get
+        {
+            return _portraitKey;
+        }
+    }
+
+
     public StudentModel(CharacterData characterData)
     {
-        _id = characterData.DataId;
+        _dataId = characterData.DataId;
         _name = characterData.Name;
         _star = characterData.Star;
+        _portraitKey = characterData.PortraitKey;
+
+
         _exp = characterData.Exp;
         _level = CalculateLevel(_exp);
 
@@ -71,13 +126,11 @@ public class StudentModel : INotifyPropertyChanged
         _baseDefense = characterData.Def;
         _baseMoveSpeed = characterData.MoveSpeed;
 
-        _iconPath = characterData.CharacterIconPath;
 
         TryUpdateCurrentGradeData(_star);
         TryUpdateCurrentLevelData(_level);
 
         _isMaxLevel = _level >= _currentGradeData.MaxLevel;
-        _isMaxStar = _currentGradeData.RequiredToNext <= 0;
     }
 
     private bool TryUpdateCurrentGradeData(int star)
@@ -108,46 +161,6 @@ public class StudentModel : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler PropertyChanged;
 
-    public string Id
-    {
-        get { return _id; }
-        private set
-        {
-            if (_id != value)
-            {
-                _id = value;
-                OnPropertyChanged(IdChanged);
-            }
-        }
-    }
-
-    public string Name
-    {
-        get { return _name; }
-        private set
-        {
-            if (_name != value)
-            {
-                _name = value;
-                OnPropertyChanged(NameChanged);
-            }
-        }
-    }
-
-    public int Star
-    {
-        get { return _star; }
-        private set
-        {
-            if (_star != value)
-            {
-                _star = value;
-                TryUpdateCurrentGradeData(_star);
-                _isMaxStar = _currentGradeData.RequiredToNext <= 0;
-                OnPropertyChanged(StarChanged);
-            }
-        }
-    }
 
     public int Exp
     {
@@ -226,13 +239,7 @@ public class StudentModel : INotifyPropertyChanged
         }
     }
 
-    public bool IsMaxStar
-    {
-        get
-        {
-            return _isMaxStar;
-        }
-    }
+
 
     public int RequiredToNext
     {
@@ -242,17 +249,13 @@ public class StudentModel : INotifyPropertyChanged
         }
     }
 
-    public string IconPath
+    public void NotifyAllProperties()
     {
-        get { return _iconPath; }
-    }
-
-    public void InitProperty()
-    {
-        OnPropertyChanged(new PropertyChangedEventArgs(nameof(IconPath)));
-        OnPropertyChanged(IdChanged);
         OnPropertyChanged(NameChanged);
         OnPropertyChanged(StarChanged);
+        OnPropertyChanged(PortraitKeyChanged);
+
+
         OnPropertyChanged(ExpChanged);
         OnPropertyChanged(LevelChanged);
         OnPropertyChanged(HpChanged);

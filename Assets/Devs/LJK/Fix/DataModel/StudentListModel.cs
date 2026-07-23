@@ -30,7 +30,7 @@ public class StudentListModel : INotifyPropertyChanged
     {
         foreach (var character in _characterList)
         {
-            if (character.Id == id)
+            if (character.DataId == id)
             {
                 return character;
             }

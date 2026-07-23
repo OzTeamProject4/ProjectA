@@ -3,16 +3,19 @@
 public class CharacterData : BaseData
 {
     //Test
-    public CharacterData(string id, string name, int star, string iconPath)
+    public CharacterData(string id, string name, int star, string portraitKey)
     {
         DataId = id;
         Name = name;
         Star = star;
-        CharacterIconPath = iconPath;
+        PortraitKey = portraitKey;
     }
 
     public string Name { get; init; }
     public int Star { get; init; }
+    public string PortraitKey { get; init; }
+
+
     public int Exp { get; init; }
     public string SkillList { get; init; }
     public ElementType Type { get; init; }
@@ -28,7 +31,7 @@ public class CharacterData : BaseData
     public float DefGrow { get; init; }
     public float MoveSpeedGrow { get; init; }
 
-    public string CharacterIconPath { get; init; }
+
     
     public string PrefabPath { get; init; }
 
