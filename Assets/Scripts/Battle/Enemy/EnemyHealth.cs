@@ -14,7 +14,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
                 return ElementType.Normal;
             }
 
-            return enemyViewModel.Data.ElementalType;
+            return enemyViewModel.ElementalType;
         }
     }
 
@@ -39,8 +39,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         Unbind();
 
         enemyViewModel = viewModel;
-        enemyViewModel.onHealthChanged += HandleHealthChanged;
-        enemyViewModel.onDead += HandleDead;
+       // enemyViewModel.onHealthChanged += HandleHealthChanged;
+        // enemyViewModel.onDead += HandleDead;
 
         HandleHealthChanged(enemyViewModel.CurrentHp, enemyViewModel.MaxHp);
     }
@@ -54,7 +54,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
             return;
         }
 
-        enemyViewModel.TakeDamage(damage);
+        // enemyViewModel.TakeDamage(damage);
     }
 
     // ViewModel의 체력 변경 전달
@@ -84,8 +84,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
             return;
         }
 
-        enemyViewModel.onHealthChanged -= HandleHealthChanged;
-        enemyViewModel.onDead -= HandleDead;
+        //enemyViewModel.onHealthChanged -= HandleHealthChanged;
+        //enemyViewModel.onDead -= HandleDead;
         enemyViewModel = null;
     }
 

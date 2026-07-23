@@ -268,10 +268,10 @@ public class EnemySpawn : MonoBehaviour
         }
 
 
-        EnemyViewModel enemyViewModel = new EnemyViewModel(enemyData);
+        // EnemyViewModel enemyViewModel = new EnemyViewModel(enemyData);
         // JSON의 enemyData를 이용해 새 전투 상태를 만듬 
         
-        enemyHealth.Bind(enemyViewModel);
+        // enemyHealth.Bind(enemyViewModel);
         // 전투 상태를 적 프리팹의 EnemyHealth에 연결
 
         enemy.SetActive(true);
