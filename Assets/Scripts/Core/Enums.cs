@@ -46,7 +46,9 @@ public enum LoadingStep
     LoadSkillData,
     ItemPreviewPopup,
     StageInfoPopup,
-    PartySetupPopup
+    PartySetupPopup,
+    LoadEnemyData,
+    LoadEnemySkillData
 }
 
 public enum UIRoot
