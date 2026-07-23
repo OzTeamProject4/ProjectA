@@ -47,38 +47,38 @@ public static class StatCalculator
         };
     }
 
-    public static StatData SumEquipmentStats(IReadOnlyList<EquipmentInstance> equippedItems)
-    {
-        if (null == equippedItems)
-        {
-            Debug.LogWarning("equippedItems 가 null 입니다. 장비 보너스를 0으로 처리합니다.");
-            return default;
-        }
+    //public static StatData SumEquipmentStats(IReadOnlyList<EquipmentInstance> equippedItems)
+    //{
+    //    if (null == equippedItems)
+    //    {
+    //        Debug.LogWarning("equippedItems 가 null 입니다. 장비 보너스를 0으로 처리합니다.");
+    //        return default;
+    //    }
 
-        float hp = 0f;
-        float atk = 0f;
-        float def = 0f;
-        float moveSpeed = 0f;
+    //    float hp = 0f;
+    //    float atk = 0f;
+    //    float def = 0f;
+    //    float moveSpeed = 0f;
 
-        foreach (EquipmentInstance instance in equippedItems)
-        {
-            if (null == instance)
-            {
-                continue;
-            }
+    //    foreach (EquipmentInstance instance in equippedItems)
+    //    {
+    //        if (null == instance)
+    //        {
+    //            continue;
+    //        }
 
-            hp += instance.TotalHp;
-            atk += instance.TotalAtk;
-            def += instance.TotalDef;
-            moveSpeed += instance.TotalMoveSpeed;
-        }
+    //        hp += instance.TotalHp;
+    //        atk += instance.TotalAtk;
+    //        def += instance.TotalDef;
+    //        moveSpeed += instance.TotalMoveSpeed;
+    //    }
 
-        return new StatData
-        {
-            Hp = hp,
-            Atk = atk,
-            Def = def,
-            MoveSpeed = moveSpeed
-        };
-    }
+    //    return new StatData
+    //    {
+    //        Hp = hp,
+    //        Atk = atk,
+    //        Def = def,
+    //        MoveSpeed = moveSpeed
+    //    };
+    //}
 }

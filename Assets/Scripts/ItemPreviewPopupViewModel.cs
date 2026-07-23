@@ -1,59 +1,56 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.ComponentModel;
+//using UnityEngine;
 
-public class ItemPreviewPopupViewModel
-{
-    private readonly EquipmentData _data;
+//public class ItemPreviewPopupViewModel
+//{
+//    private ItemModel _itemModel;
 
-    public string Name
-    {
-        get { return _data.Name; }
-    }
+//    public string Name
+//    {
+//        get { return _itemModel.ItemName; }
+//    }
 
-    public string Description
-    {
-        get { return _data.Description; }
-    }
+//    public string IconPath
+//    {
+//        get { return _itemModel.IconPath; }
+//    }
 
-    public string SpritePath
-    {
-        get { return _data.SpritePath; }
-    }
+//    public IReadOnlyList<StatInfo> StatInfo
+//    {
+//        get { return _itemModel.StatInfo; }
+//    }
 
-    public ItemPreviewPopupViewModel(EquipmentData data)
-    {
-        if (null == data)
-        {
-            Debug.LogError("ItemPreviewPopupViewModel: data 가 null 입니다.");
-        }
+//    public event Action<string> ModelPropertyChanged;
 
-        _data = data;
-    }
+//    public void Init(ItemModel itemModel)
+//    {
+//        if (_itemModel != null)
+//        {
+//            _itemModel.PropertyChanged -= OnModelPropertyChanged;
+//        }
 
-    public IReadOnlyList<StatValue> GetStatValues()
-    {
-        List<StatValue> values = new();
+//        _itemModel = itemModel;
+//        _itemModel.PropertyChanged += OnModelPropertyChanged;
+//    }
 
-        AddStat(values, StatType.MaxHp, _data.MaxHp, true);
-        AddStat(values, StatType.Atk, _data.Atk, true);
-        AddStat(values, StatType.Def, _data.Def, true);
-        AddStat(values, StatType.MoveSpeed, _data.MoveSpeed, false);
+//    public void Dispose()
+//    {
+//        if (_itemModel != null)
+//        {
+//            _itemModel.PropertyChanged -= OnModelPropertyChanged;
+//            _itemModel = null;
+//        }
+//    }
 
-        return values;
-    }
+//    private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+//    {
+//        if (ModelPropertyChanged == null)
+//        {
+//            return;
+//        }
 
-    private void AddStat(List<StatValue> values, StatType type, float value, bool isInteger)
-    {
-        if (Mathf.Approximately(value, 0f))
-        {
-            return;
-        }
-
-        values.Add(new StatValue
-        {
-            Type = type,
-            Value = value,
-            IsInteger = isInteger
-        });
-    }
-}
+//        ModelPropertyChanged.Invoke(e.PropertyName);
+//    }
+//}

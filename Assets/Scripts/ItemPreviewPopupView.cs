@@ -1,198 +1,126 @@
-﻿using System;
-using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
+﻿//using Cysharp.Threading.Tasks;
+//using System;
+//using System.Collections.Generic;
+//using System.Threading;
+//using TMPro;
+//using UnityEngine;
+//using UnityEngine.UI;
 
-public class ItemPreviewPopupView : BaseUI
-{
-    [SerializeField] private TMP_Text _nameText;
-    [SerializeField] private TMP_Text _descriptionText;
-    [SerializeField] private Image _iconImage;
+//public class ItemPreviewPopupView : BaseUI
+//{
+//    [SerializeField] private TMP_Text _nameText;
+//    [SerializeField] private TMP_Text _descriptionText;
+//    [SerializeField] private Image _iconImage;
 
-    [SerializeField] private StatItemView[] _statRows;
+//    //TODO List로
+//    [SerializeField] private StatItemView[] _statRows;
 
-    [SerializeField] private Button _blockerButton;
+//    [SerializeField] private RectTransform _cardRect;
 
-    [SerializeField] private RectTransform _cardRect;
+//    private ItemPreviewPopupViewModel _viewModel;
 
-    private ItemPreviewPopupViewModel _viewModel;
-    private bool _isSubscribed;
+//    private CancellationTokenSource _disableCts;
 
-    private readonly List<string> _loadedSpriteKeys = new();
+//    public void Bind(string itemid, Vector3 position)
+//    {
+//        if(!GameManager.Instance.DataManager.TryGetData(itemid, out EquipmentData equipmentData))
+//        {
+//            Debug.LogError("");
+//        }
 
-    public event Action OnCloseButtonClicked;
+//        ItemModel itemModel = new ItemModel(itemid, equipmentData.SpritePath, 1, equipmentData.Type, 1);
 
-    private void OnDisable()
-    {
-        Unsubscribe();
-    }
+//        _viewModel.Init(itemModel);
 
-    private void OnDestroy()
-    {
-        Unsubscribe();
-        ReleaseAllSprites();
-    }
+//        LoadIconAsync().Forget();
+//        _nameText.text = _viewModel.Name;
+//        MoveCardTo(position);
+//        RefreshStatRows();
+//    }
 
-    public void Bind(ItemPreviewPopupViewModel viewModel)
-    {
-        if (null == viewModel)
-        {
-            Debug.LogError("Bind: ItemPreviewPopupViewModel 이 null 입니다.");
-            return;
-        }
+//    private void Awake()
+//    {
+//        UnityUtil.ValidateReference(_nameText, nameof(EquipmentDetailPopupView), nameof(_nameText));
+//        UnityUtil.ValidateReference(_descriptionText, nameof(EquipmentDetailPopupView), nameof(_descriptionText));
+//        UnityUtil.ValidateReference(_iconImage, nameof(EquipmentDetailPopupView), nameof(_iconImage));
 
-        Unsubscribe();
-        ReleaseAllSprites();
+//        _viewModel = new ItemPreviewPopupViewModel();
+//    }
 
-        _viewModel = viewModel;
+//    private void OnEnable()
+//    {
+//        _viewModel.ModelPropertyChanged += OnModelPropertyChanged;
+//        _disableCts = new CancellationTokenSource();
+//    }
 
-        LoadIconAsync().Forget();
+//    private void OnDisable()
+//    {
+//        _viewModel.ModelPropertyChanged -= OnModelPropertyChanged;
 
-        Subscribe();
-    }
+//        _disableCts?.Cancel();
+//        _disableCts?.Dispose();
+//        _disableCts = null;
+//    }
 
-    public void MoveCardTo(Vector3 worldPosition)
-    {
-        if (null == _cardRect)
-        {
-            Debug.LogWarning("[ItemPreviewPopupView] _cardRect 가 연결되지 않았습니다.");
-            return;
-        }
+ 
 
-        _cardRect.pivot = new Vector2(1f, 0.5f);
-        _cardRect.position = worldPosition;
-    }
+//    //TODO 필요없을시 제거
+//    private void OnModelPropertyChanged(string propertyName)
+//    {
+//        switch (propertyName)
+//        {
+//            case nameof(_viewModel.IconPath):
+//                //UpdateList();
+//                break;
+//        }
+//    }
 
-    private void Subscribe()
-    {
-        if (_isSubscribed || null == _viewModel)
-        {
-            return;
-        }
+//    private async UniTask LoadIconAsync()
+//    {
+//        string iconPath = _viewModel.IconPath;
 
-        if (null != _blockerButton)
-        {
-            _blockerButton.onClick.AddListener(HandleClickClose);
-        }
+//        if (string.IsNullOrWhiteSpace(iconPath))
+//        {
+//            Debug.LogError($"아이콘 경로가 비어 있습니다.");
+//            return;
+//        }
 
-        _isSubscribed = true;
+//        Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(iconPath, _disableCts.Token);
 
-        RefreshDisplay();
-    }
+//        if (sprite == null)
+//        {
+//            Debug.LogError($"아이콘을 로드하지 못했습니다. Path: {iconPath}");
+//            return;
+//        }
 
-    private void Unsubscribe()
-    {
-        if (!_isSubscribed)
-        {
-            return;
-        }
+//        _iconImage.sprite = sprite;
+//    }
 
-        if (null != _blockerButton)
-        {
-            _blockerButton.onClick.RemoveListener(HandleClickClose);
-        }
+//    public void MoveCardTo(Vector3 worldPosition)
+//    {
+//        _cardRect.pivot = new Vector2(1, 1);
+//        _cardRect.position = worldPosition;
+//    }
 
-        _isSubscribed = false;
-    }
+//    //List로 바꾸기
+//    private void RefreshStatRows()
+//    {
+//        IReadOnlyList<StatInfo> info = _viewModel.StatInfo;
 
-    private void RefreshDisplay()
-    {
-        if (null == _viewModel)
-        {
-            return;
-        }
+//        for (int i = 0; i < _statRows.Length; i++)
+//        {
+//            if (null == _statRows[i])
+//            {
+//                continue;
+//            }
 
-        _nameText.text = _viewModel.Name;
+//            if (i >= info.Count)
+//            {
+//                _statRows[i].Hide();
+//                continue;
+//            }
 
-        if (null != _descriptionText)
-        {
-            _descriptionText.text = _viewModel.Description;
-        }
-
-        RefreshStatRows();
-    }
-
-    private void RefreshStatRows()
-    {
-        if (null == _statRows)
-        {
-            return;
-        }
-
-        IReadOnlyList<StatValue> values = _viewModel.GetStatValues();
-
-        for (int i = 0; i < _statRows.Length; i++)
-        {
-            if (null == _statRows[i])
-            {
-                continue;
-            }
-
-            if (i >= values.Count)
-            {
-                _statRows[i].Hide();
-                continue;
-            }
-
-            StatValue value = values[i];
-            _statRows[i].SetValue(value.Type, value.Value, value.IsInteger);
-        }
-    }
-
-    private async UniTaskVoid LoadIconAsync()
-    {
-        if (null == _iconImage)
-        {
-            return;
-        }
-
-        string spritePath = _viewModel.SpritePath;
-
-        if (string.IsNullOrEmpty(spritePath))
-        {
-            _iconImage.enabled = false;
-            return;
-        }
-
-        try
-        {
-            Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(spritePath, destroyCancellationToken);
-
-            if (null == sprite)
-            {
-                _iconImage.enabled = false;
-                return;
-            }
-
-            _loadedSpriteKeys.Add(spritePath);
-
-            _iconImage.enabled = true;
-            _iconImage.sprite = sprite;
-        }
-        catch (OperationCanceledException)
-        {
-            // 오브젝트 파괴로 취소됨, 무시
-        }
-        catch (Exception exception)
-        {
-            Debug.LogWarning($"[ItemPreviewPopupView] 스프라이트 로드 실패. spritePath={spritePath}\n{exception}");
-        }
-    }
-
-    private void HandleClickClose()
-    {
-        OnCloseButtonClicked?.Invoke();
-    }
-
-    private void ReleaseAllSprites()
-    {
-        foreach (string key in _loadedSpriteKeys)
-        {
-            GameManager.Instance.ResourceManager.ReleaseAsset(key);
-        }
-
-        _loadedSpriteKeys.Clear();
-    }
-}
+//            _statRows[i].SetValue(info[i].Type, info[i].Value);
+//        }
+//    }
+//}

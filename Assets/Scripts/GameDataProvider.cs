@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class GameDataProvider : IGameDataProvider
+public class GameDataProvider
 {
     private Dictionary<int, CharacterGradeData> _gradeByStar;
     private Dictionary<int, LevelExpData> _expByLevel;

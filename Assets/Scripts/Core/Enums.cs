@@ -1,12 +1,15 @@
 ﻿public enum UIType
 {
-    CharacterList,
-    CharacterDetail,
+    StudentManagementList,
+    StudentManagement,
+
     ExpItemSelectPopup,
     CraftPopup,
     EquipmentListPopup,
     EquipmentDetailPopup,
     ItemPreviewPopup,
+
+
     Overlay,
     Loading
 }
