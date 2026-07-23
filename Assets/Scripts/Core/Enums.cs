@@ -13,7 +13,15 @@
     PartySetupPopup,
     Overlay,
     Loading,
-    PartySelectPopup
+
+        PracticeFieldScreen,
+    StageSelectScreen,
+    DictionaryScreen,
+    FarmingDungeonScreen,
+    CharacterGachaScreen,
+    MissionScreen,
+    InventoryScreen,
+    AchievementScreen
 }
 
 public enum LoadingState
@@ -39,7 +47,9 @@ public enum LoadingStep
     LoadSkillData,
     ItemPreviewPopup,
     StageInfoPopup,
-    PartySetupPopup
+    PartySetupPopup,
+    LoadEnemyData,
+    LoadEnemySkillData
 }
 
 public enum UIRoot

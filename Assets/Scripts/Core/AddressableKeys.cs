@@ -21,6 +21,9 @@
         public const string Stage = "Data/Stage";
         public const string StageWave = "Data/StageWave";
         public const string CharacterSkill = "Data/CharacterSkill";
+        public const string Enemy = "Data/EnemyData";
+        public const string EnemySkill = "Data/EnemySkillData";
+        
     }
 
     public static class Asset

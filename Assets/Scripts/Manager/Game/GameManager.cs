@@ -12,11 +12,14 @@ public class GameManager : BaseManager<GameManager>
     public AudioManager AudioManager { get; private set; }
 
     public UIManager UIManager { get; private set; }
-    // public Inventory Inventory { get; private set; }
+    public Inventory Inventory { get; private set; }
 
     public InputManager InputManager { get; private set; }
 
     public ObjectManager ObjectManager { get; private set; }
+
+    public BattleManager BattleManager { get; private set; }
+
 
     private void Awake()
     {
@@ -38,6 +41,7 @@ public class GameManager : BaseManager<GameManager>
         await UIManager.InitializeAsync();
         await InputManager.InitializeAsync();
         await ObjectManager.InitializeAsync();
+        await BattleManager.InitializeAsync();
     }
 
     private void EnsureSingleton()
@@ -60,6 +64,8 @@ public class GameManager : BaseManager<GameManager>
         UIManager = this.GetRequiredComponent<UIManager>();
         InputManager = this.GetRequiredComponent<InputManager>();
         ObjectManager = this.GetRequiredComponent<ObjectManager>();
-        // Inventory = new Inventory();
+        BattleManager = this.GetRequiredComponent<BattleManager>();
+
+        Inventory = new Inventory();
     }
 }
