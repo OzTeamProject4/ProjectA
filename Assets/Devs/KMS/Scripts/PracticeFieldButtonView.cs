@@ -24,24 +24,25 @@ public sealed class PracticeFieldButtonView : MonoBehaviour
 
     private void OnPracticeFieldButtonClicked()
     {
-        OpenPracticeFieldScreenAsync().Forget();
+        EnterStageAsync().Forget();
     }
 
-    private async UniTaskVoid OpenPracticeFieldScreenAsync()
+    private async UniTaskVoid EnterStageAsync()
     {
         if (GameManager.Instance == null)
         {
-            Debug.LogError("[PracticeFieldButtonView] GameManager°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+            Debug.LogError("[PracticeFieldButtonView] GameManagerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
             return;
         }
 
         if (GameManager.Instance.UIManager == null)
         {
-            Debug.LogError("[PracticeFieldButtonView] UIManager°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+            Debug.LogError("[PracticeFieldButtonView] UIManagerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
             return;
         }
 
-        await GameManager.Instance.UIManager.OpenPracticeFieldScreenAsync(
-            destroyCancellationToken);
+        GameManager.Instance.UIManager.CloseLobby();
+
+        await GameManager.Instance.StageManager.EnterAsync();
     }
 }

@@ -15,6 +15,17 @@ public static class UIManagerExtension
         uiManager.Close(UIType.StageInfoPopup);
     }
 
+    public static async UniTask<PartySelectPopupView> OpenPartySelectPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.PartySelectPopup, cancellationToken);
+        return GetView<PartySelectPopupView>(baseUI, UIType.PartySelectPopup);
+    }
+
+    public static void ClosePartySelectPopup(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.PartySelectPopup);
+    }
+
     public static async UniTask OpenOverlayUIAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
         await uiManager.OpenOverlayRootAsync(UIType.Overlay, cancellationToken);
@@ -80,26 +91,41 @@ public static class UIManagerExtension
         await uiManager.OpenTestRootAsync(UIType.CharacterGachaScreen, cancellationToken);
     }
 
-    public static async UniTask<BattleResultPopupView> OpenBattleResultAsync(this UIManager uiManager, bool isVictory, string stageId, CancellationToken cancellationToken = default)
+    public static void CloseCharacterGachaScreen(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.CharacterGachaScreen);
+    }
+
+    public static async UniTask OpenBattleResultAsync(this UIManager uiManager, bool isVictory, string stageId, CancellationToken cancellationToken = default)
     {
         BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.BattleResultPopup, cancellationToken);
-        return GetView<BattleResultPopupView>(baseUI, UIType.BattleResultPopup);
-    }
+        BattleResultPopupView view = GetView<BattleResultPopupView>(baseUI, UIType.BattleResultPopup);
 
-    public static void CloseBattleResultAsync(this UIManager uiManager)
-    {
+        if (null == view)
+        {
+            return;
+        }
+
+        await view.WaitForReturnAsync(isVictory, stageId);
+
         uiManager.Close(UIType.BattleResultPopup);
     }
 
-    public static async UniTask<BattlePausePopupView> OpenBattlePauseAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    public static async UniTask<BattlePauseChoice> OpenBattlePauseAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
         BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.BattlePausePopup, cancellationToken);
-        return GetView<BattlePausePopupView>(baseUI, UIType.BattlePausePopup);
-    }
+        BattlePausePopupView view = GetView<BattlePausePopupView>(baseUI, UIType.BattlePausePopup);
 
-    public static void CloseBattlePauseAsync(this UIManager uiManager)
-    {
-        uiManager.Close(UIType.BattleResultPopup);
+        if (null == view)
+        {
+            return BattlePauseChoice.Resume;
+        }
+
+        BattlePauseChoice choice = await view.WaitForChoiceAsync();
+
+        uiManager.Close(UIType.BattlePausePopup);
+
+        return choice;
     }
 
     public static async UniTask OpenMissionScreenAsync(this UIManager uiManager, CancellationToken cancellationToken = default)

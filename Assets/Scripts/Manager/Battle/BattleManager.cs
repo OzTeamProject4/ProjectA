@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 // TODO 희준 : 팀 매니저 체계 편입 필요
 // - BaseManager<BattleManager> 상속으로 변경
@@ -10,13 +11,16 @@ using UnityEngine;
 // - GameManager에 BattleManager 프로퍼티/Setup/Initialzie 추가 요청
 public class BattleManager : BaseManager<BattleManager>
 {
-    [SerializeField] private CinemachineCamera _cinemachineCamera;
-
+    private CinemachineCamera _cinemachineCamera;
     private TempPartySpawner _partySpawner;
     private PartyController _partyController;
 
-    // 전투 종료(승/패) 알림. 실제 승패 판정 로직에서 EndBattle 을 호출하면 발행됨
     public event Action<bool> OnBattleEnded;
+    public event Action OnReturnToSelectRequested;
+
+    private string _stageId;
+    private bool _isBattleActive;
+    private bool _isPaused;
 
     private GameObject _enemyRoot;
     private GameObject _enemySkillRoot;
@@ -38,6 +42,8 @@ public class BattleManager : BaseManager<BattleManager>
 
     private void OnDisable()
     {
+        Time.timeScale = 1f;
+
         if (GameManager.Instance != null)
         {
             GameManager.Instance.InputManager.OnUltimatePerformed -= HandleUltimate;
@@ -52,13 +58,33 @@ public class BattleManager : BaseManager<BattleManager>
         }
     }
 
-    public async UniTask EnterBattle(Vector3 playerSpawnPosition)
+    private void Update()
     {
-        if (_cinemachineCamera == null)
+        if (!_isBattleActive || _isPaused)
         {
-            Debug.LogError("카메라 참조 null 인스펙터 확인");
             return;
         }
+
+        if (null == Keyboard.current || !Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            return;
+        }
+
+        ShowPauseAsync().Forget();
+    }
+
+    public async UniTask EnterBattle(Vector3 playerSpawnPosition, string stageId, CinemachineCamera battleCamera)
+    {
+        if (null == battleCamera)
+        {
+            Debug.LogError("[BattleManager] 전투 카메라가 null 입니다. BattleMap 프리팹의 BattleCamera 연결을 확인하세요.");
+            return;
+        }
+
+        _cinemachineCamera = battleCamera;
+
+        _stageId = stageId;
+        _isBattleActive = true;
 
         GameManager.Instance.InputManager.EnablePlayerActions();
 
@@ -84,17 +110,56 @@ public class BattleManager : BaseManager<BattleManager>
         GameManager.Instance.InputManager.OnBasicSkillPerformed += HandleBasicSkill;
         GameManager.Instance.InputManager.OnNormalSkillPerformed += HandleNormalSkill;
         GameManager.Instance.InputManager.OnSwitchIndexPerformed += HandleSwitchIndex;
-
-        // 첫 몬스터 스폰
     }
 
-    // 승패 판정 로직에서 호출. 커서를 풀어 결과 UI 를 조작할 수 있게 하고 종료를 알린다
     public void EndBattle(bool isVictory)
     {
+        _isBattleActive = false;
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        GameManager.Instance.InputManager.DisablePlayerActions();
+
+        OnBattleEnded?.Invoke(isVictory);
+
+        ShowResultAsync(isVictory).Forget();
+    }
+
+    // ===== 일시정지 메뉴 (ESC 로 열림) =====
+
+    private async UniTaskVoid ShowPauseAsync()
+    {
+        _isPaused = true;
+
+        Time.timeScale = 0f;
+        GameManager.Instance.InputManager.DisablePlayerActions();
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        OnBattleEnded?.Invoke(isVictory);
+        BattlePauseChoice choice = await GameManager.Instance.UIManager.OpenBattlePauseAsync(destroyCancellationToken);
+
+        _isPaused = false;
+        Time.timeScale = 1f;
+
+        if (choice == BattlePauseChoice.BackToStage)
+        {
+            _isBattleActive = false;
+            OnReturnToSelectRequested?.Invoke();
+            return;
+        }
+
+        GameManager.Instance.InputManager.EnablePlayerActions();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    // ===== 전투 결과창 =====
+
+    private async UniTaskVoid ShowResultAsync(bool isVictory)
+    {
+        await GameManager.Instance.UIManager.OpenBattleResultAsync(isVictory, _stageId, destroyCancellationToken);
+
+        OnReturnToSelectRequested?.Invoke();
     }
 
     private void HandleUltimate()
@@ -141,6 +206,7 @@ public class BattleManager : BaseManager<BattleManager>
     public async UniTask SpawnEnemyAsync(string enemyDataId, Transform enemySpawnTransform)
     {
         EnemyViewModel vm = new EnemyViewModel();
+
         if (GameManager.Instance.DataManager.TryGetData<EnemyData>(enemyDataId, out EnemyData enemyData))
         {
             if (enemyData == null)
@@ -148,8 +214,8 @@ public class BattleManager : BaseManager<BattleManager>
                 Debug.LogError("적 데이터를 로드하지 못했습니다.");
                 return;
             }
-            GameObject prefab = await GameManager.Instance.ObjectManager.SpawnAsync(enemyData.PrefabAddress, _enemyRoot.transform, enemySpawnTransform);
 
+            GameObject prefab = await GameManager.Instance.ObjectManager.SpawnAsync(enemyData.PrefabAddress, _enemyRoot.transform, enemySpawnTransform);
 
             if (prefab == null)
             {
@@ -199,8 +265,6 @@ public class BattleManager : BaseManager<BattleManager>
                 return;
             }
 
-           
-
             GameObject prefab = await GameManager.Instance.ObjectManager.SpawnAsync(skillData.PrefabAddress, _enemySkillRoot.transform, spawnTransform);
             if (prefab == null)
             {
@@ -208,7 +272,6 @@ public class BattleManager : BaseManager<BattleManager>
                 return;
             }
             prefab.transform.rotation = rotationTransform.rotation;
-
 
             var enemySkillController = prefab.GetComponent<EnemySkillController>();
             enemySkillController.Bind(skillData, vm, enemyController);

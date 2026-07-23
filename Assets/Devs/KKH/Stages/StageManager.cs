@@ -2,7 +2,7 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class StageSceneLoader : MonoBehaviour
+public class StageManager : BaseManager <StageManager>
 {
     private const float FadeDuration = 0.35f;
     private const int ActiveCameraPriority = 20;
@@ -21,6 +21,11 @@ public class StageSceneLoader : MonoBehaviour
 
     private bool _hasEntered;
 
+    public override UniTask InitializeAsync()
+    {
+        return UniTask.CompletedTask;
+    }
+
     private void OnEnable()
     {
         if (!_hasEntered)
@@ -38,9 +43,16 @@ public class StageSceneLoader : MonoBehaviour
 
     private void OnDestroy()
     {
+        Time.timeScale = 1f;
+
         if (null != _screenStateModel)
         {
             _screenStateModel.OnScreenChanged -= HandleScreenChanged;
+        }
+
+        if (null != GameManager.Instance && null != GameManager.Instance.BattleManager)
+        {
+            GameManager.Instance.BattleManager.OnReturnToSelectRequested -= HandleReturnToSelectRequested;
         }
 
         if (null != _selectMapViewModel)
@@ -59,19 +71,19 @@ public class StageSceneLoader : MonoBehaviour
 
     public async UniTask EnterAsync()
     {
-        await GameManager.Instance.UIManager.OpenOverlayUIAsync();
-        await GameManager.Instance.InitializeManagersAsync();
-        await GameManager.Instance.DataManager.LoadRuntimeDataAsync();
-        
         if (_hasEntered)
         {
-            Debug.LogWarning("[StageSceneLoader] 이미 진입했습니다. 중복 실행을 건너뜁니다.");
+            Debug.LogWarning("[StageManager] 이미 진입했습니다.");
             return;
         }
+
+        await GameManager.Instance.UIManager.OpenOverlayUIAsync();
 
         _screenStateModel = new ScreenStateModel(ScreenType.StageSelect);
         _screenStateModel.OnScreenChanged += HandleScreenChanged;
         _progressModel = new StageProgressModel();
+
+        GameManager.Instance.BattleManager.OnReturnToSelectRequested += HandleReturnToSelectRequested;
 
         _mapRoot = CreateMapRoot();
 
@@ -79,7 +91,7 @@ public class StageSceneLoader : MonoBehaviour
 
         if (null == _selectMap)
         {
-            Debug.LogError("[StageSceneLoader] 선택맵 스폰에 실패했습니다.");
+            Debug.LogError("[StageManager] 선택맵 스폰에 실패했습니다.");
             return;
         }
 
@@ -96,15 +108,13 @@ public class StageSceneLoader : MonoBehaviour
     {
         if (null == _playerParty)
         {
-            Debug.LogError("[StageSceneLoader] ReEnter: _playerParty 가 null 입니다.");
+            Debug.LogError("[StageManager] ReEnter: _playerParty 가 null 입니다.");
             return;
         }
 
         _playerParty.WarpTo(_progressModel.PlayerPosition);
         _playerParty.ResumeMove();
 
-        // TODO: 전투맵 -> 선택맵 복귀 로직 구현 시 그쪽에서 StageSelect 로 전환
-        // 지금은 그 복귀 로직이 없어서 로비 재진입 시점에 안전장치로 여기서 리셋함.
         _screenStateModel.ChangeScreen(ScreenType.StageSelect);
     }
 
@@ -132,7 +142,7 @@ public class StageSceneLoader : MonoBehaviour
     {
         if (null == _mapRoot)
         {
-            Debug.LogError("[StageSceneLoader] _mapRoot 가 null 입니다.");
+            Debug.LogError("[StageManager] _mapRoot 가 null 입니다.");
             return null;
         }
 
@@ -140,7 +150,7 @@ public class StageSceneLoader : MonoBehaviour
 
         if (null == mapPrefab)
         {
-            Debug.LogError("[StageSceneLoader] 선택맵 프리팹 로드에 실패했습니다.");
+            Debug.LogError("[StageManager] 선택맵 프리팹 로드에 실패했습니다.");
             return null;
         }
 
@@ -148,7 +158,7 @@ public class StageSceneLoader : MonoBehaviour
 
         if (!mapInstance.TryGetComponent(out StageSelectMap selectMap))
         {
-            Debug.LogError("[StageSceneLoader] 스폰된 맵 오브젝트에 StageSelectMap 컴포넌트가 없습니다.");
+            Debug.LogError("[StageManager] 스폰된 맵 오브젝트에 StageSelectMap 컴포넌트가 없습니다.");
             return null;
         }
 
@@ -159,7 +169,7 @@ public class StageSceneLoader : MonoBehaviour
     {
         if (null == _playerPartyPrefab || null == _selectMap)
         {
-            Debug.LogError("[StageSceneLoader] _playerPartyPrefab 또는 _selectMap 이 null 입니다.");
+            Debug.LogError("[StageManager] _playerPartyPrefab 또는 _selectMap 이 null 입니다.");
             return null;
         }
 
@@ -167,7 +177,7 @@ public class StageSceneLoader : MonoBehaviour
 
         if (null == spawnPoint)
         {
-            Debug.LogError("[StageSceneLoader] 맵에 PlayerSpawnPoint 가 연결되지 않았습니다.");
+            Debug.LogError("[StageManager] 맵에 PlayerSpawnPoint 가 연결되지 않았습니다.");
             return null;
         }
 
@@ -180,7 +190,7 @@ public class StageSceneLoader : MonoBehaviour
     {
         if (string.IsNullOrEmpty(stageId))
         {
-            Debug.LogWarning("[StageSceneLoader] GetStage: stageId 가 비어 있습니다.");
+            Debug.LogWarning("[StageManager] GetStage: stageId 가 비어 있습니다.");
             return null;
         }
 
@@ -192,12 +202,22 @@ public class StageSceneLoader : MonoBehaviour
 
     private void HandleScreenChanged(ScreenType screen)
     {
-        if (screen != ScreenType.Battle)
+        if (screen == ScreenType.Battle)
         {
+            TransitionToBattleAsync().Forget();
             return;
         }
 
-        TransitionToBattleAsync().Forget();
+        if (screen == ScreenType.StageSelect)
+        {
+            TransitionToSelectAsync().Forget();
+            return;
+        }
+    }
+
+    private void HandleReturnToSelectRequested()
+    {
+        _screenStateModel.ChangeScreen(ScreenType.StageSelect);
     }
 
     private async UniTask TransitionToBattleAsync()
@@ -207,7 +227,7 @@ public class StageSceneLoader : MonoBehaviour
 
         if (null == stageData)
         {
-            Debug.LogError($"[StageSceneLoader] StageData 를 찾을 수 없습니다. stageId={_progressModel.SelectedStageId}");
+            Debug.LogError($"[StageManager] StageData 를 찾을 수 없습니다. stageId={_progressModel.SelectedStageId}");
             return;
         }
 
@@ -216,34 +236,42 @@ public class StageSceneLoader : MonoBehaviour
             _selectMapViewModel.CloseAllPopups();
         }
 
-        ClearSelectMap();
+        DeactivateSelectMap();
 
         _battleMap = await SpawnBattleMapAsync(stageData.MapPrefabKey);
 
         if (null == _battleMap)
         {
-            Debug.LogError("[StageSceneLoader] 전투맵 스폰에 실패했습니다.");
+            Debug.LogError("[StageManager] 전투맵 스폰에 실패했습니다.");
+            return;
+        }
+
+        CinemachineCamera battleCamera = _battleMap.BattleCamera;
+
+        if (null == battleCamera)
+        {
+            Debug.LogError("[StageManager] 전투맵에 BattleCamera 가 연결되지 않았습니다.");
             return;
         }
 
         DeactivateSelectPlayer();
 
-        ActivateBattleCamera();
+        ActivateBattleCamera(battleCamera);
 
-        await EnterBattleAsync(stageData);
-
+        await EnterBattleAsync(stageData, battleCamera);
         await UniTask.Yield(PlayerLoopTiming.Update, destroyCancellationToken);
+        await UniTask.Delay((int)(FadeDuration * 1000f), cancellationToken: destroyCancellationToken);
 
         GameManager.Instance.UIManager.CloseOverlayUI();
     }
 
-    private async UniTask EnterBattleAsync(StageData stageData)
+    private async UniTask EnterBattleAsync(StageData stageData, CinemachineCamera battleCamera)
     {
-        BattleManager battleManager = _battleMap.BattleManager;
+        BattleManager battleManager = GameManager.Instance.BattleManager;
 
         if (null == battleManager)
         {
-            Debug.LogError("[StageSceneLoader] 전투맵에 BattleManager 가 연결되지 않았습니다.");
+            Debug.LogError("[StageManager] BattleManager 싱글톤이 없습니다.");
             return;
         }
 
@@ -251,32 +279,53 @@ public class StageSceneLoader : MonoBehaviour
 
         if (null == spawnPoint)
         {
-            Debug.LogError("[StageSceneLoader] 전투맵에 PlayerSpawnPoint 가 연결되지 않았습니다.");
+            Debug.LogError("[StageManager] 전투맵에 PlayerSpawnPoint 가 연결되지 않았습니다.");
             return;
         }
 
-        await battleManager.EnterBattle(spawnPoint.position);
-
-        // TODO: BattleTimer 배선 - 전투맵에 BattleTimer 붙으면 여기 또는 EnterBattle 내부에서 StartTimer(stageData.TimeLimit) 호출
-        // TODO: 웨이브(StageWaveData) 기반 EnemySpawn 순차 호출 배선
+        await battleManager.EnterBattle(spawnPoint.position, stageData.DataId, battleCamera);
     }
 
-    private void ClearSelectMap()
+    private void DeactivateSelectMap()
     {
-        if (null != _selectMap)
+        if (null == _selectMap)
         {
-            Destroy(_selectMap.gameObject);
-            _selectMap = null;
+            return;
         }
 
-        GameManager.Instance.ResourceManager.ReleaseAsset(AddressableKey.Prefab.StageSelectMap01);
+        _selectMap.gameObject.SetActive(false);
+    }
+
+    private void ReactivateSelectMap()
+    {
+        if (null == _selectMap)
+        {
+            return;
+        }
+
+        _selectMap.gameObject.SetActive(true);
+    }
+
+    private void ClearBattleMap()
+    {
+        if (null != _battleMap)
+        {
+            Destroy(_battleMap.gameObject);
+            _battleMap = null;
+        }
+
+        if (!string.IsNullOrEmpty(_battleMapKey))
+        {
+            GameManager.Instance.ResourceManager.ReleaseAsset(_battleMapKey);
+            _battleMapKey = null;
+        }
     }
 
     private async UniTask<BattleMap> SpawnBattleMapAsync(string mapPrefabKey)
     {
         if (string.IsNullOrEmpty(mapPrefabKey))
         {
-            Debug.LogError("[StageSceneLoader] mapPrefabKey 가 비어 있습니다.");
+            Debug.LogError("[StageManager] mapPrefabKey 가 비어 있습니다.");
             return null;
         }
 
@@ -284,7 +333,7 @@ public class StageSceneLoader : MonoBehaviour
 
         if (null == mapPrefab)
         {
-            Debug.LogError($"[StageSceneLoader] 전투맵 프리팹 로드에 실패했습니다. key={mapPrefabKey}");
+            Debug.LogError($"[StageManager] 전투맵 프리팹 로드에 실패했습니다. key={mapPrefabKey}");
             return null;
         }
 
@@ -292,7 +341,7 @@ public class StageSceneLoader : MonoBehaviour
 
         if (!mapInstance.TryGetComponent(out BattleMap battleMap))
         {
-            Debug.LogError("[StageSceneLoader] 스폰된 맵 오브젝트에 BattleMap 컴포넌트가 없습니다.");
+            Debug.LogError("[StageManager] 스폰된 맵 오브젝트에 BattleMap 컴포넌트가 없습니다.");
             return null;
         }
 
@@ -312,21 +361,42 @@ public class StageSceneLoader : MonoBehaviour
         _playerParty.gameObject.SetActive(false);
     }
 
-    private void ActivateBattleCamera()
+    private void ReactivateSelectPlayer()
+    {
+        if (null == _playerParty)
+        {
+            return;
+        }
+
+        _playerParty.gameObject.SetActive(true);
+        _playerParty.ResumeMove();
+    }
+
+    private void ActivateBattleCamera(CinemachineCamera battleCamera)
+    {
+        battleCamera.Priority = ActiveCameraPriority;
+    }
+
+    // ===== 선택맵 복귀 전환 =====
+
+    private async UniTask TransitionToSelectAsync()
     {
         if (null == _battleMap)
         {
             return;
         }
 
-        CinemachineCamera battleCamera = _battleMap.BattleCamera;
+        await GameManager.Instance.UIManager.OpenOverlayUIAsync();
 
-        if (null == battleCamera)
-        {
-            Debug.LogWarning("[StageSceneLoader] 전투맵에 BattleCamera 가 연결되지 않았습니다. 카메라 전환을 건너뜁니다.");
-            return;
-        }
+        
+        ReactivateSelectMap();
+        ReactivateSelectPlayer();
 
-        battleCamera.Priority = ActiveCameraPriority;
+        ClearBattleMap();
+
+        await UniTask.Yield(PlayerLoopTiming.Update, destroyCancellationToken);
+        await UniTask.Delay((int)(FadeDuration * 1000f), cancellationToken: destroyCancellationToken);
+
+        GameManager.Instance.UIManager.CloseOverlayUI();
     }
 }
