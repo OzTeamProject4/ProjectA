@@ -4,33 +4,46 @@ using UnityEngine;
 
 public class StageSelectMapViewModel
 {
-    private readonly StageProgressModel _progressModel;
-    private readonly ScreenStateModel _screenStateModel;
-    private readonly CharacterListModel _characterListModel;
-    private readonly StagePlayerParty _playerParty;
+    private StageProgressModel _progressModel;
+    private ScreenStateModel _screenStateModel;
+    private CharacterListModel _characterListModel;
 
     private StageInfoPopupViewModel _stageInfoViewModel;
 
     public event Action<StageInfoPopupViewModel> OnStageInfoPopupOpenRequested;
     public event Action OnStageInfoPopupCloseRequested;
-    public event Action OnReturnToLobbyRequested;
 
-    public StageSelectMapViewModel(StageProgressModel progressModel, ScreenStateModel screenStateModel, StagePlayerParty playerParty, CharacterListModel characterListModel)
+    public StageSelectMapViewModel()
     {
-        if (null == progressModel || null == screenStateModel || null == playerParty || null == characterListModel)
+        StageSession session = StageSession.Instance;
+
+        if (null == session)
         {
-            Debug.LogError("[StageSelectMapViewModel] 생성자 인자 중 null 이 있습니다.");
+            Debug.LogError("[StageSelectMapViewModel] StageSession.Instance 가 null 입니다.");
+        }
+        else
+        {
+            _progressModel = session.Progress;
+            _screenStateModel = session.ScreenState;
         }
 
-        _progressModel = progressModel;
-        _screenStateModel = screenStateModel;
-        _playerParty = playerParty;
-        _characterListModel = characterListModel;
+        if (null == NetworkManagerTemp.Instance)
+        {
+            Debug.LogError("[StageSelectMapViewModel] NetworkManagerTemp.Instance 가 null 입니다.");
+        }
+        else
+        {
+            _characterListModel = NetworkManagerTemp.Instance.GetcharacterListModel();
+        }
     }
 
     public void Dispose()
     {
         CloseAllPopups();
+
+        _progressModel = null;
+        _screenStateModel = null;
+        _characterListModel = null;
     }
 
     public void CloseAllPopups()
@@ -38,40 +51,58 @@ public class StageSelectMapViewModel
         RequestCloseStageInfoPopup();
     }
 
-    // ===== 로비 복귀 =====
-
-    public void RequestReturnToLobby()
-    {
-        OnReturnToLobbyRequested?.Invoke();
-    }
-
     // ===== 몬스터 파티 도달/이탈 =====
 
     public void HandlePartyReached(string stageId)
     {
+        if (null == _progressModel)
+        {
+            return;
+        }
+
         _progressModel.SelectStage(stageId);
 
-        if (null != _playerParty)
-        {
-            _playerParty.StopMove();
-        }
+        StopPlayer();
 
         RequestOpenStageInfoPopup(stageId);
     }
 
     public void HandlePartyLeft(string stageId)
     {
-        if (_progressModel.SelectedStageId != stageId)
+        if (null == _progressModel || _progressModel.SelectedStageId != stageId)
         {
             return;
         }
 
         RequestCloseStageInfoPopup();
 
-        if (null != _playerParty)
+        ResumePlayer();
+    }
+
+    // ===== 플레이어 이동 제어 (세션 경유) =====
+
+    private void StopPlayer()
+    {
+        StageSession session = StageSession.Instance;
+
+        if (null == session || null == session.Player)
         {
-            _playerParty.ResumeMove();
+            return;
         }
+
+        session.Player.StopMove();
+    }
+
+    private void ResumePlayer()
+    {
+        StageSession session = StageSession.Instance;
+
+        if (null == session || null == session.Player)
+        {
+            return;
+        }
+
+        session.Player.ResumeMove();
     }
 
     // ===== 스테이지 정보 팝업 =====
@@ -166,9 +197,6 @@ public class StageSelectMapViewModel
     {
         RequestCloseStageInfoPopup();
 
-        if (null != _playerParty)
-        {
-            _playerParty.ResumeMove();
-        }
+        ResumePlayer();
     }
 }

@@ -22,30 +22,33 @@ public class StageSelectMap : MonoBehaviour
         get { return _playerSpawnPoint; }
     }
 
+    private void Awake()
+    {
+        UnityUtil.ValidateReference(_partyPrefab, nameof(StageSelectMap), nameof(_partyPrefab));
+
+        _viewModel = new StageSelectMapViewModel();
+
+        SubscribeViewModel();
+        SpawnParties();
+    }
+
+    private void OnDisable()
+    {
+        CloseAllPopups();
+    }
+
     private void OnDestroy()
     {
         UnsubscribeParties();
         UnsubscribeViewModel();
 
-        // 종료 중 GameManager 파괴 상황을 피하기 위해 UIManager 호출 없이 참조만 정리
-        _stageInfoPopup = null;
-    }
-
-    public void Bind(StageSelectMapViewModel viewModel)
-    {
-        if (null == viewModel)
+        if (null != _viewModel)
         {
-            Debug.LogError("[StageSelectMap] Bind: viewModel 이 null 입니다.");
-            return;
+            _viewModel.Dispose();
+            _viewModel = null;
         }
 
-        UnsubscribeViewModel();
-
-        _viewModel = viewModel;
-
-        SubscribeViewModel();
-
-        SpawnParties();
+        _stageInfoPopup = null;
     }
 
     private void SubscribeViewModel()
@@ -72,6 +75,16 @@ public class StageSelectMap : MonoBehaviour
         _viewModel.OnStageInfoPopupCloseRequested -= HandleStageInfoPopupCloseRequested;
 
         _isSubscribed = false;
+    }
+
+    private void CloseAllPopups()
+    {
+        if (null == _viewModel || null == GameManager.Instance)
+        {
+            return;
+        }
+
+        _viewModel.CloseAllPopups();
     }
 
     // ===== 몬스터 파티 스폰 =====

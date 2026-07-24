@@ -1,12 +1,25 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class StageSelectHudView : BaseUI
 {
     [SerializeField] private Button _returnToLobbyButton;
 
-    private StageSelectMapViewModel _viewModel;
+    private StageSelectHudViewModel _viewModel;
     private bool _isSubscribed;
+
+    private void Awake()
+    {
+        UnityUtil.ValidateReference(_returnToLobbyButton, nameof(StageSelectHudView), nameof(_returnToLobbyButton));
+
+        _viewModel = new StageSelectHudViewModel();
+    }
+
+    private void OnEnable()
+    {
+        Subscribe();
+    }
 
     private void OnDisable()
     {
@@ -17,34 +30,17 @@ public class StageSelectHudView : BaseUI
     {
         Unsubscribe();
 
-        _viewModel = null;
-    }
-
-    public void Bind(StageSelectMapViewModel viewModel)
-    {
-        if (null == viewModel)
+        if (null != _viewModel)
         {
-            Debug.LogError("[StageSelectHudView] Bind: viewModel 이 null 입니다.");
-            return;
+            _viewModel.Dispose();
+            _viewModel = null;
         }
-
-        Unsubscribe();
-
-        _viewModel = viewModel;
-
-        Subscribe();
     }
 
     private void Subscribe()
     {
-        if (_isSubscribed || null == _viewModel)
+        if (_isSubscribed || null == _returnToLobbyButton)
         {
-            return;
-        }
-
-        if (null == _returnToLobbyButton)
-        {
-            Debug.LogError("[StageSelectHudView] _returnToLobbyButton 이 인스펙터에 연결되지 않았습니다.");
             return;
         }
 
@@ -70,11 +66,66 @@ public class StageSelectHudView : BaseUI
 
     private void HandleReturnToLobbyClicked()
     {
-        if (null == _viewModel)
+        ShowReturnToLobbyPopupAsync().Forget();
+    }
+
+    private async UniTaskVoid ShowReturnToLobbyPopupAsync()
+    {
+        StopPlayer();
+
+        ReturnToLobbyChoice choice = await WaitForReturnToLobbyChoiceAsync();
+
+        if (choice == ReturnToLobbyChoice.Confirm)
+        {
+            if (null != _viewModel)
+            {
+                _viewModel.ReturnToLobby();
+            }
+
+            return;
+        }
+
+        ResumePlayer();
+    }
+
+    private async UniTask<ReturnToLobbyChoice> WaitForReturnToLobbyChoiceAsync()
+    {
+        ReturnToLobbyPopupView view = await GameManager.Instance.UIManager.OpenReturnToLobbyPopupAsync(destroyCancellationToken);
+
+        if (null == view)
+        {
+            Debug.LogError("[StageSelectHudView] 로비 복귀 팝업을 열지 못했습니다. 복귀를 취소합니다.");
+            return ReturnToLobbyChoice.Cancel;
+        }
+
+        ReturnToLobbyChoice choice = await view.WaitForChoiceAsync();
+
+        GameManager.Instance.UIManager.CloseReturnToLobbyPopup();
+
+        return choice;
+    }
+
+    private void StopPlayer()
+    {
+        StageSession session = StageSession.Instance;
+
+        if (null == session || null == session.Player)
         {
             return;
         }
 
-        _viewModel.RequestReturnToLobby();
+        session.Player.StopMove();
+    }
+
+    private void ResumePlayer()
+    {
+        StageSession session = StageSession.Instance;
+
+        if (null == session || null == session.Player)
+        {
+            return;
+        }
+
+        session.Player.ResumeMove();
     }
 }

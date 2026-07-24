@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 
@@ -29,13 +30,13 @@ public class FontReplacer : EditorWindow
             return;
         }
 
-        if (GUILayout.Button("씬 내 텍스트 교체"))
+        if (GUILayout.Button("씬 내 텍스트 교체 (선택 오브젝트)"))
             ReplaceInScene();
 
-        if (GUILayout.Button("프리팹 텍스트 교체 (Assets 전체)"))
+        if (GUILayout.Button("프리팹 텍스트 교체 (KKH)"))
             ReplaceInPrefabs();
 
-        if (GUILayout.Button("씬 + 프리팹 전체 교체"))
+        if (GUILayout.Button("씬(선택) + 프리팹(KKH) 교체"))
         {
             ReplaceInScene();
             ReplaceInPrefabs();
@@ -43,14 +44,38 @@ public class FontReplacer : EditorWindow
     }
 
     // =========================================================================
-    // 씬 내 교체
+    // 씬 내 교체 (Hierarchy 에서 선택한 오브젝트 및 그 자식만 대상)
     // =========================================================================
     private void ReplaceInScene()
     {
         _replacedCount = 0;
 
-        TextMeshProUGUI[] allTexts = FindObjectsByType<TextMeshProUGUI>(FindObjectsSortMode.None);
-        foreach (TextMeshProUGUI tmp in allTexts)
+        GameObject[] selectedObjects = Selection.gameObjects;
+
+        if (selectedObjects == null || selectedObjects.Length == 0)
+        {
+            EditorUtility.DisplayDialog("알림", "Hierarchy에서 교체할 오브젝트를 선택해주세요.", "확인");
+            return;
+        }
+
+        HashSet<TextMeshProUGUI> targets = new HashSet<TextMeshProUGUI>();
+
+        foreach (GameObject selectedObject in selectedObjects)
+        {
+            if (null == selectedObject)
+            {
+                continue;
+            }
+
+            TextMeshProUGUI[] texts = selectedObject.GetComponentsInChildren<TextMeshProUGUI>(true);
+
+            foreach (TextMeshProUGUI tmp in texts)
+            {
+                targets.Add(tmp);
+            }
+        }
+
+        foreach (TextMeshProUGUI tmp in targets)
         {
             Undo.RecordObject(tmp, "Replace Font");
             tmp.font = _targetFont;
@@ -69,7 +94,7 @@ public class FontReplacer : EditorWindow
     {
         _replacedCount = 0;
 
-        string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets/Prefabs" });
+        string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets/Devs/KKH" });
 
         foreach (string guid in guids)
         {
