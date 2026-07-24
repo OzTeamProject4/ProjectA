@@ -15,6 +15,7 @@ public class StageManager : BaseManager <StageManager>
 
     private StageSelectMap _selectMap;
     private StageSelectMapViewModel _selectMapViewModel;
+    private StageSelectHudView _stageSelectHud; // 선택맵 화면 HUD
     private BattleMap _battleMap;
     private string _battleMapKey;
     private Transform _mapRoot;
@@ -58,9 +59,12 @@ public class StageManager : BaseManager <StageManager>
 
         if (null != _selectMapViewModel)
         {
+            _selectMapViewModel.OnReturnToLobbyRequested -= HandleReturnToLobbyRequested;
             _selectMapViewModel.Dispose();
             _selectMapViewModel = null;
         }
+
+        _stageSelectHud = null;
 
         if (null == GameManager.Instance)
         {
@@ -80,7 +84,7 @@ public class StageManager : BaseManager <StageManager>
     {
         if (_hasEntered)
         {
-            Debug.LogWarning("[StageManager] 이미 진입했습니다.");
+            await ReEnterFromLobbyAsync();
             return;
         }
 
@@ -113,10 +117,138 @@ public class StageManager : BaseManager <StageManager>
         }
 
         _selectMapViewModel = new StageSelectMapViewModel(_progressModel, _screenStateModel, _playerParty, characterListModel);
+        _selectMapViewModel.OnReturnToLobbyRequested += HandleReturnToLobbyRequested;
         _selectMap.Bind(_selectMapViewModel);
+
+        await ShowStageSelectHudAsync();
 
         _hasEntered = true;
         GameManager.Instance.UIManager.CloseOverlayUI();
+    }
+
+    // ===== 선택맵 HUD =====
+
+    private async UniTask ShowStageSelectHudAsync()
+    {
+        _stageSelectHud = await GameManager.Instance.UIManager.OpenStageSelectHudAsync(destroyCancellationToken);
+
+        if (null == _stageSelectHud)
+        {
+            Debug.LogError("[StageManager] 스테이지 선택 HUD 를 열지 못했습니다.");
+            return;
+        }
+
+        _stageSelectHud.Bind(_selectMapViewModel);
+    }
+
+    private void HideStageSelectHud()
+    {
+        if (null == GameManager.Instance)
+        {
+            return;
+        }
+
+        GameManager.Instance.UIManager.CloseStageSelectHud();
+    }
+
+    // ===== 로비 복귀 =====
+
+    private async UniTask ReEnterFromLobbyAsync()
+    {
+        if (null == _selectMap || null == _playerParty)
+        {
+            Debug.LogError("[StageManager] ReEnterFromLobbyAsync: 선택맵 또는 플레이어가 null 입니다.");
+            return;
+        }
+
+        await GameManager.Instance.UIManager.OpenOverlayUIAsync();
+
+        try
+        {
+            ReactivateSelectMap();
+            ReactivateSelectPlayer();
+
+            _playerParty.WarpTo(_progressModel.PlayerPosition);
+            _playerParty.ResumeMove();
+
+            await ShowStageSelectHudAsync();
+
+            _screenStateModel.ChangeScreen(ScreenType.StageSelect);
+        }
+        finally
+        {
+            GameManager.Instance.UIManager.CloseOverlayUI();
+        }
+    }
+
+    private void HandleReturnToLobbyRequested()
+    {
+        ShowReturnToLobbyPopupAsync().Forget();
+    }
+
+    private async UniTaskVoid ShowReturnToLobbyPopupAsync()
+    {
+        if (null != _playerParty)
+        {
+            _playerParty.StopMove();
+        }
+
+        ReturnToLobbyChoice choice = await WaitForReturnToLobbyChoiceAsync();
+
+        if (choice == ReturnToLobbyChoice.Confirm)
+        {
+            await ExitToLobbyAsync();
+            return;
+        }
+
+        if (null != _playerParty)
+        {
+            _playerParty.ResumeMove();
+        }
+    }
+
+    private async UniTask<ReturnToLobbyChoice> WaitForReturnToLobbyChoiceAsync()
+    {
+        ReturnToLobbyPopupView view = await GameManager.Instance.UIManager.OpenReturnToLobbyPopupAsync(destroyCancellationToken);
+
+        if (null == view)
+        {
+            Debug.LogError("[StageManager] 로비 복귀 팝업을 열지 못했습니다. 복귀를 취소합니다.");
+            return ReturnToLobbyChoice.Cancel;
+        }
+
+        ReturnToLobbyChoice choice = await view.WaitForChoiceAsync();
+
+        GameManager.Instance.UIManager.CloseReturnToLobbyPopup();
+
+        return choice;
+    }
+
+    private async UniTask ExitToLobbyAsync()
+    {
+        SavePlayerPosition();
+
+        if (null != _selectMapViewModel)
+        {
+            _selectMapViewModel.CloseAllPopups();
+        }
+
+        await GameManager.Instance.UIManager.OpenOverlayUIAsync();
+
+        try
+        {
+            HideStageSelectHud();
+            DeactivateSelectPlayer();
+            DeactivateSelectMap();
+
+            _screenStateModel.ChangeScreen(ScreenType.Lobby);
+
+            await GameManager.Instance.UIManager.OpenLobbyAsync();
+        }
+        finally
+        {
+            GameManager.Instance.UIManager.CloseOverlayUI();
+        }
     }
 
     private void ReEnter()
@@ -275,6 +407,7 @@ public class StageManager : BaseManager <StageManager>
             _selectMapViewModel.CloseAllPopups();
         }
 
+        HideStageSelectHud();
         DeactivateSelectMap();
 
         _battleMap = await SpawnBattleMapAsync(stageData.MapPrefabKey);
@@ -460,6 +593,8 @@ public class StageManager : BaseManager <StageManager>
         {
             ReactivateSelectMap();
             ReactivateSelectPlayer();
+
+            await ShowStageSelectHudAsync();
 
             ClearBattleMap();
 

@@ -13,6 +13,7 @@ public class StageSelectMapViewModel
 
     public event Action<StageInfoPopupViewModel> OnStageInfoPopupOpenRequested;
     public event Action OnStageInfoPopupCloseRequested;
+    public event Action OnReturnToLobbyRequested;
 
     public StageSelectMapViewModel(StageProgressModel progressModel, ScreenStateModel screenStateModel, StagePlayerParty playerParty, CharacterListModel characterListModel)
     {
@@ -35,6 +36,13 @@ public class StageSelectMapViewModel
     public void CloseAllPopups()
     {
         RequestCloseStageInfoPopup();
+    }
+
+    // ===== 로비 복귀 =====
+
+    public void RequestReturnToLobby()
+    {
+        OnReturnToLobbyRequested?.Invoke();
     }
 
     // ===== 몬스터 파티 도달/이탈 =====

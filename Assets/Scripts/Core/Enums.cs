@@ -23,7 +23,9 @@
     AchievementScreen,
     PartySelectPopup,
     BattleResultPopup,
-    BattlePausePopup
+    BattlePausePopup,
+    ReturnToLobbyPopup,
+    StageSelectHud
 }
 
 public enum LoadingState
@@ -47,9 +49,6 @@ public enum LoadingStep
     LoadStageWaveData,
     Complete,
     LoadSkillData,
-    ItemPreviewPopup,
-    StageInfoPopup,
-    PartySetupPopup,
     LoadEnemyData,
     LoadEnemySkillData
 }
