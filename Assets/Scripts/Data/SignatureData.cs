@@ -1,14 +1,12 @@
 ﻿public class SignatureData : BaseData
 {
-    public string SignatureId { get; init; }
     public int EnchantLevel { get; init; }
     public float MaxHp { get; init; }
-    public float Atk { get; init; }
-    public float Def { get; init; }
+    public float Attack { get; init; }
+    public float Defence { get; init; }
     public float MoveSpeed { get; init; }
     public string RequiredItemId { get; init; }
     public string RequiredItemCount { get; init; }
-    public int RequiredGold { get; init; }
 
     private string[] _requiredItemIds;
     private int[] _requiredItemCounts;

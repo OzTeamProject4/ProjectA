@@ -3,6 +3,7 @@
     Lobby,
     CharacterList,
     CharacterDetail,
+    InventoryDetail,
     ExpItemSelectPopup,
     CraftPopup,
     EquipmentListPopup,
@@ -13,7 +14,6 @@
     SettingPopup,
     Overlay,
     Loading,
-
     PracticeFieldScreen,
     StageSelectScreen,
     DictionaryScreen,
@@ -21,7 +21,10 @@
     CharacterGachaScreen,
     MissionScreen,
     InventoryScreen,
-    AchievementScreen
+    AchievementScreen,
+    PartySelectPopup,
+    BattleResultPopup,
+    BattlePausePopup
 }
 
 public enum LoadingState
@@ -38,6 +41,7 @@ public enum LoadingStep
     LoadCharacterGradeData,
     LoadLevelExpData,
     LoadItemData,
+    LoadCurrencyData,
     LoadEquipmentData,
     LoadSignatureData,
     LoadStageData,
@@ -76,6 +80,15 @@ public enum RollType
 
 public enum ItemType
 {
+    Currency,
+    Equipment,
+    Signature
+}
+
+public enum CurrencyType
+{
+    Gold,
+    Crystal,
     ExpBook,
     Ticket,
     Material
@@ -84,9 +97,9 @@ public enum ItemType
 public enum EquipType
 {
     Weapon,
-    Helmet,
+    Hat,
     Armor,
-    Greeve,
+    Boots,
     Accessory,
     Signature
 }
@@ -94,8 +107,8 @@ public enum EquipType
 public enum StatType
 {
     MaxHp,
-    Atk,
-    Def,
+    Attack,
+    Defence,
     MoveSpeed
 }
 

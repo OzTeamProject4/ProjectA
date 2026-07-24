@@ -1,29 +1,252 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
-public class CharacterModel
+public static class CharId
 {
-    private readonly IGameDataProvider _dataProvider;
-    private readonly Inventory _inventory;
+    public static string GetCharGradeId(int grade)
+    {
+        string gradeId = $"Star_{grade}";
+        return gradeId;
+    }
 
-    public string CharacterId { get; private set; }
-    public int CurrentStar { get; private set; }
-    public int CurrentLevel { get; private set; }
-    public int CurrentExp { get; private set; }
-    public int OwnedDuplicates { get; private set; }
+    public static string GetCharLevelId(int level)
+    {
+        string levelId = $"Level_{level}";
+        return levelId;
+    }
+}
+
+public class CharacterModel : INotifyPropertyChanged
+{
+    private static readonly PropertyChangedEventArgs IdChanged = new PropertyChangedEventArgs(nameof(Id));
+    private static readonly PropertyChangedEventArgs NameChanged = new PropertyChangedEventArgs(nameof(Name));
+    private static readonly PropertyChangedEventArgs StarChanged = new PropertyChangedEventArgs(nameof(Star));
+    private static readonly PropertyChangedEventArgs ExpChanged = new PropertyChangedEventArgs(nameof(Exp));
+    private static readonly PropertyChangedEventArgs LevelChanged = new PropertyChangedEventArgs(nameof(Level));
+    private static readonly PropertyChangedEventArgs IsMaxLevelChanged = new PropertyChangedEventArgs(nameof(IsMaxLevel));
+
+    //private static readonly PropertyChangedEventArgs HpChanged = new PropertyChangedEventArgs(nameof(Hp));
+    //private static readonly PropertyChangedEventArgs AttakChanged = new PropertyChangedEventArgs(nameof(Attack));
+    //private static readonly PropertyChangedEventArgs DefenseChanged = new PropertyChangedEventArgs(nameof(Defense));
+    //private static readonly PropertyChangedEventArgs MoveSpeedChanged = new PropertyChangedEventArgs(nameof(MoveSpeed));
+
+    private string _id;
+    private string _name;
+    private int _star;
+    private int _exp;
+    private int _level;
+
+    private float _baseHp;
+    private float _baseAttack;
+    private float _baseDefense;
+    private float _baseMoveSpeed;
+
+    private readonly ElementType _elementType;
+    private readonly string _iconPath;
+    private bool _isMaxLevel;
+    private bool _isMaxStar;
+
+    private CharacterGradeData _currentGradeData;
+    private LevelExpData _currentLevelData;
+
+    public CharacterModel(CharacterData characterData)
+    {
+        _id = characterData.DataId;
+        _name = characterData.Name;
+        _star = characterData.Star;
+        _exp = characterData.Exp;
+        _level = CalculateLevel(_exp);
+
+        _baseHp = characterData.Hp;
+        _baseAttack = characterData.Attack;
+        _baseDefense = characterData.Defence;
+        _baseMoveSpeed = characterData.MoveSpeed;
+
+        _iconPath = characterData.CharacterIconPath;
+
+        TryUpdateCurrentGradeData(_star);
+        TryUpdateCurrentLevelData(_level);
+
+        _isMaxLevel = _level >= _currentGradeData.MaxLevel;
+        _isMaxStar = _currentGradeData.RequiredToNext <= 0;
+    }
+
+    private bool TryUpdateCurrentGradeData(int star)
+    {
+        string dataId = CharId.GetCharGradeId(star);
+
+        if (!GameManager.Instance.DataManager.TryGetData(dataId, out _currentGradeData))
+        {
+            Debug.LogError($"CharacterGradeData를 찾을 수 없습니다. DataId: {dataId}");
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool TryUpdateCurrentLevelData(int exp)
+    {
+        string dataId = CharId.GetCharLevelId(exp);
+
+        if (!GameManager.Instance.DataManager.TryGetData(dataId, out _currentLevelData))
+        {
+            Debug.LogError($"CharacterLevelData를 찾을 수 없습니다. DataId: {dataId}");
+            return false;
+        }
+
+        return true;
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    public string Id
+    {
+        get { return _id; }
+        private set
+        {
+            if (_id != value)
+            {
+                _id = value;
+                OnPropertyChanged(IdChanged);
+            }
+        }
+    }
+
+    public string Name
+    {
+        get { return _name; }
+        private set
+        {
+            if (_name != value)
+            {
+                _name = value;
+                OnPropertyChanged(NameChanged);
+            }
+        }
+    }
+
+    public int Star
+    {
+        get { return _star; }
+        private set
+        {
+            if (_star != value)
+            {
+                _star = value;
+                TryUpdateCurrentGradeData(_star);
+                _isMaxStar = _currentGradeData.RequiredToNext <= 0;
+                OnPropertyChanged(StarChanged);
+            }
+        }
+    }
+
+    public int Exp
+    {
+        get { return _exp; }
+        private set
+        {
+            if (_exp != value)
+            {
+                _exp = value;
+                OnPropertyChanged(ExpChanged);
+            }
+        }
+    }
+
+    public int Level
+    {
+        get { return _level; }
+        private set
+        {
+            if (_level != value)
+            {
+                _level = value;
+                IsMaxLevel = _level >= _currentGradeData.MaxLevel;
+                TryUpdateCurrentLevelData(_level);
+                OnPropertyChanged(LevelChanged);
+            }
+        }
+    }
+
+    //public float Hp
+    //{
+    //    get { return _hp; }
+    //    private set
+    //    {
+    //        if (_hp != value)
+    //        {
+    //            _hp = value;
+    //            OnPropertyChanged(HpChanged);
+    //        }
+    //    }
+    //}
+
+    //public float Attack
+    //{
+    //    get { return _attack; }
+    //    private set
+    //    {
+    //        if (_attack != value)
+    //        {
+    //            _attack = value;
+    //            OnPropertyChanged(AttakChanged);
+    //        }
+    //    }
+    //}
+
+    //public float Defense
+    //{
+    //    get { return _defense; }
+    //    private set
+    //    {
+    //        if (_defense != value)
+    //        {
+    //            _defense = value;
+    //            OnPropertyChanged(DefenseChanged);
+    //        }
+    //    }
+    //}
+
+    //public float MoveSpeed
+    //{
+    //    get { return _moveSpeed; }
+    //    private set
+    //    {
+    //        if (_moveSpeed != value)
+    //        {
+    //            _moveSpeed = value;
+    //            OnPropertyChanged(MoveSpeedChanged);
+    //        }
+    //    }
+    //}
+
+    public ElementType ElementType
+    {
+        get { return _elementType; }
+    }
 
     public bool IsMaxLevel
     {
         get
         {
-            CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);
-            if (null == grade)
+            return _isMaxLevel;
+        }
+        private set
+        {
+            if (_isMaxLevel != value)
             {
-                return false;
+                _isMaxLevel = value;
+                OnPropertyChanged(IsMaxLevelChanged);
             }
+        }
+    }
 
-            return CurrentLevel >= grade.MaxLevel;
+    public int RequiredExp
+    {
+        get
+        {
+            return _currentLevelData.RequiredExp;
         }
     }
 
@@ -31,329 +254,226 @@ public class CharacterModel
     {
         get
         {
-            CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);
-            if (null == grade)
+            return _isMaxStar;
+        }
+    }
+
+    public int RequiredToNext
+    {
+        get
+        {
+            return _currentGradeData.RequiredToNext;
+        }
+    }
+
+    public string IconPath
+    {
+        get { return _iconPath; }
+    }
+
+    public void InitProperty()
+    {
+        OnPropertyChanged(new PropertyChangedEventArgs(nameof(IconPath)));
+        OnPropertyChanged(IdChanged);
+        OnPropertyChanged(NameChanged);
+        OnPropertyChanged(StarChanged);
+        OnPropertyChanged(ExpChanged);
+        OnPropertyChanged(LevelChanged);
+        OnPropertyChanged(IsMaxLevelChanged);
+    }
+
+    private int CalculateLevel(int exp)
+    {
+        Dictionary<string, LevelExpData> levelTable = new Dictionary<string, LevelExpData>();
+
+        if (!GameManager.Instance.DataManager.TryGetDataTable(out levelTable))
+        {
+            Debug.LogError($"LevelExpTable를 찾을 수 없습니다.");
+            return -1;
+        }
+
+        foreach (LevelExpData levelExp in levelTable.Values)
+        {
+            if (exp >= levelExp.RequiredExp)
             {
-                return true;
+                continue;
             }
 
-            return grade.RequiredToNext <= 0;
+            return levelExp.Level;
         }
+
+        Debug.LogError($"");
+        return 1;
     }
 
-    public event Action OnExpChanged;
-    public event Action OnLevelChanged;
-    public event Action OnStarChanged;
-    public event Action OnDuplicatesChanged;
-    public event Action OnEquipmentChanged;
-
-    public CharacterModel(string characterId, int startStar, IGameDataProvider dataProvider, Inventory inventory)
+    public bool TryAddExp(int amount)
     {
-        if (string.IsNullOrEmpty(characterId))
+        if (amount <= 0)
         {
-            Debug.LogError("characterId 가 비어 있습니다.");
+            Debug.LogError($"AddExp: 유효하지 않은 경험치({amount}).");
+            return false;
         }
 
-        if (null == dataProvider)
-        {
-            Debug.LogError("IGameDataProvider 가 null 입니다.");
-        }
-
-        if (null == inventory)
-        {
-            Debug.LogError("Inventory 가 null 입니다.");
-        }
-
-        _dataProvider = dataProvider;
-        _inventory = inventory;
-        CharacterId = characterId;
-        CurrentStar = startStar;
-        CurrentLevel = 1;
-        CurrentExp = 0;
-        OwnedDuplicates = 0;
-
-        if (null != dataProvider && null == dataProvider.GetGrade(startStar))
-        {
-            Debug.LogWarning($"시작 성급({startStar})에 해당하는 CharacterGradeData 가 없습니다. CharacterId={characterId}");
-        }
-    }
-
-    public StatData GetFinalStats()
-    {
-        CharacterData stat = _dataProvider.GetStat(CharacterId);
-        CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);
-        StatData equipmentBonus = GetEquipmentBonus();
-
-        return StatCalculator.Calculate(stat, grade, CurrentLevel, equipmentBonus);
-    }
-
-    public StatData GetEquipmentBonus()
-    {
-        return StatCalculator.SumEquipmentStats(_inventory.GetEquippedItems(CharacterId));
-    }
-
-    public EquipmentInstance GetEquippedItem(EquipType slot)
-    {
-        return _inventory.GetEquippedItem(CharacterId, slot);
-    }
-
-    public bool CanEquip(EquipmentInstance instance)
-    {
-        if (null == instance)
+        if (IsMaxLevel)
         {
             return false;
         }
 
-        if (!string.IsNullOrEmpty(instance.Data.AllowedId) && instance.Data.AllowedId != CharacterId)
+        Exp += amount;
+
+        while (Exp >= _currentLevelData.RequiredExp)
         {
-            return false;
+            Level++;
         }
 
         return true;
     }
 
-    public void Equip(EquipmentInstance instance)
+    public bool TryGradeUp()
     {
-        if (!CanEquip(instance))
-        {
-            Debug.LogWarning($"Equip: 장착할 수 없는 장비입니다. CharacterId={CharacterId}");
-            return;
-        }
-
-        if (instance.EquippedBy == CharacterId)
-        {
-            Debug.Log($"Equip: 이미 장착 중인 장비입니다. InstanceId={instance.InstanceId}");
-            return;
-        }
-
-        EquipmentInstance previousInSlot = _inventory.GetEquippedItem(CharacterId, instance.Type);
-        if (null != previousInSlot)
-        {
-            previousInSlot.ClearEquipped();
-        }
-
-        instance.SetEquippedBy(CharacterId);
-
-        OnEquipmentChanged?.Invoke();
-    }
-
-    public void Unequip(EquipType slot)
-    {
-        EquipmentInstance instance = _inventory.GetEquippedItem(CharacterId, slot);
-        if (null == instance)
-        {
-            Debug.LogWarning($"Unequip: 장착된 장비가 없습니다. Slot={slot}, CharacterId={CharacterId}");
-            return;
-        }
-
-        instance.ClearEquipped();
-
-        OnEquipmentChanged?.Invoke();
-    }
-
-    public int GetRequiredExpForNextLevel()
-    {
-        return _dataProvider.GetRequiredExp(CurrentLevel);
-    }
-
-    public int GetRequiredDuplicatesForPromotion()
-    {
-        CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);
-        if (null == grade)
-        {
-            return 0;
-        }
-
-        return grade.RequiredToNext > 0 ? grade.RequiredToNext : 0;
-    }
-
-    public void AddExp(int amount)
-    {
-        if (amount <= 0)
-        {
-            Debug.LogWarning($"AddExp: 유효하지 않은 경험치({amount}).");
-            return;
-        }
-
-        CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);
-        if (null == grade)
-        {
-            Debug.LogWarning($"AddExp: GradeData 없음. Star={CurrentStar}");
-            return;
-        }
-
-        int maxLevel = grade.MaxLevel;
-        if (CurrentLevel >= maxLevel)
-        {
-            Debug.Log($"이미 만렙(Lv{CurrentLevel}). 경험치 {amount} 무시. CharacterId={CharacterId}");
-            return;
-        }
-
-        CurrentExp += amount;
-
-        bool leveledUp = false;
-        while (CurrentLevel < maxLevel)
-        {
-            int required = _dataProvider.GetRequiredExp(CurrentLevel);
-            if (required <= 0)
-            {
-                break;
-            }
-
-            if (CurrentExp < required)
-            {
-                break;
-            }
-
-            CurrentExp -= required;
-            CurrentLevel++;
-            leveledUp = true;
-        }
-
-        if (CurrentLevel >= maxLevel)
-        {
-            CurrentExp = 0;
-        }
-
-        OnExpChanged?.Invoke();
-        if (leveledUp)
-        {
-            OnLevelChanged?.Invoke();
-        }
-    }
-
-    public bool CanPromote()
-    {
-        CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);
-        if (null == grade || grade.RequiredToNext <= 0)
+        if (IsMaxStar)
         {
             return false;
         }
 
-        if (CurrentLevel < grade.MaxLevel)
+        if (!IsMaxLevel)
         {
             return false;
         }
 
-        return OwnedDuplicates >= grade.RequiredToNext;
-    }
+        //TODO 아이템 가져오기
+        int gradeItem = 100;
 
-    public void Promote()
-    {
-        CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);
-        if (null == grade)
-        {
-            Debug.LogWarning($"CharacterGradeData 없음. Star={CurrentStar}");
-            return;
-        }
-
-        if (grade.RequiredToNext <= 0)
-        {
-            Debug.LogWarning($"이미 최대 성급({CurrentStar}) 입니다.");
-            return;
-        }
-
-        if (CurrentLevel < grade.MaxLevel)
-        {
-            Debug.LogWarning($"만렙(Lv{grade.MaxLevel}) 도달 후 승급 가능. 현재 Lv{CurrentLevel}");
-            return;
-        }
-
-        if (OwnedDuplicates < grade.RequiredToNext)
-        {
-            Debug.LogWarning($"캐릭터 보유 수량 부족. 필요={grade.RequiredToNext}, 보유={OwnedDuplicates}");
-            return;
-        }
-
-        OwnedDuplicates -= grade.RequiredToNext;
-        CurrentStar++;
-
-        OnDuplicatesChanged?.Invoke();
-        OnStarChanged?.Invoke();
-    }
-
-    public void AddDuplicate(int count)
-    {
-        if (count <= 0)
-        {
-            Debug.LogWarning($"유효하지 않은 수량({count}).");
-            return;
-        }
-
-        OwnedDuplicates += count;
-        OnDuplicatesChanged?.Invoke();
-    }
-
-    public bool CanUseExpItem(string dataId)
-    {
-        if (IsMaxLevel)
+        if (gradeItem < _currentGradeData.RequiredToNext)
         {
             return false;
         }
 
-        return _inventory.GetItemCount(dataId) > 0;
+        //TODO 아이템 소비
+        gradeItem -= _currentGradeData.RequiredToNext;
+
+        Star++;
+
+        return true;
     }
 
-    public void UseExpItem(string dataId)
+    private void OnPropertyChanged(PropertyChangedEventArgs propertyChangedEventArgs)
     {
-        if (string.IsNullOrEmpty(dataId))
+        if (PropertyChanged == null)
         {
-            Debug.LogWarning("UseExpItem: dataId 가 비어 있습니다.");
             return;
         }
 
-        ItemData item = _dataProvider.GetItem(dataId);
-        if (null == item)
-        {
-            Debug.LogWarning($"UseExpItem: ItemData 를 찾을 수 없습니다. dataId={dataId}");
-            return;
-        }
-
-        if (IsMaxLevel)
-        {
-            Debug.Log($"만렙이라 경험치 아이템 사용 불가. dataId={dataId}");
-            return;
-        }
-
-        if (!_inventory.TryConsumeItem(dataId))
-        {
-            Debug.LogWarning($"보유 수량 없음. dataId={dataId}");
-            return;
-        }
-
-        AddExp(item.Value);
-    }
-
-    public IReadOnlyList<ItemData> GetExpItems()
-    {
-        List<ItemData> items = new();
-
-        foreach (string dataId in _dataProvider.GetAllExpItemIds())
-        {
-            ItemData item = _dataProvider.GetItem(dataId);
-            if (null != item)
-            {
-                items.Add(item);
-            }
-        }
-
-        return items;
-    }
-
-    public string GetCharacterIconPath(string characterId)
-    {
-        if (string.IsNullOrEmpty(characterId))
-        {
-            return null;
-        }
-
-        CharacterData characterData = _dataProvider.GetStat(characterId);
-
-        if (null == characterData)
-        {
-            return null;
-        }
-
-        return characterData.CharacterIconPath;
+        PropertyChanged.Invoke(this, propertyChangedEventArgs);
     }
 }
+// private static readonly PropertyChangedEventArgs SkillListChanged = new PropertyChangedEventArgs(nameof(SkillList));
+// private string _skillList;
+
+//public string SkillList
+//{
+//    get => _skillList;
+//    private set
+//    {
+//        if (_skillList != value)
+//        {
+//            _skillList = value;
+//            OnPropertyChanged(SkillListChanged);
+//        }
+//    }
+//}
+
+
+
+//?? 중복 승급 재화
+//public int OwnedDuplicates { get; private set; }
+
+
+//public StatData GetFinalStats()
+//{
+//    CharacterData stat = _dataProvider.GetStat(CharacterId);
+//    CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);
+//    StatData equipmentBonus = GetEquipmentBonus();
+
+//    return StatCalculator.Calculate(stat, grade, CurrentLevel, equipmentBonus);
+//}
+
+//public StatData GetEquipmentBonus()
+//{
+//    return StatCalculator.SumEquipmentStats(_inventory.GetEquippedItems(CharacterId));
+//}
+
+//public EquipmentInstance GetEquippedItem(EquipType slot)
+//{
+//    return _inventory.GetEquippedItem(CharacterId, slot);
+//}
+
+//public bool CanEquip(EquipmentInstance instance)
+//{
+//    if (null == instance)
+//    {
+//        return false;
+//    }
+
+//    if (!string.IsNullOrEmpty(instance.Data.AllowedId) && instance.Data.AllowedId != CharacterId)
+//    {
+//        return false;
+//    }
+
+//    return true;
+//}
+
+//public void Equip(EquipmentInstance instance)
+//{
+//    if (!CanEquip(instance))
+//    {
+//        Debug.LogWarning($"Equip: 장착할 수 없는 장비입니다. CharacterId={CharacterId}");
+//        return;
+//    }
+
+//    if (instance.EquippedBy == CharacterId)
+//    {
+//        Debug.Log($"Equip: 이미 장착 중인 장비입니다. InstanceId={instance.InstanceId}");
+//        return;
+//    }
+
+//    EquipmentInstance previousInSlot = _inventory.GetEquippedItem(CharacterId, instance.Type);
+//    if (null != previousInSlot)
+//    {
+//        previousInSlot.ClearEquipped();
+//    }
+
+//    instance.SetEquippedBy(CharacterId);
+
+//    OnEquipmentChanged?.Invoke();
+//}
+
+//public void Unequip(EquipType slot)
+//{
+//    EquipmentInstance instance = _inventory.GetEquippedItem(CharacterId, slot);
+//    if (null == instance)
+//    {
+//        Debug.LogWarning($"Unequip: 장착된 장비가 없습니다. Slot={slot}, CharacterId={CharacterId}");
+//        return;
+//    }
+
+//    instance.ClearEquipped();
+
+//    OnEquipmentChanged?.Invoke();
+//}
+
+//public int GetRequiredExpForNextLevel()
+//{
+//    return _dataProvider.GetRequiredExp(CurrentLevel);
+//}
+
+//public int GetRequiredDuplicatesForPromotion()
+//{
+//    CharacterGradeData grade = _dataProvider.GetGrade(CurrentStar);
+//    if (null == grade)
+//    {
+//        return 0;
+//    }
+
+//    return grade.RequiredToNext > 0 ? grade.RequiredToNext : 0;
+//}
