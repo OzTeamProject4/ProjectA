@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 070512bfd57124746a81d11f3a7ea2a6
+    m_Address: Prefab_Yui
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 071b721a7c13e024d8c25450330f95b1
     m_Address: UI/EquipmentListPopup
     m_ReadOnly: 0
@@ -55,8 +60,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 14d00edddbacfaa4f8a96d7c892d7945
+    m_Address: Prefab_Neri
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 160261f5e0939d54d8092f7d7f8826ad
     m_Address: UI/Lobby
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 185990812fb4e014d89d3dacff831b74
+    m_Address: StandImage/Bitna
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -70,6 +85,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2657868fb52b9d64d8a49e316640b5cf
+    m_Address: Icon/Lumi
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 28cdce35451576f46903271196144346
     m_Address: Prefab/AudioView
     m_ReadOnly: 0
@@ -77,6 +97,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 306aacece41374f42b6be8c1c0ae993b
     m_Address: TestEnemy
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 383cc20fd6ee297468680c3858b70c1b
+    m_Address: Prefab_Kai
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -120,6 +145,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5acf23e59b3fe324ebaf1571cba0a9df
+    m_Address: Icon/Kai
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 72ae85101caacdb429efb8b599f97285
     m_Address: UI/CharacterDetail
     m_ReadOnly: 0
@@ -127,6 +157,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 74826f15b8e0c444298c9c65e4aedee1
     m_Address: SkillFire003
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7b804111baeddf74c94ade8f4b6c911a
+    m_Address: StandImage/Yui
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -170,6 +205,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9691e482a6200e8478da7b3fd3ea4d6f
+    m_Address: Assets/Textures/StandImage/Lumi_Standimg.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a65b8b8a730922c4888faa8bcee0a18e
     m_Address: UI/MissionScreen
     m_ReadOnly: 0
@@ -205,6 +245,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b2f1e6829777c884dba98e974c5269e9
+    m_Address: Icon/Neri
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b48cedf2dcc0a794fa7ab6910fedd8d3
     m_Address: SkillNormal001
     m_ReadOnly: 0
@@ -230,6 +275,31 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c30ae38498f6fda45ab3b205bbb42e48
+    m_Address: Icon/Bitna
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c6c29b11b34510246afb2950e11a9fc3
+    m_Address: Prefab_Bitna
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca1814f66ac4fbc4fa2adc398d34a820
+    m_Address: StandImage/Lumi
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc51eb11bd69f4443840fac53bf9795e
+    m_Address: StandImage/Kai
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d5f9e28e10472ff47abf0c3f5115cd6e
+    m_Address: StandImage/Neri
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d647c40aa81ebd84b8c7c322d7af8834
     m_Address: UI/PartySelectPopup
     m_ReadOnly: 0
@@ -242,6 +312,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d8ebe98eb77cd1649b4003bddaeb4c96
     m_Address: UI/Loading
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d9e36bad464b321429c9be5f9316a36a
+    m_Address: Prefab_Lumi
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -267,6 +342,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f4e4808b7fade814abf5b88b7976d010
     m_Address: EnemyData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f8833382ef20ff94c8ebc32850ad3c53
+    m_Address: Icon/Yui
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

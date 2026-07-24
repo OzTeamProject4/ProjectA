@@ -8,19 +8,25 @@ public class TempPartySpawner
     public async UniTask<List<BattleCharacter>> SpawnPartyById(IReadOnlyList<string> partyDataId, Vector3 spawnOrigin)
     {
         List<BattleCharacter> characters = new List<BattleCharacter>();
-
-        GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>("Prefab_TestBattleCharacterBase");
-        if (prefab == null)
-        {
-            Debug.LogError("캐릭터 프리팹 로드 실패");
-            return characters;
-        }
-
         // IGameDataProvider provider = new GameDataProvider();
 
         int index = 0;
         foreach (string dataId in partyDataId)
         {
+            GameManager.Instance.DataManager.TryGetData<CharacterData>(dataId, out var characterData);
+            if (dataId == null)
+            {
+                Debug.LogError($"{dataId} 등록되지 않은 ID입니다");
+                continue;
+            }
+
+            GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(characterData.PrefabPath);
+            if (prefab == null)
+            {
+                Debug.LogError("캐릭터 프리팹 로드 실패");
+                return characters;
+            }
+
             if (!GameManager.Instance.DataManager.TryGetData<CharacterData>(dataId, out CharacterData data))
             {
                 Debug.LogError($"DataId {dataId} 캐릭터를 찾을 수 없습니다.");
