@@ -25,6 +25,9 @@ public class StageInfoPopupView : BaseUI
     private void OnDisable()
     {
         Unsubscribe();
+
+        _isPartySelectPopupRequested = false;
+        _partySelectPopup = null;
     }
 
     private void OnDestroy()
@@ -32,6 +35,7 @@ public class StageInfoPopupView : BaseUI
         Unsubscribe();
         ClearItems();
 
+        _isPartySelectPopupRequested = false;
         _partySelectPopup = null;
     }
 
@@ -120,6 +124,25 @@ public class StageInfoPopupView : BaseUI
         }
 
         RefreshMonsterList();
+        RefreshAllSlotIcons();
+    }
+
+    private void RefreshAllSlotIcons()
+    {
+        if (null == _partySlots)
+        {
+            return;
+        }
+
+        foreach (PartySlotButton slot in _partySlots)
+        {
+            if (null == slot)
+            {
+                continue;
+            }
+
+            RefreshSlotIconAsync(slot.Index).Forget();
+        }
     }
 
     private void RefreshMonsterList()
@@ -211,6 +234,11 @@ public class StageInfoPopupView : BaseUI
 
     private async UniTaskVoid RefreshSlotIconAsync(int slotIndex)
     {
+        if (null == _viewModel)
+        {
+            return;
+        }
+
         PartySlotButton slot = FindSlot(slotIndex);
 
         if (null == slot)
@@ -227,6 +255,11 @@ public class StageInfoPopupView : BaseUI
         }
 
         Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(iconPath, destroyCancellationToken);
+
+        if (null == slot)
+        {
+            return;
+        }
 
         slot.SetIcon(sprite);
     }
@@ -260,10 +293,10 @@ public class StageInfoPopupView : BaseUI
     {
         _isPartySelectPopupRequested = true;
 
-        OpenPartySelectPopupAsync(selectViewModel).Forget();
+        ShowPartySelectPopupAsync(selectViewModel).Forget();
     }
 
-    private async UniTaskVoid OpenPartySelectPopupAsync(PartySelectPopupViewModel selectViewModel)
+    private async UniTaskVoid ShowPartySelectPopupAsync(PartySelectPopupViewModel selectViewModel)
     {
         PartySelectPopupView popup = await GameManager.Instance.UIManager.OpenPartySelectPopupAsync();
 

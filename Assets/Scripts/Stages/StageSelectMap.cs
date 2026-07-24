@@ -151,10 +151,10 @@ public class StageSelectMap : MonoBehaviour
     {
         _isStageInfoPopupRequested = true;
 
-        OpenStageInfoPopupAsync(viewModel).Forget();
+        ShowStageInfoPopupAsync(viewModel).Forget();
     }
 
-    private async UniTaskVoid OpenStageInfoPopupAsync(StageInfoPopupViewModel viewModel)
+    private async UniTaskVoid ShowStageInfoPopupAsync(StageInfoPopupViewModel viewModel)
     {
         StageInfoPopupView popup = await GameManager.Instance.UIManager.OpenStageInfoPopupAsync();
 

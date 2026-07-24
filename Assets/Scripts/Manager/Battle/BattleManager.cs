@@ -179,7 +179,7 @@ public class BattleManager : BaseManager<BattleManager>
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        BattlePauseChoice choice = await GameManager.Instance.UIManager.OpenBattlePauseAsync(destroyCancellationToken);
+        BattlePauseChoice choice = await WaitForPauseChoiceAsync();
 
         _isPaused = false;
         Time.timeScale = 1f;
@@ -199,11 +199,39 @@ public class BattleManager : BaseManager<BattleManager>
         Cursor.visible = false;
     }
 
+    private async UniTask<BattlePauseChoice> WaitForPauseChoiceAsync()
+    {
+        BattlePausePopupView view = await GameManager.Instance.UIManager.OpenBattlePauseAsync(destroyCancellationToken);
+
+        if (null == view)
+        {
+            Debug.LogError("[BattleManager] 일시정지 팝업을 열지 못했습니다. 전투를 재개합니다.");
+            return BattlePauseChoice.Resume;
+        }
+
+        BattlePauseChoice choice = await view.WaitForChoiceAsync();
+
+        GameManager.Instance.UIManager.CloseBattlePause();
+
+        return choice;
+    }
+
     // ===== 전투 결과창 =====
 
     private async UniTaskVoid ShowResultAsync(bool isVictory)
     {
-        await GameManager.Instance.UIManager.OpenBattleResultAsync(isVictory, _stageId, destroyCancellationToken);
+        BattleResultPopupView view = await GameManager.Instance.UIManager.OpenBattleResultAsync(isVictory, _stageId, destroyCancellationToken);
+
+        if (null != view)
+        {
+            await view.WaitForReturnAsync(isVictory, _stageId);
+
+            GameManager.Instance.UIManager.CloseBattleResult();
+        }
+        else
+        {
+            Debug.LogError("[BattleManager] 전투 결과 팝업을 열지 못했습니다.");
+        }
 
         OnReturnToSelectRequested?.Invoke();
     }

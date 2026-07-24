@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class StageInfoPopupViewModel
 {
-    private const int PartySlotCount = 3; // 프리팹의 캐릭터 슬롯 수
+    private const int PartySlotCount = 3;
 
     private readonly StageData _stageData;
     private readonly ScreenStateModel _screenStateModel;
@@ -137,6 +137,8 @@ public class StageInfoPopupViewModel
             return;
         }
 
+        UnsubscribePartySelectViewModel();
+
         _selectingSlotIndex = slotIndex;
 
         IReadOnlyList<CharacterModel> candidates = GetCandidateCharacters();
@@ -190,11 +192,21 @@ public class StageInfoPopupViewModel
             return;
         }
 
+        UnsubscribePartySelectViewModel();
+
+        OnPartySelectCloseRequested?.Invoke();
+    }
+
+    private void UnsubscribePartySelectViewModel()
+    {
+        if (null == _partySelectViewModel)
+        {
+            return;
+        }
+
         _partySelectViewModel.OnCharacterSelected -= HandleCharacterSelected;
         _partySelectViewModel.OnCloseRequested -= HandlePartySelectCloseRequested;
         _partySelectViewModel = null;
         _selectingSlotIndex = -1;
-
-        OnPartySelectCloseRequested?.Invoke();
     }
 }
