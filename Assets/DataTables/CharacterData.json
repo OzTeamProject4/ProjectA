@@ -16,8 +16,8 @@
     "AtkGrow": 2.7,
     "DefGrow": 1.55,
     "MoveSpeedGrow": 0.017,
-    "CharacterIconPath": null,
-    "PrefabPath": null,
+    "CharacterIconPath": "Icon/Lumi",
+    "PrefabPath": "Prefab_Lumi",
     "Description": null
   },
   {
@@ -37,8 +37,8 @@
     "AtkGrow": 1.9,
     "DefGrow": 2.4,
     "MoveSpeedGrow": 0.012,
-    "CharacterIconPath": null,
-    "PrefabPath": null,
+    "CharacterIconPath": "Icon/Neri",
+    "PrefabPath": "Prefab_Neri",
     "Description": null
   },
   {
@@ -58,8 +58,8 @@
     "AtkGrow": 3.6,
     "DefGrow": 1.05,
     "MoveSpeedGrow": 0.02,
-    "CharacterIconPath": null,
-    "PrefabPath": null,
+    "CharacterIconPath": "Icon/Kai",
+    "PrefabPath": "Prefab_Kai",
     "Description": null
   },
   {
@@ -79,8 +79,8 @@
     "AtkGrow": 2.2,
     "DefGrow": 1.35,
     "MoveSpeedGrow": 0.022,
-    "CharacterIconPath": null,
-    "PrefabPath": null,
+    "CharacterIconPath": "Icon/Bitna",
+    "PrefabPath": "Prefab_Bitna",
     "Description": null
   },
   {
@@ -100,8 +100,8 @@
     "AtkGrow": 2.9,
     "DefGrow": 1.95,
     "MoveSpeedGrow": 0.011,
-    "CharacterIconPath": null,
-    "PrefabPath": null,
+    "CharacterIconPath": "Icon/Yui",
+    "PrefabPath": "Prefab_Yui",
     "Description": null
   }
 ]
