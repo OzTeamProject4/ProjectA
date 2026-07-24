@@ -46,7 +46,33 @@ public class BattleManager : BaseManager<BattleManager>
         Time.timeScale = 1f;
 
         UnsubscribeInputActions();
+        CleanupBattleObjects();
+    }
+
+    private void CleanupBattleObjects()
+    {
+        DespawnChildren(_enemyRoot);
+        DespawnChildren(_enemySkillRoot);
+
         CleanupPartyController();
+    }
+
+    private void DespawnChildren(GameObject rootObject)
+    {
+        if (rootObject == null || GameManager.Instance == null)
+        {
+            return;
+        }
+
+        Transform rootTransform = rootObject.transform;
+
+        // Despawn 하면 부모가 풀 루트로 바뀌므로 역순으로 순회
+        for (int i = rootTransform.childCount - 1; i >= 0; i--)
+        {
+            GameObject child = rootTransform.GetChild(i).gameObject;
+
+            GameManager.Instance.ObjectManager.Despawn(child);
+        }
     }
 
     private void SubscribeInputActions()
@@ -194,6 +220,8 @@ public class BattleManager : BaseManager<BattleManager>
 
             UnsubscribeInputActions();
 
+            CleanupBattleObjects();
+
             OnReturnToSelectRequested?.Invoke();
             return;
         }
@@ -236,6 +264,8 @@ public class BattleManager : BaseManager<BattleManager>
         {
             Debug.LogError("[BattleManager] 전투 결과 팝업을 열지 못했습니다.");
         }
+
+        CleanupBattleObjects();
 
         OnReturnToSelectRequested?.Invoke();
     }

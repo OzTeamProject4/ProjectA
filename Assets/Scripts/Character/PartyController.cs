@@ -237,7 +237,13 @@ public class PartyController
             {
                 skillSystem.OnHealBuffRequested -= HandleHealBuff;
             }
+
+            UnityEngine.Object.Destroy(character.gameObject);
         }
+
+        _partyCharacters.Clear();
+        _playerControllerList = null;
+        _aiControllerList = null;
     }
 
     private void HandleHealBuff(int healAmount, float buffDuration, float moveSpeedBuff, GameObject effectPrefab)
