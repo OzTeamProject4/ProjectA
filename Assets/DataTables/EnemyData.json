@@ -8,5 +8,45 @@
     "BaseDamage": 10,
     "PrefabAddress": "Prefabs/Enemy_Wizard_Fire",
     "SkillDataId": "EnemySkill_Fireball_01"
+  },
+  {
+    "DataId": "Enemy_Mushroom_01",
+    "Name": "버섯",
+    "TotalExp": 100,
+    "ElementalType": "Normal",
+    "BaseHp": 20,
+    "BaseDamage": 5,
+    "PrefabAddress": "Prefabs/Enemy_Mushroom",
+    "SkillDataId": "EnemySkill_Stoneball_01"
+  },
+  {
+    "DataId": "Enemy_RootTree_01",
+    "Name": "나무정령",
+    "TotalExp": 100,
+    "ElementalType": "Normal",
+    "BaseHp": 80,
+    "BaseDamage": 4,
+    "PrefabAddress": "Prefabs/Enemy_RootTree",
+    "SkillDataId": "EnemySkill_Stoneball_01"
+  },
+  {
+    "DataId": "Enemy_Slime_01",
+    "Name": "슬라임",
+    "TotalExp": 100,
+    "ElementalType": "Water",
+    "BaseHp": 40,
+    "BaseDamage": 6,
+    "PrefabAddress": "Prefabs/Enemy_Slime",
+    "SkillDataId": "EnemySkill_Waterball_01"
+  },
+  {
+    "DataId": "Enemy_Straw_01",
+    "Name": "허수아비",
+    "TotalExp": 100,
+    "ElementalType": "Grass",
+    "BaseHp": 200,
+    "BaseDamage": 1,
+    "PrefabAddress": "Prefabs/Enemy_Straw",
+    "SkillDataId": "EnemySkill_Windball_01"
   }
 ]

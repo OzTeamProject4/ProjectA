@@ -25,11 +25,11 @@ Transform:
   m_GameObject: {fileID: 1743865894645758788}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4078711130101775741}
+  - {fileID: 7704720912479947343}
   m_Father: {fileID: 3953484306444555658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1976383365670834993
@@ -426,7 +426,7 @@ GameObject:
   - component: {fileID: 2279304244387654077}
   - component: {fileID: 3426494785411927130}
   m_Layer: 0
-  m_Name: Enemy_Mushroom_01
+  m_Name: Enemy_Straw
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -478,8 +478,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   _enemyTransform: {fileID: 4328385525343379646}
-  _skillTransform: {fileID: 0}
-  _animator: {fileID: 0}
+  _skillTransform: {fileID: 7704720912479947343}
+  _animator: {fileID: 4326980735553097781}
   behaviorGraphAgent: {fileID: 2279304244387654077}
 --- !u!65 &3710799506084892989
 BoxCollider:
@@ -500,8 +500,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!135 &260131505114852858
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -589,7 +589,7 @@ MonoBehaviour:
           m_Value0: 15405996205958845905
           m_Value1: 11236673358000906441
         Name: chaseDistance
-        m_Value: 10
+        m_Value: 20
     - rid: 8608521078527492506
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -597,7 +597,7 @@ MonoBehaviour:
           m_Value0: 5941659323337931277
           m_Value1: 7061775498068823247
         Name: attackDistance
-        m_Value: 5
+        m_Value: 10
     - rid: 8608521078527492507
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -605,7 +605,7 @@ MonoBehaviour:
           m_Value0: 2216358772049898935
           m_Value1: 12117674685401567623
         Name: stopDistance
-        m_Value: 20
+        m_Value: 21
 --- !u!195 &3426494785411927130
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -624,11 +624,11 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 5.25
-  m_BaseOffset: 0.5
+  m_Height: 2.7
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!1001 &4544351191057341078
+--- !u!1001 &7883009794051239332
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -636,61 +636,78 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4624045236986013633}
     m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 8ec75c12c1b8a0c4f9882822ee50d53f, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.15723
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8ec75c12c1b8a0c4f9882822ee50d53f, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8ec75c12c1b8a0c4f9882822ee50d53f, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.71751
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8ec75c12c1b8a0c4f9882822ee50d53f, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8ec75c12c1b8a0c4f9882822ee50d53f, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8ec75c12c1b8a0c4f9882822ee50d53f, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8ec75c12c1b8a0c4f9882822ee50d53f, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8ec75c12c1b8a0c4f9882822ee50d53f, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8ec75c12c1b8a0c4f9882822ee50d53f, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8ec75c12c1b8a0c4f9882822ee50d53f, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 8ec75c12c1b8a0c4f9882822ee50d53f, type: 3}
+    - target: {fileID: 919132149155446097, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
       propertyPath: m_Name
-      value: Mob_RootTree_01
+      value: Mob_Straw_01
       objectReference: {fileID: 0}
-    - target: {fileID: 5866666021909216657, guid: 8ec75c12c1b8a0c4f9882822ee50d53f, type: 3}
+    - target: {fileID: 3893944168050989632, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893944168050989632, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893944168050989632, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 63762ca20a196224aa2cbcf1c0996415, type: 2}
+      objectReference: {fileID: 22100000, guid: d8e5da6ec7b76cf4a85afc7ac78a1bf7, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8ec75c12c1b8a0c4f9882822ee50d53f, type: 3}
---- !u!4 &4078711130101775741 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
+--- !u!95 &4326980735553097781 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
+  m_PrefabInstance: {fileID: 7883009794051239332}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7704720912479947343 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8ec75c12c1b8a0c4f9882822ee50d53f, type: 3}
-  m_PrefabInstance: {fileID: 4544351191057341078}
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1efecaabb3bf58346a43132cb43c1568, type: 3}
+  m_PrefabInstance: {fileID: 7883009794051239332}
   m_PrefabAsset: {fileID: 0}

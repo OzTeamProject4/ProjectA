@@ -1,17 +1,17 @@
 [
   {
-    "DataId": "EnemySkill_Stoneball_01",
-    "Name": "흙구",
-    "ElementalType": "Normal",
-    "BaseDamage": 10,
-    "PrefabAddress": "Prefabs/EnemySkill_StoneBall"
-  },
-  {
     "DataId": "EnemySkill_Fireball_01",
     "Name": "화염구",
     "ElementalType": "Fire",
     "BaseDamage": 10,
     "PrefabAddress": "Prefabs/EnemySkill_Fireball"
+  },
+  {
+    "DataId": "EnemySkill_Stoneball_01",
+    "Name": "흙구",
+    "ElementalType": "Normal",
+    "BaseDamage": 10,
+    "PrefabAddress": "Prefabs/EnemySkill_StoneBall"
   },
   {
     "DataId": "EnemySkill_Waterball_01",

@@ -91,7 +91,7 @@ Transform:
   m_GameObject: {fileID: 4106563077360759950}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -589,7 +589,7 @@ MonoBehaviour:
           m_Value0: 15405996205958845905
           m_Value1: 11236673358000906441
         Name: chaseDistance
-        m_Value: 10
+        m_Value: 20
     - rid: 8608521078527492506
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -597,7 +597,7 @@ MonoBehaviour:
           m_Value0: 5941659323337931277
           m_Value1: 7061775498068823247
         Name: attackDistance
-        m_Value: 5
+        m_Value: 15
     - rid: 8608521078527492507
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -605,7 +605,7 @@ MonoBehaviour:
           m_Value0: 2216358772049898935
           m_Value1: 12117674685401567623
         Name: stopDistance
-        m_Value: 20
+        m_Value: 21
 --- !u!195 &3426494785411927130
 NavMeshAgent:
   m_ObjectHideFlags: 0
