@@ -8,6 +8,8 @@ public class StageInfoPopupViewModel
 
     private readonly StageData _stageData;
     private readonly ScreenStateModel _screenStateModel;
+    private readonly StageProgressModel _progressModel;
+    private readonly CharacterListModel _characterListModel;
     private readonly IReadOnlyList<StageWaveData> _waves;
 
     private readonly CharacterModel[] _partySlots = new CharacterModel[PartySlotCount];
@@ -38,7 +40,7 @@ public class StageInfoPopupViewModel
     public event Action OnPartySelectCloseRequested;
     public event Action<int> OnPartySlotChanged;
 
-    public StageInfoPopupViewModel(StageData stageData, IReadOnlyList<StageWaveData> waves, ScreenStateModel screenStateModel)
+    public StageInfoPopupViewModel(StageData stageData, IReadOnlyList<StageWaveData> waves, ScreenStateModel screenStateModel, StageProgressModel progressModel, CharacterListModel characterListModel)
     {
         if (null == stageData)
         {
@@ -50,9 +52,21 @@ public class StageInfoPopupViewModel
             Debug.LogError("[StageInfoPopupViewModel] screenStateModel 이 null 입니다.");
         }
 
+        if (null == progressModel)
+        {
+            Debug.LogError("[StageInfoPopupViewModel] progressModel 이 null 입니다.");
+        }
+
+        if (null == characterListModel)
+        {
+            Debug.LogError("[StageInfoPopupViewModel] characterListModel 이 null 입니다.");
+        }
+
         _stageData = stageData;
         _waves = waves;
         _screenStateModel = screenStateModel;
+        _progressModel = progressModel;
+        _characterListModel = characterListModel;
     }
 
     public string GetSlotIconPath(int slotIndex)
@@ -74,13 +88,44 @@ public class StageInfoPopupViewModel
 
     public void StartBattleCommand()
     {
-        if (null == _screenStateModel)
+        if (null == _screenStateModel || null == _progressModel)
         {
             return;
         }
 
-        // TODO: 선택된 파티(_partySlots)를 BattleManager 로 전달하는 배선 필요
+        List<string> selectedPartyIds = CollectSelectedPartyIds();
+
+        if (selectedPartyIds.Count == 0)
+        {
+            Debug.LogWarning("[StageInfoPopupViewModel] 편성된 캐릭터가 없어 전투를 시작할 수 없습니다.");
+            return;
+        }
+
+        _progressModel.SetSelectedPartyIds(selectedPartyIds);
+
         _screenStateModel.ChangeScreen(ScreenType.Battle);
+    }
+
+    private List<string> CollectSelectedPartyIds()
+    {
+        List<string> partyIds = new List<string>();
+
+        foreach (CharacterModel character in _partySlots)
+        {
+            if (null == character)
+            {
+                continue;
+            }
+
+            if (string.IsNullOrEmpty(character.Id))
+            {
+                continue;
+            }
+
+            partyIds.Add(character.Id);
+        }
+
+        return partyIds;
     }
 
     public void CloseCommand()
@@ -152,20 +197,12 @@ public class StageInfoPopupViewModel
 
     private IReadOnlyList<CharacterModel> GetCandidateCharacters()
     {
-        if (null == NetworkManagerTemp.Instance)
-        {
-            Debug.LogError("[StageInfoPopupViewModel] NetworkManagerTemp.Instance 가 null 입니다.");
-            return Array.Empty<CharacterModel>();
-        }
-
-        CharacterListModel listModel = NetworkManagerTemp.Instance.GetcharacterListModel();
-
-        if (null == listModel)
+        if (null == _characterListModel)
         {
             return Array.Empty<CharacterModel>();
         }
 
-        return listModel.CharacterIdList;
+        return _characterListModel.CharacterIdList;
     }
 
     private void HandleCharacterSelected(CharacterModel character)

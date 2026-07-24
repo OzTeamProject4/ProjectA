@@ -113,11 +113,17 @@ public class BattleManager : BaseManager<BattleManager>
         ShowPauseAsync().Forget();
     }
 
-    public async UniTask EnterBattle(Vector3 playerSpawnPosition, string stageId, CinemachineCamera battleCamera)
+    public async UniTask EnterBattle(Vector3 playerSpawnPosition, string stageId, CinemachineCamera battleCamera, IReadOnlyList<string> partyCharacterIds)
     {
         if (null == battleCamera)
         {
             Debug.LogError("[BattleManager] 전투 카메라가 null 입니다. BattleMap 프리팹의 BattleCamera 연결을 확인하세요.");
+            return;
+        }
+
+        if (null == partyCharacterIds || partyCharacterIds.Count == 0)
+        {
+            Debug.LogError("[BattleManager] 편성된 캐릭터가 없습니다.");
             return;
         }
 
@@ -131,11 +137,9 @@ public class BattleManager : BaseManager<BattleManager>
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        //TODO 희준: 임시파티 ID, 추후 파티편성창에서 id받아오는 방식으로 교체
-        List<string> tempPartyIds = new List<string> { "Character_004", "Character_005", "Character_003" };
         _partySpawner = new TempPartySpawner();
 
-        List<BattleCharacter> characters = await _partySpawner.SpawnPartyById(tempPartyIds, playerSpawnPosition);
+        List<BattleCharacter> characters = await _partySpawner.SpawnPartyById(partyCharacterIds, playerSpawnPosition);
 
         if (characters == null || characters.Count == 0)
         {

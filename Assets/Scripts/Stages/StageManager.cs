@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -103,7 +104,15 @@ public class StageManager : BaseManager <StageManager>
 
         _playerParty = SpawnPlayerParty();
 
-        _selectMapViewModel = new StageSelectMapViewModel(_progressModel, _screenStateModel, _playerParty);
+        CharacterListModel characterListModel = GetCharacterListModel();
+
+        if (null == characterListModel)
+        {
+            Debug.LogError("[StageManager] 보유 캐릭터 목록을 가져오지 못했습니다.");
+            return;
+        }
+
+        _selectMapViewModel = new StageSelectMapViewModel(_progressModel, _screenStateModel, _playerParty, characterListModel);
         _selectMap.Bind(_selectMapViewModel);
 
         _hasEntered = true;
@@ -192,6 +201,17 @@ public class StageManager : BaseManager <StageManager>
         return root.PlayerParty;
     }
 
+    private CharacterListModel GetCharacterListModel()
+    {
+        if (null == NetworkManagerTemp.Instance)
+        {
+            Debug.LogError("[StageManager] NetworkManagerTemp.Instance 가 null 입니다.");
+            return null;
+        }
+
+        return NetworkManagerTemp.Instance.GetcharacterListModel();
+    }
+
     private StageData GetStage(string stageId)
     {
         if (string.IsNullOrEmpty(stageId))
@@ -278,8 +298,30 @@ public class StageManager : BaseManager <StageManager>
         ActivateBattleCamera(battleCamera);
 
         await EnterBattleAsync(stageData, battleCamera);
-        await UniTask.Yield(PlayerLoopTiming.Update, destroyCancellationToken);
+
+        await CutToActiveCameraAsync();
         await UniTask.Delay((int)(FadeDuration * 1000f), cancellationToken: destroyCancellationToken);
+    }
+
+    private async UniTask CutToActiveCameraAsync()
+    {
+        await UniTask.Yield(PlayerLoopTiming.Update, destroyCancellationToken);
+
+        if (CinemachineBrain.ActiveBrainCount == 0)
+        {
+            Debug.LogWarning("[StageManager] 활성화된 CinemachineBrain 이 없습니다. 카메라 컷을 건너뜁니다.");
+            return;
+        }
+
+        CinemachineBrain brain = CinemachineBrain.GetActiveBrain(0);
+
+        if (null == brain)
+        {
+            return;
+        }
+
+        brain.ResetState();
+        await UniTask.Yield(PlayerLoopTiming.Update, destroyCancellationToken);
     }
 
     private async UniTask EnterBattleAsync(StageData stageData, CinemachineCamera battleCamera)
@@ -300,7 +342,16 @@ public class StageManager : BaseManager <StageManager>
             return;
         }
 
-        await battleManager.EnterBattle(spawnPoint.position, stageData.DataId, battleCamera);
+
+        IReadOnlyList<string> partyIds = _progressModel.SelectedPartyIds;
+
+        if (null == partyIds || partyIds.Count == 0)
+        {
+            Debug.LogError("[StageManager] 편성된 캐릭터가 없어 전투에 진입할 수 없습니다.");
+            return;
+        }
+
+        await battleManager.EnterBattle(spawnPoint.position, stageData.DataId, battleCamera, partyIds);
     }
 
     private void DeactivateSelectMap()
@@ -405,15 +456,19 @@ public class StageManager : BaseManager <StageManager>
 
         await GameManager.Instance.UIManager.OpenOverlayUIAsync();
 
-        
-        ReactivateSelectMap();
-        ReactivateSelectPlayer();
+        try
+        {
+            ReactivateSelectMap();
+            ReactivateSelectPlayer();
 
-        ClearBattleMap();
+            ClearBattleMap();
 
-        await UniTask.Yield(PlayerLoopTiming.Update, destroyCancellationToken);
-        await UniTask.Delay((int)(FadeDuration * 1000f), cancellationToken: destroyCancellationToken);
-
-        GameManager.Instance.UIManager.CloseOverlayUI();
+            await CutToActiveCameraAsync();
+            await UniTask.Delay((int)(FadeDuration * 1000f), cancellationToken: destroyCancellationToken);
+        }
+        finally
+        {
+            GameManager.Instance.UIManager.CloseOverlayUI();
+        }
     }
 }

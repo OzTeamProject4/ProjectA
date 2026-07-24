@@ -10,6 +10,13 @@ public class StageProgressModel
     public string SelectedStageId { get; private set; }
     public Vector3 PlayerPosition { get; private set; }
 
+    private readonly List<string> _selectedPartyIds = new List<string>();
+
+    public IReadOnlyList<string> SelectedPartyIds
+    {
+        get { return _selectedPartyIds; }
+    }
+
     public int ClearedCount
     {
         get { return _clearedOrder.Count; }
@@ -48,6 +55,26 @@ public class StageProgressModel
         SelectedStageId = stageId;
 
         OnStageSelected?.Invoke(stageId);
+    }
+
+    public void SetSelectedPartyIds(IReadOnlyList<string> partyIds)
+    {
+        _selectedPartyIds.Clear();
+
+        if (null == partyIds)
+        {
+            return;
+        }
+
+        foreach (string partyId in partyIds)
+        {
+            if (string.IsNullOrEmpty(partyId))
+            {
+                continue;
+            }
+
+            _selectedPartyIds.Add(partyId);
+        }
     }
 
     public void SetPlayerPosition(Vector3 position)

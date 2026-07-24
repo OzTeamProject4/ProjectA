@@ -6,6 +6,7 @@ public class StageSelectMapViewModel
 {
     private readonly StageProgressModel _progressModel;
     private readonly ScreenStateModel _screenStateModel;
+    private readonly CharacterListModel _characterListModel;
     private readonly StagePlayerParty _playerParty;
 
     private StageInfoPopupViewModel _stageInfoViewModel;
@@ -13,10 +14,9 @@ public class StageSelectMapViewModel
     public event Action<StageInfoPopupViewModel> OnStageInfoPopupOpenRequested;
     public event Action OnStageInfoPopupCloseRequested;
 
-    public StageSelectMapViewModel(StageProgressModel progressModel, ScreenStateModel screenStateModel,
-        StagePlayerParty playerParty)
+    public StageSelectMapViewModel(StageProgressModel progressModel, ScreenStateModel screenStateModel, StagePlayerParty playerParty, CharacterListModel characterListModel)
     {
-        if (null == progressModel || null == screenStateModel || null == playerParty)
+        if (null == progressModel || null == screenStateModel || null == playerParty || null == characterListModel)
         {
             Debug.LogError("[StageSelectMapViewModel] 생성자 인자 중 null 이 있습니다.");
         }
@@ -24,6 +24,7 @@ public class StageSelectMapViewModel
         _progressModel = progressModel;
         _screenStateModel = screenStateModel;
         _playerParty = playerParty;
+        _characterListModel = characterListModel;
     }
 
     public void Dispose()
@@ -77,7 +78,7 @@ public class StageSelectMapViewModel
             return;
         }
 
-        _stageInfoViewModel = new StageInfoPopupViewModel(stageData, GetStageWaves(stageId), _screenStateModel);
+        _stageInfoViewModel = new StageInfoPopupViewModel(stageData, GetStageWaves(stageId), _screenStateModel, _progressModel, _characterListModel);
         _stageInfoViewModel.OnCloseRequested += HandleStageInfoCloseRequested;
 
         OnStageInfoPopupOpenRequested?.Invoke(_stageInfoViewModel);

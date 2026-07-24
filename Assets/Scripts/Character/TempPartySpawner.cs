@@ -5,7 +5,7 @@ using UnityEngine;
 // TODO 희준 : 임시 파티 스포너, 추후 전투 씬 매니저/파티 편성 연동시 정리
 public class TempPartySpawner
 {
-    public async UniTask<List<BattleCharacter>> SpawnPartyById(List<string> partyDataId, Vector3 spawnOrigin)
+    public async UniTask<List<BattleCharacter>> SpawnPartyById(IReadOnlyList<string> partyDataId, Vector3 spawnOrigin)
     {
         List<BattleCharacter> characters = new List<BattleCharacter>();
 
