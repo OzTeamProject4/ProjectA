@@ -15,8 +15,8 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 6c3b65eb4f8cd5349a5ea4eb7c4658ed
   m_SerializeEntries:
-  - m_GUID: 0644c5eea3591064699b1ac92109c58a
-    m_Address: UI/PracticeFieldScreen
+  - m_GUID: 0475ad6aa9e85004c8cd1aa339e38c6f
+    m_Address: Data/Currency
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -60,11 +60,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 185990812fb4e014d89d3dacff831b74
-    m_Address: Image/Bitna
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1c3223c1ff11d914487a88e80b9c1a49
     m_Address: SkillFire001
     m_ReadOnly: 0
@@ -72,11 +67,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 21888c59bd8ff894ea1296594f6f462d
     m_Address: Prefab/UILayer
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2657868fb52b9d64d8a49e316640b5cf
-    m_Address: Icon/Lumi
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -105,6 +95,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 458e7805d337a9248a6d119b5b3044b2
+    m_Address: UI/BattleResultPopup
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 460ad52afffbeab4bbe4d152039813e7
     m_Address: SkillGrass003
     m_ReadOnly: 0
@@ -117,6 +112,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 52d17b5f58ec80b41a820d772ea9c7b1
     m_Address: UI/DictionaryScreen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5a0d4925cebf361419d1448d2905ea31
+    m_Address: UI/InventoryDetail
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -150,13 +150,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 86646c29a77d1394aad299bba3073903
-    m_Address: UI/InventoryScreen
+  - m_GUID: 8f608efd2ed77e24e95190ff4d907bdd
+    m_Address: SkillNormal020
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8f608efd2ed77e24e95190ff4d907bdd
-    m_Address: SkillNormal020
+  - m_GUID: 902e834f42adc75458c83a77999170c3
+    m_Address: Data/CharacterData
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -170,13 +170,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9691e482a6200e8478da7b3fd3ea4d6f
-    m_Address: Image/Lumi
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a65b8b8a730922c4888faa8bcee0a18e
-    m_Address: Assets/Devs/KMS/Prefabs/Screens/MissionScreen.prefab
+    m_Address: UI/MissionScreen
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -195,11 +190,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: aea1469c8523a28439d5d2b34efa9519
-    m_Address: UI/StageSelectScreen
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: aea2e2ab5a48bc646a02695482318b45
     m_Address: Sprites/Equipment
     m_ReadOnly: 0
@@ -212,11 +202,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b0c5d8fcdbf50ca4d9ad071e13e7aa1d
     m_Address: UI/ItemPreviewPopup
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b2f1e6829777c884dba98e974c5269e9
-    m_Address: Icon/Neri
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -245,18 +230,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c30ae38498f6fda45ab3b205bbb42e48
-    m_Address: Icon/Bitna
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d08d3e35a3192a94eb6399da3013b866
-    m_Address: UI/PartySetupPopup
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d5f9e28e10472ff47abf0c3f5115cd6e
-    m_Address: Image/Neri
+  - m_GUID: d647c40aa81ebd84b8c7c322d7af8834
+    m_Address: UI/PartySelectPopup
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -267,6 +242,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d8ebe98eb77cd1649b4003bddaeb4c96
     m_Address: UI/Loading
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e04c2c00d30686049be71330b1fb3dce
+    m_Address: UI/BattlePausePopup
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
