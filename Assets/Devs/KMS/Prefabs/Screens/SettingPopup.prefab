@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 895265507929273048}
   - component: {fileID: 735422355121881054}
   m_Layer: 5
-  m_Name: ApplyButton
+  m_Name: ResetButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,8 +72,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 300, y: -290}
-  m_SizeDelta: {x: 400, y: 120}
+  m_AnchoredPosition: {x: -490, y: -333}
+  m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3691077692386734525
 CanvasRenderer:
@@ -418,7 +418,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 87, y: -39}
+  m_AnchoredPosition: {x: 165, y: -39}
   m_SizeDelta: {x: 600, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2727682183432631721
@@ -537,7 +537,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: 'Reset
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -603,7 +605,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 1.7394104}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -759,7 +761,7 @@ GameObject:
   - component: {fileID: 7508502118801087415}
   - component: {fileID: 6649148118026860954}
   m_Layer: 5
-  m_Name: CancelButton
+  m_Name: CloseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -782,8 +784,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: -290}
-  m_SizeDelta: {x: 400, y: 120}
+  m_AnchoredPosition: {x: 490, y: 339}
+  m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4308433426882811825
 CanvasRenderer:
@@ -914,7 +916,7 @@ GameObject:
   - component: {fileID: 2208263815054233931}
   - component: {fileID: 2629439451123981104}
   - component: {fileID: 7932027401047662117}
-  - component: {fileID: 462884569538551558}
+  - component: {fileID: -1334780848004187542}
   m_Layer: 5
   m_Name: SettingPopup
   m_TagString: Untagged
@@ -981,7 +983,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &462884569538551558
+--- !u!114 &-1334780848004187542
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -993,8 +995,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab06a3a11dc39664da9dafe3d95b64b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingPopupView
-  _cancelButton: {fileID: 6649148118026860954}
-  _applyButton: {fileID: 735422355121881054}
+  _bgmSlider: {fileID: 2592784760594031538}
+  _sfxSlider: {fileID: 2727682183432631721}
+  _closeButton: {fileID: 6649148118026860954}
+  _resetButton: {fileID: 735422355121881054}
+  _dimmerImage: {fileID: 3815942856919011698}
 --- !u!1 &4378340695720942017
 GameObject:
   m_ObjectHideFlags: 0
@@ -1181,7 +1186,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 85, y: 133}
+  m_AnchoredPosition: {x: 163, y: 133}
   m_SizeDelta: {x: 600, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2592784760594031538
@@ -1411,9 +1416,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Cancel
-
-'
+  m_text: Close
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1555,8 +1558,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -416, y: -42}
-  m_SizeDelta: {x: 300, y: 50}
+  m_AnchoredPosition: {x: -370, y: -42}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3128052223535726588
 CanvasRenderer:
@@ -1586,7 +1589,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Option2
+  m_text: Effect Sound
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1c308df0e7aef074ca76ade28cc7a213, type: 2}
   m_sharedMaterial: {fileID: 2765848665445186712, guid: 1c308df0e7aef074ca76ade28cc7a213, type: 2}
@@ -1613,8 +1616,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80
-  m_fontSizeBase: 80
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1849,7 +1852,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -416, y: 132}
+  m_AnchoredPosition: {x: -358, y: 132}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5860951094749451865
@@ -1880,7 +1883,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Option1
+  m_text: 'BGM
 
 '
   m_isRightToLeft: 0

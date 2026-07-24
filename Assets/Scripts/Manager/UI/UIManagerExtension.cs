@@ -93,7 +93,7 @@ public static class UIManagerExtension
 
     public static async UniTask OpenOverlayUIAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
-        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.PartySetupPopup, cancellationToken);
+        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.Overlay, cancellationToken);
     }
 
     public static void ClosePartySetupPopup(this UIManager uiManager)

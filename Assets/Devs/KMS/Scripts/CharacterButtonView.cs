@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CharacterButtonView : MonoBehaviour
 {
     private Button _button;
-    private CharacterGrowthController _controller;
+    // private CharacterGrowthController _controller;
 
     private void Awake()
     {
@@ -30,7 +30,7 @@ public class CharacterButtonView : MonoBehaviour
             Debug.LogError("GameManager.Instance is null.");
             return;
         }
-
+        /*
         if (_controller != null)
         {
             Debug.Log("이미 캐릭터 화면에 진입한 상태입니다.");
@@ -44,5 +44,6 @@ public class CharacterButtonView : MonoBehaviour
             controllerObject.AddComponent<CharacterGrowthController>();
 
         _controller.EnterAsync().Forget();
+        */
     }
 }
