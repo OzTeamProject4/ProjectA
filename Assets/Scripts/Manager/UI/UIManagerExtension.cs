@@ -9,7 +9,17 @@ public static class UIManagerExtension
 {
     public static async UniTask OpenStudentManagementListAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
-        await uiManager.OpenContentRootAsync(UIType.StudentManagementList, cancellationToken);
+        await uiManager.OpenOverlayAsync();
+
+        try
+        {
+            uiManager.CloseLoading();
+            await uiManager.OpenContentRootAsync(UIType.StudentManagementList, cancellationToken);
+        }
+        finally
+        {
+            uiManager.CloseOverlay();
+        }
     }
 
     public static void CloseStudentManagementList(this UIManager uiManager)
@@ -19,76 +29,86 @@ public static class UIManagerExtension
 
     public static async UniTask OpenStudentManagementAsync(this UIManager uiManager, StudentModel studentModel, CancellationToken cancellationToken = default)
     {
-        await uiManager.OpenOverlayUIAsync();
+        await uiManager.OpenOverlayAsync();
 
-        BaseUI baseUI = await uiManager.OpenContentRootAsync(UIType.StudentManagement, cancellationToken);
-
-        if (baseUI is StudentManagementView studentManagementView)
+        try
         {
-           // studentManagementView.Init(studentModel);
-        }
+            BaseUI baseUI = await uiManager.OpenContentRootAsync(UIType.StudentManagement, cancellationToken);
 
-        await uiManager.OpenOverlayUIAsync();
+            if (baseUI is not StudentManagementView studentManagementView)
+            {
+                Debug.LogError("StudentManagementView 타입이 아닙니다.");
+                return;
+            }
+
+            studentManagementView.SetModel(studentModel);
+        }
+        finally
+        {
+            uiManager.CloseOverlay();
+        }
     }
 
-    public static void CloseCharacterDetail(this UIManager uiManager)
+    public static void CloseStudentManagement(this UIManager uiManager)
     {
         uiManager.Close(UIType.StudentManagement);
     }
 
-    //public static async UniTask OpenExpItemSelectPopupAsync(this UIManager uiManager, CharacterModel characterModel, CancellationToken cancellationToken = default)
-    //{
-    //    BaseUI baseUI = await uiManager.OpenOverlayRootAsync(UIType.ExpItemSelectPopup, cancellationToken);
-    //    if (baseUI is ExpItemSelectPopupView expItemSelectPopupView)
-    //    {
-    //        expItemSelectPopupView.Init(characterModel);
-    //    }
-    //}
+    public static async UniTask OpenExperienceInventoryPopupAsync(this UIManager uiManager, StudentModel studentModel, CancellationToken cancellationToken = default)
+    { 
+        BaseUI baseUI = await uiManager.OpenOverlayRootAsync(UIType.ExperienceInventoryPopup, cancellationToken);
+        //if (baseUI is ExpItemSelectPopupView expItemSelectPopupView)
+        //{
+        //    expItemSelectPopupView.Init(characterModel);
+        //}
+    }
 
     public static void CloseExpItemSelectPopup(this UIManager uiManager)
     {
-        uiManager.Close(UIType.ExpItemSelectPopup);
+        uiManager.Close(UIType.ExperienceInventoryPopup);
     }
 
-    //public static async UniTask OpenCraftPopupAsync(this UIManager uiManager, EquipType equipType, CancellationToken cancellationToken = default)
-    //{
-    //    BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.CraftPopup, cancellationToken);
-
-    //    if (baseUI is CraftPopupView craftPopupView)
-    //    {
-    //        if (craftPopupView._type == equipType)
-    //        {
-    //            return;
-    //        }
-
-    //        craftPopupView.Bind(equipType);
-    //    }
-    //}
-
-    public static void CloseCraftPopup(this UIManager uiManager)
+    public static async UniTask OpenEquipmentInventoryPopupAsync(this UIManager uiManager, EquipType equipType, StudentModel studentModel, CancellationToken cancellationToken = default)
     {
-        uiManager.Close(UIType.CraftPopup);
+        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.EquipmentInventoryPopup, cancellationToken);
+
+        //if (baseUI is EquipmentListPopupView equipmentListPopupView)
+        //{
+        //    if (equipmentListPopupView._equipType == equipType && equipmentListPopupView._currentSelectedCharacterModel == characterModel)
+        //    {
+        //        return;
+        //    }
+
+        //    equipmentListPopupView.Init(equipType, characterModel);
+        //}
     }
 
-    //public static async UniTask OpenEquipmentListPopupAsync(this UIManager uiManager, EquipType equipType, CharacterModel characterModel, CancellationToken cancellationToken = default)
-    //{
-    //    BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.EquipmentListPopup, cancellationToken);
-
-    //    if (baseUI is EquipmentListPopupView equipmentListPopupView)
-    //    {
-    //        if (equipmentListPopupView._equipType == equipType && equipmentListPopupView._currentSelectedCharacterModel == characterModel)
-    //        {
-    //            return;
-    //        }
-
-    //        equipmentListPopupView.Init(equipType, characterModel);
-    //    }
-    //}
-
-    public static void CloseEquipmentListPopup(this UIManager uiManager)
+    public static void CloseEquipmentInventoryPopup(this UIManager uiManager)
     {
-        uiManager.Close(UIType.EquipmentListPopup);
+        uiManager.Close(UIType.EquipmentInventoryPopup);
     }
+
+    public static async UniTask OpenEquipmentCraftPopupAsync(this UIManager uiManager, EquipType equipType, CancellationToken cancellationToken = default)
+    {
+        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.EquipmentCraftPopup, cancellationToken);
+
+        //if (baseUI is CraftPopupView craftPopupView)
+        //{
+        //    if (craftPopupView._type == equipType)
+        //    {
+        //        return;
+        //    }
+
+        //    craftPopupView.Bind(equipType);
+        //}
+    }
+
+    public static void CloseEquipmentCraftPopup(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.EquipmentCraftPopup);
+    }
+
+
 
     //public static async UniTask OpenEquipmentDetailPopupAsync(this UIManager uiManager, CharacterModel characterModel, ItemModel itemModel, Vector3 position, CancellationToken cancellationToken = default)
     //{
@@ -135,22 +155,22 @@ public static class UIManagerExtension
         return view;
     }
 
-    public static async UniTask OpenOverlayUIAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    public static async UniTask OpenOverlayAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
         await uiManager.OpenTestRootAsync(UIType.Overlay, cancellationToken);
     }
 
-    public static void CloseOverlayUI(this UIManager uiManager)
+    public static void CloseOverlay(this UIManager uiManager)
     {
         uiManager.Close(UIType.Overlay);
     }
 
-    public static async UniTask OpenLoadingUIAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    public static async UniTask OpenLoadingAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
         await uiManager.OpenTestRootAsync(UIType.Loading, cancellationToken);
     }
 
-    public static void CloseLoadingUI(this UIManager uiManager)
+    public static void CloseLoading(this UIManager uiManager)
     {
         uiManager.Close(UIType.Loading);
     }

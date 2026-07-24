@@ -15,7 +15,7 @@ public class StudentManagementSlotView : MonoBehaviour
 
     private StudentManagementSlotViewModel _studentManagementSlotViewModel;
 
-    private CancellationTokenSource _portraitLoadCts;
+    private CancellationTokenSource _disableCts;
 
     public event Action<StudentModel> OnSlotClicked;
 
@@ -26,22 +26,24 @@ public class StudentManagementSlotView : MonoBehaviour
 
     private void OnEnable()
     {
-        _portraitLoadCts = new CancellationTokenSource();
+        _disableCts = new CancellationTokenSource();
 
         _studentManagementSlotViewModel.PropertyChanged += OnPropertyChanged;
-        _slotButton.onClick.AddListener(HandleClickSelect);
+        _slotButton.onClick.AddListener(HandleSlotClicked);
     }
 
     private void OnDisable()
     {
-        if (_portraitLoadCts != null)
+        if (_disableCts != null)
         {
-            _portraitLoadCts.Cancel();
-            _portraitLoadCts.Dispose();
+            _disableCts.Cancel();
+            _disableCts.Dispose();
+            _disableCts = null;
         }
 
         _studentManagementSlotViewModel.PropertyChanged -= OnPropertyChanged;
         _slotButton.onClick.RemoveAllListeners();
+
     }
 
     private void OnDestroy()
@@ -97,7 +99,7 @@ public class StudentManagementSlotView : MonoBehaviour
             return;
         }
 
-        Sprite portraitSprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(portraitKey, _portraitLoadCts.Token);
+        Sprite portraitSprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(portraitKey, _disableCts.Token);
 
         if (portraitSprite == null)
         {
@@ -107,7 +109,7 @@ public class StudentManagementSlotView : MonoBehaviour
         _portraitImage.sprite = portraitSprite;
     }
 
-    private void HandleClickSelect()
+    private void HandleSlotClicked()
     {
         if (OnSlotClicked == null)
         {

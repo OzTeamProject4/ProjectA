@@ -16,7 +16,7 @@ public class NetworkManagerTemp : MonoBehaviour
 {
     public static NetworkManagerTemp Instance { get; private set; }
     private StudentListModel _studentListModel;
-    //private InventoryModel _inventoryModel;
+    private InventoryModel _inventoryModel;
     //private CraftModel _craftModel;
 
     public StudentListModel StudentListModel
@@ -32,6 +32,19 @@ public class NetworkManagerTemp : MonoBehaviour
         }
     }
 
+    public InventoryModel InventoryModel
+    {
+        get
+        {
+            if (_inventoryModel == null)
+            {
+                _inventoryModel = CreateInventoryModel();
+            }
+
+            return _inventoryModel;
+        }
+    }
+
     private void Awake()
     {
         if (Instance != null)
@@ -42,38 +55,61 @@ public class NetworkManagerTemp : MonoBehaviour
         Instance = this;
     }
 
-    //public InventoryModel GetInventoryModel()
-    //{
-    //    if (_inventoryModel == null)
-    //    {
-    //        _inventoryModel = CreatePlayerViewModel();
-    //    }
-
-    //    return _inventoryModel;
-    //}
-
-    //private InventoryModel CreatePlayerViewModel()
-    //{
-    //    InventoryModel inventoryModel = new InventoryModel();
-
-    //    GameManager.Instance.DataManager.TryGetData("Item_ExpBook_Small", out ItemData itemData);
-
-    //    inventoryModel.AddItem(itemData.DataId, itemData.SpritePath, 30, EquipType.Signature, 1, ItemType.ExpBook, itemData.Value);
-    //    return inventoryModel;
-    //}
-
     private StudentListModel CreateStudentListModel()
     {
         List<StudentModel> studentSaveTemp = new List<StudentModel>
         {
-            new StudentModel(new CharacterData("3", "3", 3, "Test")),
-            new StudentModel(new CharacterData("4", "4", 4, "Test"))
+            new StudentModel(new StudentData
+            {
+                DataId = "Student_001",
+                Name = "Elena",
+                Star = 1,
+                FullBodyKey = "Test",
+                PortraitKey = "Test",
+                BaseHp = 100,
+                BaseAttack = 20,
+                BaseDefense = 10,
+                BaseMoveSpeed = 5,
+                ElementType = ElementType.Fire
+            }),
+            new StudentModel(new StudentData
+            {
+                DataId = "Student_002",
+                Name = "Seria",
+                Star = 2,
+                FullBodyKey = "Test",
+                PortraitKey = "Test",
+                BaseHp = 150,
+                BaseAttack = 15,
+                BaseDefense = 20,
+                BaseMoveSpeed = 4,
+                ElementType = ElementType.Water
+            }),
+            new StudentModel(new StudentData
+            {
+                DataId = "Student_003",
+                Name = "Luna",
+                Star = 3,
+                FullBodyKey = "Test",
+                PortraitKey = "Test",
+                BaseHp = 80,
+                BaseAttack = 35,
+                BaseDefense = 5,
+                BaseMoveSpeed = 7,
+                ElementType = ElementType.Grass
+            })
         };
 
         StudentListModel studentListModel = new StudentListModel(studentSaveTemp);
 
         return studentListModel;
     }
+    private InventoryModel CreateInventoryModel()
+    {
+        InventoryModel inventoryModel = new InventoryModel();
+        return inventoryModel;
+    }
+
 
     //public CharacterModel GetcharacterModel(string id)
     //{

@@ -52,9 +52,9 @@ public class DataManager : BaseManager<DataManager>
     {
         List<LoadingTask> jobs = new List<LoadingTask>
         {
-            new LoadingTask(LoadingStep.LoadCharacterData, AddressableKey.Data.CharacterData, LoadDataAsync<CharacterData>),
-            new LoadingTask(LoadingStep.LoadCharacterGradeData, AddressableKey.Data.CharacterGrade, LoadDataAsync<CharacterGradeData>),
-            new LoadingTask(LoadingStep.LoadLevelExpData, AddressableKey.Data.LevelExp, LoadDataAsync<LevelExpData>),
+            new LoadingTask(LoadingStep.LoadStudentData, AddressableKey.Data.StudentData, LoadDataAsync<StudentData>),
+            new LoadingTask(LoadingStep.LoadStudentGradeData, AddressableKey.Data.StudentGradeData, LoadDataAsync<StudentGradeData>),
+            new LoadingTask(LoadingStep.LoadStudentLevelData, AddressableKey.Data.StudentLevelData, LoadDataAsync<StudentLevelData>),
             new LoadingTask(LoadingStep.LoadItemData, AddressableKey.Data.Item, LoadDataAsync<ItemData>),
             new LoadingTask(LoadingStep.LoadEquipmentData, AddressableKey.Data.Equipment, LoadDataAsync<EquipmentData>),
             new LoadingTask(LoadingStep.LoadSignatureData, AddressableKey.Data.Signature, LoadDataAsync<SignatureData>),

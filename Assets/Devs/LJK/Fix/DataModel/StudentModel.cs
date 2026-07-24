@@ -3,18 +3,66 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
-public static class CharId
+public static class StudentDataId
 {
-    public static string GetCharGradeId(int grade)
+    public static string CreateGradeId(int grade)
     {
-        string gradeId = $"Star_{grade}";
-        return gradeId;
+        return $"Star_{grade}";
     }
 
-    public static string GetCharLevelId(int level)
+    public static string CreateLevelId(int level)
     {
-        string levelId = $"Level_{level}";
-        return levelId;
+        return $"Level_{level}";
+    }
+}
+public class StudentGradeData : BaseData
+{
+    public int Star { get; init; } //TODO 사용처 없음 확인바람
+    public int MaxLevel { get; init; }
+    public string RequiredGradeUpItemId { get; init; }
+    public int RequiredGradeUpItemCount { get; init; }
+    public float HpGrow { get; init; }
+    public float AtkGrow { get; init; }
+    public float DefGrow { get; init; }
+    public float MoveSpeedGrow { get; init; }
+}
+
+public class StudentLevelData : BaseData
+{
+    public int Level { get; init; } //TODO 사용처 없음 확인바람
+    public int RequiredExp { get; init; }
+}
+
+public enum StatType
+{
+    Hp,
+    Attack,
+    Defense,
+    MoveSpeed
+}
+
+
+public struct StatData
+{
+    public float Hp { get; private set; }
+    public float Attack { get; private set; }
+    public float Defense { get; private set; }
+    public float MoveSpeed { get; private set; }
+
+    public StatData(float hp, float attack, float defense, float moveSpeed)
+    {
+        Hp = hp;
+        Attack = attack;
+        Defense = defense;
+        MoveSpeed = moveSpeed;
+    }
+
+    public void AddStat(StatData statData)
+    {
+        Hp += statData.Hp;
+        Attack += statData.Attack;
+        Defense += statData.Defense;
+
     }
 }
 
@@ -22,44 +70,34 @@ public class StudentModel : INotifyPropertyChanged
 {
     private static readonly PropertyChangedEventArgs NameChanged = new PropertyChangedEventArgs(nameof(Name));
     private static readonly PropertyChangedEventArgs StarChanged = new PropertyChangedEventArgs(nameof(Star));
-    private static readonly PropertyChangedEventArgs PortraitKeyChanged = new PropertyChangedEventArgs(nameof(PortraitKey));
-
-
-    private static readonly PropertyChangedEventArgs ExpChanged = new PropertyChangedEventArgs(nameof(Exp));
+    private static readonly PropertyChangedEventArgs TotalExperienceChanged = new PropertyChangedEventArgs(nameof(TotalExperience));
     private static readonly PropertyChangedEventArgs LevelChanged = new PropertyChangedEventArgs(nameof(Level));
     private static readonly PropertyChangedEventArgs IsMaxLevelChanged = new PropertyChangedEventArgs(nameof(IsMaxLevel));
+    private static readonly PropertyChangedEventArgs HpChanged = new PropertyChangedEventArgs(nameof(TotalHp));
+    private static readonly PropertyChangedEventArgs AttackChanged = new PropertyChangedEventArgs(nameof(TotalAttack));
+    private static readonly PropertyChangedEventArgs DefenseChanged = new PropertyChangedEventArgs(nameof(TotalDefense));
+    private static readonly PropertyChangedEventArgs MoveSpeedChanged = new PropertyChangedEventArgs(nameof(TotalMoveSpeed));
+    private static readonly PropertyChangedEventArgs FullBodyKeyChanged = new PropertyChangedEventArgs(nameof(FullBodyKey));
+    private static readonly PropertyChangedEventArgs PortraitKeyChanged = new PropertyChangedEventArgs(nameof(PortraitKey));
 
-    private static readonly PropertyChangedEventArgs HpChanged = new PropertyChangedEventArgs(nameof(FinalHp));
-    private static readonly PropertyChangedEventArgs AttackChanged = new PropertyChangedEventArgs(nameof(FinalAttack));
-    private static readonly PropertyChangedEventArgs DefenseChanged = new PropertyChangedEventArgs(nameof(FinalDefense));
-    private static readonly PropertyChangedEventArgs MoveSpeedChanged = new PropertyChangedEventArgs(nameof(FinalMoveSpeed));
 
     //private static readonly PropertyChangedEventArgs EquipChanged = new PropertyChangedEventArgs(nameof(EquipItem));
 
     private string _dataId;
     private string _name;
     private int _star;
+    private ElementType _elementType;
+    private int _totalExperience;
+    private int _level;
+    private string _fullBodyKey;
     private string _portraitKey;
 
-    private int _exp;
-    private int _level;
+    private StudentGradeData _currentGradeData;
+    private StudentLevelData _currentLevelData;
 
-    private float _baseHp;
-    private float _baseAttack;
-    private float _baseDefense;
-    private float _baseMoveSpeed;
-
-    private float _addHp;
-    private float _addAttack;
-    private float _addDefense;
-    private float _addMoveSpeed;
-
-    private readonly ElementType _elementType;
-
-    private bool _isMaxLevel;
-
-    private CharacterGradeData _currentGradeData;
-    private LevelExpData _currentLevelData;
+    private readonly Dictionary<EquipType, string> _equippedItemIds;
+    private readonly Dictionary<StatType, float> _baseStats;
+    private readonly Dictionary<StatType, float> _equipmentStats;
 
     public string DataId
     {
@@ -86,7 +124,7 @@ public class StudentModel : INotifyPropertyChanged
                 _star = value;
 
                 //TODO 승급시 캐릭터 스텟 반영 메서드 호출
-                TryUpdateCurrentGradeData(_star);
+                TryUpdateCurrentGradeData();
 
                 OnPropertyChanged(StarChanged);
             }
@@ -97,7 +135,103 @@ public class StudentModel : INotifyPropertyChanged
     {
         get
         {
-            return _currentGradeData.RequiredToNext <= 0;
+            return _currentGradeData.RequiredGradeUpItemCount <= 0;
+        }
+    }
+
+    public string RequiredGradeUpItemId
+    {
+        get
+        {
+            return _currentGradeData.RequiredGradeUpItemId;
+        }
+    }
+
+    public int RequiredGradeUpItemCount
+    {
+        get
+        {
+            return _currentGradeData.RequiredGradeUpItemCount;
+        }
+    }
+
+    public ElementType ElementType
+    {
+        get { return _elementType; }
+    }
+
+    public int TotalExperience
+    {
+        get { return _totalExperience; }
+        private set
+        {
+            if (_totalExperience == value)
+            {
+                return;
+            }
+
+            _totalExperience = value;
+            OnPropertyChanged(TotalExperienceChanged);
+        }
+    }
+
+    public int RequiredExp
+    {
+        get
+        {
+            return _currentLevelData.RequiredExp;
+        }
+    }
+
+    public int Level
+    {
+        get { return _level; }
+        private set
+        {
+            if (_level != value)
+            {
+                //TODO레벨업 시 스탯 반영 메서드 추가
+
+                _level = value;
+                TryUpdateCurrentLevelData();
+                OnPropertyChanged(LevelChanged);
+            }
+        }
+    }
+
+    public bool IsMaxLevel
+    {
+        get
+        {
+            return _level >= _currentGradeData.MaxLevel;
+        }
+    }
+
+    public float TotalHp
+    {
+        get { return _baseStats[StatType.Hp] + _equipmentStats[StatType.Hp]; }
+    }
+
+    public float TotalAttack
+    {
+        get { return _baseStats[StatType.Attack] + _equipmentStats[StatType.Attack]; }
+    }
+
+    public float TotalDefense
+    {
+        get { return _baseStats[StatType.Defense] + _equipmentStats[StatType.Defense]; }
+    }
+
+    public float TotalMoveSpeed
+    {
+        get { return _baseStats[StatType.MoveSpeed] + _equipmentStats[StatType.MoveSpeed]; }
+    }
+
+    public string FullBodyKey
+    {
+        get
+        {
+            return _fullBodyKey;
         }
     }
 
@@ -110,185 +244,124 @@ public class StudentModel : INotifyPropertyChanged
     }
 
 
-    public StudentModel(CharacterData characterData)
-    {
-        _dataId = characterData.DataId;
-        _name = characterData.Name;
-        _star = characterData.Star;
-        _portraitKey = characterData.PortraitKey;
-
-
-        _exp = characterData.Exp;
-        _level = CalculateLevel(_exp);
-
-        _baseHp = characterData.Hp;
-        _baseAttack = characterData.Atk;
-        _baseDefense = characterData.Def;
-        _baseMoveSpeed = characterData.MoveSpeed;
-
-
-        TryUpdateCurrentGradeData(_star);
-        TryUpdateCurrentLevelData(_level);
-
-        _isMaxLevel = _level >= _currentGradeData.MaxLevel;
-    }
-
-    private bool TryUpdateCurrentGradeData(int star)
-    {
-        string dataId = CharId.GetCharGradeId(star);
-
-        if (!GameManager.Instance.DataManager.TryGetData(dataId, out _currentGradeData))
-        {
-            Debug.LogError($"CharacterGradeData를 찾을 수 없습니다. DataId: {dataId}");
-            return false;
-        }
-
-        return true;
-    }
-
-    private bool TryUpdateCurrentLevelData(int exp)
-    {
-        string dataId = CharId.GetCharLevelId(exp);
-
-        if (!GameManager.Instance.DataManager.TryGetData(dataId, out _currentLevelData))
-        {
-            Debug.LogError($"CharacterLevelData를 찾을 수 없습니다. DataId: {dataId}");
-            return false;
-        }
-
-        return true;
-    }
-
     public event PropertyChangedEventHandler PropertyChanged;
 
-
-    public int Exp
+    public StudentModel(StudentData studentData)
     {
-        get { return _exp; }
-        private set
-        {
-            if (_exp != value)
-            {
-                _exp = value;
-                OnPropertyChanged(ExpChanged);
-            }
-        }
-    }
+        _dataId = studentData.DataId;
+        _name = studentData.Name;
+        _star = studentData.Star;
+        _elementType = studentData.ElementType;
+        _fullBodyKey = studentData.FullBodyKey;
+        _portraitKey = studentData.PortraitKey;
+        _totalExperience = 0;
+        _level = CalculateLevel();
 
-    public int Level
-    {
-        get { return _level; }
-        private set
-        {
-            if (_level != value)
-            {
-                _level = value;
-                IsMaxLevel = _level >= _currentGradeData.MaxLevel;
-                TryUpdateCurrentLevelData(_level);
-                OnPropertyChanged(LevelChanged);
-            }
-        }
-    }
+        TryUpdateCurrentGradeData();
+        TryUpdateCurrentLevelData();
 
-    public float FinalHp
-    {
-        get { return _baseHp + _addHp; }
-    }
-
-    public float FinalAttack
-    {
-        get { return _baseAttack + _addAttack; }
-    }
-
-    public float FinalDefense
-    {
-        get { return _baseDefense + _addDefense; }
-    }
-
-    public float FinalMoveSpeed
-    {
-        get { return _baseMoveSpeed + _addMoveSpeed; }
-    }
-
-    public ElementType ElementType
-    {
-        get { return _elementType; }
-    }
-
-    public bool IsMaxLevel
-    {
-        get
-        {
-            return _isMaxLevel;
-        }
-        private set
-        {
-            if (_isMaxLevel != value)
-            {
-                _isMaxLevel = value;
-                OnPropertyChanged(IsMaxLevelChanged);
-            }
-        }
-    }
-
-    public int RequiredExp
-    {
-        get
-        {
-            return _currentLevelData.RequiredExp;
-        }
-    }
-
-
-
-    public int RequiredToNext
-    {
-        get
-        {
-            return _currentGradeData.RequiredToNext;
-        }
+        _equippedItemIds = new Dictionary<EquipType, string>();
+        _baseStats = CreateStatDictionary(new StatData(studentData.BaseHp, studentData.BaseAttack, studentData.BaseDefense, studentData.BaseMoveSpeed));
+        _equipmentStats = GetEquipmentStats();
     }
 
     public void NotifyAllProperties()
     {
         OnPropertyChanged(NameChanged);
         OnPropertyChanged(StarChanged);
-        OnPropertyChanged(PortraitKeyChanged);
-
-
-        OnPropertyChanged(ExpChanged);
+        OnPropertyChanged(TotalExperienceChanged);
         OnPropertyChanged(LevelChanged);
+        OnPropertyChanged(IsMaxLevelChanged);
         OnPropertyChanged(HpChanged);
         OnPropertyChanged(AttackChanged);
         OnPropertyChanged(DefenseChanged);
         OnPropertyChanged(MoveSpeedChanged);
-        OnPropertyChanged(IsMaxLevelChanged);
+        OnPropertyChanged(FullBodyKeyChanged);
+        OnPropertyChanged(PortraitKeyChanged);
     }
 
-    private int CalculateLevel(int exp)
+    private bool TryUpdateCurrentGradeData()
     {
-        Dictionary<string, LevelExpData> levelTable = new Dictionary<string, LevelExpData>();
+        string gradeId = StudentDataId.CreateGradeId(_star);
 
-        if (!GameManager.Instance.DataManager.TryGetDataTable(out levelTable))
+        if (!GameManager.Instance.DataManager.TryGetData(gradeId, out _currentGradeData))
         {
-            Debug.LogError($"LevelExpTable를 찾을 수 없습니다.");
+            Debug.LogError($"{gradeId} StudentGradeData를 찾을 수 없습니다.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool TryUpdateCurrentLevelData()
+    {
+        string levelId = StudentDataId.CreateLevelId(_level);
+
+        if (!GameManager.Instance.DataManager.TryGetData(levelId, out _currentLevelData))
+        {
+            Debug.LogError($"{levelId} StudentLevelData를 찾을 수 없습니다.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private int CalculateLevel()
+    {
+        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, StudentLevelData> levelTable))
+        {
+            Debug.LogError("레벨 경험치 데이터를 찾을 수 없습니다.");
             return -1;
         }
 
-        foreach (LevelExpData levelExp in levelTable.Values)
+        int maxLevel = 1;
+
+        foreach (StudentLevelData levelData in levelTable.Values)
         {
-            if (exp >= levelExp.RequiredExp)
+            if (_totalExperience < levelData.RequiredExp)
             {
+                return levelData.Level;
+            }
+
+            maxLevel = Math.Max(maxLevel, levelData.Level);
+        }
+
+        return maxLevel;
+    }
+
+    private Dictionary<StatType, float> CreateStatDictionary(StatData statData)
+    {
+        Dictionary<StatType, float> statDictionary = new Dictionary<StatType, float>();
+
+        statDictionary[StatType.Hp] = statData.Hp;
+        statDictionary[StatType.Attack] = statData.Attack;
+        statDictionary[StatType.Defense] = statData.Defense;
+        statDictionary[StatType.MoveSpeed] = statData.MoveSpeed;
+
+        return statDictionary;
+    }
+
+    private Dictionary<StatType, float> GetEquipmentStats()
+    {
+        StatData equipmentStats = new StatData();
+
+        foreach (string itemId in _equippedItemIds.Values)
+        {
+            if (!GameManager.Instance.DataManager.TryGetData(itemId, out EquipmentData equipmentData))
+            {
+                Debug.LogWarning($"{itemId} 장비 데이터가 없습니다.");
                 continue;
             }
 
-            return levelExp.Level;
+            StatData itemStats = new StatData(equipmentData.Hp, equipmentData.Attack, equipmentData.Defense, equipmentData.MoveSpeed);
+            equipmentStats.AddStat(itemStats);
         }
 
-        Debug.LogError($"");
-        return 1;
+        Dictionary<StatType, float> equipmentStatsDictionary = CreateStatDictionary(equipmentStats);
+        return equipmentStatsDictionary;
     }
 
+    //TODO 레벨업 로직 수정
     public bool TryAddExp(int amount)
     {
         if (amount <= 0)
@@ -302,9 +375,9 @@ public class StudentModel : INotifyPropertyChanged
             return false;
         }
 
-        Exp += amount;
+        TotalExperience += amount;
 
-        while (Exp >= _currentLevelData.RequiredExp)
+        while (TotalExperience >= _currentLevelData.RequiredExp)
         {
             Level++;
         }
@@ -312,6 +385,7 @@ public class StudentModel : INotifyPropertyChanged
         return true;
     }
 
+    //TODO 승급 로직 수정
     public bool TryGradeUp()
     {
         if (IsMaxStar)
@@ -325,15 +399,23 @@ public class StudentModel : INotifyPropertyChanged
         }
 
         //TODO 아이템 가져오기
-        int gradeItem = 100;
+        if(!NetworkManagerTemp.Instance.InventoryModel.TryGetItem(_currentGradeData.RequiredGradeUpItemId, out ItemModel itemModel))
+        {
+            return false;
+        }
 
-        if (gradeItem < _currentGradeData.RequiredToNext)
+        if (itemModel is not MaterialModel materialModel)
+        {
+            return false;
+        }
+
+        if (materialModel.Count < _currentGradeData.RequiredGradeUpItemCount)
         {
             return false;
         }
 
         //TODO 아이템 소비
-        gradeItem -= _currentGradeData.RequiredToNext;
+        //materialModel.Count -= _currentGradeData.RequiredGradeUpItemCount;
 
         Star++;
 
