@@ -140,7 +140,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.05
   m_TransitionOffset: 0
   m_ExitTime: 0.95863974
   m_HasExitTime: 0
@@ -290,7 +290,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: jumpStart
-  m_Speed: 8
+  m_Speed: 15
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 685384867492804754}
@@ -320,7 +320,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -7267337257339083569}
-    m_Position: {x: 446.5429, y: 163.72601, z: 0}
+    m_Position: {x: 450, y: 160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 870715567259974120}
     m_Position: {x: 170, y: 340, z: 0}

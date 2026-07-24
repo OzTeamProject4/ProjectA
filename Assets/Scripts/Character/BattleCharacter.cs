@@ -11,12 +11,15 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     private const float MoveThreshold = 0.1f;
     private const float WalkSpeedRatio = 0.5f;
     private const float RunSpeedRatio = 1.0f;
-    private const float JumpVelocityThreshold = 1.0f;
+    private const float JumpVelocityThreshold = 3.0f;
     private const float AnimSpeedDamping = 3.0f;
     private const float RunSpeedMultiplier = 2.0f;
+    private const int GroundCheckBufferSize = 4;
+    private const float FallMultiplier = 3.0f;
+    private readonly Collider[] _groundCheckBuffer = new Collider[GroundCheckBufferSize];
     // TODO 희준 캐릭터 모델링시 수치 변화 필요
     [SerializeField] private float _jumpForce = 5f;
-    [SerializeField] private float _groundCheckDistance = 0.1f; 
+    [SerializeField] private float _groundCheckRadius = 1.0f; 
     [SerializeField] private float _rotationSpeed = 4.0f;
     [SerializeField] private Transform _groundCheckPoint;
     [SerializeField] private Transform _modelTransform;
@@ -116,6 +119,14 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (_rigidbody.linearVelocity.y < 0f)
+        {
+            _rigidbody.linearVelocity += Vector3.up * Physics.gravity.y * (FallMultiplier - 1f) * Time.fixedDeltaTime;
+        }
+    }
+
     private void OnDestroy()
     {
         _buffCts?.Cancel();
@@ -187,13 +198,8 @@ public class BattleCharacter : MonoBehaviour, IDamageable
             return false;
         }
 
-        if (Mathf.Abs(_rigidbody.linearVelocity.y) > JumpVelocityThreshold)
-        {
-            return false;
-        }
-
-        bool result = Physics.CheckSphere(_groundCheckPoint.position, _groundCheckDistance, _groundLayer, QueryTriggerInteraction.Ignore);
-        return result;
+        int hitCount = Physics.OverlapSphereNonAlloc(_groundCheckPoint.position, _groundCheckRadius, _groundCheckBuffer, _groundLayer, QueryTriggerInteraction.Ignore);
+        return hitCount > 0;
     }
 
     public void LookAt(Vector3 targetPosition)
@@ -288,11 +294,11 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         if (null == _rigidbody)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(_groundCheckPoint.position, _groundCheckDistance);
+            Gizmos.DrawWireSphere(_groundCheckPoint.position, _groundCheckRadius);
             return;
         }
 
         Gizmos.color = IsGrounded() ? Color.green : Color.red;
-        Gizmos.DrawWireSphere(_groundCheckPoint.position, _groundCheckDistance);
+        Gizmos.DrawWireSphere(_groundCheckPoint.position, _groundCheckRadius);
     }
 }

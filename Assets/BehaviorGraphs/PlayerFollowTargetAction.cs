@@ -51,6 +51,13 @@ public partial class PlayerFollowTargetAction : Action
             return Status.Failure;
         }
 
+        float distance = Vector3.Distance(Self.Value.transform.position, Target.Value.transform.position);
+        if (distance <= _navMeshAgent.stoppingDistance)
+        {
+            _battleCharacter.Move(Vector3.zero, false);
+            return Status.Success;
+        }
+
         _navMeshAgent.nextPosition = Self.Value.transform.position;
         _navMeshAgent.SetDestination(Target.Value.transform.position);
 

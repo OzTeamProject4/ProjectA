@@ -44,7 +44,8 @@ public class BattleManager : BaseManager<BattleManager>
     private void OnDisable()
     {
         Time.timeScale = 1f;
-
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         UnsubscribeInputActions();
         CleanupBattleObjects();
     }

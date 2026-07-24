@@ -7377,7 +7377,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleMap
   _playerSpawnPoint: {fileID: 3131218167925748598}
   _battleCamera: {fileID: 2799177896211918910}
-  _battleManager: {fileID: 1506372717735690033}
   _waveTriggerZones:
   - {fileID: 1863523625727659535}
   - {fileID: 8519480206827254846}
@@ -7394,7 +7393,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fceef11ce8623dc4ba28e7fadfe5193c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleManager
-  _cinemachineCamera: {fileID: 2799177896211918910}
 --- !u!1 &4125188389511038955
 GameObject:
   m_ObjectHideFlags: 0
@@ -7932,7 +7930,7 @@ MonoBehaviour:
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
   OrbitStyle: 0
-  Radius: 10
+  Radius: 30
   Orbits:
     Top:
       Radius: 2
@@ -7946,7 +7944,7 @@ MonoBehaviour:
     SplineCurvature: 0.5
   RecenteringTarget: 2
   HorizontalAxis:
-    Value: 41.992203
+    Value: 57.19522
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -7956,7 +7954,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 20.746872
+    Value: 28.689516
     Center: 17.5
     Range: {x: -10, y: 45}
     Wrap: 0
@@ -7988,13 +7986,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineRotationComposer
   Composition:
-    ScreenPosition: {x: 0, y: 0}
+    ScreenPosition: {x: 0, y: -0.00092592835}
     DeadZone:
       Enabled: 0
-      Size: {x: 0.2, y: 0.2}
+      Size: {x: 0, y: 0}
     HardLimits:
       Enabled: 0
-      Size: {x: 0.8, y: 0.8}
+      Size: {x: 0, y: 0}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
   TargetOffset: {x: 0, y: 3, z: 0}
@@ -10688,7 +10686,6 @@ MonoBehaviour:
   - {fileID: 9120509135574886312}
   _bossSpawnPoint: {fileID: 0}
   _stageWaveDataId: Stage_001_Wave_1
-  battleManager: {fileID: 1506372717735690033}
 --- !u!1 &5684606251194218251
 GameObject:
   m_ObjectHideFlags: 0
@@ -13555,7 +13552,6 @@ MonoBehaviour:
   - {fileID: 512264116144960547}
   _bossSpawnPoint: {fileID: 9009014376157863864}
   _stageWaveDataId: Stage_001_Wave_1
-  battleManager: {fileID: 1506372717735690033}
 --- !u!1 &7038008375730467286
 GameObject:
   m_ObjectHideFlags: 0
@@ -16968,7 +16964,6 @@ MonoBehaviour:
   - {fileID: 7202699504609271669}
   _bossSpawnPoint: {fileID: 0}
   _stageWaveDataId: Stage_001_Wave_1
-  battleManager: {fileID: 1506372717735690033}
 --- !u!1 &9042134176749640626
 GameObject:
   m_ObjectHideFlags: 0
