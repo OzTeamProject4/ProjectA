@@ -38,10 +38,10 @@ public class StudentManagementListView : BaseUI
 
         foreach (StudentModel studentModel in _studentManagementListViewModel.StudentList)
         {
-            StudentManagementSlotView slotView = Instantiate(_slotPrefab, _content);
-            slotView.SetModel(studentModel);
-            slotView.OnSlotClicked += HandleSlotClicked;
-            _spawnedSlotList.Add(slotView);
+            StudentManagementSlotView studentManagementSlotView = Instantiate(_slotPrefab, _content);
+            studentManagementSlotView.SetModel(studentModel);
+            studentManagementSlotView.OnSlotClicked += HandleSlotClicked;
+            _spawnedSlotList.Add(studentManagementSlotView);
         }
     }
 
