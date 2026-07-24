@@ -1,0 +1,145 @@
+[
+  {
+    "DataId": "Currency_Gold",
+    "Name": "골드",
+    "CurrencyType": "Gold",
+    "Tier": null,
+    "ReqItemId": null,
+    "ReqItemCount": 0,
+    "Value": 0,
+    "SpritePath": null,
+    "Description": "기본 화폐 입니다."
+  },
+  {
+    "DataId": "Currency_Crystal",
+    "Name": "크리스탈",
+    "CurrencyType": "Crystal",
+    "Tier": null,
+    "ReqItemId": null,
+    "ReqItemCount": 0,
+    "Value": 0,
+    "SpritePath": null,
+    "Description": "고대에 화폐로 쓰였던 조그만 결정석입니다."
+  },
+  {
+    "DataId": "Currency_ExpBook_Small",
+    "Name": "경험치북(소)",
+    "CurrencyType": "ExpBook",
+    "Tier": "T1",
+    "ReqItemId": "Item_Gold",
+    "ReqItemCount": 200,
+    "Value": 100,
+    "SpritePath": "Sprites/Items[Items_ExpBook_1]",
+    "Description": "경험치북(소)"
+  },
+  {
+    "DataId": "Currency_ExpBook_Medium",
+    "Name": "경험치북(중)",
+    "CurrencyType": "ExpBook",
+    "Tier": "T2",
+    "ReqItemId": "Item_Gold",
+    "ReqItemCount": 400,
+    "Value": 200,
+    "SpritePath": "Sprites/Items[Items_ExpBook_2]",
+    "Description": "경험치북(중)"
+  },
+  {
+    "DataId": "Currency_ExpBook_Large",
+    "Name": "경험치북(대)",
+    "CurrencyType": "ExpBook",
+    "Tier": "T3",
+    "ReqItemId": "Item_Gold",
+    "ReqItemCount": 600,
+    "Value": 500,
+    "SpritePath": "Sprites/Items[Items_ExpBook_3]",
+    "Description": "경험치북(대)"
+  },
+  {
+    "DataId": "Currency_Ticket_Sweep",
+    "Name": "소탕 티켓",
+    "CurrencyType": "Ticket",
+    "Tier": null,
+    "ReqItemId": "Item_Crystal",
+    "ReqItemCount": 20,
+    "Value": 1,
+    "SpritePath": null,
+    "Description": "스테이지 소탕권"
+  },
+  {
+    "DataId": "Currency_Ticket_Gacha",
+    "Name": "가챠 티켓",
+    "CurrencyType": "Ticket",
+    "Tier": null,
+    "ReqItemId": "Item_Crystal",
+    "ReqItemCount": 20,
+    "Value": 1,
+    "SpritePath": null,
+    "Description": "가챠용 티켓"
+  },
+  {
+    "DataId": "Currency_Ticket_GoldDungeon",
+    "Name": "골드 던전 입장권",
+    "CurrencyType": "Ticket",
+    "Tier": null,
+    "ReqItemId": "Item_Crystal",
+    "ReqItemCount": 10,
+    "Value": 1,
+    "SpritePath": null,
+    "Description": "골드를 벌 수 있는 공간 입장권"
+  },
+  {
+    "DataId": "Currency_Ticket_ExpDungeon",
+    "Name": "파밍 던전 입장권",
+    "CurrencyType": "Ticket",
+    "Tier": null,
+    "ReqItemId": "Item_Gold",
+    "ReqItemCount": 500,
+    "Value": 1,
+    "SpritePath": null,
+    "Description": "경험치를 획득할 수 있는 공간 입장권"
+  },
+  {
+    "DataId": "Currency_Mat_T1",
+    "Name": "마력석 파편(소)",
+    "CurrencyType": "Material",
+    "Tier": "T1",
+    "ReqItemId": "Item_Gold",
+    "ReqItemCount": 100,
+    "Value": 1,
+    "SpritePath": null,
+    "Description": "마력이 담긴 조그만 조각"
+  },
+  {
+    "DataId": "Currency_Mat_T2",
+    "Name": "마력석 파편(중)",
+    "CurrencyType": "Material",
+    "Tier": "T2",
+    "ReqItemId": "Item_Gold",
+    "ReqItemCount": 300,
+    "Value": 1,
+    "SpritePath": null,
+    "Description": "마력이 담긴 조각"
+  },
+  {
+    "DataId": "Currency_Mat_T3",
+    "Name": "마력석 파편(대)",
+    "CurrencyType": "Material",
+    "Tier": "T3",
+    "ReqItemId": "Item_Gold",
+    "ReqItemCount": 500,
+    "Value": 1,
+    "SpritePath": null,
+    "Description": "마력이 뿜어져 나오는 조각"
+  },
+  {
+    "DataId": "Currency_Mat_Signature",
+    "Name": "응집된 마나 구슬",
+    "CurrencyType": "Material",
+    "Tier": null,
+    "ReqItemId": "Item_Crystal",
+    "ReqItemCount": 10,
+    "Value": 1,
+    "SpritePath": null,
+    "Description": "마나가 한곳으로 응집된 푸른 덩어리"
+  }
+]

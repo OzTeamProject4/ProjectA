@@ -4,14 +4,14 @@ public class CharacterData : BaseData
 {
     public string Name { get; init; }
     public int Star { get; init; }
-    public int Level { get; init; }
+    public int Exp { get; init; }
     public string SkillList { get; init; }
     public ElementType Type { get; init; }
     public int SkillGauge { get; init; }
 
     public float Hp { get; init; }
-    public float Atk { get; init; }
-    public float Def { get; init; }
+    public float Attack { get; init; }
+    public float Defence { get; init; }
     public float MoveSpeed { get; init; }
 
     public float HpGrow { get; init; }

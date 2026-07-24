@@ -1,148 +1,148 @@
-﻿using System;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
+﻿//using System;
+//using System.Collections.Generic;
+//using TMPro;
+//using UnityEngine;
+//using UnityEngine.UI;
 
-public class CharacterListItemView : MonoBehaviour
-{
-    [SerializeField] private Image _portraitImage;
-    [SerializeField] private TMP_Text _nameText;
+//public class CharacterListItemView : MonoBehaviour
+//{
+//    [SerializeField] private Image _portraitImage;
+//    [SerializeField] private TMP_Text _nameText;
 
-    [SerializeField] private Image _starIconPrefab;
-    [SerializeField] private Transform _starIconContainer;
+//    [SerializeField] private Image _starIconPrefab;
+//    [SerializeField] private Transform _starIconContainer;
 
-    [SerializeField] private Button _selectButton;
+//    [SerializeField] private Button _selectButton;
 
-    private readonly List<GameObject> _spawnedStarIcons = new();
-    private CharacterListItemViewModel _viewModel;
-    private bool _isSubscribed;
+//    private readonly List<GameObject> _spawnedStarIcons = new();
+//    private CharacterListItemViewModel _viewModel;
+//    private bool _isSubscribed;
 
-    public event Action<string> OnClicked;
+//    public event Action<string> OnClicked;
 
-    private void OnEnable()
-    {
-        TrySubscribe();
-    }
+//    private void OnEnable()
+//    {
+//        TrySubscribe();
+//    }
 
-    private void OnDisable()
-    {
-        Unsubscribe();
-    }
+//    private void OnDisable()
+//    {
+//        Unsubscribe();
+//    }
 
-    private void OnDestroy()
-    {
-        Unsubscribe();
-        ClearStarIcons();
-    }
+//    private void OnDestroy()
+//    {
+//        Unsubscribe();
+//        ClearStarIcons();
+//    }
 
-    public void Bind(CharacterListItemViewModel viewModel, CharacterDisplayInfo displayInfo)
-    {
-        if (null == viewModel)
-        {
-            Debug.LogError("Bind: CharacterListItemViewModel 이 null 입니다.");
-            return;
-        }
+//    public void Bind(CharacterListItemViewModel viewModel, CharacterDisplayInfo displayInfo)
+//    {
+//        if (null == viewModel)
+//        {
+//            Debug.LogError("Bind: CharacterListItemViewModel 이 null 입니다.");
+//            return;
+//        }
 
-        Unsubscribe();
+//        Unsubscribe();
 
-        _viewModel = viewModel;
-        _nameText.text = displayInfo.Name;
-        _portraitImage.sprite = displayInfo.Portrait;
+//        _viewModel = viewModel;
+//        _nameText.text = displayInfo.Name;
+//        _portraitImage.sprite = displayInfo.Portrait;
 
-        TrySubscribe();
-    }
+//        TrySubscribe();
+//    }
 
-    private void TrySubscribe()
-    {
-        if (_isSubscribed || null == _viewModel || !isActiveAndEnabled)
-        {
-            return;
-        }
+//    private void TrySubscribe()
+//    {
+//        if (_isSubscribed || null == _viewModel || !isActiveAndEnabled)
+//        {
+//            return;
+//        }
 
-        _viewModel.OnStarChanged += HandleStarChanged;
+//        _viewModel.OnStarChanged += HandleStarChanged;
 
-        if (null != _selectButton)
-        {
-            _selectButton.onClick.AddListener(HandleClickSelect);
-        }
+//        if (null != _selectButton)
+//        {
+//            _selectButton.onClick.AddListener(HandleClickSelect);
+//        }
 
-        _viewModel.Initialize();
-        RefreshStar();
+//        _viewModel.Initialize();
+//        RefreshStar();
 
-        _isSubscribed = true;
-    }
+//        _isSubscribed = true;
+//    }
 
-    private void Unsubscribe()
-    {
-        if (!_isSubscribed || null == _viewModel)
-        {
-            return;
-        }
+//    private void Unsubscribe()
+//    {
+//        if (!_isSubscribed || null == _viewModel)
+//        {
+//            return;
+//        }
 
-        _viewModel.OnStarChanged -= HandleStarChanged;
-        _viewModel.Dispose();
+//        _viewModel.OnStarChanged -= HandleStarChanged;
+//        _viewModel.Dispose();
 
-        if (null != _selectButton)
-        {
-            _selectButton.onClick.RemoveListener(HandleClickSelect);
-        }
+//        if (null != _selectButton)
+//        {
+//            _selectButton.onClick.RemoveListener(HandleClickSelect);
+//        }
 
-        _isSubscribed = false;
-    }
+//        _isSubscribed = false;
+//    }
 
-    private void HandleStarChanged()
-    {
-        RefreshStar();
-    }
+//    private void HandleStarChanged()
+//    {
+//        RefreshStar();
+//    }
 
-    private void RefreshStar()
-    {
-        if (null == _viewModel)
-        {
-            return;
-        }
+//    private void RefreshStar()
+//    {
+//        if (null == _viewModel)
+//        {
+//            return;
+//        }
 
-        if (null == _starIconPrefab || null == _starIconContainer)
-        {
-            Debug.LogWarning("RefreshStar: 별 아이콘 프리팹 또는 컨테이너가 연결되지 않았습니다.");
-            return;
-        }
+//        if (null == _starIconPrefab || null == _starIconContainer)
+//        {
+//            Debug.LogWarning("RefreshStar: 별 아이콘 프리팹 또는 컨테이너가 연결되지 않았습니다.");
+//            return;
+//        }
 
-        int targetCount = _viewModel.CurrentStar;
+//        int targetCount = _viewModel.CurrentStar;
 
-        while (_spawnedStarIcons.Count < targetCount)
-        {
-            Image icon = Instantiate(_starIconPrefab, _starIconContainer);
-            _spawnedStarIcons.Add(icon.gameObject);
-        }
+//        while (_spawnedStarIcons.Count < targetCount)
+//        {
+//            Image icon = Instantiate(_starIconPrefab, _starIconContainer);
+//            _spawnedStarIcons.Add(icon.gameObject);
+//        }
 
-        for (int i = 0; i < _spawnedStarIcons.Count; i++)
-        {
-            if (null == _spawnedStarIcons[i])
-            {
-                continue;
-            }
+//        for (int i = 0; i < _spawnedStarIcons.Count; i++)
+//        {
+//            if (null == _spawnedStarIcons[i])
+//            {
+//                continue;
+//            }
 
-            _spawnedStarIcons[i].SetActive(i < targetCount);
-        }
-    }
+//            _spawnedStarIcons[i].SetActive(i < targetCount);
+//        }
+//    }
 
-    private void ClearStarIcons()
-    {
-        foreach (GameObject icon in _spawnedStarIcons)
-        {
-            if (null != icon)
-            {
-                Destroy(icon);
-            }
-        }
+//    private void ClearStarIcons()
+//    {
+//        foreach (GameObject icon in _spawnedStarIcons)
+//        {
+//            if (null != icon)
+//            {
+//                Destroy(icon);
+//            }
+//        }
 
-        _spawnedStarIcons.Clear();
-    }
+//        _spawnedStarIcons.Clear();
+//    }
 
-    private void HandleClickSelect()
-    {
-        OnClicked?.Invoke(_viewModel.DataId);
-    }
-}
+//    private void HandleClickSelect()
+//    {
+//        OnClicked?.Invoke(_viewModel.DataId);
+//    }
+//}
