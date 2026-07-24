@@ -29,6 +29,8 @@ public partial class PlayerUseSkillAction : Action
         {
             return Status.Failure;
         }
+
+        _battleCharacter.Move(Vector3.zero, false);
         _battleCharacter.LookAt(EnemyTarget.Value.transform.position);
         _characterSkillSystem.UseNormalSkill(EnemyTarget.Value.transform);
         return Status.Running;

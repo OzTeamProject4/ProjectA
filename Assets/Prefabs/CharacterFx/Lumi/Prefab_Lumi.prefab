@@ -56,7 +56,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleCharacter
   _jumpForce: 10
-  _groundCheckDistance: 0.1
+  _groundCheckRadius: 1
   _rotationSpeed: 4
   _groundCheckPoint: {fileID: 9005055626130884636}
   _modelTransform: {fileID: 4635906046045465674}
@@ -327,7 +327,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 30
+  m_Radius: 50
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6873697945220260000
 MonoBehaviour:

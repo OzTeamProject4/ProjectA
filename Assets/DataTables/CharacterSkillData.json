@@ -8,12 +8,12 @@
     "GaugeRecovery": 10,
     "PrefabPath": "SkillFire001",
     "DamageCoefficient": 12,
-    "ProjectileSpeed": 4,
+    "ProjectileSpeed": 16,
     "AreaRadius": 0,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 10
+    "SkillRange": 30
   },
   {
     "DataId": "Skill_Fire_002",
@@ -25,11 +25,11 @@
     "PrefabPath": "SkillFire002",
     "DamageCoefficient": 25,
     "ProjectileSpeed": 0,
-    "AreaRadius": 5,
+    "AreaRadius": 15,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 10
+    "SkillRange": 30
   },
   {
     "DataId": "Skill_Fire_003",
@@ -40,12 +40,12 @@
     "GaugeRecovery": 0,
     "PrefabPath": "SkillFire003",
     "DamageCoefficient": 50,
-    "ProjectileSpeed": 7,
+    "ProjectileSpeed": 21,
     "AreaRadius": 10,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 20
+    "SkillRange": 60
   },
   {
     "DataId": "Skill_Water_001",
@@ -56,12 +56,12 @@
     "GaugeRecovery": 15,
     "PrefabPath": "SkillWater001",
     "DamageCoefficient": 8,
-    "ProjectileSpeed": 7,
+    "ProjectileSpeed": 21,
     "AreaRadius": 0,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 10
+    "SkillRange": 30
   },
   {
     "DataId": "Skill_Water_002",
@@ -88,12 +88,12 @@
     "GaugeRecovery": 0,
     "PrefabPath": "SkillWater003",
     "DamageCoefficient": 45,
-    "ProjectileSpeed": 7,
+    "ProjectileSpeed": 21,
     "AreaRadius": 0,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 20
+    "SkillRange": 60
   },
   {
     "DataId": "Skill_Grass_001",
@@ -104,12 +104,12 @@
     "GaugeRecovery": 8,
     "PrefabPath": "SkillGrass001",
     "DamageCoefficient": 10,
-    "ProjectileSpeed": 4,
+    "ProjectileSpeed": 12,
     "AreaRadius": 0,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 12
+    "SkillRange": 36
   },
   {
     "DataId": "Skill_Grass_002",
@@ -120,12 +120,12 @@
     "GaugeRecovery": 25,
     "PrefabPath": "SkillGrass002",
     "DamageCoefficient": 30,
-    "ProjectileSpeed": 5,
+    "ProjectileSpeed": 15,
     "AreaRadius": 0,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 14
+    "SkillRange": 42
   },
   {
     "DataId": "Skill_Grass_003",
@@ -136,12 +136,12 @@
     "GaugeRecovery": 0,
     "PrefabPath": "SkillGrass003",
     "DamageCoefficient": 60,
-    "ProjectileSpeed": 10,
+    "ProjectileSpeed": 30,
     "AreaRadius": 0,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 22
+    "SkillRange": 66
   },
   {
     "DataId": "Skill_Normal_001",
@@ -152,12 +152,12 @@
     "GaugeRecovery": 9,
     "PrefabPath": "SkillNormal001",
     "DamageCoefficient": 11,
-    "ProjectileSpeed": 8,
+    "ProjectileSpeed": 24,
     "AreaRadius": 0,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 11
+    "SkillRange": 33 
   },
   {
     "DataId": "Skill_Normal_002",
@@ -189,7 +189,7 @@
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 24
+    "SkillRange": 72
   },
   {
     "DataId": "Skill_Normal_010",
@@ -200,12 +200,12 @@
     "GaugeRecovery": 10,
     "PrefabPath": "SkillNormal010",
     "DamageCoefficient": 15,
-    "ProjectileSpeed": 9,
+    "ProjectileSpeed": 27,
     "AreaRadius": 0,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 12
+    "SkillRange": 36
   },
   {
     "DataId": "Skill_Normal_020",
@@ -216,12 +216,12 @@
     "GaugeRecovery": 27,
     "PrefabPath": "SkillNormal020",
     "DamageCoefficient": 28,
-    "ProjectileSpeed": 9,
+    "ProjectileSpeed": 27,
     "AreaRadius": 6,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 14
+    "SkillRange": 42
   },
   {
     "DataId": "Skill_Normal_030",
@@ -232,11 +232,11 @@
     "GaugeRecovery": 0,
     "PrefabPath": "SkillNormal030",
     "DamageCoefficient": 65,
-    "ProjectileSpeed": 11,
+    "ProjectileSpeed": 33,
     "AreaRadius": 12,
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 24
+    "SkillRange": 72
   }
 ]

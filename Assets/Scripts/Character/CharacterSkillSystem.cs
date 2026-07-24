@@ -458,4 +458,12 @@ public class CharacterSkillSystem : MonoBehaviour
 
         return skill.Data.SkillRange;
     }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, AttackRange);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, MinAttackRange);
+    }
 }

@@ -13,8 +13,8 @@ public partial class PlayerRetreatFromTargetAction : Action
     [SerializeReference] public BlackboardVariable<GameObject> EnemyTarget;
     [SerializeReference] public BlackboardVariable<float> MinAttackRange;
 
-    private const float RetreatBuffer = 3f; // TODO희준 : 테스트용 상수, 이후 조절 필요함
-    private const float RetreatDestinationExtra = 5f;
+    private const float RetreatBuffer = 3.0f; // TODO희준 : 테스트용 상수, 이후 조절 필요함
+    private const float RetreatDestinationExtra = 25.0f;
 
     private BattleCharacter _battleCharacter;
     private NavMeshAgent _navMeshAgent;
@@ -57,6 +57,7 @@ public partial class PlayerRetreatFromTargetAction : Action
         }
 
         float distance = Vector3.Distance(Self.Value.transform.position, EnemyTarget.Value.transform.position);
+        Debug.Log($"retreat dist={distance:F1} / target={_skillSystem.MinAttackRange + RetreatBuffer:F1} / desired={_navMeshAgent.desiredVelocity.magnitude:F2}");
         if (distance > _skillSystem.MinAttackRange + RetreatBuffer)
         {
             _battleCharacter.Move(Vector3.zero, false);
@@ -86,8 +87,7 @@ public partial class PlayerRetreatFromTargetAction : Action
             return Status.Running;
         }
 
-        _battleCharacter.Move(direction.normalized, false, false);
-        _battleCharacter.LookAt(EnemyTarget.Value.transform.position);
+        _battleCharacter.Move(direction.normalized, false, true);
 
         return Status.Running;
     }
