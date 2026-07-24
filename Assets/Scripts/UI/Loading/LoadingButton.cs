@@ -11,7 +11,7 @@ public class LoadingButton : BaseButton
     {
         await GameManager.Instance.UIManager.OpenOverlayUIAsync();
         GameManager.Instance.UIManager.CloseLoadingUI();
-        //오픈 로비
+        await GameManager.Instance.UIManager.OpenLobbyAsync();
         GameManager.Instance.UIManager.CloseOverlayUI();
     }
 }
