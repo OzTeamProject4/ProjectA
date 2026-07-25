@@ -1,0 +1,30 @@
+[
+  {
+    "DataId": "EnemySkill_Fireball_01",
+    "Name": "화염구",
+    "ElementalType": "Fire",
+    "BaseDamage": 10,
+    "PrefabAddress": "Prefabs/EnemySkill_Fireball"
+  },
+  {
+    "DataId": "EnemySkill_Stoneball_01",
+    "Name": "흙구",
+    "ElementalType": "Normal",
+    "BaseDamage": 10,
+    "PrefabAddress": "Prefabs/EnemySkill_StoneBall"
+  },
+  {
+    "DataId": "EnemySkill_Waterball_01",
+    "Name": "물구",
+    "ElementalType": "Water",
+    "BaseDamage": 10,
+    "PrefabAddress": "Prefabs/EnemySkill_Waterball"
+  },
+  {
+    "DataId": "EnemySkill_Windball_01",
+    "Name": "바람 칼날",
+    "ElementalType": "Grass",
+    "BaseDamage": 10,
+    "PrefabAddress": "Prefabs/EnemySkill_Windball"
+  }
+]
