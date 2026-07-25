@@ -47,7 +47,7 @@ public class EquipmentCraftSlotView : MonoBehaviour
         _equipmentCraftSlotViewModel.OnPropertyChange += OnPropertyChanged;
 
         _iconButton.onClick.AddListener(OpenCraftItemInfoPopup);
-        _craftButton.onClick.AddListener(OnButtonCLick);
+        _craftButton.onClick.AddListener(HandleSlotClicked);
     }
 
     private void OnDisable()
@@ -260,7 +260,7 @@ public class EquipmentCraftSlotView : MonoBehaviour
         image.sprite = sprite;
     }
 
-    private void OnButtonCLick()
+    private void HandleSlotClicked()
     {
         _equipmentCraftSlotViewModel.RequestCraftItem();
     }

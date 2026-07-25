@@ -32,7 +32,7 @@ public class EquipmentItemSlotView : MonoBehaviour
     {
         _disableCts = new CancellationTokenSource();
 
-        _slotButton.onClick.AddListener(HandleClickSelect);
+        _slotButton.onClick.AddListener(HandleSlotClicked);
     }
 
     public void OnDisable()
@@ -133,7 +133,7 @@ public class EquipmentItemSlotView : MonoBehaviour
         //}
     }
 
-    private void HandleClickSelect()
+    private void HandleSlotClicked()
     {
         if (OnSlotClicked == null)
         {
