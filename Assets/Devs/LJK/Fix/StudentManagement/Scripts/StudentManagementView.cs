@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class StudentManagementView : BaseUI
 {
-    [SerializeField] private StudentManagementExperienceView _studentManagementExperienceView;
     [SerializeField] private StudentManagementInfoView _studentManagementInfoView;
     [SerializeField] private StudentManagementEquipmentView _studentManagementEquipmentView;
     [SerializeField] private StudentManagementStatusView _studentManagementStatusView;
@@ -13,7 +12,6 @@ public class StudentManagementView : BaseUI
 
     private void Awake()
     {
-        UnityUtil.ValidateReference(_studentManagementExperienceView, nameof(StudentManagementView), nameof(_studentManagementExperienceView));
         UnityUtil.ValidateReference(_studentManagementInfoView, nameof(StudentManagementView), nameof(_studentManagementInfoView));
         UnityUtil.ValidateReference(_studentManagementEquipmentView, nameof(StudentManagementView), nameof(_studentManagementEquipmentView));
         UnityUtil.ValidateReference(_studentManagementStatusView, nameof(StudentManagementView), nameof(_studentManagementStatusView));
@@ -25,7 +23,7 @@ public class StudentManagementView : BaseUI
 
     private void OnEnable()
     {
-        _studentManagementExperienceView.OnOpenExperienceInventoryClicked += HandleOpenExperienceInventoryClicked;
+        _studentManagementInfoView.OnOpenExperienceInventoryClicked += HandleOpenExperienceInventoryClicked;
         _studentManagementInfoView.OnGradeUpClicked += HandleGradeUpClicked;
         _studentManagementEquipmentView.OnSlotClicked += HandleEquipmentSlotClicked;
 
@@ -35,7 +33,7 @@ public class StudentManagementView : BaseUI
 
     private void OnDisable()
     {
-        _studentManagementExperienceView.OnOpenExperienceInventoryClicked -= HandleOpenExperienceInventoryClicked;
+        _studentManagementInfoView.OnOpenExperienceInventoryClicked -= HandleOpenExperienceInventoryClicked;
         _studentManagementInfoView.OnGradeUpClicked -= HandleGradeUpClicked;
         _studentManagementEquipmentView.OnSlotClicked -= HandleEquipmentSlotClicked;
 
@@ -71,11 +69,14 @@ public class StudentManagementView : BaseUI
             case nameof(_studentManagementViewModel.Star):
                 HandleStudentStarChanged();
                 break;
+            case nameof(_studentManagementViewModel.ElementType):
+                HandleStudentElementTypeChanged();
+                break;
             case nameof(_studentManagementViewModel.FullBodyKey):
                 HandleStudentFullBodyImageChanged();
                 break;
-            case nameof(_studentManagementViewModel.TotalExperience):
-                HandleStudentTotalExperienceChanged();
+            case nameof(_studentManagementViewModel.CurrentExperience):
+                HandleStudentCurrentExperienceChanged();
                 break;
             case nameof(_studentManagementViewModel.Level):
                 HandleStudentLevelChanged();
@@ -112,28 +113,31 @@ public class StudentManagementView : BaseUI
         HandleOwnedGradeUpItemCountChanged();
     }
 
-    private void HandleStudentFullBodyImageChanged()
+    private void HandleStudentElementTypeChanged()
     {
-        _studentManagementExperienceView.UpdatePortraitImage(_studentManagementViewModel.FullBodyKey, _disableCts.Token).Forget();
+        _studentManagementInfoView.UpdateElementIcon(_studentManagementViewModel.ElementType);
     }
 
-    private void HandleStudentTotalExperienceChanged()
+    private void HandleStudentFullBodyImageChanged()
     {
-        int value = _studentManagementViewModel.TotalExperience;
+        _studentManagementInfoView.UpdatePortraitImage(_studentManagementViewModel.FullBodyKey, _disableCts.Token).Forget();
+    }
 
-        _studentManagementExperienceView.UpdateExperienceSliderValue(value);
-        _studentManagementExperienceView.UpdateExperienceText();
+    private void HandleStudentCurrentExperienceChanged()
+    {
+        int value = _studentManagementViewModel.CurrentExperience;
+
+        _studentManagementInfoView.UpdateExperienceSliderValue(value);
+        _studentManagementInfoView.UpdateExperienceText();
     }
 
     private void HandleStudentLevelChanged()
     {
-        int value = _studentManagementViewModel.IsMaxLevel ? _studentManagementViewModel.RequiredExp : _studentManagementViewModel.TotalExperience;
+        _studentManagementInfoView.UpdateLevelText(_studentManagementViewModel.Level);
 
-        _studentManagementExperienceView.UpdateLevelText(_studentManagementViewModel.Level);
+        _studentManagementInfoView.UpdateExperienceSliderRange(_studentManagementViewModel.CurrentExperience, _studentManagementViewModel.RequiredExp);
 
-        //TODO 이전 경험치 총량 가져오기
-        //_studentManagementExperienceView.UpdateExperienceSliderRange(value, 이전 경험치 총량, _studentManagementViewModel.RequiredExp);
-        _studentManagementExperienceView.UpdateExperienceText();
+        _studentManagementInfoView.UpdateExperienceText();
     }
 
     private void HandleStudentIsMaxLevelChanged()
@@ -171,10 +175,9 @@ public class StudentManagementView : BaseUI
         GameManager.Instance.UIManager.OpenExperienceInventoryPopupAsync(_studentManagementViewModel.StudentModel, _disableCts.Token).Forget();
     }
 
-    //승급 기능 추가
     private void HandleGradeUpClicked()
     {
-
+        _studentManagementViewModel.RequestGradeUp();
     }
 
     private void HandleEquipmentSlotClicked(EquipType equipType)

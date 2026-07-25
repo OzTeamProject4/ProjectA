@@ -110,8 +110,3 @@ public enum ScreenType
     StageSelect,
     Battle
 }
-
-public enum MaterialType
-{
-    Exp
-}

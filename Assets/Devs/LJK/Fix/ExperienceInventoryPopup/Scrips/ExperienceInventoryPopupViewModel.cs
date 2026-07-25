@@ -11,7 +11,7 @@ public class ExperienceInventoryPopupViewModel
         _studentModel = characterModel;
 
         InventoryModel inventoryModel = NetworkManagerTemp.Instance.InventoryModel;
-        ExperienceItems = inventoryModel.GetItemsByMaterialType(MaterialType.Exp);
+        ExperienceItems = inventoryModel.GetItemsByMaterialType(CurrencyType.ExpBook);
     }
 
     public void UseExpItem(MaterialModel materialModel)

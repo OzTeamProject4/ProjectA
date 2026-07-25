@@ -89,12 +89,12 @@ public class MaterialModel : ItemModel
 {
     private static readonly PropertyChangedEventArgs CountChanged = new PropertyChangedEventArgs(nameof(Count));
 
-    private MaterialType _materialType;
-    private int _tier;
+    private CurrencyType _materialType;
+    private string _tier;
     private int _value;
     private int _count;
 
-    public MaterialType MaterialType
+    public CurrencyType MaterialType
     {
         get
         {
@@ -102,7 +102,7 @@ public class MaterialModel : ItemModel
         }
     }
 
-    public int Tier
+    public string Tier
     {
         get
         {
@@ -128,16 +128,17 @@ public class MaterialModel : ItemModel
 
     public MaterialModel(ItemData itemData, int count) : base(itemData)
     {
-        if (!GameManager.Instance.DataManager.TryGetData(itemData.TypeDataId, out MaterialData materialData))
+        _count = count;
+
+        if (!GameManager.Instance.DataManager.TryGetData(itemData.TypeDataId, out CurrencyData currencyData))
         {
-            Debug.LogError($"{itemData.TypeDataId}를 가진 MaterialData가 없습니다");
+            Debug.LogError($"'{itemData.TypeDataId}'를 가진 CurrencyData가 없습니다. DataId={itemData.DataId}");
             return;
         }
 
-        _materialType = materialData.MaterialType;
-        _tier = materialData.Tier;
-        _value = materialData.Value;
-        _count = count;
+        _materialType = currencyData.CurrencyType;
+        _tier = currencyData.Tier;
+        _value = currencyData.Value;
     }
 
     public override void NotifyAllProperties()
@@ -146,12 +147,37 @@ public class MaterialModel : ItemModel
         OnPropertyChanged(CountChanged);
     }
 
+    // 스택형 재료의 소비
+    public bool TryConsume(int amount)
+    {
+        if (amount <= 0)
+        {
+            Debug.LogError($"[MaterialModel:TryConsume] 유효하지 않은 수량({amount}). DataId={DataId}");
+            return false;
+        }
+
+        if (_count < amount)
+        {
+            return false;
+        }
+
+        Count -= amount;
+        return true;
+    }
+
     public void UseExpItem(StudentModel studentModel)
     {
-        if (studentModel.TryAddExp(_value))
+        if (_count <= 0)
         {
-            Count -= 1;
+            return;
         }
+
+        if (!studentModel.TryAddExp(_value))
+        {
+            return;
+        }
+
+        TryConsume(1);
     }
 }
 
@@ -198,65 +224,6 @@ public class EquipmentModel : ItemModel
         return statInfos;
     }
 }
-
-
-//public class ItemModel : INotifyPropertyChanged
-//{
-
-//    private static readonly PropertyChangedEventArgs EquipChanged = new PropertyChangedEventArgs(nameof(EquipId));
-
-//    //private List<StatInfo> _statInfo;
-//    private string _equipId;
-
-
-//    public string EquipId
-//    {
-//        get
-//        {
-//            return _equipId;
-//        }
-//        private set
-//        {
-//            if (_equipId != value)
-//            {
-//                _equipId = value;
-//                OnPropertyChanged(EquipChanged);
-//            }
-//        }
-//    }
-
-//    //public IReadOnlyList<StatInfo> StatInfo
-//    //{
-//    //    get { return _statInfo; }
-//    //}
-
-//  
-//public ItemModel(ItemData itemData)
-//{
-//   
-//    //_statInfo = new List<StatInfo>() { new StatInfo(StatType.Atk, 10) };
-//}
-
-//    public void Equip(string id)
-//    {
-//        if (EquipId != null)
-//        {
-//            return;
-//        }
-
-//        EquipId = id;
-//    }
-
-//    public void UnEquip()
-//    {
-//        if (EquipId == null)
-//        {
-//            return;
-//        }
-
-//        EquipId = null;
-//    }
-
 
 public class InventoryModel : INotifyPropertyChanged
 {
@@ -336,7 +303,7 @@ public class InventoryModel : INotifyPropertyChanged
         return filteredItems;
     }
 
-    public IReadOnlyDictionary<string, MaterialModel> GetItemsByMaterialType(MaterialType materialType)
+    public IReadOnlyDictionary<string, MaterialModel> GetItemsByMaterialType(CurrencyType materialType)
     {
         Dictionary<string, MaterialModel> filteredItems = new Dictionary<string, MaterialModel>();
 
@@ -358,49 +325,11 @@ public class InventoryModel : INotifyPropertyChanged
         return filteredItems;
     }
 
-    //public void AddItem()
-    //{
-    //    if (_itemList.TryGetValue(itemId, out ItemModel item))
-    //    {
-    //        item.AddCount(amount);
-    //    }
-    //    else
-    //    {
-    //        _itemList.Add(itemId, new ItemModel(itemId, path, amount, equipType, tier, itemType, Value));
-    //    }
-
-    //    OnPropertyChanged(InventoryChanged);
-    //}
-    
     //TODO Test용 추후 삭제바람
     public void AddExpItem(MaterialModel materialModel)
     {
         _inventory.Add(materialModel.DataId, materialModel);
     }
-
-    //public bool RemoveItem(string itemId, int amount)
-    //{
-    //    if (!_inventory.TryGetValue(itemId, out ItemModel item))
-    //    {
-    //        return false;
-    //    }
-
-    //    if (item.Count < amount)
-    //    {
-    //        return false;
-    //    }
-
-    //    item.RemoveCount(amount);
-
-    //    if (item.Count == 0)
-    //    {
-    //        _itemList.Remove(itemId);
-    //    }
-
-    //    OnPropertyChanged(InventoryChanged);
-
-    //    return true;
-    //}
 
     private void OnPropertyChanged(PropertyChangedEventArgs propertyChangedEventArgs)
     {

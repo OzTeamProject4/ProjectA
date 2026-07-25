@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
@@ -62,7 +61,7 @@ public struct StatData
         Hp += statData.Hp;
         Attack += statData.Attack;
         Defense += statData.Defense;
-
+        MoveSpeed += statData.MoveSpeed;
     }
 }
 
@@ -70,7 +69,8 @@ public class StudentModel : INotifyPropertyChanged
 {
     private static readonly PropertyChangedEventArgs NameChanged = new PropertyChangedEventArgs(nameof(Name));
     private static readonly PropertyChangedEventArgs StarChanged = new PropertyChangedEventArgs(nameof(Star));
-    private static readonly PropertyChangedEventArgs TotalExperienceChanged = new PropertyChangedEventArgs(nameof(TotalExperience));
+    private static readonly PropertyChangedEventArgs ElementTypeChanged = new PropertyChangedEventArgs(nameof(ElementType));
+    private static readonly PropertyChangedEventArgs CurrentExperienceChanged = new PropertyChangedEventArgs(nameof(CurrentExperience));
     private static readonly PropertyChangedEventArgs LevelChanged = new PropertyChangedEventArgs(nameof(Level));
     private static readonly PropertyChangedEventArgs IsMaxLevelChanged = new PropertyChangedEventArgs(nameof(IsMaxLevel));
     private static readonly PropertyChangedEventArgs HpChanged = new PropertyChangedEventArgs(nameof(TotalHp));
@@ -87,7 +87,7 @@ public class StudentModel : INotifyPropertyChanged
     private string _name;
     private int _star;
     private ElementType _elementType;
-    private int _totalExperience;
+    private int _currentExperience;
     private int _level;
     private string _fullBodyKey;
     private string _portraitKey;
@@ -96,7 +96,10 @@ public class StudentModel : INotifyPropertyChanged
     private StudentLevelData _currentLevelData;
 
     private readonly Dictionary<EquipType, string> _equippedItemIds;
+    private readonly StatData _growthPerLevel;
     private readonly Dictionary<StatType, float> _baseStats;
+    private readonly Dictionary<StatType, float> _levelStats;
+    private readonly Dictionary<StatType, float> _gradeStats;
     private readonly Dictionary<StatType, float> _equipmentStats;
 
     public string DataId
@@ -123,10 +126,12 @@ public class StudentModel : INotifyPropertyChanged
             {
                 _star = value;
 
-                //TODO 승급시 캐릭터 스텟 반영 메서드 호출
                 TryUpdateCurrentGradeData();
 
                 OnPropertyChanged(StarChanged);
+
+                RecalculateStats();
+                OnPropertyChanged(IsMaxLevelChanged);
             }
         }
     }
@@ -160,18 +165,18 @@ public class StudentModel : INotifyPropertyChanged
         get { return _elementType; }
     }
 
-    public int TotalExperience
+    public int CurrentExperience
     {
-        get { return _totalExperience; }
+        get { return _currentExperience; }
         private set
         {
-            if (_totalExperience == value)
+            if (_currentExperience == value)
             {
                 return;
             }
 
-            _totalExperience = value;
-            OnPropertyChanged(TotalExperienceChanged);
+            _currentExperience = value;
+            OnPropertyChanged(CurrentExperienceChanged);
         }
     }
 
@@ -190,11 +195,12 @@ public class StudentModel : INotifyPropertyChanged
         {
             if (_level != value)
             {
-                //TODO레벨업 시 스탯 반영 메서드 추가
-
                 _level = value;
                 TryUpdateCurrentLevelData();
                 OnPropertyChanged(LevelChanged);
+                OnPropertyChanged(IsMaxLevelChanged);
+
+                RecalculateStats();
             }
         }
     }
@@ -209,22 +215,22 @@ public class StudentModel : INotifyPropertyChanged
 
     public float TotalHp
     {
-        get { return _baseStats[StatType.Hp] + _equipmentStats[StatType.Hp]; }
+        get { return _baseStats[StatType.Hp] + _levelStats[StatType.Hp] + _gradeStats[StatType.Hp] + _equipmentStats[StatType.Hp]; }
     }
 
     public float TotalAttack
     {
-        get { return _baseStats[StatType.Attack] + _equipmentStats[StatType.Attack]; }
+        get { return _baseStats[StatType.Attack] + _levelStats[StatType.Attack] + _gradeStats[StatType.Attack] + _equipmentStats[StatType.Attack]; }
     }
 
     public float TotalDefense
     {
-        get { return _baseStats[StatType.Defense] + _equipmentStats[StatType.Defense]; }
+        get { return _baseStats[StatType.Defense] + _levelStats[StatType.Defense] + _gradeStats[StatType.Defense] + _equipmentStats[StatType.Defense]; }
     }
 
     public float TotalMoveSpeed
     {
-        get { return _baseStats[StatType.MoveSpeed] + _equipmentStats[StatType.MoveSpeed]; }
+        get { return _baseStats[StatType.MoveSpeed] + _levelStats[StatType.MoveSpeed] + _gradeStats[StatType.MoveSpeed] + _equipmentStats[StatType.MoveSpeed]; }
     }
 
     public string FullBodyKey
@@ -254,22 +260,31 @@ public class StudentModel : INotifyPropertyChanged
         _elementType = studentData.ElementType;
         _fullBodyKey = studentData.FullBodyKey;
         _portraitKey = studentData.PortraitKey;
-        _totalExperience = 0;
-        _level = CalculateLevel();
+        _currentExperience = 0;
+        _level = 1;
 
         TryUpdateCurrentGradeData();
         TryUpdateCurrentLevelData();
 
         _equippedItemIds = new Dictionary<EquipType, string>();
-        _baseStats = CreateStatDictionary(new StatData(studentData.BaseHp, studentData.BaseAttack, studentData.BaseDefense, studentData.BaseMoveSpeed));
-        _equipmentStats = GetEquipmentStats();
+
+        _growthPerLevel = new StatData(studentData.HpGrow, studentData.AtkGrow, studentData.DefGrow, studentData.MoveSpeedGrow);
+
+        _baseStats = new Dictionary<StatType, float>();
+        _levelStats = new Dictionary<StatType, float>();
+        _gradeStats = new Dictionary<StatType, float>();
+        _equipmentStats = new Dictionary<StatType, float>();
+
+        FillStatDictionary(_baseStats, new StatData(studentData.BaseHp, studentData.BaseAttack, studentData.BaseDefense, studentData.BaseMoveSpeed));
+        RecalculateStats();
     }
 
     public void NotifyAllProperties()
     {
         OnPropertyChanged(NameChanged);
         OnPropertyChanged(StarChanged);
-        OnPropertyChanged(TotalExperienceChanged);
+        OnPropertyChanged(ElementTypeChanged);
+        OnPropertyChanged(CurrentExperienceChanged);
         OnPropertyChanged(LevelChanged);
         OnPropertyChanged(IsMaxLevelChanged);
         OnPropertyChanged(HpChanged);
@@ -306,45 +321,53 @@ public class StudentModel : INotifyPropertyChanged
         return true;
     }
 
-    private int CalculateLevel()
+    private static void FillStatDictionary(Dictionary<StatType, float> statDictionary, StatData statData)
     {
-        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, StudentLevelData> levelTable))
-        {
-            Debug.LogError("레벨 경험치 데이터를 찾을 수 없습니다.");
-            return -1;
-        }
-
-        int maxLevel = 1;
-
-        foreach (StudentLevelData levelData in levelTable.Values)
-        {
-            if (_totalExperience < levelData.RequiredExp)
-            {
-                return levelData.Level;
-            }
-
-            maxLevel = Math.Max(maxLevel, levelData.Level);
-        }
-
-        return maxLevel;
-    }
-
-    private Dictionary<StatType, float> CreateStatDictionary(StatData statData)
-    {
-        Dictionary<StatType, float> statDictionary = new Dictionary<StatType, float>();
-
         statDictionary[StatType.Hp] = statData.Hp;
         statDictionary[StatType.Attack] = statData.Attack;
         statDictionary[StatType.Defense] = statData.Defense;
         statDictionary[StatType.MoveSpeed] = statData.MoveSpeed;
-
-        return statDictionary;
     }
 
-    private Dictionary<StatType, float> GetEquipmentStats()
+    private void RecalculateStats()
+    {
+        UpdateLevelStats();
+        UpdateGradeStats();
+        UpdateEquipmentStats();
+        NotifyStatsChanged();
+    }
+
+    private void UpdateLevelStats()
+    {
+        int growthCount = _level - 1;
+
+        if (growthCount < 0)
+        {
+            growthCount = 0;
+        }
+
+        StatData levelStats = new StatData(
+            _growthPerLevel.Hp * growthCount,
+            _growthPerLevel.Attack * growthCount,
+            _growthPerLevel.Defense * growthCount,
+            _growthPerLevel.MoveSpeed * growthCount);
+
+        FillStatDictionary(_levelStats, levelStats);
+    }
+
+    private void UpdateGradeStats()
+    {
+        StatData gradeStats = new StatData(_currentGradeData.HpGrow, _currentGradeData.AtkGrow, _currentGradeData.DefGrow, _currentGradeData.MoveSpeedGrow);
+
+        FillStatDictionary(_gradeStats, gradeStats);
+    }
+
+    private void UpdateEquipmentStats()
     {
         StatData equipmentStats = new StatData();
 
+        //TODO 장비를 인스턴스 방식으로 바꾸면 여기 담기는 값이 InstanceId가 되므로,
+        //     인벤토리에서 인스턴스를 찾아 그 DataId로 EquipmentData를 조회하는 방향으로 교체 필요
         foreach (string itemId in _equippedItemIds.Values)
         {
             if (!GameManager.Instance.DataManager.TryGetData(itemId, out EquipmentData equipmentData))
@@ -357,11 +380,17 @@ public class StudentModel : INotifyPropertyChanged
             equipmentStats.AddStat(itemStats);
         }
 
-        Dictionary<StatType, float> equipmentStatsDictionary = CreateStatDictionary(equipmentStats);
-        return equipmentStatsDictionary;
+        FillStatDictionary(_equipmentStats, equipmentStats);
     }
 
-    //TODO 레벨업 로직 수정
+    private void NotifyStatsChanged()
+    {
+        OnPropertyChanged(HpChanged);
+        OnPropertyChanged(AttackChanged);
+        OnPropertyChanged(DefenseChanged);
+        OnPropertyChanged(MoveSpeedChanged);
+    }
+
     public bool TryAddExp(int amount)
     {
         if (amount <= 0)
@@ -375,17 +404,38 @@ public class StudentModel : INotifyPropertyChanged
             return false;
         }
 
-        TotalExperience += amount;
+        //TODO 여러 레벨이 한 번에 오르면 Level 세터가 매번 RecalculateStats를 불러 스탯 통지가 레벨 수만큼 나간다.
+        //     루프가 끝난 뒤 한 번만 재계산/통지하도록 묶는 것을 고려.
+        int gainedExperience = _currentExperience + amount;
 
-        while (TotalExperience >= _currentLevelData.RequiredExp)
+        while (!IsMaxLevel)
         {
+            int requiredExperience = _currentLevelData.RequiredExp;
+
+            if (requiredExperience <= 0)
+            {
+                break;
+            }
+
+            if (gainedExperience < requiredExperience)
+            {
+                break;
+            }
+
+            gainedExperience -= requiredExperience;
             Level++;
         }
+
+        if (IsMaxLevel && gainedExperience > _currentLevelData.RequiredExp)
+        {
+            gainedExperience = _currentLevelData.RequiredExp;
+        }
+
+        CurrentExperience = gainedExperience;
 
         return true;
     }
 
-    //TODO 승급 로직 수정
     public bool TryGradeUp()
     {
         if (IsMaxStar)
@@ -398,8 +448,7 @@ public class StudentModel : INotifyPropertyChanged
             return false;
         }
 
-        //TODO 아이템 가져오기
-        if(!NetworkManagerTemp.Instance.InventoryModel.TryGetItem(_currentGradeData.RequiredGradeUpItemId, out ItemModel itemModel))
+        if (!NetworkManagerTemp.Instance.InventoryModel.TryGetItem(_currentGradeData.RequiredGradeUpItemId, out ItemModel itemModel))
         {
             return false;
         }
@@ -409,13 +458,10 @@ public class StudentModel : INotifyPropertyChanged
             return false;
         }
 
-        if (materialModel.Count < _currentGradeData.RequiredGradeUpItemCount)
+        if (!materialModel.TryConsume(_currentGradeData.RequiredGradeUpItemCount))
         {
             return false;
         }
-
-        //TODO 아이템 소비
-        //materialModel.Count -= _currentGradeData.RequiredGradeUpItemCount;
 
         Star++;
 

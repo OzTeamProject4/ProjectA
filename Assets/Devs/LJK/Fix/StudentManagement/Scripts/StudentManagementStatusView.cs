@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class StudentManagementStatusView : MonoBehaviour
 {
+    private const string StatValueFormat = "0.##";
+
     [Header("Tab")]
     [SerializeField] private TabButton _statTabButton;
     [SerializeField] private TabButton _skillTabButton;
@@ -27,6 +29,8 @@ public class StudentManagementStatusView : MonoBehaviour
     {
         _statTabButton.OnTabClicked += HandleStatTabClicked;
         _skillTabButton.OnTabClicked += HandleSkillTabClicked;
+
+        HandleStatTabClicked();
     }
 
     private void OnDisable()
@@ -35,25 +39,24 @@ public class StudentManagementStatusView : MonoBehaviour
         _skillTabButton.OnTabClicked -= HandleSkillTabClicked;
     }
 
-    //TODO 스탯별 문자열 수정
     public void UpdateHpText(float value)
     {
-        _hpText.text = value.ToString();
+        _hpText.text = value.ToString(StatValueFormat);
     }
 
     public void UpdateAttackText(float value)
     {
-        _attackText.text = value.ToString();
+        _attackText.text = value.ToString(StatValueFormat);
     }
 
     public void UpdateDefenseText(float value)
     {
-        _defenseText.text = value.ToString();
+        _defenseText.text = value.ToString(StatValueFormat);
     }
 
     public void UpdateMoveSpeedText(float value)
     {
-        _moveSpeedText.text = value.ToString();
+        _moveSpeedText.text = value.ToString(StatValueFormat);
     }
 
     private void HandleStatTabClicked()

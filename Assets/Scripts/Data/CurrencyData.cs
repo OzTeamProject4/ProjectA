@@ -1,7 +1,8 @@
 ﻿public class CurrencyData : BaseData
 {
     public string Name { get; init; }
-    public CurrencyType Type { get; init; }
+    public CurrencyType CurrencyType { get; init; }
+    public string Tier { get; init; }
     public string ReqItemId { get; init; }
     public int ReqItemCount { get; init; }
     public int Value { get; init; }

@@ -48,9 +48,3 @@ public class EquipmentData : BaseData
     }
 }
 
-public class MaterialData : BaseData
-{
-    public MaterialType MaterialType { get; init; }
-    public int Tier { get; init; }
-    public int Value { get; init; }
-}
