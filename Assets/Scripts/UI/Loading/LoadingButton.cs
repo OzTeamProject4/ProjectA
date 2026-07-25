@@ -4,6 +4,14 @@ public class LoadingButton : BaseButton
 {
     protected override void OnButtonClick()
     {
-        GameManager.Instance.UIManager.OpenStudentManagementListAsync().Forget();
+        CompleteLoadingAsync().Forget();
+    }
+
+    private async UniTask CompleteLoadingAsync()
+    {
+        await GameManager.Instance.UIManager.OpenOverlayUIAsync();
+        GameManager.Instance.UIManager.CloseLoadingUI();
+        await GameManager.Instance.UIManager.OpenLobbyAsync();
+        GameManager.Instance.UIManager.CloseOverlayUI();
     }
 }

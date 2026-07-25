@@ -1,18 +1,16 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class CharacterAttack : MonoBehaviour
 {
     [SerializeField] private Transform _firePoint;
     //TODO 희준 : 임시 공격 쿨타임 추후 변경필요
-    [SerializeField] private float _attackCooldown = 1.0f;
 
-    private float _lastAttackTime;
-
-    public void FireProjectile(GameObject prefab, Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float explosionRadius = 0)
+    public void FireProjectile(string prefabKey, Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float projectileSpeed, float explosionRadius = 0)
     {
-        if (prefab == null)
+        if (string.IsNullOrEmpty(prefabKey) == true)
         {
-            Debug.LogError($"투사체 프리팹이 null ");
+            Debug.LogError($"투사체 키가 비어있음");
             return;
         }
 
@@ -22,22 +20,27 @@ public class CharacterAttack : MonoBehaviour
             return;
         }
 
-        if (target == null)
-        {
-            return;
-        }
+        FireProjectileAsync(prefabKey, target, damage, owner, gaugeRecovery, projectileSpeed, explosionRadius).Forget();
+    }
 
-        if (Time.time - _lastAttackTime < _attackCooldown)
+    private async UniTaskVoid FireProjectileAsync(string prefabKey, Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float projectileSpeed, float explosionRadius)
+    {
+        try
         {
-            return;
-        }
+            GameObject projectile = await GameManager.Instance.ObjectManager.SpawnAsync(prefabKey, null, _firePoint.position, _firePoint.rotation, destroyCancellationToken);
+            if (projectile == null)
+            {
+                return;
+            }
 
-        GameObject projectile = Instantiate(prefab, _firePoint.position, _firePoint.rotation);
-        Projectile projectileComponent = projectile.GetComponent<Projectile>();
-        if (projectileComponent != null)
-        {
-            projectileComponent.Launch(target, damage, owner, gaugeRecovery, explosionRadius);
+            if (projectile.TryGetComponent(out Projectile projectileComponent) == true)
+            {
+                projectileComponent.Launch(target, damage, owner, gaugeRecovery, projectileSpeed, explosionRadius);
+            }
         }
-        _lastAttackTime = Time.time;
+        catch (System.OperationCanceledException)
+        {
+
+        }
     }
 }

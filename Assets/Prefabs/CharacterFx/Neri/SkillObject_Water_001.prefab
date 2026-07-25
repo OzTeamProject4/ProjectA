@@ -95,10 +95,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 605c9978d1e762d4aba979293b6803ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  _speed: 15
   _turnSpeed: 200
   _lifeTime: 3
   _hitEffectPrefab: {fileID: 1687680602027628, guid: f5b029d2009302e4d82f947277914624, type: 3}
+  _obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1001 &783103833857156921
 PrefabInstance:
   m_ObjectHideFlags: 0

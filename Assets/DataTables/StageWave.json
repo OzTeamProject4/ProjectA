@@ -1,0 +1,72 @@
+[
+  {
+    "DataId": "Stage_001_Wave_1",
+    "StageId": "Stage_001",
+    "WaveNumber": 1,
+    "MonsterIdList": "Enemy_Wizard_Fire_01",
+    "MonsterCount": "10"
+  },
+  {
+    "DataId": "Stage_001_Wave_2",
+    "StageId": "Stage_001",
+    "WaveNumber": 2,
+    "MonsterIdList": "Enemy_Wizard_Fire_01",
+    "MonsterCount": "10"
+  },
+  {
+    "DataId": "Stage_001_Wave_3",
+    "StageId": "Stage_001",
+    "WaveNumber": 3,
+    "MonsterIdList": "Enemy_Wizard_Fire_01",
+    "MonsterCount": "10"
+  },
+  {
+    "DataId": "Stage_002_Wave_1",
+    "StageId": "Stage_002",
+    "WaveNumber": 1,
+    "MonsterIdList": "Enemy_Wizard_Fire_01",
+    "MonsterCount": "15"
+  },
+  {
+    "DataId": "Stage_002_Wave_2",
+    "StageId": "Stage_002",
+    "WaveNumber": 2,
+    "MonsterIdList": "Enemy_Wizard_Fire_01",
+    "MonsterCount": "15"
+  },
+  {
+    "DataId": "Stage_002_Wave_3",
+    "StageId": "Stage_002",
+    "WaveNumber": 3,
+    "MonsterIdList": "Enemy_Wizard_Fire_01",
+    "MonsterCount": "15"
+  },
+  {
+    "DataId": "Stage_003_Wave_1",
+    "StageId": "Stage_003",
+    "WaveNumber": 1,
+    "MonsterIdList": "Enemy_Wizard_Fire_01",
+    "MonsterCount": "20"
+  },
+  {
+    "DataId": "Stage_003_Wave_2",
+    "StageId": "Stage_003",
+    "WaveNumber": 2,
+    "MonsterIdList": "Enemy_Wizard_Fire_01",
+    "MonsterCount": "20"
+  },
+  {
+    "DataId": "Stage_003_Wave_3",
+    "StageId": "Stage_003",
+    "WaveNumber": 3,
+    "MonsterIdList": "Enemy_Wizard_Fire_01",
+    "MonsterCount": "20"
+  },
+  {
+    "DataId": "Stage_003_Wave_4",
+    "StageId": "Stage_003",
+    "WaveNumber": 4,
+    "MonsterIdList": "Enemy_Wizard_Fire_01",
+    "MonsterCount": "20"
+  }
+]

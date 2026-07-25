@@ -2,6 +2,7 @@
 using System;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(Rigidbody))]
 
@@ -15,7 +16,7 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     private const float RunSpeedMultiplier = 2.0f;
     // TODO 희준 캐릭터 모델링시 수치 변화 필요
     [SerializeField] private float _jumpForce = 5f;
-    [SerializeField] private float _groundCheckDistance = 0.05f; 
+    [SerializeField] private float _groundCheckDistance = 0.1f; 
     [SerializeField] private float _rotationSpeed = 4.0f;
     [SerializeField] private Transform _groundCheckPoint;
     [SerializeField] private Transform _modelTransform;
@@ -34,6 +35,7 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     private float _maxHp;
     private float _baseMoveSpeed;
     private CancellationTokenSource _buffCts;
+    private NavMeshAgent _navMeshAgent;
 
     public string CharacterName
     {
@@ -73,6 +75,14 @@ public class BattleCharacter : MonoBehaviour, IDamageable
             return _data.Type;   
         }
     }
+    public NavMeshAgent NavMeshAgent
+    {
+        get
+        {
+            return _navMeshAgent;
+        }
+    }
+
     public event Action<float> OnMoveSpeedChanged;
     public event Action<bool> OnGroundedChanged;
 
@@ -81,9 +91,16 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+
+        if (_navMeshAgent != null)
+        {
+            _navMeshAgent.updatePosition = false;
+            _navMeshAgent.updateRotation = false;
+            _navMeshAgent.updateUpAxis = false;
+        }
     }
 
-   
     private void Update()
     {
         if (_groundCheckPoint == null)
@@ -97,8 +114,6 @@ public class BattleCharacter : MonoBehaviour, IDamageable
             OnGroundedChanged?.Invoke(grounded);
             _wasGrounded = grounded;
         }
-
-        Debug.DrawRay(_groundCheckPoint.position, Vector3.down * _groundCheckDistance, Color.red);
     }
 
     private void OnDestroy()
@@ -106,19 +121,19 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         _buffCts?.Cancel();
         _buffCts?.Dispose();
     }
-    public async UniTask InitializeAsync(CharacterData data, StatData stats)
+    public async UniTask InitializeAsync(CharacterData data)
     {
         _data = data;
-        _curHp = stats.Hp;
-        _curAtk = stats.Atk;
-        _curDef = stats.Def;
-        _curMoveSpeed = stats.MoveSpeed;
+        _curHp = data.Hp;
+        _curAtk = data.Attack;
+        _curDef = data.Defence;
+        _curMoveSpeed = data.MoveSpeed;
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
         _curSkillGauge = 0;
-        _maxHp = stats.Hp;
-        _curMoveSpeed = stats.MoveSpeed;
+        _maxHp = data.Hp;
+        _curMoveSpeed = data.MoveSpeed;
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
-        _baseMoveSpeed = stats.MoveSpeed;
+        _baseMoveSpeed = data.MoveSpeed;
 
         CharacterSkillSystem skillSystem = GetComponent<CharacterSkillSystem>();
         if (skillSystem != null)
@@ -127,9 +142,9 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         }
     }
 
-    public void Move(Vector3 moveDirection, bool isRunning)
+    public void Move(Vector3 moveDirection, bool isRunning, bool rotateToMoveDirection = true)
     {
-        // Debug.Log($"Move 호출: {moveDirection}");
+        moveDirection.y = 0;
         float speed = isRunning ? _curRunSpeed : _curMoveSpeed;
         Vector3 velocity = moveDirection * speed;
         velocity.y = _rigidbody.linearVelocity.y;
@@ -154,7 +169,7 @@ public class BattleCharacter : MonoBehaviour, IDamageable
 
     public void Jump()
     {
-        if (IsGrounded() == false) 
+        if (IsGrounded() == false)
         {
             return;
         }
@@ -176,7 +191,9 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         {
             return false;
         }
-        return Physics.Raycast(_groundCheckPoint.position, Vector3.down, _groundCheckDistance, _groundLayer, QueryTriggerInteraction.Ignore);
+
+        bool result = Physics.CheckSphere(_groundCheckPoint.position, _groundCheckDistance, _groundLayer, QueryTriggerInteraction.Ignore);
+        return result;
     }
 
     public void LookAt(Vector3 targetPosition)
@@ -259,5 +276,23 @@ public class BattleCharacter : MonoBehaviour, IDamageable
 
         _curMoveSpeed = _baseMoveSpeed;
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (null == _groundCheckPoint)
+        {
+            return;
+        }
+
+        if (null == _rigidbody)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(_groundCheckPoint.position, _groundCheckDistance);
+            return;
+        }
+
+        Gizmos.color = IsGrounded() ? Color.green : Color.red;
+        Gizmos.DrawWireSphere(_groundCheckPoint.position, _groundCheckDistance);
     }
 }

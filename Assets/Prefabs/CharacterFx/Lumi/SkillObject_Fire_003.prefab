@@ -70,7 +70,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7c4943c126669a64ca1c516d07a41687, type: 2}
+  - {fileID: 2100000, guid: f3468535fd941e94892902558305471e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -154,10 +154,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 605c9978d1e762d4aba979293b6803ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  _speed: 15
   _turnSpeed: 200
   _lifeTime: 3
   _hitEffectPrefab: {fileID: 1767841913861676, guid: 2233ba7a50bbefa45a070511462024ac, type: 3}
+  _obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1001 &5193866241188172110
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -6,10 +6,10 @@ public class Projectile : MonoBehaviour
     private const string EnemyTag = "Enemy";
     private const float HitEffectLifeTime = 3.0f;
 
-    [SerializeField] private float _speed = 5.0f;
     [SerializeField] private float _turnSpeed = 200.0f;
     [SerializeField] private float _lifeTime = 3.0f;
     [SerializeField] private GameObject _hitEffectPrefab;
+    [SerializeField] private LayerMask _obstacleLayer;
 
     private Rigidbody _rigidbody;
     private Transform _target;
@@ -17,6 +17,8 @@ public class Projectile : MonoBehaviour
     private CharacterSkillSystem _ownerSkillSystem;
     private int _gaugeRecovery;
     private float _explosionRadius;
+    private float _projectileSpeed;
+    private float _spawnTime = float.MaxValue;
     
     private void Awake()
     {
@@ -25,16 +27,30 @@ public class Projectile : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_target == null)
+        if (_target != null)
         {
+            Vector3 direction = (_target.position - transform.position).normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            _rigidbody.rotation = Quaternion.RotateTowards(_rigidbody.rotation, targetRotation, _turnSpeed * Time.fixedDeltaTime);
+        }
+
+        _rigidbody.linearVelocity = transform.forward * _projectileSpeed;
+
+        float checkDistance = _projectileSpeed * Time.fixedDeltaTime;
+        if (Physics.Raycast(transform.position, transform.forward, checkDistance, _obstacleLayer, QueryTriggerInteraction.Ignore) == true)
+        {
+            SpawnHitEffect();
+            GameManager.Instance.ObjectManager.Despawn(gameObject);
+
             return;
         }
 
-        Vector3 direction = (_target.position - transform.position).normalized;
+        if (Time.time - _spawnTime >= _lifeTime)
+        {
+            SpawnHitEffect();
+            GameManager.Instance.ObjectManager.Despawn(gameObject);
 
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        _rigidbody.rotation = Quaternion.RotateTowards(_rigidbody.rotation, targetRotation, _turnSpeed * Time.fixedDeltaTime);
-        _rigidbody.linearVelocity = transform.forward * _speed;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -61,24 +77,28 @@ public class Projectile : MonoBehaviour
                 _ownerSkillSystem.AddGauge(_gaugeRecovery);
             }
 
-            if (_hitEffectPrefab != null)
-            {
-                GameObject hitEffect = Instantiate(_hitEffectPrefab, transform.position, Quaternion.identity);
-                Destroy(hitEffect, HitEffectLifeTime);
-            }
+            SpawnHitEffect();
 
-            Destroy(gameObject);
+            GameManager.Instance.ObjectManager.Despawn(gameObject);
         }
     }
-    public void Launch(Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float explosionRadius)
+    public void Launch(Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float projectileSpeed, float explosionRadius)
     {
+        _rigidbody.linearVelocity = Vector3.zero;
+        _rigidbody.angularVelocity = Vector3.zero;
         _target = target;
         _damage = damage;
         _ownerSkillSystem = owner;
         _gaugeRecovery = gaugeRecovery;
         _explosionRadius = explosionRadius;
-        transform.rotation = Quaternion.LookRotation((target.position - transform.position).normalized);
-        Destroy(gameObject, _lifeTime);
+        _projectileSpeed = projectileSpeed;
+        _spawnTime = Time.time;
+
+        if (target != null)
+        {
+            transform.rotation = Quaternion.LookRotation((target.position - transform.position).normalized);
+        }
+
     }
 
     private void DealSingleDamage(Collider other)
@@ -111,5 +131,16 @@ public class Projectile : MonoBehaviour
                 damageable.TakeDamage(_damage, _ownerSkillSystem.gameObject);
             }    
         }
+    }
+
+    private void SpawnHitEffect()
+    {
+        if (_hitEffectPrefab == null)
+        {
+            return;
+        }
+
+        GameObject hitEffect = Instantiate(_hitEffectPrefab, transform.position, Quaternion.identity);
+        Destroy(hitEffect, HitEffectLifeTime);
     }
 }

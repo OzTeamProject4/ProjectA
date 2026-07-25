@@ -67,4 +67,5 @@ public class CharacterAIController : MonoBehaviour
     {
         _agent.SetVariableValue("EnemyTarget", (GameObject)null);
     }
+
 }

@@ -56,9 +56,17 @@ public class DataManager : BaseManager<DataManager>
             new LoadingTask(LoadingStep.LoadStudentGradeData, AddressableKey.Data.StudentGradeData, LoadDataAsync<StudentGradeData>),
             new LoadingTask(LoadingStep.LoadStudentLevelData, AddressableKey.Data.StudentLevelData, LoadDataAsync<StudentLevelData>),
             new LoadingTask(LoadingStep.LoadItemData, AddressableKey.Data.Item, LoadDataAsync<ItemData>),
+            new LoadingTask(LoadingStep.LoadCurrencyData, AddressableKey.Data.Currency, LoadDataAsync<CurrencyData>),
             new LoadingTask(LoadingStep.LoadEquipmentData, AddressableKey.Data.Equipment, LoadDataAsync<EquipmentData>),
             new LoadingTask(LoadingStep.LoadSignatureData, AddressableKey.Data.Signature, LoadDataAsync<SignatureData>),
-            new LoadingTask(LoadingStep.LoadSkillData, AddressableKey.Data.CharacterSkill, LoadDataAsync<CharacterSkillData>)
+            new LoadingTask(LoadingStep.LoadSkillData, AddressableKey.Data.CharacterSkill, LoadDataAsync<CharacterSkillData>),
+                        new LoadingTask(LoadingStep.LoadStageData, AddressableKey.Data.Stage, LoadDataAsync<StageData>),
+            new LoadingTask(LoadingStep.LoadStageWaveData, AddressableKey.Data.StageWave, LoadDataAsync<StageWaveData>),
+            new LoadingTask(LoadingStep.LoadEnemyData, AddressableKey.Data.Enemy, LoadDataAsync<EnemyData>),
+            new LoadingTask(LoadingStep.LoadEnemySkillData, AddressableKey.Data.EnemySkill, LoadDataAsync<EnemySkillData>)
+
+
+
         };
 
         return jobs;
@@ -180,7 +188,7 @@ public class DataManager : BaseManager<DataManager>
         {
             Debug.LogError($"[{nameof(DataManager)}:{nameof(LoadDataTableAsync)}] 데이터 테이블 로드 중 오류가 발생했습니다.\n{exception}");
         }
-        
+
         return null;
     }
 }

@@ -1,12 +1,12 @@
-using Unity.VisualScripting;
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainDungeonButtonView : MonoBehaviour
+[RequireComponent(typeof(Button))]
+public sealed class MainDungeonButtonView : MonoBehaviour
 {
-    [SerializeField] private GameObject _screenRoot;
-    [SerializeField] private GameObject _stageSelectScreen;
-
     private Button _button;
 
     private void Awake()
@@ -26,21 +26,46 @@ public class MainDungeonButtonView : MonoBehaviour
 
     private void OnButtonClicked()
     {
-        if (_screenRoot == null)
+        if (GameManager.Instance == null)
         {
-            Debug.LogError("ScreenRoot is not assigned.");
+            Debug.LogError(
+                "[MainDungeonButtonView] GameManager.Instance가 존재하지 않습니다.");
             return;
         }
 
-        if (_stageSelectScreen == null)
+        UIManager uiManager = GameManager.Instance.UIManager;
+
+        if (uiManager == null)
         {
-            Debug.LogError("StageSelectScreen is not assigned.");
+            Debug.LogError(
+                "[MainDungeonButtonView] UIManager가 존재하지 않습니다.");
             return;
         }
 
-        _screenRoot.SetActive(true);
-        _stageSelectScreen.SetActive(true);
+        OpenStageSelectScreenAsync(
+            uiManager,
+            destroyCancellationToken).Forget();
+    }
 
-        Debug.Log("Stage Select Screen Opened");
+    private async UniTask OpenStageSelectScreenAsync(
+        UIManager uiManager,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            await uiManager.OpenStageSelectScreenAsync(
+                cancellationToken);
+
+            uiManager.ClosePracticeFieldScreen();
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        catch (Exception exception)
+        {
+            Debug.LogError(
+                $"[MainDungeonButtonView] StageSelectScreen을 열지 못했습니다.\n{exception}");
+        }
     }
 }

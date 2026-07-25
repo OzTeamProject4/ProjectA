@@ -1,65 +1,154 @@
-using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class LobbyView : MonoBehaviour
+public sealed class LobbyView : BaseUI
 {
     [SerializeField] private Button _profileButton;
     [SerializeField] private Button _giftBoxButton;
     [SerializeField] private Button _settingButton;
     [SerializeField] private Button _missionButton;
     [SerializeField] private Button _achievementButton;
-
     [SerializeField] private Button _dictionaryButton;
     [SerializeField] private Button _characterGachaButton;
     [SerializeField] private Button _inventoryButton;
-    [SerializeField] private Button _farmingDungeonButton;
-    [SerializeField] private Button _mainDungeonButton;
     [SerializeField] private Button _characterButton;
-
 
     private void OnEnable()
     {
         Debug.Log("LobbyView Enabled");
-        RegisterButtonEvent();
+
+        RegisterButtonEvents();
     }
 
     private void OnDisable()
     {
-        UnRegisterButtonEvents();
+        UnregisterButtonEvents();
     }
 
-    private void RegisterButtonEvent()
+    private void RegisterButtonEvents()
     {
+        if (!ValidateButtons())
+        {
+            return;
+        }
+
         _profileButton.onClick.AddListener(OnProfileButtonClicked);
         _giftBoxButton.onClick.AddListener(OnGiftBoxButtonClicked);
         _settingButton.onClick.AddListener(OnSettingButtonClicked);
         _missionButton.onClick.AddListener(OnMissionButtonClicked);
         _achievementButton.onClick.AddListener(OnAchievementButtonClicked);
-
         _dictionaryButton.onClick.AddListener(OnDictionaryButtonClicked);
         _characterGachaButton.onClick.AddListener(OnCharacterGachaButtonClicked);
         _inventoryButton.onClick.AddListener(OnInventoryButtonClicked);
-        _farmingDungeonButton.onClick.AddListener(OnFarmingDungeonButtonClicked);
-        _mainDungeonButton.onClick.AddListener(OnmainDungeonButtonClicked);
-        _characterButton.onClick.AddListener(OncharacterButtonClicked);
-
+        _characterButton.onClick.AddListener(OnCharacterButtonClicked);
     }
 
-    private void UnRegisterButtonEvents()
+    private void UnregisterButtonEvents()
     {
-        _profileButton.onClick.RemoveListener(OnProfileButtonClicked);
-        _giftBoxButton.onClick.RemoveListener(OnGiftBoxButtonClicked);
-        _settingButton.onClick.RemoveListener(OnSettingButtonClicked);
-        _missionButton.onClick.RemoveListener(OnMissionButtonClicked);
-        _achievementButton.onClick.RemoveListener(OnAchievementButtonClicked);
+        if (_profileButton != null)
+        {
+            _profileButton.onClick.RemoveListener(OnProfileButtonClicked);
+        }
 
-        _dictionaryButton.onClick.RemoveListener(OnDictionaryButtonClicked);
-        _characterGachaButton.onClick.RemoveListener(OnCharacterGachaButtonClicked);
-        _inventoryButton.onClick.RemoveListener(OnInventoryButtonClicked);
-        _farmingDungeonButton.onClick.RemoveListener(OnFarmingDungeonButtonClicked);
-        _mainDungeonButton.onClick.RemoveListener(OnmainDungeonButtonClicked);
-        _characterButton.onClick.RemoveListener(OncharacterButtonClicked);
+        if (_giftBoxButton != null)
+        {
+            _giftBoxButton.onClick.RemoveListener(OnGiftBoxButtonClicked);
+        }
 
+        if (_settingButton != null)
+        {
+            _settingButton.onClick.RemoveListener(OnSettingButtonClicked);
+        }
+
+        if (_missionButton != null)
+        {
+            _missionButton.onClick.RemoveListener(OnMissionButtonClicked);
+        }
+
+        if (_achievementButton != null)
+        {
+            _achievementButton.onClick.RemoveListener(OnAchievementButtonClicked);
+        }
+
+        if (_dictionaryButton != null)
+        {
+            _dictionaryButton.onClick.RemoveListener(OnDictionaryButtonClicked);
+        }
+
+        if (_characterGachaButton != null)
+        {
+            _characterGachaButton.onClick.RemoveListener(
+                OnCharacterGachaButtonClicked);
+        }
+
+        if (_inventoryButton != null)
+        {
+            _inventoryButton.onClick.RemoveListener(OnInventoryButtonClicked);
+        }
+
+        if (_characterButton != null)
+        {
+            _characterButton.onClick.RemoveListener(OnCharacterButtonClicked);
+        }
+    }
+
+    private bool ValidateButtons()
+    {
+        if (_profileButton == null)
+        {
+            Debug.LogError("[LobbyView] ProfileButton이 할당되지 않았습니다.");
+            return false;
+        }
+
+        if (_giftBoxButton == null)
+        {
+            Debug.LogError("[LobbyView] GiftBoxButton이 할당되지 않았습니다.");
+            return false;
+        }
+
+        if (_settingButton == null)
+        {
+            Debug.LogError("[LobbyView] SettingButton이 할당되지 않았습니다.");
+            return false;
+        }
+
+        if (_missionButton == null)
+        {
+            Debug.LogError("[LobbyView] MissionButton이 할당되지 않았습니다.");
+            return false;
+        }
+
+        if (_achievementButton == null)
+        {
+            Debug.LogError("[LobbyView] AchievementButton이 할당되지 않았습니다.");
+            return false;
+        }
+
+        if (_dictionaryButton == null)
+        {
+            Debug.LogError("[LobbyView] DictionaryButton이 할당되지 않았습니다.");
+            return false;
+        }
+
+        if (_characterGachaButton == null)
+        {
+            Debug.LogError("[LobbyView] CharacterGachaButton이 할당되지 않았습니다.");
+            return false;
+        }
+
+        if (_inventoryButton == null)
+        {
+            Debug.LogError("[LobbyView] InventoryButton이 할당되지 않았습니다.");
+            return false;
+        }
+
+        if (_characterButton == null)
+        {
+            Debug.LogError("[LobbyView] CharacterButton이 할당되지 않았습니다.");
+            return false;
+        }
+
+        return true;
     }
 
     private void OnProfileButtonClicked()
@@ -102,18 +191,8 @@ public class LobbyView : MonoBehaviour
         Debug.Log("Inventory Button Clicked");
     }
 
-    private void OnFarmingDungeonButtonClicked()
+    private void OnCharacterButtonClicked()
     {
-        Debug.Log("FarmingDungeon Button Clicked");
-    }
-
-    private void OnmainDungeonButtonClicked()
-    {
-        Debug.Log("mainDungeon Button Clicked");
-    }
-
-    private void OncharacterButtonClicked()
-    {
-        Debug.Log("characterButton Button Clicked");
+        Debug.Log("Character Button Clicked");
     }
 }

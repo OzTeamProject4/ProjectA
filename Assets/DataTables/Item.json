@@ -1,101 +1,167 @@
 [
   {
+    "DataId": "Item_Gold",
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_Gold"
+  },
+  {
+    "DataId": "Item_Crystal",
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_Crystal"
+  },
+  {
     "DataId": "Item_ExpBook_Small",
-    "Name": "경험치북(소)",
-    "Type": "ExpBook",
-    "Gold": 100,
-    "Crystal": 0,
-    "Value": 100,
-    "SpritePath": "Sprites/Items[Items_ExpBook_1]"
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_ExpBook_Small"
   },
   {
     "DataId": "Item_ExpBook_Medium",
-    "Name": "경험치북(중)",
-    "Type": "ExpBook",
-    "Gold": 200,
-    "Crystal": 0,
-    "Value": 250,
-    "SpritePath": "Sprites/Items[Items_ExpBook_2]"
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_ExpBook_Medium"
   },
   {
     "DataId": "Item_ExpBook_Large",
-    "Name": "경험치북(대)",
-    "Type": "ExpBook",
-    "Gold": 400,
-    "Crystal": 0,
-    "Value": 500,
-    "SpritePath": "Sprites/Items[Items_ExpBook_3]"
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_ExpBook_Large"
   },
   {
     "DataId": "Item_Ticket_Sweep",
-    "Name": "소탕권",
-    "Type": "Ticket",
-    "Gold": 200,
-    "Crystal": 0,
-    "Value": 1,
-    "SpritePath": null
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_Ticket_Sweep"
   },
   {
     "DataId": "Item_Ticket_Gacha",
-    "Name": "뽑기권",
-    "Type": "Ticket",
-    "Gold": 0,
-    "Crystal": 100,
-    "Value": 1,
-    "SpritePath": null
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_Ticket_Gacha"
   },
   {
     "DataId": "Item_Ticket_GoldDungeon",
-    "Name": "골드 던전 티켓",
-    "Type": "Ticket",
-    "Gold": 200,
-    "Crystal": 0,
-    "Value": 1,
-    "SpritePath": null
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_Ticket_GoldDungeon"
   },
   {
     "DataId": "Item_Ticket_ExpDungeon",
-    "Name": "경험치 던전 티켓",
-    "Type": "Ticket",
-    "Gold": 200,
-    "Crystal": 0,
-    "Value": 1,
-    "SpritePath": null
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_Ticket_ExpDungeon"
   },
   {
     "DataId": "Item_Mat_T1",
-    "Name": "마나 결정(T1)",
-    "Type": "Material",
-    "Gold": -1,
-    "Crystal": -1,
-    "Value": 1,
-    "SpritePath": "Sprites/Items[Items_Mat_Tier1]"
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_Mat_T1"
   },
   {
     "DataId": "Item_Mat_T2",
-    "Name": "마나 결정(T2)",
-    "Type": "Material",
-    "Gold": -1,
-    "Crystal": -1,
-    "Value": 1,
-    "SpritePath": "Sprites/Items[Items_Mat_Tier2]"
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_Mat_T2"
   },
   {
     "DataId": "Item_Mat_T3",
-    "Name": "마나 결정(T3)",
-    "Type": "Material",
-    "Gold": -1,
-    "Crystal": -1,
-    "Value": 1,
-    "SpritePath": "Sprites/Items[Items_Mat_Tier3]"
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_Mat_T3"
   },
   {
     "DataId": "Item_Mat_Signature",
-    "Name": "응축된 마력석",
-    "Type": "Material",
-    "Gold": -1,
-    "Crystal": -1,
-    "Value": 1,
-    "SpritePath": null
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_Mat_Signature"
+  },
+  {
+    "DataId": "Item_Equipment_01",
+    "ItemType": "Equipment",
+    "ForeignKey": "Equip_Weapon_01"
+  },
+  {
+    "DataId": "Item_Equipment_02",
+    "ItemType": "Equipment",
+    "ForeignKey": "Equip_Weapon_02"
+  },
+  {
+    "DataId": "Item_Equipment_03",
+    "ItemType": "Equipment",
+    "ForeignKey": "Equip_Weapon_03"
+  },
+  {
+    "DataId": "Item_Equipment_04",
+    "ItemType": "Equipment",
+    "ForeignKey": "Equip_Hat_01"
+  },
+  {
+    "DataId": "Item_Equipment_05",
+    "ItemType": "Equipment",
+    "ForeignKey": "Equip_Hat_02"
+  },
+  {
+    "DataId": "Item_Equipment_06",
+    "ItemType": "Equipment",
+    "ForeignKey": "Equip_Hat_03"
+  },
+  {
+    "DataId": "Item_Equipment_07",
+    "ItemType": "Equipment",
+    "ForeignKey": "Equip_Armor_01"
+  },
+  {
+    "DataId": "Item_Equipment_08",
+    "ItemType": "Equipment",
+    "ForeignKey": "Equip_Armor_02"
+  },
+  {
+    "DataId": "Item_Equipment_09",
+    "ItemType": "Equipment",
+    "ForeignKey": "Equip_Armor_03"
+  },
+  {
+    "DataId": "Item_Equipment_10",
+    "ItemType": "Equipment",
+    "ForeignKey": "Equip_Boots_01"
+  },
+  {
+    "DataId": "Item_Equipment_11",
+    "ItemType": "Equipment",
+    "ForeignKey": "Equip_Boots_02"
+  },
+  {
+    "DataId": "Item_Equipment_12",
+    "ItemType": "Equipment",
+    "ForeignKey": "Equip_Boots_03"
+  },
+  {
+    "DataId": "Item_Equipment_13",
+    "ItemType": "Equipment",
+    "ForeignKey": "Equip_Accessory_01"
+  },
+  {
+    "DataId": "Item_Equipment_14",
+    "ItemType": "Equipment",
+    "ForeignKey": "Equip_Accessory_02"
+  },
+  {
+    "DataId": "Item_Equipment_15",
+    "ItemType": "Equipment",
+    "ForeignKey": "Equip_Accessory_03"
+  },
+  {
+    "DataId": "Item_Signature_01",
+    "ItemType": "Signature",
+    "ForeignKey": "Equip_Signature_01"
+  },
+  {
+    "DataId": "Item_Signature_02",
+    "ItemType": "Signature",
+    "ForeignKey": "Equip_Signature_02"
+  },
+  {
+    "DataId": "Item_Signature_03",
+    "ItemType": "Signature",
+    "ForeignKey": "Equip_Signature_03"
+  },
+  {
+    "DataId": "Item_Signature_04",
+    "ItemType": "Signature",
+    "ForeignKey": "Equip_Signature_04"
+  },
+  {
+    "DataId": "Item_Signature_05",
+    "ItemType": "Signature",
+    "ForeignKey": "Equip_Signature_05"
   }
 ]
