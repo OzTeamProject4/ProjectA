@@ -352,6 +352,8 @@ public class StageManager : BaseManager <StageManager>
         }
 
         await battleManager.EnterBattle(spawnPoint.position, stageData.DataId, battleCamera, partyIds);
+
+        await GameManager.Instance.UIManager.OpenBattleHUDAsync(destroyCancellationToken);
     }
 
     private void DeactivateSelectMap()
@@ -449,6 +451,8 @@ public class StageManager : BaseManager <StageManager>
 
     private async UniTask TransitionToSelectAsync()
     {
+        GameManager.Instance.UIManager.CloseBattleHUD();
+
         if (null == _battleMap)
         {
             return;
