@@ -6,7 +6,7 @@ public class StageSelectMapViewModel
 {
     private readonly StageProgressModel _progressModel;
     private readonly ScreenStateModel _screenStateModel;
-    private readonly CharacterListModel _characterListModel;
+    private readonly StudentListModel _characterListModel;
     private readonly StagePlayerParty _playerParty;
 
     private StageInfoPopupViewModel _stageInfoViewModel;
@@ -14,7 +14,7 @@ public class StageSelectMapViewModel
     public event Action<StageInfoPopupViewModel> OnStageInfoPopupOpenRequested;
     public event Action OnStageInfoPopupCloseRequested;
 
-    public StageSelectMapViewModel(StageProgressModel progressModel, ScreenStateModel screenStateModel, StagePlayerParty playerParty, CharacterListModel characterListModel)
+    public StageSelectMapViewModel(StageProgressModel progressModel, ScreenStateModel screenStateModel, StagePlayerParty playerParty, StudentListModel characterListModel)
     {
         if (null == progressModel || null == screenStateModel || null == playerParty || null == characterListModel)
         {

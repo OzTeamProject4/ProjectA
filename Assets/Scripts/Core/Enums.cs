@@ -36,9 +36,9 @@ public enum LoadingStep
 {
     None,
     Initialize,
-    LoadCharacterData,
-    LoadCharacterGradeData,
-    LoadLevelExpData,
+    LoadStudentData,
+    LoadStudentGradeData,
+    LoadStudentLevelData,
     LoadItemData,
     LoadCurrencyData,
     LoadEquipmentData,
@@ -81,7 +81,8 @@ public enum ItemType
 {
     Currency,
     Equipment,
-    Signature
+    Signature,
+    Material
 }
 
 public enum CurrencyType
@@ -108,4 +109,9 @@ public enum ScreenType
     Lobby,
     StageSelect,
     Battle
+}
+
+public enum MaterialType
+{
+    Exp
 }

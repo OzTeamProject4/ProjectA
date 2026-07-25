@@ -883,6 +883,8 @@ GameObject:
   - component: {fileID: 3180813134403130776}
   - component: {fileID: 2707637192763787928}
   - component: {fileID: 3672102949798009704}
+  - component: {fileID: 9055874820597789601}
+  - component: {fileID: 9055874820597789600}
   m_Layer: 0
   m_Name: '@Managers'
   m_TagString: Untagged
@@ -890,6 +892,31 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &9055874820597789600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9055874820597789599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fceef11ce8623dc4ba28e7fadfe5193c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleManager
+--- !u!114 &9055874820597789601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9055874820597789599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cea2bec015a0e8c4380c819a2806a201, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StageManager
+  _playerPartyPrefab: {fileID: 2275099353202050293, guid: 458d120f1d331624d8f0ebe1d8f339a7, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

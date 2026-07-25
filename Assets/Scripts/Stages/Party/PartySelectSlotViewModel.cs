@@ -2,7 +2,7 @@
 
 public class PartySelectSlotViewModel
 {
-    private readonly CharacterModel _model;
+    private readonly StudentModel _model;
 
     public string DataId
     {
@@ -13,7 +13,7 @@ public class PartySelectSlotViewModel
                 return string.Empty;
             }
 
-            return _model.Id;
+            return _model.DataId;
         }
     }
 
@@ -52,11 +52,11 @@ public class PartySelectSlotViewModel
                 return null;
             }
 
-            return _model.IconPath;
+            return _model.PortraitKey;
         }
     }
 
-    public PartySelectSlotViewModel(CharacterModel model)
+    public PartySelectSlotViewModel(StudentModel model)
     {
         if (null == model)
         {

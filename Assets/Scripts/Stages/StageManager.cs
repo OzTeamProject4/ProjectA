@@ -104,7 +104,7 @@ public class StageManager : BaseManager <StageManager>
 
         _playerParty = SpawnPlayerParty();
 
-        CharacterListModel characterListModel = GetCharacterListModel();
+        StudentListModel characterListModel = GetCharacterListModel();
 
         if (null == characterListModel)
         {
@@ -201,7 +201,7 @@ public class StageManager : BaseManager <StageManager>
         return root.PlayerParty;
     }
 
-    private CharacterListModel GetCharacterListModel()
+    private StudentListModel GetCharacterListModel()
     {
         if (null == NetworkManagerTemp.Instance)
         {
@@ -209,7 +209,7 @@ public class StageManager : BaseManager <StageManager>
             return null;
         }
 
-        return NetworkManagerTemp.Instance.GetcharacterListModel();
+        return NetworkManagerTemp.Instance.StudentListModel;
     }
 
     private StageData GetStage(string stageId)

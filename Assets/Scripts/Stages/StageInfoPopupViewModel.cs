@@ -9,10 +9,10 @@ public class StageInfoPopupViewModel
     private readonly StageData _stageData;
     private readonly ScreenStateModel _screenStateModel;
     private readonly StageProgressModel _progressModel;
-    private readonly CharacterListModel _characterListModel;
+    private readonly StudentListModel _characterListModel;
     private readonly IReadOnlyList<StageWaveData> _waves;
 
-    private readonly CharacterModel[] _partySlots = new CharacterModel[PartySlotCount];
+    private readonly StudentModel[] _partySlots = new StudentModel[PartySlotCount];
 
     private PartySelectPopupViewModel _partySelectViewModel;
     private int _selectingSlotIndex = -1;
@@ -40,7 +40,7 @@ public class StageInfoPopupViewModel
     public event Action OnPartySelectCloseRequested;
     public event Action<int> OnPartySlotChanged;
 
-    public StageInfoPopupViewModel(StageData stageData, IReadOnlyList<StageWaveData> waves, ScreenStateModel screenStateModel, StageProgressModel progressModel, CharacterListModel characterListModel)
+    public StageInfoPopupViewModel(StageData stageData, IReadOnlyList<StageWaveData> waves, ScreenStateModel screenStateModel, StageProgressModel progressModel, StudentListModel characterListModel)
     {
         if (null == stageData)
         {
@@ -76,14 +76,14 @@ public class StageInfoPopupViewModel
             return null;
         }
 
-        CharacterModel character = _partySlots[slotIndex];
+        StudentModel student = _partySlots[slotIndex];
 
-        if (null == character)
+        if (null == student)
         {
             return null;
         }
 
-        return character.IconPath;
+        return student.PortraitKey;
     }
 
     public void StartBattleCommand()
@@ -110,19 +110,19 @@ public class StageInfoPopupViewModel
     {
         List<string> partyIds = new List<string>();
 
-        foreach (CharacterModel character in _partySlots)
+        foreach (StudentModel student in _partySlots)
         {
-            if (null == character)
+            if (null == student)
             {
                 continue;
             }
 
-            if (string.IsNullOrEmpty(character.Id))
+            if (string.IsNullOrEmpty(student.DataId))
             {
                 continue;
             }
 
-            partyIds.Add(character.Id);
+            partyIds.Add(student.DataId);
         }
 
         return partyIds;
@@ -186,7 +186,7 @@ public class StageInfoPopupViewModel
 
         _selectingSlotIndex = slotIndex;
 
-        IReadOnlyList<CharacterModel> candidates = GetCandidateCharacters();
+        IReadOnlyList<StudentModel> candidates = GetCandidateCharacters();
 
         _partySelectViewModel = new PartySelectPopupViewModel(candidates);
         _partySelectViewModel.OnCharacterSelected += HandleCharacterSelected;
@@ -195,17 +195,17 @@ public class StageInfoPopupViewModel
         OnPartySelectOpenRequested?.Invoke(_partySelectViewModel);
     }
 
-    private IReadOnlyList<CharacterModel> GetCandidateCharacters()
+    private IReadOnlyList<StudentModel> GetCandidateCharacters()
     {
         if (null == _characterListModel)
         {
-            return Array.Empty<CharacterModel>();
+            return Array.Empty<StudentModel>();
         }
 
-        return _characterListModel.CharacterIdList;
+        return _characterListModel.StudentList;
     }
 
-    private void HandleCharacterSelected(CharacterModel character)
+    private void HandleCharacterSelected(StudentModel character)
     {
         if (_selectingSlotIndex >= 0 && _selectingSlotIndex < _partySlots.Length)
         {

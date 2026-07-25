@@ -26,24 +26,14 @@
             return null;
         }
 
-        if (null == item || string.IsNullOrEmpty(item.ForeignKey))
+        if (null == item || string.IsNullOrEmpty(item.TypeDataId))
         {
             return null;
         }
 
-        if (item.ItemType == ItemType.Currency)
+        if (GameManager.Instance.DataManager.TryGetData(item.TypeDataId, out ItemData data))
         {
-            if (GameManager.Instance.DataManager.TryGetData(item.ForeignKey, out CurrencyData currency))
-            {
-                return currency.SpritePath;
-            }
-
-            return null;
-        }
-
-        if (GameManager.Instance.DataManager.TryGetData(item.ForeignKey, out EquipmentData equipment))
-        {
-            return equipment.SpritePath;
+            return data.IconKey;
         }
 
         return null;

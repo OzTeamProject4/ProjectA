@@ -110,9 +110,9 @@ public class NetworkManagerTemp : MonoBehaviour
     {
         InventoryModel inventoryModel = new InventoryModel();
 
-        MaterialModel materialModel1 = new MaterialModel(new ItemData { Name = "초급 경험치 책", Description = "학생에게 사용하면 경험치를 획득합니다.", IconKey = "Sprites/Items[Items_ExpBook_1]", ItemType = ItemType.Material, DataId = "1" },1, 10, 10);
-        MaterialModel materialModel2 = new MaterialModel(new ItemData { Name = "초급 경험치 책", Description = "학생에게 사용하면 경험치를 획득합니다.", IconKey = "Sprites/Items[Items_ExpBook_1]", ItemType = ItemType.Material, DataId = "2" },2, 20, 10);
-        MaterialModel materialModel3 = new MaterialModel(new ItemData { Name = "초급 경험치 책", Description = "학생에게 사용하면 경험치를 획득합니다.", IconKey = "Sprites/Items[Items_ExpBook_1]", ItemType = ItemType.Material, DataId = "3" },3, 30, 10);
+        MaterialModel materialModel1 = new MaterialModel(new ItemData { Name = "초급 경험치 책", Description = "학생에게 사용하면 경험치를 획득합니다.", IconKey = "Sprites/Items[Items_ExpBook_1]", ItemType = ItemType.Material, DataId = "1" }, 10);
+        MaterialModel materialModel2 = new MaterialModel(new ItemData { Name = "초급 경험치 책", Description = "학생에게 사용하면 경험치를 획득합니다.", IconKey = "Sprites/Items[Items_ExpBook_1]", ItemType = ItemType.Material, DataId = "2" }, 10);
+        MaterialModel materialModel3 = new MaterialModel(new ItemData { Name = "초급 경험치 책", Description = "학생에게 사용하면 경험치를 획득합니다.", IconKey = "Sprites/Items[Items_ExpBook_1]", ItemType = ItemType.Material, DataId = "3" }, 10);
 
         inventoryModel.AddExpItem(materialModel1);
         inventoryModel.AddExpItem(materialModel2);
