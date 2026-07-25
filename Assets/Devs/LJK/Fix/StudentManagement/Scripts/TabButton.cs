@@ -7,6 +7,12 @@ public class TabButton : BaseButton
 
     public event Action OnTabClicked;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        UnityUtil.ValidateReference(_contentPanel, nameof(TabButton), nameof(_contentPanel));
+    }
+
     protected override void OnButtonClick()
     {
         if (OnTabClicked == null)

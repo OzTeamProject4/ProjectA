@@ -13,6 +13,16 @@ public class StudentManagementStatusView : MonoBehaviour
     [SerializeField] private TMP_Text _defenseText;
     [SerializeField] private TMP_Text _moveSpeedText;
 
+    private void Awake()
+    {
+        UnityUtil.ValidateReference(_statTabButton, nameof(StudentManagementStatusView), nameof(_statTabButton));
+        UnityUtil.ValidateReference(_skillTabButton, nameof(StudentManagementStatusView), nameof(_skillTabButton));
+        UnityUtil.ValidateReference(_hpText, nameof(StudentManagementStatusView), nameof(_hpText));
+        UnityUtil.ValidateReference(_attackText, nameof(StudentManagementStatusView), nameof(_attackText));
+        UnityUtil.ValidateReference(_defenseText, nameof(StudentManagementStatusView), nameof(_defenseText));
+        UnityUtil.ValidateReference(_moveSpeedText, nameof(StudentManagementStatusView), nameof(_moveSpeedText));
+    }
+
     private void OnEnable()
     {
         _statTabButton.OnTabClicked += HandleStatTabClicked;

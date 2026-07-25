@@ -13,10 +13,10 @@ public class StudentManagementView : BaseUI
 
     private void Awake()
     {
-        UnityUtil.ValidateReference(_studentManagementExperienceView, nameof(StudentManagementExperienceView), nameof(_studentManagementExperienceView));
-        UnityUtil.ValidateReference(_studentManagementInfoView, nameof(StudentManagementExperienceView), nameof(_studentManagementInfoView));
-        UnityUtil.ValidateReference(_studentManagementEquipmentView, nameof(StudentManagementExperienceView), nameof(_studentManagementEquipmentView));
-        UnityUtil.ValidateReference(_studentManagementStatusView, nameof(StudentManagementExperienceView), nameof(_studentManagementStatusView));
+        UnityUtil.ValidateReference(_studentManagementExperienceView, nameof(StudentManagementView), nameof(_studentManagementExperienceView));
+        UnityUtil.ValidateReference(_studentManagementInfoView, nameof(StudentManagementView), nameof(_studentManagementInfoView));
+        UnityUtil.ValidateReference(_studentManagementEquipmentView, nameof(StudentManagementView), nameof(_studentManagementEquipmentView));
+        UnityUtil.ValidateReference(_studentManagementStatusView, nameof(StudentManagementView), nameof(_studentManagementStatusView));
 
         _studentManagementViewModel = new StudentManagementViewModel();
     }

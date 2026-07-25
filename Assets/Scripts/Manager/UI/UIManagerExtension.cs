@@ -55,15 +55,19 @@ public static class UIManagerExtension
     }
 
     public static async UniTask OpenExperienceInventoryPopupAsync(this UIManager uiManager, StudentModel studentModel, CancellationToken cancellationToken = default)
-    { 
+    {
         BaseUI baseUI = await uiManager.OpenOverlayRootAsync(UIType.ExperienceInventoryPopup, cancellationToken);
-        //if (baseUI is ExpItemSelectPopupView expItemSelectPopupView)
-        //{
-        //    expItemSelectPopupView.Init(characterModel);
-        //}
+
+        if (baseUI is not ExperienceInventoryPopupView experienceInventoryPopupView)
+        {
+            Debug.LogError("ExperienceInventoryPopupView 타입이 아닙니다.");
+            return;
+        }
+
+        experienceInventoryPopupView.SetModel(studentModel);
     }
 
-    public static void CloseExpItemSelectPopup(this UIManager uiManager)
+    public static void CloseExperienceInventoryPopup(this UIManager uiManager)
     {
         uiManager.Close(UIType.ExperienceInventoryPopup);
     }

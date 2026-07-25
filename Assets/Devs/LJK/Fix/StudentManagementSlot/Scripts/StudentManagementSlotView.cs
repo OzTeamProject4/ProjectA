@@ -21,6 +21,10 @@ public class StudentManagementSlotView : MonoBehaviour
 
     private void Awake()
     {
+        UnityUtil.ValidateReference(_slotButton, nameof(StudentManagementSlotView), nameof(_slotButton));
+        UnityUtil.ValidateReference(_portraitImage, nameof(StudentManagementSlotView), nameof(_portraitImage));
+        UnityUtil.ValidateReference(_nameText, nameof(StudentManagementSlotView), nameof(_nameText));
+
         _studentManagementSlotViewModel = new StudentManagementSlotViewModel();
     }
 

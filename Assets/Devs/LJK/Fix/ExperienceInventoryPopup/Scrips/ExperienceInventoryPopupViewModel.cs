@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 public class ExperienceInventoryPopupViewModel
 {
@@ -18,14 +17,7 @@ public class ExperienceInventoryPopupViewModel
 
     public void SetModel(StudentModel characterModel)
     {
-        if (_studentModel != null)
-        {
-            _studentModel.PropertyChanged -= OnPropertyChanged;
-        }
-
         _studentModel = characterModel;
-        _studentModel.PropertyChanged += OnPropertyChanged;
-
         ExperienceItems = _inventoryModel.GetItemsByMaterialType(MaterialType.Exp);
     }
 
@@ -43,17 +35,6 @@ public class ExperienceInventoryPopupViewModel
             return;
         }
 
-        _studentModel.PropertyChanged -= OnPropertyChanged;
         _studentModel = null;
-    }
-
-    private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-        if (PropertyChanged == null)
-        {
-            return;
-        }
-
-        PropertyChanged.Invoke(e.PropertyName);
     }
 }
