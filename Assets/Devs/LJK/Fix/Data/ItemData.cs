@@ -1,18 +1,22 @@
-﻿public class EquipmentData : BaseData
+﻿public class ItemData : BaseData
 {
     public string Name { get; init; }
-    public EquipType Type { get; init; }
-    public string AllowedId { get; init; }
-    public int Gold { get; init; }
+    public string Description { get; init; }
+    public ItemType ItemType { get; init; }
+    public string IconKey { get; init; }
+    public string TypeDataId { get; init; }
+}
+
+public class EquipmentData : BaseData
+{ 
+    public EquipType EquipType { get; init; }
+    public int RequiredGold { get; init; }
     public string RequiredItemId { get; init; }
     public string RequiredItemCount { get; init; }
-    public float BonusRate { get; init; }
-    public float MaxHp { get; init; }
-    public float Atk { get; init; }
-    public float Def { get; init; }
+    public float Hp { get; init; }
+    public float Attack { get; init; }
+    public float Defense { get; init; }
     public float MoveSpeed { get; init; }
-    public string SpritePath { get; init; }
-    public string Description { get; init; }
 
     private string[] _requiredItemIds;
     private int[] _requiredItemCounts;
@@ -42,14 +46,11 @@
             return _requiredItemCounts;
         }
     }
+}
 
-    public bool TryGetRequiredMaterials(out (string ItemId, int Count)[] materials)
-    {
-        if (!Util.TryPairMaterials(RequiredItemIds, RequiredItemCounts, out materials))
-        {
-            return false;
-        }
-
-        return true;
-    }
+public class MaterialData : BaseData
+{
+    public MaterialType MaterialType { get; init; }
+    public int Tier { get; init; }
+    public int Value { get; init; }
 }

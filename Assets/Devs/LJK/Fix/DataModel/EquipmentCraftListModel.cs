@@ -16,6 +16,18 @@ public class EquipmentCraftListModel
 
     public IReadOnlyList<EquipmentCraftModel> GetEquipmentCraftsByEquipType(EquipType equipType)
     {
-        return null;
+        List<EquipmentCraftModel> filteredCraftModels = new();
+
+        foreach (EquipmentCraftModel craftModel in _equipmentCraftModels)
+        {
+            if (craftModel.EquipType != equipType)
+            {
+                continue;
+            }
+
+            filteredCraftModels.Add(craftModel);
+        }
+
+        return filteredCraftModels;
     }
 }

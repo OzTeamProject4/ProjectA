@@ -2,14 +2,11 @@
 {
     StudentManagementList,
     StudentManagement,
-
-    ExpItemSelectPopup,
-    CraftPopup,
-    EquipmentListPopup,
-    EquipmentDetailPopup,
-    ItemPreviewPopup,
-
-
+    ExperienceInventoryPopup,
+    EquipmentInventoryPopup,
+    EquipmentInfoPopup,
+    EquipmentCraftPopup,
+    CraftEquipmentInfoPopup,
     Overlay,
     Loading
 }
@@ -24,9 +21,9 @@ public enum LoadingStep
 {
     None,
     Initialize,
-    LoadCharacterData,
-    LoadCharacterGradeData,
-    LoadLevelExpData,
+    LoadStudentData,
+    LoadStudentGradeData,
+    LoadStudentLevelData,
     LoadItemData,
     LoadEquipmentData,
     LoadSignatureData,
@@ -55,29 +52,4 @@ public enum RollType
 {
     Attacker,
     Buffer
-}
-
-public enum ItemType
-{
-    ExpBook,
-    Ticket,
-    Material
-}
-
-public enum EquipType
-{
-    Weapon,
-    Helmet,
-    Armor,
-    Greeve,
-    Accessory,
-    Signature
-}
-
-public enum StatType
-{
-    MaxHp,
-    Atk,
-    Def,
-    MoveSpeed
 }

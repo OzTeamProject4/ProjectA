@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "DataId": "Star_1",
     "Star": 1,
@@ -43,7 +43,7 @@
     "DataId": "Star_5",
     "Star": 5,
     "MaxLevel": 30,
-    "RequiredToNext": 32,
+    "RequiredToNext": 0,
     "HpGrow": 50,
     "AtkGrow": 7,
     "DefGrow": 6,

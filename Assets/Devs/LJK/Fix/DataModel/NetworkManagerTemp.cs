@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class ItemDataTemp
 {
@@ -17,7 +16,7 @@ public class NetworkManagerTemp : MonoBehaviour
     public static NetworkManagerTemp Instance { get; private set; }
     private StudentListModel _studentListModel;
     private InventoryModel _inventoryModel;
-    //private CraftModel _craftModel;
+    private EquipmentCraftListModel _equipmentCraftListModel;
 
     public StudentListModel StudentListModel
     {
@@ -42,6 +41,19 @@ public class NetworkManagerTemp : MonoBehaviour
             }
 
             return _inventoryModel;
+        }
+    }
+
+    public EquipmentCraftListModel EquipmentCraftListModel
+    {
+        get
+        {
+            if (_equipmentCraftListModel == null)
+            {
+                _equipmentCraftListModel = CreateEquipmentCraftListModel();
+            }
+
+            return _equipmentCraftListModel;
         }
     }
 
@@ -107,47 +119,37 @@ public class NetworkManagerTemp : MonoBehaviour
     private InventoryModel CreateInventoryModel()
     {
         InventoryModel inventoryModel = new InventoryModel();
+
+        MaterialModel materialModel1 = new MaterialModel(new ItemData { Name = "초급 경험치 책", Description = "학생에게 사용하면 경험치를 획득합니다.", IconKey = "Sprites/Items[Items_ExpBook_1]", ItemType = ItemType.Material, DataId = "1" },1, 10, 10);
+        MaterialModel materialModel2 = new MaterialModel(new ItemData { Name = "초급 경험치 책", Description = "학생에게 사용하면 경험치를 획득합니다.", IconKey = "Sprites/Items[Items_ExpBook_1]", ItemType = ItemType.Material, DataId = "2" },2, 20, 10);
+        MaterialModel materialModel3 = new MaterialModel(new ItemData { Name = "초급 경험치 책", Description = "학생에게 사용하면 경험치를 획득합니다.", IconKey = "Sprites/Items[Items_ExpBook_1]", ItemType = ItemType.Material, DataId = "3" },3, 30, 10);
+
+        inventoryModel.AddExpItem(materialModel1);
+        inventoryModel.AddExpItem(materialModel2);
+        inventoryModel.AddExpItem(materialModel3);
+
         return inventoryModel;
     }
 
-
-    //public CharacterModel GetcharacterModel(string id)
-    //{
-    //    if (!charModel.TryGetValue(id, out CharacterModel characterModel))
-    //    {
-    //        characterModel = new CharacterModel(new CharacterData(id, "1", 3, "Test"));
-    //        charModel[id] = characterModel;
-    //    }
-
-    //    return characterModel;
-    //}
-
-    //public CraftModel GetCraftModel()
-    //{
-    //    if (_craftModel == null)
-    //    {
-    //        _craftModel = CreateCraftModel();
-    //    }
-
-    //    return _craftModel;
-    //}
-
-    private CraftModel CreateCraftModel()
+    //TODO 데이터에 맞게 구조 수정
+    private EquipmentCraftListModel CreateEquipmentCraftListModel()
     {
-        if (!GameManager.Instance.DataManager.TryGetDataTable<EquipmentData>(out var dataTable))
+        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, EquipmentData> equipmentDataTable))
         {
             Debug.LogError("dasdad");
             return null;
         }
 
-        CraftModel craftModel = new CraftModel();
+        List<EquipmentCraftModel> equipmentCraftModels = new List<EquipmentCraftModel>();
 
-        foreach (EquipmentData item in dataTable.Values)
-        {
-            CraftItemModel craftItemModel = new CraftItemModel(item);
-            craftModel.AddCraftItem(craftItemModel);
-        }
+        //foreach (EquipmentData equipmentData in equipmentDataTable.Values)
+        //{
+        //    EquipmentCraftModel equipmentCraftModel = new EquipmentCraftModel(equipmentData);
+        //    equipmentCraftModels.Add(equipmentCraftModel);
+        //}
 
-        return craftModel;
+        EquipmentCraftListModel equipmentCraftListModel = new EquipmentCraftListModel(equipmentCraftModels);
+
+        return equipmentCraftListModel;
     }
 }

@@ -33,8 +33,8 @@ public class SplashUI : MonoBehaviour
         await PlaySplashAsync();
         await initializeManagersTask;
 
-        await GameManager.Instance.UIManager.OpenOverlayUIAsync();
-        await GameManager.Instance.UIManager.OpenLoadingUIAsync();
+        await GameManager.Instance.UIManager.OpenOverlayAsync();
+        await GameManager.Instance.UIManager.OpenLoadingAsync();
 
         Destroy(_splashRoot);
     }

@@ -44,15 +44,16 @@ public class LoadingSlider : MonoBehaviour
         UpdateLoadingText(loadingProgress.LoadingStep);
     }
 
+    //TODO 로딩 다듬기
     private void InitializeLoadingStepMessages()
     {
         _loadingStepMessages.Clear();
 
         _loadingStepMessages.Add(LoadingStep.Initialize, "Initializing...");
 
-        _loadingStepMessages.Add(LoadingStep.LoadCharacterData, "Preparing characters...");
-        _loadingStepMessages.Add(LoadingStep.LoadCharacterGradeData, "Preparing character grades...");
-        _loadingStepMessages.Add(LoadingStep.LoadLevelExpData, "Preparing level data...");
+        _loadingStepMessages.Add(LoadingStep.LoadStudentData, "Preparing students...");
+        _loadingStepMessages.Add(LoadingStep.LoadStudentGradeData, "Preparing students grade...");
+        _loadingStepMessages.Add(LoadingStep.LoadStudentLevelData, "Preparing students level...");
         _loadingStepMessages.Add(LoadingStep.LoadItemData, "Preparing items...");
         _loadingStepMessages.Add(LoadingStep.LoadEquipmentData, "Preparing equipment...");
         _loadingStepMessages.Add(LoadingStep.LoadSignatureData, "Preparing signatures...");

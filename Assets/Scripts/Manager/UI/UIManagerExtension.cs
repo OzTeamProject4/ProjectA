@@ -76,15 +76,13 @@ public static class UIManagerExtension
     {
         BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.EquipmentInventoryPopup, cancellationToken);
 
-        //if (baseUI is EquipmentListPopupView equipmentListPopupView)
-        //{
-        //    if (equipmentListPopupView._equipType == equipType && equipmentListPopupView._currentSelectedCharacterModel == characterModel)
-        //    {
-        //        return;
-        //    }
+        if (baseUI is not EquipmentInventoryPopupView equipmentInventoryPopupView)
+        {
+            Debug.LogError("EquipmentInventoryPopupView 타입이 아닙니다.");
+            return;
+        }
 
-        //    equipmentListPopupView.Init(equipType, characterModel);
-        //}
+        equipmentInventoryPopupView.SetModel(equipType, studentModel);
     }
 
     public static void CloseEquipmentInventoryPopup(this UIManager uiManager)
@@ -110,21 +108,19 @@ public static class UIManagerExtension
         uiManager.Close(UIType.EquipmentCraftPopup);
     }
 
-
-
-    //public static async UniTask OpenEquipmentDetailPopupAsync(this UIManager uiManager, CharacterModel characterModel, ItemModel itemModel, Vector3 position, CancellationToken cancellationToken = default)
-    //{
-    //    BaseUI baseUI = await uiManager.OpenOverlayRootAsync(UIType.EquipmentDetailPopup, cancellationToken);
-
-    //    if (baseUI is EquipmentDetailPopupView equipmentDetailPopupView)
-    //    {
-    //        equipmentDetailPopupView.Init(characterModel, itemModel, position);
-    //    }
-    //}
-
-    public static void CloseEquipmentDetailPopup(this UIManager uiManager)
+    public static async UniTask OpenEquipmentInfoPopupAsync(this UIManager uiManager, StudentModel studentModel, EquipmentModel equipmentModel, Vector3 position, CancellationToken cancellationToken = default)
     {
-        uiManager.Close(UIType.EquipmentDetailPopup);
+        BaseUI baseUI = await uiManager.OpenOverlayRootAsync(UIType.EquipmentInfoPopup, cancellationToken);
+
+        if (baseUI is EquipmentInfoPopupView equipmentInfoPopupView)
+        {
+            equipmentInfoPopupView.SetModel(equipmentModel, studentModel, position);
+        }
+    }
+
+    public static void CloseEquipmentInfoPopup(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.EquipmentInfoPopup);
     }
 
     public static async UniTask OpenCraftEquipmentInfoPopupAsync(this UIManager uiManager, EquipmentCraftModel equipmentCraftModel, Vector3 position, CancellationToken cancellationToken = default)
