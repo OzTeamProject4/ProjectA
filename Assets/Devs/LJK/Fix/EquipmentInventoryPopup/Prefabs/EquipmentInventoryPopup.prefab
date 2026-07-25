@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1118602171554680086}
   - component: {fileID: 5940780752459366563}
   m_Layer: 5
-  m_Name: EquipmentListPopup
+  m_Name: EquipmentInventoryPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,10 +49,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a6df1f386419545800a42aaa9a9e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentListPopupView
-  _nameText: {fileID: 2693491247277692543}
-  _itemPrefab: {fileID: 456567477267902336, guid: a3089e335db38c1488a6ef3448f872b3, type: 3}
-  _itemContainer: {fileID: 2025663568259794648}
-  _closeButton: {fileID: 1768940341127429492}
+  _titleText: {fileID: 2693491247277692543}
+  _slotPrefab: {fileID: 456567477267902336, guid: a3089e335db38c1488a6ef3448f872b3, type: 3}
+  _content: {fileID: 2025663568259794648}
 --- !u!1 &1262412222481494652
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,13 +281,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 429116786625553190}
-  m_Father: {fileID: 2290424571569163036}
+  m_Father: {fileID: 8329964920662144468}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 50}
-  m_Pivot: {x: 1, y: 1}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7306011474525203567
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -521,6 +520,56 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &3921593347027715564
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8329964920662144468}
+  - component: {fileID: 153151774837951418}
+  m_Layer: 0
+  m_Name: Close
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8329964920662144468
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3921593347027715564}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8575347509242990087}
+  m_Father: {fileID: 2290424571569163036}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 50}
+  m_Pivot: {x: 1, y: 1}
+--- !u!114 &153151774837951418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3921593347027715564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9f3b0c4f80c9a140b672d11b9f4daca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CloseEquipmentInventoryPopup
+  _button: {fileID: 1768940341127429492}
 --- !u!1 &4928372024688611155
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,8 +637,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Equipment List
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1a54afd0f966b35499955978365d998b, type: 2}
-  m_sharedMaterial: {fileID: 3085380701419683305, guid: 1a54afd0f966b35499955978365d998b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -688,7 +737,7 @@ RectTransform:
   m_Children:
   - {fileID: 86970121301798084}
   - {fileID: 6535906635571140926}
-  - {fileID: 8575347509242990087}
+  - {fileID: 8329964920662144468}
   - {fileID: 1283960231868073327}
   m_Father: {fileID: 1118602171554680086}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -764,8 +813,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: close
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1a54afd0f966b35499955978365d998b, type: 2}
-  m_sharedMaterial: {fileID: 3085380701419683305, guid: 1a54afd0f966b35499955978365d998b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

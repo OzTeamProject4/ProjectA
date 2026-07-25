@@ -1,24 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class ExperienceInventoryPopupViewModel
 {
     private StudentModel _studentModel;
-    private InventoryModel _inventoryModel;
 
-    public IReadOnlyDictionary<string, MaterialModel> ExperienceItems { get; private set; }   
-
-    public event Action<string> PropertyChanged;
-
-    public ExperienceInventoryPopupViewModel()
-    {
-        _inventoryModel = NetworkManagerTemp.Instance.InventoryModel;
-    }
+    public IReadOnlyDictionary<string, MaterialModel> ExperienceItems { get; private set; }
 
     public void SetModel(StudentModel characterModel)
     {
         _studentModel = characterModel;
-        ExperienceItems = _inventoryModel.GetItemsByMaterialType(MaterialType.Exp);
+
+        InventoryModel inventoryModel = NetworkManagerTemp.Instance.InventoryModel;
+        ExperienceItems = inventoryModel.GetItemsByMaterialType(MaterialType.Exp);
     }
 
     public void UseExpItem(MaterialModel materialModel)
@@ -28,7 +23,7 @@ public class ExperienceInventoryPopupViewModel
 
     public void Dispose()
     {
-        _inventoryModel = null;
+        ExperienceItems = null;
 
         if (_studentModel == null)
         {
