@@ -6,27 +6,6 @@ using UnityEngine;
 using static UnityEngine.CullingGroup;
 using static UnityEngine.Rendering.DebugUI;
 
-public enum ItemType
-{
-    Equipment,
-    Material
-}
-
-public enum MaterialType
-{
-    Exp,
-}
-
-public enum EquipType
-{
-    Weapon,
-    Helmet,
-    Armor,
-    Greeve,
-    Accessory,
-    Signature
-}
-
 public class ItemModel : INotifyPropertyChanged
 {
     private static readonly PropertyChangedEventArgs NameChanged = new PropertyChangedEventArgs(nameof(Name));
@@ -145,14 +124,6 @@ public class MaterialModel : ItemModel
                 OnPropertyChanged(CountChanged);
             }
         }
-    }
-
-    public MaterialModel(ItemData itemData, int tier,  int value, int count) : base(itemData)
-    {
-        _materialType = MaterialType.Exp;
-        _tier = tier;
-        _value = value;
-        _count = count;
     }
 
     public MaterialModel(ItemData itemData, int count) : base(itemData)

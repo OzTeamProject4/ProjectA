@@ -1,16 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemDataTemp
-{
-    public string IconPath;
-
-    public ItemDataTemp(string path)
-    {
-        IconPath = path;
-    }
-}
-
 public class NetworkManagerTemp : MonoBehaviour
 {
     public static NetworkManagerTemp Instance { get; private set; }

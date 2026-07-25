@@ -84,7 +84,7 @@ public class StageManager : BaseManager <StageManager>
             return;
         }
 
-        await GameManager.Instance.UIManager.OpenOverlayUIAsync();
+        await GameManager.Instance.UIManager.OpenOverlayAsync();
 
         _screenStateModel = new ScreenStateModel(ScreenType.StageSelect);
         _screenStateModel.OnScreenChanged += HandleScreenChanged;
@@ -116,7 +116,7 @@ public class StageManager : BaseManager <StageManager>
         _selectMap.Bind(_selectMapViewModel);
 
         _hasEntered = true;
-        GameManager.Instance.UIManager.CloseOverlayUI();
+        GameManager.Instance.UIManager.CloseOverlay();
     }
 
     private void ReEnter()
@@ -248,7 +248,7 @@ public class StageManager : BaseManager <StageManager>
 
     private async UniTask TransitionToBattleAsync()
     {
-        await GameManager.Instance.UIManager.OpenOverlayUIAsync();
+        await GameManager.Instance.UIManager.OpenOverlayAsync();
 
         try
         {
@@ -256,7 +256,7 @@ public class StageManager : BaseManager <StageManager>
         }
         finally
         {
-            GameManager.Instance.UIManager.CloseOverlayUI();
+            GameManager.Instance.UIManager.CloseOverlay();
         }
     }
 
@@ -458,7 +458,7 @@ public class StageManager : BaseManager <StageManager>
             return;
         }
 
-        await GameManager.Instance.UIManager.OpenOverlayUIAsync();
+        await GameManager.Instance.UIManager.OpenOverlayAsync();
 
         try
         {
@@ -472,7 +472,7 @@ public class StageManager : BaseManager <StageManager>
         }
         finally
         {
-            GameManager.Instance.UIManager.CloseOverlayUI();
+            GameManager.Instance.UIManager.CloseOverlay();
         }
     }
 }

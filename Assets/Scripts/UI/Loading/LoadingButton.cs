@@ -9,9 +9,9 @@ public class LoadingButton : BaseButton
 
     private async UniTask CompleteLoadingAsync()
     {
-        await GameManager.Instance.UIManager.OpenOverlayUIAsync();
-        GameManager.Instance.UIManager.CloseLoadingUI();
+        await GameManager.Instance.UIManager.OpenOverlayAsync();
+        GameManager.Instance.UIManager.CloseLoading();
         await GameManager.Instance.UIManager.OpenLobbyAsync();
-        GameManager.Instance.UIManager.CloseOverlayUI();
+        GameManager.Instance.UIManager.CloseOverlay();
     }
 }
