@@ -127,19 +127,22 @@ public static class UIManagerExtension
         uiManager.Close(UIType.EquipmentDetailPopup);
     }
 
-    public static async UniTask OpenCraftItemInfoPopupAsync(this UIManager uiManager, string id, Vector3 position, CancellationToken cancellationToken = default)
+    public static async UniTask OpenCraftEquipmentInfoPopupAsync(this UIManager uiManager, EquipmentCraftModel equipmentCraftModel, Vector3 position, CancellationToken cancellationToken = default)
     {
-        BaseUI baseUI = await uiManager.OpenOverlayRootAsync(UIType.CraftItemInfoPopup, cancellationToken);
+        BaseUI baseUI = await uiManager.OpenOverlayRootAsync(UIType.CraftEquipmentInfoPopup, cancellationToken);
 
-        //if (baseUI is ItemPreviewPopupView itemPreviewPopupView)
-        //{
-        //    itemPreviewPopupView.Bind(id, position);
-        //}
+        if (baseUI is not CraftEquipmentInfoPopupView craftEquipmentInfoPopupView)
+        {
+            Debug.LogError("CraftEquipmentInfoPopupView 타입이 아닙니다.");
+            return;
+        }
+
+        craftEquipmentInfoPopupView.SetModel(equipmentCraftModel, position);
     }
 
-    public static void CloseItemPreviewPopup(this UIManager uiManager)
+    public static void CraftEquipmentInfoPopup(this UIManager uiManager)
     {
-        uiManager.Close(UIType.CraftItemInfoPopup);
+        uiManager.Close(UIType.CraftEquipmentInfoPopup);
     }
 
     public static async UniTask OpenOverlayAsync(this UIManager uiManager, CancellationToken cancellationToken = default)

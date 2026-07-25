@@ -8,6 +8,14 @@ public class EquipmentCraftSlotViewModel
 
     private readonly List<MaterialModel> _requiredItems = new List<MaterialModel>();
 
+    public EquipmentCraftModel EquipmentCraftModel
+    {
+        get
+        {
+            return _equipmentCraftModel;
+        }
+    }
+
     public string DataId
     {
         get

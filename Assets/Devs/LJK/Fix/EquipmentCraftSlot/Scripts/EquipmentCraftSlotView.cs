@@ -1,8 +1,4 @@
 ﻿using Cysharp.Threading.Tasks;
-using NUnit.Framework.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading;
 using TMPro;
 using UnityEngine;
@@ -271,10 +267,14 @@ public class EquipmentCraftSlotView : MonoBehaviour
 
     private void OpenCraftItemInfoPopup()
     {
-        Vector3[] itemCorners = new Vector3[4];
-        _root.GetWorldCorners(itemCorners);
-        Vector3 itemBottomCenter = itemCorners[1];
+        Vector3[] corners = new Vector3[4];
+        _root.GetWorldCorners(corners);
 
-        GameManager.Instance.UIManager.OpenCraftItemInfoPopupAsync(_equipmentCraftSlotViewModel.DataId, itemBottomCenter).Forget();
+        Vector3 bottomLeft = corners[0];
+        Vector3 bottomRight = corners[3];
+
+        Vector3 bottomCenter = (bottomLeft + bottomRight) * 0.5f;
+
+        GameManager.Instance.UIManager.OpenCraftEquipmentInfoPopupAsync(_equipmentCraftSlotViewModel.EquipmentCraftModel, bottomCenter).Forget();
     }
 }

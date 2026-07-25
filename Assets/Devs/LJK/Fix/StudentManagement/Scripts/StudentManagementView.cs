@@ -179,7 +179,7 @@ public class StudentManagementView : BaseUI
 
     private void HandleEquipmentSlotClicked(EquipType equipType)
     {
-        GameManager.Instance.UIManager.OpenEquipmentInventoryPopupAsync(equipType, _studentManagementViewModel.StudentModel, _disableCts.Token).Forget();
+       // GameManager.Instance.UIManager.OpenEquipmentInventoryPopupAsync(equipType, _studentManagementViewModel.StudentModel, _disableCts.Token).Forget();
         GameManager.Instance.UIManager.OpenEquipmentCraftPopupAsync(equipType, _disableCts.Token).Forget();
     }
 }
