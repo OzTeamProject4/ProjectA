@@ -12,8 +12,6 @@ public class StageSelectHudView : BaseUI
     private void Awake()
     {
         UnityUtil.ValidateReference(_returnToLobbyButton, nameof(StageSelectHudView), nameof(_returnToLobbyButton));
-
-        _viewModel = new StageSelectHudViewModel();
     }
 
     private void OnEnable()
@@ -30,21 +28,34 @@ public class StageSelectHudView : BaseUI
     {
         Unsubscribe();
 
-        if (null != _viewModel)
+        _viewModel = null;
+    }
+
+    public void Bind(StageSelectHudViewModel viewModel)
+    {
+        if (null == viewModel)
         {
-            _viewModel.Dispose();
-            _viewModel = null;
+            Debug.LogError("[StageSelectHudView] Bind: viewModel 이 null 입니다.");
+            return;
         }
+
+        Unsubscribe();
+
+        _viewModel = viewModel;
+
+        Subscribe();
     }
 
     private void Subscribe()
     {
-        if (_isSubscribed || null == _returnToLobbyButton)
+        if (_isSubscribed || null == _returnToLobbyButton || null == _viewModel)
         {
             return;
         }
 
         _returnToLobbyButton.onClick.AddListener(HandleReturnToLobbyClicked);
+
+        _viewModel.OnReturnToLobbyConfirmRequested += HandleReturnToLobbyConfirmRequested;
 
         _isSubscribed = true;
     }
@@ -61,31 +72,51 @@ public class StageSelectHudView : BaseUI
             _returnToLobbyButton.onClick.RemoveListener(HandleReturnToLobbyClicked);
         }
 
+        if (null != _viewModel)
+        {
+            _viewModel.OnReturnToLobbyConfirmRequested -= HandleReturnToLobbyConfirmRequested;
+        }
+
         _isSubscribed = false;
     }
 
     private void HandleReturnToLobbyClicked()
+    {
+        if (null == _viewModel)
+        {
+            return;
+        }
+
+        _viewModel.ReturnToLobbyCommand();
+    }
+
+    private void HandleReturnToLobbyConfirmRequested()
     {
         ShowReturnToLobbyPopupAsync().Forget();
     }
 
     private async UniTaskVoid ShowReturnToLobbyPopupAsync()
     {
-        StopPlayer();
-
         ReturnToLobbyChoice choice = await WaitForReturnToLobbyChoiceAsync();
 
-        if (choice == ReturnToLobbyChoice.Confirm)
+        if (null == _viewModel)
         {
-            if (null != _viewModel)
-            {
-                _viewModel.ReturnToLobby();
-            }
-
             return;
         }
 
-        ResumePlayer();
+        if (choice == ReturnToLobbyChoice.None)
+        {
+            _viewModel.ReturnToLobbyPopupFailedCommand();
+            return;
+        }
+
+        if (choice == ReturnToLobbyChoice.Confirm)
+        {
+            _viewModel.ConfirmReturnToLobbyCommand();
+            return;
+        }
+
+        _viewModel.CancelReturnToLobbyCommand();
     }
 
     private async UniTask<ReturnToLobbyChoice> WaitForReturnToLobbyChoiceAsync()
@@ -94,8 +125,7 @@ public class StageSelectHudView : BaseUI
 
         if (null == view)
         {
-            Debug.LogError("[StageSelectHudView] 로비 복귀 팝업을 열지 못했습니다. 복귀를 취소합니다.");
-            return ReturnToLobbyChoice.Cancel;
+            return ReturnToLobbyChoice.None;
         }
 
         ReturnToLobbyChoice choice = await view.WaitForChoiceAsync();
@@ -103,29 +133,5 @@ public class StageSelectHudView : BaseUI
         GameManager.Instance.UIManager.CloseReturnToLobbyPopup();
 
         return choice;
-    }
-
-    private void StopPlayer()
-    {
-        StageSession session = StageSession.Instance;
-
-        if (null == session || null == session.Player)
-        {
-            return;
-        }
-
-        session.Player.StopMove();
-    }
-
-    private void ResumePlayer()
-    {
-        StageSession session = StageSession.Instance;
-
-        if (null == session || null == session.Player)
-        {
-            return;
-        }
-
-        session.Player.ResumeMove();
     }
 }

@@ -26,9 +26,6 @@ public class StageSelectMap : MonoBehaviour
     {
         UnityUtil.ValidateReference(_partyPrefab, nameof(StageSelectMap), nameof(_partyPrefab));
 
-        _viewModel = new StageSelectMapViewModel();
-
-        SubscribeViewModel();
         SpawnParties();
     }
 
@@ -42,13 +39,23 @@ public class StageSelectMap : MonoBehaviour
         UnsubscribeParties();
         UnsubscribeViewModel();
 
-        if (null != _viewModel)
+        _viewModel = null;
+        _stageInfoPopup = null;
+    }
+
+    public void Bind(StageSelectMapViewModel viewModel)
+    {
+        if (null == viewModel)
         {
-            _viewModel.Dispose();
-            _viewModel = null;
+            Debug.LogError("[StageSelectMap] Bind: viewModel 이 null 입니다.");
+            return;
         }
 
-        _stageInfoPopup = null;
+        UnsubscribeViewModel();
+
+        _viewModel = viewModel;
+
+        SubscribeViewModel();
     }
 
     private void SubscribeViewModel()

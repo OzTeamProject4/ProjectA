@@ -15,6 +15,9 @@ public class StageManager : BaseManager <StageManager>
 
     private StageSelectMap _selectMap;
 
+    private StageSelectMapViewModel _selectMapViewModel;
+    private StageSelectHudViewModel _hudViewModel;
+
     private bool _hasEntered;
 
     public override UniTask InitializeAsync()
@@ -56,6 +59,8 @@ public class StageManager : BaseManager <StageManager>
             _mapBuilder.Dispose();
         }
 
+        DisposeViewModels();
+
         StageSession.Clear();
     }
 
@@ -93,12 +98,50 @@ public class StageManager : BaseManager <StageManager>
             return;
         }
 
-        _session.Player = _player;
+        CreateViewModels();
+
+        _selectMap.Bind(_selectMapViewModel);
 
         await ShowStageSelectHudAsync();
 
         _hasEntered = true;
         GameManager.Instance.UIManager.CloseOverlayUI();
+    }
+
+    // ===== ViewModel 조립 =====
+
+    private void CreateViewModels()
+    {
+        CharacterListModel characterListModel = GetCharacterListModel();
+
+        _selectMapViewModel = new StageSelectMapViewModel(_session.Progress, _session.ScreenState, characterListModel, _player, _session.Stages);
+        _hudViewModel = new StageSelectHudViewModel(_session.ScreenState, _player);
+    }
+
+    private CharacterListModel GetCharacterListModel()
+    {
+        if (null == NetworkManagerTemp.Instance)
+        {
+            Debug.LogError("[StageManager] NetworkManagerTemp.Instance 가 null 입니다.");
+            return null;
+        }
+
+        return NetworkManagerTemp.Instance.GetcharacterListModel();
+    }
+
+    private void DisposeViewModels()
+    {
+        if (null != _selectMapViewModel)
+        {
+            _selectMapViewModel.Dispose();
+            _selectMapViewModel = null;
+        }
+
+        if (null != _hudViewModel)
+        {
+            _hudViewModel.Dispose();
+            _hudViewModel = null;
+        }
     }
 
     // ===== 선택맵 HUD =====
@@ -110,7 +153,10 @@ public class StageManager : BaseManager <StageManager>
         if (null == hud)
         {
             Debug.LogError("[StageManager] 스테이지 선택 HUD 를 열지 못했습니다.");
+            return;
         }
+
+        hud.Bind(_hudViewModel);
     }
 
     private void HideStageSelectHud()
@@ -207,18 +253,6 @@ public class StageManager : BaseManager <StageManager>
         _selectMap.gameObject.SetActive(active);
     }
 
-    private StageData GetStage(string stageId)
-    {
-        if (string.IsNullOrEmpty(stageId))
-        {
-            Debug.LogWarning("[StageManager] GetStage: stageId 가 비어 있습니다.");
-            return null;
-        }
-
-        GameManager.Instance.DataManager.TryGetData(stageId, out StageData data);
-        return data;
-    }
-
     // ===== 화면 전환 =====
 
     private void HandleScreenChanged(ScreenType screen)
@@ -263,7 +297,7 @@ public class StageManager : BaseManager <StageManager>
 
     private async UniTask TransitionToBattleInternalAsync()
     {
-        StageData stageData = GetStage(_session.Progress.SelectedStageId);
+        StageData stageData = _session.Stages.GetStage(_session.Progress.SelectedStageId);
 
         if (null == stageData)
         {

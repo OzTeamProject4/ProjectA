@@ -4,12 +4,13 @@
 
     public ScreenStateModel ScreenState { get; }
     public StageProgressModel Progress { get; }
-    public StageSelectPlayer Player { get; set; }
+    public StageDataModel Stages { get; }
 
     private StageSession()
     {
         ScreenState = new ScreenStateModel(ScreenType.StageSelect);
         Progress = new StageProgressModel();
+        Stages = new StageDataModel();
     }
 
     public static StageSession Create()

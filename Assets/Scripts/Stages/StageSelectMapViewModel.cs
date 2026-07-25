@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StageSelectMapViewModel
@@ -7,34 +6,46 @@ public class StageSelectMapViewModel
     private StageProgressModel _progressModel;
     private ScreenStateModel _screenStateModel;
     private CharacterListModel _characterListModel;
+    private StageSelectPlayer _player;
+    private StageDataModel _stageDataModel;
 
     private StageInfoPopupViewModel _stageInfoViewModel;
 
     public event Action<StageInfoPopupViewModel> OnStageInfoPopupOpenRequested;
     public event Action OnStageInfoPopupCloseRequested;
 
-    public StageSelectMapViewModel()
+    public StageSelectMapViewModel(StageProgressModel progressModel, ScreenStateModel screenStateModel, CharacterListModel characterListModel, StageSelectPlayer player, StageDataModel stageDataModel)
     {
-        StageSession session = StageSession.Instance;
-
-        if (null == session)
+        if (null == progressModel)
         {
-            Debug.LogError("[StageSelectMapViewModel] StageSession.Instance 가 null 입니다.");
-        }
-        else
-        {
-            _progressModel = session.Progress;
-            _screenStateModel = session.ScreenState;
+            Debug.LogError("[StageSelectMapViewModel] progressModel 이 null 입니다.");
         }
 
-        if (null == NetworkManagerTemp.Instance)
+        if (null == screenStateModel)
         {
-            Debug.LogError("[StageSelectMapViewModel] NetworkManagerTemp.Instance 가 null 입니다.");
+            Debug.LogError("[StageSelectMapViewModel] screenStateModel 이 null 입니다.");
         }
-        else
+
+        if (null == characterListModel)
         {
-            _characterListModel = NetworkManagerTemp.Instance.GetcharacterListModel();
+            Debug.LogError("[StageSelectMapViewModel] characterListModel 이 null 입니다.");
         }
+
+        if (null == player)
+        {
+            Debug.LogError("[StageSelectMapViewModel] player 가 null 입니다.");
+        }
+
+        if (null == stageDataModel)
+        {
+            Debug.LogError("[StageSelectMapViewModel] stageDataModel 이 null 입니다.");
+        }
+
+        _progressModel = progressModel;
+        _screenStateModel = screenStateModel;
+        _characterListModel = characterListModel;
+        _player = player;
+        _stageDataModel = stageDataModel;
     }
 
     public void Dispose()
@@ -44,6 +55,8 @@ public class StageSelectMapViewModel
         _progressModel = null;
         _screenStateModel = null;
         _characterListModel = null;
+        _player = null;
+        _stageDataModel = null;
     }
 
     public void CloseAllPopups()
@@ -79,37 +92,38 @@ public class StageSelectMapViewModel
         ResumePlayer();
     }
 
-    // ===== 플레이어 이동 제어 (세션 경유) =====
+    // ===== 플레이어 이동 제어 =====
 
     private void StopPlayer()
     {
-        StageSession session = StageSession.Instance;
-
-        if (null == session || null == session.Player)
+        if (null == _player)
         {
             return;
         }
 
-        session.Player.StopMove();
+        _player.StopMove();
     }
 
     private void ResumePlayer()
     {
-        StageSession session = StageSession.Instance;
-
-        if (null == session || null == session.Player)
+        if (null == _player)
         {
             return;
         }
 
-        session.Player.ResumeMove();
+        _player.ResumeMove();
     }
 
     // ===== 스테이지 정보 팝업 =====
 
     private void RequestOpenStageInfoPopup(string stageId)
     {
-        StageData stageData = GetStage(stageId);
+        if (null == _stageDataModel)
+        {
+            return;
+        }
+
+        StageData stageData = _stageDataModel.GetStage(stageId);
 
         if (null == stageData)
         {
@@ -117,55 +131,10 @@ public class StageSelectMapViewModel
             return;
         }
 
-        _stageInfoViewModel = new StageInfoPopupViewModel(stageData, GetStageWaves(stageId), _screenStateModel, _progressModel, _characterListModel);
+        _stageInfoViewModel = new StageInfoPopupViewModel(stageData, _stageDataModel.GetStageWaves(stageId), _screenStateModel, _progressModel, _characterListModel);
         _stageInfoViewModel.OnCloseRequested += HandleStageInfoCloseRequested;
 
         OnStageInfoPopupOpenRequested?.Invoke(_stageInfoViewModel);
-    }
-
-    private StageData GetStage(string stageId)
-    {
-        if (string.IsNullOrEmpty(stageId))
-        {
-            Debug.LogWarning("[StageSelectMapViewModel] GetStage: stageId 가 비어 있습니다.");
-            return null;
-        }
-
-        GameManager.Instance.DataManager.TryGetData(stageId, out StageData data);
-        return data;
-    }
-
-    private IReadOnlyList<StageWaveData> GetStageWaves(string stageId)
-    {
-        if (string.IsNullOrEmpty(stageId))
-        {
-            Debug.LogWarning("[StageSelectMapViewModel] GetStageWaves: stageId 가 비어 있습니다.");
-            return Array.Empty<StageWaveData>();
-        }
-
-        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, StageWaveData> table))
-        {
-            return Array.Empty<StageWaveData>();
-        }
-
-        List<StageWaveData> waves = new List<StageWaveData>();
-
-        foreach (StageWaveData wave in table.Values)
-        {
-            if (wave.StageId == stageId)
-            {
-                waves.Add(wave);
-            }
-        }
-
-        waves.Sort(CompareByWaveNumber);
-
-        return waves;
-    }
-
-    private static int CompareByWaveNumber(StageWaveData a, StageWaveData b)
-    {
-        return a.WaveNumber.CompareTo(b.WaveNumber);
     }
 
     private void RequestCloseStageInfoPopup()
