@@ -96,15 +96,13 @@ public static class UIManagerExtension
     {
         BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.EquipmentCraftPopup, cancellationToken);
 
-        //if (baseUI is CraftPopupView craftPopupView)
-        //{
-        //    if (craftPopupView._type == equipType)
-        //    {
-        //        return;
-        //    }
+        if (baseUI is not EquipmentCraftPopupView equipmentCraftPopupView)
+        {
+            Debug.LogError("EquipmentCraftPopupView 타입이 아닙니다.");
+            return;
+        }
 
-        //    craftPopupView.Bind(equipType);
-        //}
+        equipmentCraftPopupView.SetEquipType(equipType);
     }
 
     public static void CloseEquipmentCraftPopup(this UIManager uiManager)
@@ -129,34 +127,19 @@ public static class UIManagerExtension
         uiManager.Close(UIType.EquipmentDetailPopup);
     }
 
-    //public static async UniTask OpenItemPreviewPopupAsync(this UIManager uiManager, string id, Vector3 position, CancellationToken cancellationToken = default)
-    //{
-    //    BaseUI baseUI = await uiManager.OpenOverlayRootAsync(UIType.ItemPreviewPopup, cancellationToken);
+    public static async UniTask OpenCraftItemInfoPopupAsync(this UIManager uiManager, string id, Vector3 position, CancellationToken cancellationToken = default)
+    {
+        BaseUI baseUI = await uiManager.OpenOverlayRootAsync(UIType.CraftItemInfoPopup, cancellationToken);
 
-    //    if (baseUI is ItemPreviewPopupView itemPreviewPopupView)
-    //    {
-    //        itemPreviewPopupView.Bind(id, position);
-    //    }
-    //}
+        //if (baseUI is ItemPreviewPopupView itemPreviewPopupView)
+        //{
+        //    itemPreviewPopupView.Bind(id, position);
+        //}
+    }
 
     public static void CloseItemPreviewPopup(this UIManager uiManager)
     {
-        uiManager.Close(UIType.ItemPreviewPopup);
-    }
-
-    private static T GetView<T>(BaseUI baseUI, UIType uiType) where T : BaseUI
-    {
-        if (null == baseUI)
-        {
-            return null;
-        }
-
-        if (baseUI is not T view)
-        {
-            return null;
-        }
-
-        return view;
+        uiManager.Close(UIType.CraftItemInfoPopup);
     }
 
     public static async UniTask OpenOverlayAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
