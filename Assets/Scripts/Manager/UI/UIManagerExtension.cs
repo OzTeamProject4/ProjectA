@@ -229,6 +229,18 @@ public static class UIManagerExtension
         await uiManager.OpenTestRootAsync(UIType.Lobby, cancellationToken);
     }
 
+    public static async UniTask<BattleHUDView> OpenBattleHUDAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        BaseUI baseUI = await uiManager.OpenContentRootAsync(UIType.BattleHUD, cancellationToken);
+
+        return GetView<BattleHUDView>(baseUI, UIType.BattleHUD);
+    }
+
+    public static void CloseBattleHUD(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.BattleHUD);
+    }
+
     public static void CloseLobby(this UIManager uiManager)
     {
         uiManager.Close(UIType.Lobby);

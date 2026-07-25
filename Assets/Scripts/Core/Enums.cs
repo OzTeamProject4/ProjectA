@@ -23,7 +23,8 @@
     AchievementScreen,
     PartySelectPopup,
     BattleResultPopup,
-    BattlePausePopup
+    BattlePausePopup,
+    BattleHUD
 }
 
 public enum LoadingState
