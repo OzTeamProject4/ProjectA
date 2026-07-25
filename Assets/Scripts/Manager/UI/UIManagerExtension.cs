@@ -283,7 +283,10 @@ public static class UIManagerExtension
 
     public static async UniTask OpenLobbyAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
+        await GameManager.Instance.UIManager.OpenOverlayAsync();
+        GameManager.Instance.UIManager.CloseLoading();
         await uiManager.OpenTestRootAsync(UIType.Lobby, cancellationToken);
+        GameManager.Instance.UIManager.CloseOverlay();
     }
 
     public static async UniTask<BattleHUDView> OpenBattleHUDAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
