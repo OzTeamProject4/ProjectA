@@ -78,7 +78,7 @@ public class EquipmentCraftSlotView : MonoBehaviour
     private void Refresh()
     {
         RefreshNameText();
-        LoadSpriteAsync(_itemIconImage, _equipmentCraftSlotViewModel.IconKey).Forget();
+        SpriteLoader.LoadIntoAsync(_itemIconImage, _equipmentCraftSlotViewModel.IconKey, _disableCts.Token).Forget();
         RefreshMaterials();
         RefreshCraftButton();
     }
@@ -148,26 +148,6 @@ public class EquipmentCraftSlotView : MonoBehaviour
     private void RefreshCraftButton()
     {
         _craftButton.interactable = _equipmentCraftSlotViewModel.CanCraft;
-    }
-
-    private async UniTask LoadSpriteAsync(Image image, string spriteKey)
-    {
-        if (string.IsNullOrWhiteSpace(spriteKey))
-        {
-            image.enabled = false;
-            return;
-        }
-
-        Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(spriteKey, _disableCts.Token);
-
-        if (sprite == null)
-        {
-            image.enabled = false;
-            return;
-        }
-
-        image.enabled = true;
-        image.sprite = sprite;
     }
 
     private void HandleSlotClicked()

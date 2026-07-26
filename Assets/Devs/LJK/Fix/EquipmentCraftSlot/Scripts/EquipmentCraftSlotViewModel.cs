@@ -147,12 +147,7 @@ public class EquipmentCraftSlotViewModel
         
         foreach (string requiredItemId in _equipmentCraftModel.RequiredItemIds)
         {
-            if (!inventoryModel.TryGetItem(requiredItemId, out ItemModel item))
-            {
-                continue;
-            }
-            
-            if(item is not MaterialModel materialModel)
+            if (!inventoryModel.TryGetMaterial(requiredItemId, out MaterialModel materialModel))
             {
                 continue;
             }

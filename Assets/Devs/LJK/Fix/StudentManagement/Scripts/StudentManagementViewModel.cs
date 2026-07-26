@@ -21,7 +21,7 @@ public class StudentManagementViewModel
     {
         get
         {
-            return GetItemCount(_studentModel.RequiredGradeUpItemId);
+            return _inventoryModel.GetItemCount(_studentModel.RequiredGradeUpItemId);
         }
     }
 
@@ -118,11 +118,6 @@ public class StudentManagementViewModel
         }
     }
 
-    //public IReadOnlyList<ItemModel> EquipItem
-    //{
-    //    get { return _characterModel.EquipItem; }
-    //}
-
     public float TotalHp
     {
         get
@@ -214,21 +209,6 @@ public class StudentManagementViewModel
         _studentModel.TryGradeUp();
     }
 
-    private int GetItemCount(string itemId)
-    {
-        if (!_inventoryModel.TryGetItem(itemId, out ItemModel item))
-        {
-            return 0;
-        }
-
-        if (item is not MaterialModel materialModel)
-        {
-            return 0;
-        }
-
-        return materialModel.Count;
-    }
-
     private void RefreshGradeUpMaterialSubscription()
     {
         UnsubscribeGradeUpMaterial();
@@ -238,12 +218,7 @@ public class StudentManagementViewModel
             return;
         }
 
-        if (!_inventoryModel.TryGetItem(_studentModel.RequiredGradeUpItemId, out ItemModel itemModel))
-        {
-            return;
-        }
-
-        if (itemModel is not MaterialModel materialModel)
+        if (!_inventoryModel.TryGetMaterial(_studentModel.RequiredGradeUpItemId, out MaterialModel materialModel))
         {
             return;
         }

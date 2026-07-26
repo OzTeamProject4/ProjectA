@@ -120,23 +120,9 @@ public class EquipmentInfoPopupView : BaseUI
         }
     }
 
-    private async UniTask UpdateIconImageAsync()
+    private UniTask UpdateIconImageAsync()
     {
-        string iconKey = _equipmentInfoPopupViewModel.IconKey;
-
-        if (string.IsNullOrWhiteSpace(iconKey))
-        {
-            return;
-        }
-
-        Sprite iconSprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(iconKey, _disableCts.Token);
-
-        if (iconSprite == null)
-        {
-            return;
-        }
-
-        _itemIconImage.sprite = iconSprite;
+        return SpriteLoader.LoadIntoAsync(_itemIconImage, _equipmentInfoPopupViewModel.IconKey, _disableCts.Token);
     }
 
     public void MoveCardTo(Vector3 worldPosition)

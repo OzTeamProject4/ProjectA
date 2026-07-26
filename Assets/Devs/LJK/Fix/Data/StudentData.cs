@@ -19,15 +19,10 @@
     public string CharacterIconPath { get; init; }
     public string PrefabPath { get; init; }
 
+    // 스킬 탭에서 사용 예정
     //public string SkillList { get; init; }
 
     //public int SkillGauge { get; init; }
-
-
-    
-    //public string PrefabPath { get; init; }
-
-    //public string Description { get; init; }
 
     //private List<string> _parsedSkillList;
 

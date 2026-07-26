@@ -102,50 +102,14 @@ public class EquipmentItemSlotView : MonoBehaviour
         UpdateEquippedCharacterIconAsync().Forget();
     }
 
-    private async UniTask RefreshIconImageAsync()
+    private UniTask RefreshIconImageAsync()
     {
-        string iconKey = _equipmentItemSlotViewModel.IconKey;
-
-        if (string.IsNullOrWhiteSpace(iconKey))
-        {
-            return;
-        }
-
-        Sprite iconSprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(iconKey, _disableCts.Token);
-
-        if (iconSprite == null)
-        {
-            return;
-        }
-
-        _itemIconImage.sprite = iconSprite;
+        return SpriteLoader.LoadIntoAsync(_itemIconImage, _equipmentItemSlotViewModel.IconKey, _disableCts.Token);
     }
 
-    private async UniTaskVoid UpdateEquippedCharacterIconAsync()
+    private UniTask UpdateEquippedCharacterIconAsync()
     {
-        if (_equippedCharacterIconImage == null)
-        {
-            return;
-        }
-
-        string portraitKey = _equipmentItemSlotViewModel.EquippedStudentPortraitKey;
-
-        if (string.IsNullOrWhiteSpace(portraitKey))
-        {
-            _equippedCharacterIconImage.enabled = false;
-            return;
-        }
-
-        Sprite portraitSprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(portraitKey, _disableCts.Token);
-
-        if (portraitSprite == null)
-        {
-            _equippedCharacterIconImage.enabled = false;
-            return;
-        }
-
-        _equippedCharacterIconImage.enabled = true;
-        _equippedCharacterIconImage.sprite = portraitSprite;
+        return SpriteLoader.LoadIntoAsync(_equippedCharacterIconImage, _equipmentItemSlotViewModel.EquippedStudentPortraitKey, _disableCts.Token);
     }
 
     private void HandleSlotClicked()

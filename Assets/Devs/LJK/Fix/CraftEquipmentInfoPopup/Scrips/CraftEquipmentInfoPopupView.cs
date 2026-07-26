@@ -72,23 +72,9 @@ public class CraftEquipmentInfoPopupView : BaseUI
         _itemNameText.text = _craftEquipmentInfoPopupViewModel.Name;
     }
 
-    private async UniTask RefreshIconImageAsync()
+    private UniTask RefreshIconImageAsync()
     {
-        string iconkey = _craftEquipmentInfoPopupViewModel.IconKey;
-
-        if (string.IsNullOrWhiteSpace(iconkey))
-        {
-            return;
-        }
-
-        Sprite iconSprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(iconkey, _disableCts.Token);
-
-        if (iconSprite == null)
-        {
-            return;
-        }
-
-        _itemIconImage.sprite = iconSprite;
+        return SpriteLoader.LoadIntoAsync(_itemIconImage, _craftEquipmentInfoPopupViewModel.IconKey, _disableCts.Token);
     }
 
     public void MovePosition(Vector3 worldPosition)

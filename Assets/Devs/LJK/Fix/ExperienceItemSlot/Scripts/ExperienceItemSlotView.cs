@@ -90,23 +90,9 @@ public class ExperienceItemSlotView : MonoBehaviour, IPointerDownHandler, IPoint
         _itemCountText.text = _experienceItemSlotViewModel.Count.ToString();
     }
 
-    private async UniTask UpdateIconImageAsync()
+    private UniTask UpdateIconImageAsync()
     {
-        string iconKey = _experienceItemSlotViewModel.IconKey;
-
-        if (string.IsNullOrWhiteSpace(iconKey))
-        {
-            return;
-        }
-
-        Sprite iconSprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(iconKey, _disableCts.Token);
-
-        if (iconSprite == null)
-        {
-            return;
-        }
-
-        _itemIconImage.sprite = iconSprite;
+        return SpriteLoader.LoadIntoAsync(_itemIconImage, _experienceItemSlotViewModel.IconKey, _disableCts.Token);
     }
 
     public void OnPointerDown(PointerEventData eventData)

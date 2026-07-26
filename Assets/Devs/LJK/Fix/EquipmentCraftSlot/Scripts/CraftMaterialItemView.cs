@@ -26,23 +26,8 @@ public class CraftMaterialItemView : MonoBehaviour
         _countText.text = $"{ownedCount} / {requiredCount}";
     }
 
-    public async UniTask UpdateIconAsync(string iconKey, CancellationToken cancellationToken)
+    public UniTask UpdateIconAsync(string iconKey, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(iconKey))
-        {
-            _iconImage.enabled = false;
-            return;
-        }
-
-        Sprite iconSprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(iconKey, cancellationToken);
-
-        if (iconSprite == null)
-        {
-            _iconImage.enabled = false;
-            return;
-        }
-
-        _iconImage.enabled = true;
-        _iconImage.sprite = iconSprite;
+        return SpriteLoader.LoadIntoAsync(_iconImage, iconKey, cancellationToken);
     }
 }

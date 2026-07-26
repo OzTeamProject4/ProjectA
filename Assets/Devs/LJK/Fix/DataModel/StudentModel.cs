@@ -96,8 +96,6 @@ public class StudentModel : INotifyPropertyChanged
     private static readonly PropertyChangedEventArgs EquippedItemIdsChanged = new PropertyChangedEventArgs(nameof(EquippedItemIds));
 
 
-    //private static readonly PropertyChangedEventArgs EquipChanged = new PropertyChangedEventArgs(nameof(EquipItem));
-
     private string _dataId;
     private string _name;
     private int _star;
@@ -435,8 +433,7 @@ public class StudentModel : INotifyPropertyChanged
         StatData equipmentStats = new StatData();
         InventoryModel inventoryModel = NetworkManagerTemp.Instance.InventoryModel;
 
-        //TODO 장비를 인스턴스 방식으로 바꾸면 여기 담기는 값이 InstanceId가 되므로,
-        //     인벤토리에서 인스턴스를 찾아 그 DataId로 EquipmentData를 조회하는 방향으로 교체 필요
+        // 담긴 값은 InstanceId다. 마스터 데이터를 다시 조회하지 않고 인스턴스가 들고 있는 StatInfos를 합산한다
         foreach (string instanceId in _equippedItemIds.Values)
         {
             if (!inventoryModel.TryGetEquipment(instanceId, out EquipmentModel equipmentModel))
@@ -550,12 +547,7 @@ public class StudentModel : INotifyPropertyChanged
             return false;
         }
 
-        if (!NetworkManagerTemp.Instance.InventoryModel.TryGetItem(RequiredGradeUpItemId, out ItemModel itemModel))
-        {
-            return false;
-        }
-
-        if (itemModel is not MaterialModel materialModel)
+        if (!NetworkManagerTemp.Instance.InventoryModel.TryGetMaterial(RequiredGradeUpItemId, out MaterialModel materialModel))
         {
             return false;
         }
@@ -570,46 +562,6 @@ public class StudentModel : INotifyPropertyChanged
         return true;
     }
 
-    //private List<ItemModel> equipItem = new List<ItemModel>();
-
-    //public IReadOnlyList<ItemModel> EquipItem
-    //{
-    //    get { return equipItem; }
-    //}
-
-    //public void Equip(ItemModel itemModel)
-    //{
-    //    //TODO 여러 검사
-    //    if (itemModel.EquipId != null)
-    //    {
-    //        CharacterListModel characterListModel = NetworkManagerTemp.Instance.GetcharacterListModel();
-    //        CharacterModel character = characterListModel.GetCharacter(itemModel.EquipId);
-
-    //        if (character == null)
-    //        {
-    //            Debug.LogError("");
-    //            return;
-    //        }
-
-    //        character.Unequip(itemModel);
-    //    }
-
-    //    itemModel.Equip(Id);
-    //    equipItem.Add(itemModel);
-    //    CalculateItemStat(itemModel.StatInfo, true);
-    //    OnPropertyChanged(EquipChanged);
-    //}
-
-    //public void Unequip(ItemModel itemModel)
-    //{
-    //    //TODO 여러검사
-
-    //    itemModel.UnEquip();
-    //    equipItem.Remove(itemModel);
-    //    CalculateItemStat(itemModel.StatInfo, false);
-    //    OnPropertyChanged(EquipChanged);
-    //}
-
     private void OnPropertyChanged(PropertyChangedEventArgs propertyChangedEventArgs)
     {
         if (PropertyChanged == null)
@@ -620,33 +572,4 @@ public class StudentModel : INotifyPropertyChanged
         PropertyChanged.Invoke(this, propertyChangedEventArgs);
     }
 
-    //public void CalculateItemStat(IReadOnlyList<StatInfo> statInfos, bool isAdd)
-    //{
-    //    float value = isAdd ? 1f : -1f;
-
-    //    foreach (StatInfo statInfo in statInfos)
-    //    {
-    //        float delta = statInfo.Value * value;
-
-    //        switch (statInfo.Type)
-    //        {
-    //            case StatType.MaxHp:
-    //                _addHp += delta;
-    //                OnPropertyChanged(HpChanged);
-    //                break;
-    //            case StatType.Atk:
-    //                _addAttack += delta;
-    //                OnPropertyChanged(AttackChanged);
-    //                break;
-    //            case StatType.Def:
-    //                _addDefense += delta;
-    //                OnPropertyChanged(DefenseChanged);
-    //                break;
-    //            case StatType.MoveSpeed:
-    //                _addMoveSpeed += delta;
-    //                OnPropertyChanged(MoveSpeedChanged);
-    //                break;
-    //        }
-    //    }
-    //}
 }

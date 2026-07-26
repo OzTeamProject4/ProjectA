@@ -10,6 +10,7 @@ public class EquipmentStatOptionView : MonoBehaviour
 
     [SerializeField] private Sprite[] _statIcons;
 
+    // 장착 시 스탯 증감 표시 기능에서 사용 예정
     //[Header("Bonus Stat Colors")]
     //[SerializeField] private Color _increaseColor = Color.green;
     //[SerializeField] private Color _decreaseColor = Color.red;
@@ -21,11 +22,10 @@ public class EquipmentStatOptionView : MonoBehaviour
 
     //    _statText.text = info.Value.ToString();
 
-    //    //_bonusText.text = BuildBonusText(info);
-    //    //_bonusText.color = GetColor(info.Delta);
+    //    _bonusText.text = BuildBonusText(info);
+    //    _bonusText.color = GetColor(info.Delta);
 
     //    RefreshIcon(info.Type);
-    //    // TODO: 스텟별 아이콘 에셋 추가 시 _iconImage 에 스프라이트 설정
     //}
 
     public void SetValue(StatType type, float value)
@@ -65,7 +65,8 @@ public class EquipmentStatOptionView : MonoBehaviour
         _iconImage.enabled = true;
         _iconImage.sprite = _statIcons[index];
     }
-}
+
+    // 장착 시 스탯 증감 표시 기능에서 사용 예정
     //private string BuildBonusText(StatDelta delta)
     //{
     //    if (Mathf.Approximately(delta.Delta, 0f))
@@ -89,18 +90,18 @@ public class EquipmentStatOptionView : MonoBehaviour
     //    return value.ToString("F2");
     //}
 
-//    private Color GetColor(float delta)
-//    {
-//        if (Mathf.Approximately(delta, 0f))
-//        {
-//            return _noChangeColor;
-//        }
+    //private Color GetColor(float delta)
+    //{
+    //    if (Mathf.Approximately(delta, 0f))
+    //    {
+    //        return _noChangeColor;
+    //    }
 
-//        if (delta > 0f)
-//        {
-//            return _increaseColor;
-//        }
+    //    if (delta > 0f)
+    //    {
+    //        return _increaseColor;
+    //    }
 
-//        return _decreaseColor;
-//    }
-//}
+    //    return _decreaseColor;
+    //}
+}

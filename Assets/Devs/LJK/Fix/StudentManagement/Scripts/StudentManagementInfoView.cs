@@ -91,21 +91,9 @@ public class StudentManagementInfoView : MonoBehaviour
         _gradeUpButton.interactable = interective;
     }
 
-    public async UniTask UpdatePortraitImage(string fullBodyKey, CancellationToken cancellationToken)
+    public UniTask UpdatePortraitImage(string fullBodyKey, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(fullBodyKey))
-        {
-            return;
-        }
-
-        Sprite portraitSprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(fullBodyKey, cancellationToken);
-
-        if (portraitSprite == null)
-        {
-            return;
-        }
-
-        _portraitImage.sprite = portraitSprite;
+        return SpriteLoader.LoadIntoAsync(_portraitImage, fullBodyKey, cancellationToken);
     }
 
     public void UpdateLevelText(int level)

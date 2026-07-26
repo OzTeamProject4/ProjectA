@@ -94,23 +94,9 @@ public class StudentManagementSlotView : MonoBehaviour
         }
     }
 
-    private async UniTask UpdatePortraitImageAsync()
+    private UniTask UpdatePortraitImageAsync()
     {
-        string portraitKey = _studentManagementSlotViewModel.PortraitKey;
-
-        if (string.IsNullOrWhiteSpace(portraitKey))
-        {
-            return;
-        }
-
-        Sprite portraitSprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(portraitKey, _disableCts.Token);
-
-        if (portraitSprite == null)
-        {
-            return;
-        }
-
-        _portraitImage.sprite = portraitSprite;
+        return SpriteLoader.LoadIntoAsync(_portraitImage, _studentManagementSlotViewModel.PortraitKey, _disableCts.Token);
     }
 
     private void HandleSlotClicked()

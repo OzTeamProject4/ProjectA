@@ -442,14 +442,28 @@ public class InventoryModel : INotifyPropertyChanged
         return true;
     }
 
-    public int GetItemCount(string itemId)
+    // 조회 후 MaterialModel 캐스팅이 여러 곳에서 반복돼 한 곳으로 모은다
+    public bool TryGetMaterial(string itemId, out MaterialModel materialModel)
     {
+        materialModel = null;
+
         if (!TryGetItem(itemId, out ItemModel item))
         {
-            return 0;
+            return false;
         }
 
-        if (item is not MaterialModel materialModel)
+        if (item is not MaterialModel material)
+        {
+            return false;
+        }
+
+        materialModel = material;
+        return true;
+    }
+
+    public int GetItemCount(string itemId)
+    {
+        if (!TryGetMaterial(itemId, out MaterialModel materialModel))
         {
             return 0;
         }
@@ -464,12 +478,7 @@ public class InventoryModel : INotifyPropertyChanged
 
         for (int index = 0; index < requiredItemIds.Count; index++)
         {
-            if (!TryGetItem(requiredItemIds[index], out ItemModel item))
-            {
-                continue;
-            }
-
-            if (item is not MaterialModel materialModel)
+            if (!TryGetMaterial(requiredItemIds[index], out MaterialModel materialModel))
             {
                 continue;
             }

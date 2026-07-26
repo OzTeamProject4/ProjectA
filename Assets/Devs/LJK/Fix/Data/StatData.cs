@@ -10,6 +10,7 @@
     }
 }
 
+// 장착 시 스탯 증감 표시 기능에서 사용 예정
 //public readonly struct StatDelta
 //{
 //    public StatType Type { get; init; }

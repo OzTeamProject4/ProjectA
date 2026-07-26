@@ -25,24 +25,9 @@ public class EquipmentView : BaseButton
         UnityUtil.ValidateReference(_iconImage, nameof(EquipmentView), nameof(_iconImage));
     }
 
-    public async UniTask UpdateIconAsync(string iconPath)
+    public UniTask UpdateIconAsync(string iconKey)
     {
-        if (string.IsNullOrWhiteSpace(iconPath))
-        {
-            Debug.LogError("장비 아이콘 경로가 비어 있습니다.");
-            return;
-        }
-
-        Sprite iconSprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(iconPath, destroyCancellationToken);
-
-        if (iconSprite == null)
-        {
-            Debug.LogError($"'{iconPath}' 장비 아이콘을 불러오지 못했습니다.");
-            return;
-        }
-
-        _iconImage.enabled = true;
-        _iconImage.sprite = iconSprite;
+        return SpriteLoader.LoadIntoAsync(_iconImage, iconKey, destroyCancellationToken);
     }
 
     public virtual void ClearView()
