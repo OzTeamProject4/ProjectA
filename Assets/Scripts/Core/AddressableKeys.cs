@@ -15,6 +15,7 @@
         public const string Item = "Data/Item";
         public const string Equipment = "Data/Equipment";
         public const string Signature = "Data/Signature";   
+        public const string StoryInfo = "Data/StoryInfo";   
     }
 
     public static class Asset

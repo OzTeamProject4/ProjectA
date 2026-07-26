@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public class GameManager : BaseManager<GameManager>
 {
@@ -17,6 +18,7 @@ public class GameManager : BaseManager<GameManager>
     public InputManager InputManager { get; private set; }
 
     public ObjectManager ObjectManager { get; private set; }
+    public DialogueManager DialogueManager { get; private set; }
 
     private void Awake()
     {
@@ -38,6 +40,7 @@ public class GameManager : BaseManager<GameManager>
         await UIManager.InitializeAsync();
         await InputManager.InitializeAsync();
         await ObjectManager.InitializeAsync();
+        await DialogueManager.InitializeAsync();
     }
 
     private void EnsureSingleton()
@@ -60,6 +63,7 @@ public class GameManager : BaseManager<GameManager>
         UIManager = this.GetRequiredComponent<UIManager>();
         InputManager = this.GetRequiredComponent<InputManager>();
         ObjectManager = this.GetRequiredComponent<ObjectManager>();
+        DialogueManager = this.GetRequiredComponent<DialogueManager>();
         Inventory = new Inventory();
     }
 }

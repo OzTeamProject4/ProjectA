@@ -8,7 +8,8 @@
     EquipmentDetailPopup,
     ItemPreviewPopup,
     Overlay,
-    Loading
+    Loading,
+    Dialogue
 }
 
 public enum LoadingState
@@ -27,6 +28,7 @@ public enum LoadingStep
     LoadItemData,
     LoadEquipmentData,
     LoadSignatureData,
+    LoadStoryInfoData,
     Complete
 }
 

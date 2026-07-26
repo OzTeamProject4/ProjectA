@@ -124,4 +124,16 @@ public static class UIManagerExtension
     {
         uiManager.Close(UIType.Loading);
     }
+
+    public static async UniTask OpenDialogueAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        await uiManager.OpenOverlayUIAsync();
+        await uiManager.OpenTestRootAsync(UIType.Dialogue, cancellationToken);
+        uiManager.CloseOverlayUI();
+    }
+
+    public static void CloseDialogue(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.Dialogue);
+    }
 }
