@@ -112,13 +112,13 @@ public class StageManager : BaseManager <StageManager>
 
     private void CreateViewModels()
     {
-        CharacterListModel characterListModel = GetCharacterListModel();
+        StudentListModel characterListModel = GetCharacterListModel();
 
         _selectMapViewModel = new StageSelectMapViewModel(_session.Progress, _session.ScreenState, characterListModel, _player, _session.Stages);
         _hudViewModel = new StageSelectHudViewModel(_session.ScreenState, _player);
     }
 
-    private CharacterListModel GetCharacterListModel()
+    private StudentListModel GetCharacterListModel()
     {
         if (null == NetworkManagerTemp.Instance)
         {
@@ -126,7 +126,7 @@ public class StageManager : BaseManager <StageManager>
             return null;
         }
 
-        return NetworkManagerTemp.Instance.GetcharacterListModel();
+        return NetworkManagerTemp.Instance.StudentListModel;
     }
 
     private void DisposeViewModels()
@@ -179,7 +179,7 @@ public class StageManager : BaseManager <StageManager>
             return;
         }
 
-        await GameManager.Instance.UIManager.OpenOverlayUIAsync();
+        await GameManager.Instance.UIManager.OpenOverlayAsync();
 
         try
         {
@@ -195,7 +195,7 @@ public class StageManager : BaseManager <StageManager>
         }
         finally
         {
-            GameManager.Instance.UIManager.CloseOverlayUI();
+            GameManager.Instance.UIManager.CloseOverlay();
         }
     }
 
@@ -203,7 +203,7 @@ public class StageManager : BaseManager <StageManager>
     {
         SavePlayerPosition();
 
-        await GameManager.Instance.UIManager.OpenOverlayUIAsync();
+        await GameManager.Instance.UIManager.OpenOverlayAsync();
 
         try
         {
@@ -215,7 +215,7 @@ public class StageManager : BaseManager <StageManager>
         }
         finally
         {
-            GameManager.Instance.UIManager.CloseOverlayUI();
+            GameManager.Instance.UIManager.CloseOverlay();
         }
     }
 

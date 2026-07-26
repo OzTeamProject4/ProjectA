@@ -118,7 +118,7 @@ public class CharacterSkillSystem : MonoBehaviour
         }
         _loadedPrefabKeys.Clear();
     }
-    public async UniTask InitializeAsync(CharacterData data)
+    public async UniTask InitializeAsync(StudentData data)
     {
         _maxGauge = data.SkillGauge;
         ChangeGauge(0);

@@ -1,4 +1,6 @@
-﻿public class StudentData : BaseData
+﻿using System.Collections.Generic;
+
+public class StudentData : BaseData
 {
     public string Name { get; init; }
     public int Star { get; init; }
@@ -19,23 +21,22 @@
     public string CharacterIconPath { get; init; }
     public string PrefabPath { get; init; }
 
-    // 스킬 탭에서 사용 예정
-    //public string SkillList { get; init; }
+    public string SkillList { get; init; }
 
-    //public int SkillGauge { get; init; }
+    public int SkillGauge { get; init; }
 
-    //private List<string> _parsedSkillList;
+    private List<string> _parsedSkillList;
 
-    //public List<string> ParsedSkillList
-    //{
-    //    get
-    //    {
-    //        if (_parsedSkillList == null)
-    //        {
-    //            _parsedSkillList = new List<string>(Util.ParseIds(SkillList));
-    //        }
+    public List<string> ParsedSkillList
+    {
+        get
+        {
+            if (_parsedSkillList == null)
+            {
+                _parsedSkillList = new List<string>(Util.ParseIds(SkillList));
+            }
 
-    //        return _parsedSkillList;
-    //    }
-    //}
+            return _parsedSkillList;
+        }
+    }
 }
