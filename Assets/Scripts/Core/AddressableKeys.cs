@@ -9,19 +9,18 @@
         public const string StageEntry = "Prefab/StageEntry";
     }
 
-    //TODO 어드레서블 경로 수정
     public static class Data
     {
-        public const string StudentData = "Data/CharacterData";
-        public const string StudentGradeData = "Data/CharacterGrade";
-        public const string StudentLevelData = "Data/LevelExp";
+        public const string StudentData = "Data/StudentData";
+        public const string StudentGradeData = "Data/StudentGradeData";
+        public const string StudentLevelData = "Data/StudentLevelData";
         public const string Item = "Data/Item";
         public const string Currency = "Data/Currency";
         public const string Equipment = "Data/Equipment";
         public const string Signature = "Data/Signature";
         public const string Stage = "Data/Stage";
         public const string StageWave = "Data/StageWave";
-        public const string CharacterSkill = "Data/CharacterSkill";
+        public const string CharacterSkill = "Data/StudentSkillData";
         public const string Enemy = "Data/EnemyData";
         public const string EnemySkill = "Data/EnemySkillData";
         

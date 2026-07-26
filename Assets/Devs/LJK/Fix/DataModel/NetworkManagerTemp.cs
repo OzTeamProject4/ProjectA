@@ -4,6 +4,10 @@ using UnityEngine;
 public class NetworkManagerTemp : MonoBehaviour
 {
     public static NetworkManagerTemp Instance { get; private set; }
+
+    // 인스턴스 ID 발급
+    private int _equipmentInstanceCounter;
+
     private StudentListModel _studentListModel;
     private InventoryModel _inventoryModel;
     private EquipmentCraftListModel _equipmentCraftListModel;
@@ -57,96 +61,28 @@ public class NetworkManagerTemp : MonoBehaviour
         Instance = this;
     }
 
+    private static readonly string[] DefaultStudentDataIds =
+    {
+        "Character_001",
+        "Character_002",
+        "Character_003"
+    };
+
     private StudentListModel CreateStudentListModel()
     {
-        List<StudentModel> studentSaveTemp = new List<StudentModel>
+        List<StudentModel> studentSaveTemp = new List<StudentModel>();
+
+        //TODO 저장 데이터가 붙으면 보유 학생 목록을 서버에서 받아오기
+        foreach (string studentDataId in DefaultStudentDataIds)
         {
-            new StudentModel(new StudentData
+            if (!GameManager.Instance.DataManager.TryGetData(studentDataId, out StudentData studentData))
             {
-                DataId = "Character_001",
-                Name = "루미",
-                Star = 3,
-                FullBodyKey = "StandImage/Lumi",
-                PortraitKey = "Icon/Lumi",
-                BaseHp = 100,
-                BaseAttack = 20,
-                BaseDefense = 10,
-                BaseMoveSpeed = 3.5f,
-                HpGrow = 18.6f,
-                AtkGrow = 2.7f,
-                DefGrow = 1.55f,
-                MoveSpeedGrow = 0.017f,
-                ElementType = ElementType.Fire
-            }),
-            new StudentModel(new StudentData
-            {
-                DataId = "Character_002",
-                Name = "네리",
-                Star = 3,
-                FullBodyKey = "StandImage/Neri",
-                PortraitKey = "Icon/Neri",
-                BaseHp = 140,
-                BaseAttack = 15,
-                BaseDefense = 16,
-                BaseMoveSpeed = 3.2f,
-                HpGrow = 24f,
-                AtkGrow = 1.9f,
-                DefGrow = 2.4f,
-                MoveSpeedGrow = 0.012f,
-                ElementType = ElementType.Water
-            }),
-            new StudentModel(new StudentData
-            {
-                DataId = "Character_003",
-                Name = "카이",
-                Star = 3,
-                FullBodyKey = "StandImage/Kai",
-                PortraitKey = "Icon/Kai",
-                BaseHp = 80,
-                BaseAttack = 26,
-                BaseDefense = 7,
-                BaseMoveSpeed = 4f,
-                HpGrow = 14.4f,
-                AtkGrow = 3.6f,
-                DefGrow = 1.05f,
-                MoveSpeedGrow = 0.02f,
-                ElementType = ElementType.Grass
-            }),
-            new StudentModel(new StudentData
-            {
-                DataId = "Character_004",
-                Name = "빛나",
-                Star = 4,
-                FullBodyKey = "StandImage/Bitna",
-                PortraitKey = "Icon/Bitna",
-                BaseHp = 95,
-                BaseAttack = 17,
-                BaseDefense = 9,
-                BaseMoveSpeed = 4.2f,
-                HpGrow = 17.1f,
-                AtkGrow = 2.2f,
-                DefGrow = 1.35f,
-                MoveSpeedGrow = 0.022f,
-                ElementType = ElementType.Normal
-            }),
-            new StudentModel(new StudentData
-            {
-                DataId = "Character_005",
-                Name = "유이",
-                Star = 4,
-                FullBodyKey = "StandImage/Yui",
-                PortraitKey = "Icon/Yui",
-                BaseHp = 160,
-                BaseAttack = 22,
-                BaseDefense = 13,
-                BaseMoveSpeed = 3f,
-                HpGrow = 27.2f,
-                AtkGrow = 2.9f,
-                DefGrow = 1.95f,
-                MoveSpeedGrow = 0.011f,
-                ElementType = ElementType.Normal
-            })
-        };
+                Debug.LogError($"'{studentDataId}' StudentData를 찾을 수 없습니다.");
+                continue;
+            }
+
+            studentSaveTemp.Add(new StudentModel(studentData));
+        }
 
         StudentListModel studentListModel = new StudentListModel(studentSaveTemp);
 
@@ -156,41 +92,63 @@ public class NetworkManagerTemp : MonoBehaviour
     {
         InventoryModel inventoryModel = new InventoryModel();
 
-        MaterialModel materialModel1 = new MaterialModel(new ItemData
-        {
-            DataId = "Item_ExpBook_Small",
-            TypeDataId = "Currency_ExpBook_Small",
-            ItemType = ItemType.Currency,
-            Name = "경험치북(소)",
-            Description = "학생에게 사용하면 경험치를 획득합니다.",
-            IconKey = "Sprites/Items[Items_ExpBook_1]"
-        }, 10);
+        AddMaterial(inventoryModel, "Item_ExpBook_Small", 99);
+        AddMaterial(inventoryModel, "Item_ExpBook_Medium", 99);
+        AddMaterial(inventoryModel, "Item_ExpBook_Large", 99);
 
-        MaterialModel materialModel2 = new MaterialModel(new ItemData
-        {
-            DataId = "Item_ExpBook_Medium",
-            TypeDataId = "Currency_ExpBook_Medium",
-            ItemType = ItemType.Currency,
-            Name = "경험치북(중)",
-            Description = "학생에게 사용하면 경험치를 획득합니다.",
-            IconKey = "Sprites/Items[Items_ExpBook_2]"
-        }, 10);
+        AddMaterial(inventoryModel, "Item_Mat_Shard_001", 20);
+        AddMaterial(inventoryModel, "Item_Mat_Shard_002", 20);
+        AddMaterial(inventoryModel, "Item_Mat_Shard_003", 20);
+        AddMaterial(inventoryModel, "Item_Mat_Shard_004", 20);
+        AddMaterial(inventoryModel, "Item_Mat_Shard_005", 20);
 
-        MaterialModel materialModel3 = new MaterialModel(new ItemData
-        {
-            DataId = "Item_ExpBook_Large",
-            TypeDataId = "Currency_ExpBook_Large",
-            ItemType = ItemType.Currency,
-            Name = "경험치북(대)",
-            Description = "학생에게 사용하면 경험치를 획득합니다.",
-            IconKey = "Sprites/Items[Items_ExpBook_3]"
-        }, 10);
-
-        inventoryModel.AddExpItem(materialModel1);
-        inventoryModel.AddExpItem(materialModel2);
-        inventoryModel.AddExpItem(materialModel3);
+        AddEquipment(inventoryModel, "Item_Equipment_01");
+        AddEquipment(inventoryModel, "Item_Equipment_01");
+        AddEquipment(inventoryModel, "Item_Equipment_02");
+        AddEquipment(inventoryModel, "Item_Equipment_04");
+        AddEquipment(inventoryModel, "Item_Equipment_07");
+        AddEquipment(inventoryModel, "Item_Equipment_10");
+        AddEquipment(inventoryModel, "Item_Equipment_13");
 
         return inventoryModel;
+    }
+
+    public string CreateEquipmentInstanceId()
+    {
+        _equipmentInstanceCounter++;
+
+        return $"Equip_{_equipmentInstanceCounter:D4}";
+    }
+
+    private void AddEquipment(InventoryModel inventoryModel, string itemDataId)
+    {
+        if (!TryGetItemData(itemDataId, out ItemData itemData))
+        {
+            return;
+        }
+
+        inventoryModel.AddEquipment(new EquipmentModel(CreateEquipmentInstanceId(), itemData));
+    }
+
+    private static void AddMaterial(InventoryModel inventoryModel, string itemDataId, int count)
+    {
+        if (!TryGetItemData(itemDataId, out ItemData itemData))
+        {
+            return;
+        }
+
+        inventoryModel.AddExpItem(new MaterialModel(itemData, count));
+    }
+
+    private static bool TryGetItemData(string itemDataId, out ItemData itemData)
+    {
+        if (GameManager.Instance.DataManager.TryGetData(itemDataId, out itemData))
+        {
+            return true;
+        }
+
+        Debug.LogError($"'{itemDataId}' ItemData를 찾을 수 없습니다.");
+        return false;
     }
 
     //TODO 데이터에 맞게 구조 수정

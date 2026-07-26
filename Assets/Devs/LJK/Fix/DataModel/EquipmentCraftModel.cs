@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EquipmentCraftModel
 {
+    private const string GoldItemId = "Item_Gold";
+
     private string _dataId;
     private string _name;
     private EquipType _equipType;
@@ -67,29 +69,49 @@ public class EquipmentCraftModel
 
     public EquipmentCraftModel(ItemData itemData)
     {
-        if(!GameManager.Instance.DataManager.TryGetData(itemData.TypeDataId, out EquipmentData equipmentData))
+        if(!GameManager.Instance.DataManager.TryGetData(itemData.ForeignKey, out EquipmentData equipmentData))
         {
-            Debug.Log($"{itemData.TypeDataId}의 EquipmentData가 없습니다.");
+            Debug.Log($"{itemData.ForeignKey}의 EquipmentData가 없습니다.");
             return;
         }
 
         _dataId = itemData.DataId;
         _name = itemData.Name;
         _iconKey = itemData.IconKey;
-        _equipType = equipmentData.EquipType;
-        _requiredGold = equipmentData.RequiredGold;
+        _equipType = equipmentData.EquipmentType;
         _requiredItemIds = equipmentData.RequiredItemIds.ToList();
         _requiredItemCounts = equipmentData.RequiredItemCounts.ToList();
+        _requiredGold = ExtractRequiredGold(_requiredItemIds, _requiredItemCounts);
         _statInfos = CreateStatInfos(equipmentData);
+    }
+
+    private static int ExtractRequiredGold(List<string> requiredItemIds, List<int> requiredItemCounts)
+    {
+        for (int index = 0; index < requiredItemIds.Count; index++)
+        {
+            if (requiredItemIds[index] != GoldItemId)
+            {
+                continue;
+            }
+
+            if (index >= requiredItemCounts.Count)
+            {
+                break;
+            }
+
+            return requiredItemCounts[index];
+        }
+
+        return 0;
     }
 
     private static List<StatInfo> CreateStatInfos(EquipmentData equipmentData)
     {
         List<StatInfo> statInfos = new List<StatInfo>() 
         {
-            new StatInfo(StatType.Hp, equipmentData.Hp), 
+            new StatInfo(StatType.Hp, equipmentData.MaxHp), 
             new StatInfo(StatType.Attack, equipmentData.Attack), 
-            new StatInfo(StatType.Defense, equipmentData.Defense), 
+            new StatInfo(StatType.Defense, equipmentData.Defence), 
             new StatInfo(StatType.MoveSpeed, equipmentData.MoveSpeed) 
         };
 

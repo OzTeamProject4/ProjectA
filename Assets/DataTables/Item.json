@@ -1,167 +1,306 @@
 [
   {
     "DataId": "Item_Gold",
+    "Name": "골드",
     "ItemType": "Currency",
-    "ForeignKey": "Currency_Gold"
+    "ForeignKey": "Currency_Gold",
+    "IconKey": null,
+    "Description": "기본 화폐 입니다."
   },
   {
     "DataId": "Item_Crystal",
+    "Name": "크리스탈",
     "ItemType": "Currency",
-    "ForeignKey": "Currency_Crystal"
+    "ForeignKey": "Currency_Crystal",
+    "IconKey": null,
+    "Description": "고대에 화폐로 쓰였던 조그만 결정석입니다."
   },
   {
     "DataId": "Item_ExpBook_Small",
+    "Name": "경험치북(소)",
     "ItemType": "Currency",
-    "ForeignKey": "Currency_ExpBook_Small"
+    "ForeignKey": "Currency_ExpBook_Small",
+    "IconKey": "Sprites/Items[Items_ExpBook_1]",
+    "Description": "경험치북(소)"
   },
   {
     "DataId": "Item_ExpBook_Medium",
+    "Name": "경험치북(중)",
     "ItemType": "Currency",
-    "ForeignKey": "Currency_ExpBook_Medium"
+    "ForeignKey": "Currency_ExpBook_Medium",
+    "IconKey": "Sprites/Items[Items_ExpBook_2]",
+    "Description": "경험치북(중)"
   },
   {
     "DataId": "Item_ExpBook_Large",
+    "Name": "경험치북(대)",
     "ItemType": "Currency",
-    "ForeignKey": "Currency_ExpBook_Large"
+    "ForeignKey": "Currency_ExpBook_Large",
+    "IconKey": "Sprites/Items[Items_ExpBook_3]",
+    "Description": "경험치북(대)"
   },
   {
     "DataId": "Item_Ticket_Sweep",
+    "Name": "소탕 티켓",
     "ItemType": "Currency",
-    "ForeignKey": "Currency_Ticket_Sweep"
+    "ForeignKey": "Currency_Ticket_Sweep",
+    "IconKey": null,
+    "Description": "스테이지 소탕권"
   },
   {
     "DataId": "Item_Ticket_Gacha",
+    "Name": "가챠 티켓",
     "ItemType": "Currency",
-    "ForeignKey": "Currency_Ticket_Gacha"
+    "ForeignKey": "Currency_Ticket_Gacha",
+    "IconKey": null,
+    "Description": "가챠용 티켓"
   },
   {
     "DataId": "Item_Ticket_GoldDungeon",
+    "Name": "골드 던전 입장권",
     "ItemType": "Currency",
-    "ForeignKey": "Currency_Ticket_GoldDungeon"
+    "ForeignKey": "Currency_Ticket_GoldDungeon",
+    "IconKey": null,
+    "Description": "골드를 벌 수 있는 공간 입장권"
   },
   {
     "DataId": "Item_Ticket_ExpDungeon",
+    "Name": "파밍 던전 입장권",
     "ItemType": "Currency",
-    "ForeignKey": "Currency_Ticket_ExpDungeon"
+    "ForeignKey": "Currency_Ticket_ExpDungeon",
+    "IconKey": null,
+    "Description": "경험치를 획득할 수 있는 공간 입장권"
   },
   {
     "DataId": "Item_Mat_T1",
+    "Name": "마력석 파편(소)",
     "ItemType": "Currency",
-    "ForeignKey": "Currency_Mat_T1"
+    "ForeignKey": "Currency_Mat_T1",
+    "IconKey": null,
+    "Description": "마력이 담긴 조그만 조각"
   },
   {
     "DataId": "Item_Mat_T2",
+    "Name": "마력석 파편(중)",
     "ItemType": "Currency",
-    "ForeignKey": "Currency_Mat_T2"
+    "ForeignKey": "Currency_Mat_T2",
+    "IconKey": null,
+    "Description": "마력이 담긴 조각"
   },
   {
     "DataId": "Item_Mat_T3",
+    "Name": "마력석 파편(대)",
     "ItemType": "Currency",
-    "ForeignKey": "Currency_Mat_T3"
+    "ForeignKey": "Currency_Mat_T3",
+    "IconKey": null,
+    "Description": "마력이 뿜어져 나오는 조각"
   },
   {
     "DataId": "Item_Mat_Signature",
+    "Name": "응집된 마나 구슬",
     "ItemType": "Currency",
-    "ForeignKey": "Currency_Mat_Signature"
+    "ForeignKey": "Currency_Mat_Signature",
+    "IconKey": null,
+    "Description": "마나가 한곳으로 응집된 푸른 덩어리"
+  },
+  {
+    "DataId": "Item_Mat_Shard_001",
+    "Name": "루미 조각",
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_CharacterShard_001",
+    "IconKey": null,
+    "Description": "루미 승급에 필요한 재료"
+  },
+  {
+    "DataId": "Item_Mat_Shard_002",
+    "Name": "네리 조각",
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_CharacterShard_002",
+    "IconKey": null,
+    "Description": "네리 승급에 필요한 재료"
+  },
+  {
+    "DataId": "Item_Mat_Shard_003",
+    "Name": "카이 조각",
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_CharacterShard_003",
+    "IconKey": null,
+    "Description": "카이 승급에 필요한 재료"
+  },
+  {
+    "DataId": "Item_Mat_Shard_004",
+    "Name": "빛나 조각",
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_CharacterShard_004",
+    "IconKey": null,
+    "Description": "빛나 승급에 필요한 재료"
+  },
+  {
+    "DataId": "Item_Mat_Shard_005",
+    "Name": "유이 조각",
+    "ItemType": "Currency",
+    "ForeignKey": "Currency_CharacterShard_005",
+    "IconKey": null,
+    "Description": "유이 승급에 필요한 재료"
   },
   {
     "DataId": "Item_Equipment_01",
+    "Name": "견습생의 마법봉",
     "ItemType": "Equipment",
-    "ForeignKey": "Equip_Weapon_01"
+    "ForeignKey": "Equip_Weapon_01",
+    "IconKey": "Sprites/Equipment[Equipment_Staff_1]",
+    "Description": "초보자가 쓰는 지팡이이다"
   },
   {
     "DataId": "Item_Equipment_02",
+    "Name": "숙련된 마도사의 지팡이",
     "ItemType": "Equipment",
-    "ForeignKey": "Equip_Weapon_02"
+    "ForeignKey": "Equip_Weapon_02",
+    "IconKey": "Sprites/Equipment[Equipment_Staff_2]",
+    "Description": "숙련자가 사용하는 강화된 지팡이이다"
   },
   {
     "DataId": "Item_Equipment_03",
+    "Name": "고위사제의 마법지팡이",
     "ItemType": "Equipment",
-    "ForeignKey": "Equip_Weapon_03"
+    "ForeignKey": "Equip_Weapon_03",
+    "IconKey": "Sprites/Equipment[Equipment_Staff_3]",
+    "Description": "대마도사만이 다룰 수 있는 강력한 지팡이이다"
   },
   {
     "DataId": "Item_Equipment_04",
+    "Name": "초급 마법사 모자",
     "ItemType": "Equipment",
-    "ForeignKey": "Equip_Hat_01"
+    "ForeignKey": "Equip_Hat_01",
+    "IconKey": "Sprites/Equipment[Equipment_Helmet_1]",
+    "Description": "견습생에게 지급되는 기본 마법모자이다"
   },
   {
     "DataId": "Item_Equipment_05",
+    "Name": "마력이 깃든 로브 후드",
     "ItemType": "Equipment",
-    "ForeignKey": "Equip_Hat_02"
+    "ForeignKey": "Equip_Hat_02",
+    "IconKey": "Sprites/Equipment[Equipment_Helmet_2]",
+    "Description": "숙련자의 마력을 견딜 수 있게 개조된 마법모자이다"
   },
   {
     "DataId": "Item_Equipment_06",
+    "Name": "현자의 대마법사 모자",
     "ItemType": "Equipment",
-    "ForeignKey": "Equip_Hat_03"
+    "ForeignKey": "Equip_Hat_03",
+    "IconKey": "Sprites/Equipment[Equipment_Helmet_3]",
+    "Description": "대마도사의 상징이 새겨진 마법모자이다"
   },
   {
     "DataId": "Item_Equipment_07",
+    "Name": "기초 마법 저항 로브",
     "ItemType": "Equipment",
-    "ForeignKey": "Equip_Armor_01"
+    "ForeignKey": "Equip_Armor_01",
+    "IconKey": "Sprites/Equipment[Equipment_Robe_1]",
+    "Description": "견습생에게 지급되는 기본 로브이다"
   },
   {
     "DataId": "Item_Equipment_08",
+    "Name": "학회 공인 마도 로브",
     "ItemType": "Equipment",
-    "ForeignKey": "Equip_Armor_02"
+    "ForeignKey": "Equip_Armor_02",
+    "IconKey": "Sprites/Equipment[Equipment_Robe_2]",
+    "Description": "숙련자의 몸을 보호하도록 짜인 로브이다"
   },
   {
     "DataId": "Item_Equipment_09",
+    "Name": "대마도사의 정수 로브",
     "ItemType": "Equipment",
-    "ForeignKey": "Equip_Armor_03"
+    "ForeignKey": "Equip_Armor_03",
+    "IconKey": "Sprites/Equipment[Equipment_Robe_3]",
+    "Description": "대마도사의 위엄이 깃든 로브이다"
   },
   {
     "DataId": "Item_Equipment_10",
+    "Name": "신입생의 마법 장화",
     "ItemType": "Equipment",
-    "ForeignKey": "Equip_Boots_01"
+    "ForeignKey": "Equip_Boots_01",
+    "IconKey": "Sprites/Equipment[Equipment_Boots_1]",
+    "Description": "견습생이 신는 기본 마법부츠이다"
   },
   {
     "DataId": "Item_Equipment_11",
+    "Name": "마력 증폭 이동 장화",
     "ItemType": "Equipment",
-    "ForeignKey": "Equip_Boots_02"
+    "ForeignKey": "Equip_Boots_02",
+    "IconKey": "Sprites/Equipment[Equipment_Boots_2]",
+    "Description": "숙련자의 발걸음에 맞춰 가벼워진 마법부츠이다"
   },
   {
     "DataId": "Item_Equipment_12",
+    "Name": "바람을 부르는 비행 장화",
     "ItemType": "Equipment",
-    "ForeignKey": "Equip_Boots_03"
+    "ForeignKey": "Equip_Boots_03",
+    "IconKey": "Sprites/Equipment[Equipment_Boots_3]",
+    "Description": "대마도사의 이동을 돕는 최상급 마법부츠이다"
   },
   {
     "DataId": "Item_Equipment_13",
+    "Name": "단순한 마력 반지",
     "ItemType": "Equipment",
-    "ForeignKey": "Equip_Accessory_01"
+    "ForeignKey": "Equip_Accessory_01",
+    "IconKey": "Sprites/Equipment[Equipment_Accessory_1]",
+    "Description": "견습생이 착용하는 기본 마력반지이다"
   },
   {
     "DataId": "Item_Equipment_14",
+    "Name": "마법사의 부적 목걸이",
     "ItemType": "Equipment",
-    "ForeignKey": "Equip_Accessory_02"
+    "ForeignKey": "Equip_Accessory_02",
+    "IconKey": "Sprites/Equipment[Equipment_Accessory_2]",
+    "Description": "숙련자의 마력을 증폭시키는 마력반지이다"
   },
   {
     "DataId": "Item_Equipment_15",
+    "Name": "대마나 서클릿",
     "ItemType": "Equipment",
-    "ForeignKey": "Equip_Accessory_03"
+    "ForeignKey": "Equip_Accessory_03",
+    "IconKey": "Sprites/Equipment[Equipment_Accessory_3]",
+    "Description": "대마도사의 마력이 응축된 마력반지이다"
   },
   {
     "DataId": "Item_Signature_01",
+    "Name": "별빛 궤적 깃펜",
     "ItemType": "Signature",
-    "ForeignKey": "Equip_Signature_01"
+    "ForeignKey": "Equip_Signature_01",
+    "IconKey": null,
+    "Description": null
   },
   {
     "DataId": "Item_Signature_02",
+    "Name": "연금술 플라스크",
     "ItemType": "Signature",
-    "ForeignKey": "Equip_Signature_02"
+    "ForeignKey": "Equip_Signature_02",
+    "IconKey": null,
+    "Description": null
   },
   {
     "DataId": "Item_Signature_03",
+    "Name": "마력 건틀렛",
     "ItemType": "Signature",
-    "ForeignKey": "Equip_Signature_03"
+    "ForeignKey": "Equip_Signature_03",
+    "IconKey": null,
+    "Description": null
   },
   {
     "DataId": "Item_Signature_04",
+    "Name": "수석의 기장",
     "ItemType": "Signature",
-    "ForeignKey": "Equip_Signature_04"
+    "ForeignKey": "Equip_Signature_04",
+    "IconKey": null,
+    "Description": null
   },
   {
     "DataId": "Item_Signature_05",
+    "Name": "잎사귀 책갈피",
     "ItemType": "Signature",
-    "ForeignKey": "Equip_Signature_05"
+    "ForeignKey": "Equip_Signature_05",
+    "IconKey": null,
+    "Description": null
   }
 ]

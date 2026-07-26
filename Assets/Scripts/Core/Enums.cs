@@ -91,7 +91,8 @@ public enum CurrencyType
     Crystal,
     ExpBook,
     Ticket,
-    Material
+    Material,
+    Shard
 }
 
 public enum EquipType

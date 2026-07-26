@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using UnityEngine;
-using static UnityEngine.CullingGroup;
-using static UnityEngine.Rendering.DebugUI;
 
 public class ItemModel : INotifyPropertyChanged
 {
@@ -130,9 +126,9 @@ public class MaterialModel : ItemModel
     {
         _count = count;
 
-        if (!GameManager.Instance.DataManager.TryGetData(itemData.TypeDataId, out CurrencyData currencyData))
+        if (!GameManager.Instance.DataManager.TryGetData(itemData.ForeignKey, out CurrencyData currencyData))
         {
-            Debug.LogError($"'{itemData.TypeDataId}'를 가진 CurrencyData가 없습니다. DataId={itemData.DataId}");
+            Debug.LogError($"'{itemData.ForeignKey}'를 가진 CurrencyData가 없습니다. DataId={itemData.DataId}");
             return;
         }
 
@@ -183,14 +179,26 @@ public class MaterialModel : ItemModel
 
 public class EquipmentModel : ItemModel
 {
-    public EquipType _equipType;
+    private static readonly PropertyChangedEventArgs EquippedByChanged = new PropertyChangedEventArgs(nameof(EquippedBy));
+
+    private readonly string _instanceId;
+    private EquipType _equipType;
     private List<StatInfo> _statInfos;
+    private string _equippedBy;
+
+    public string InstanceId
+    {
+        get
+        {
+            return _instanceId;
+        }
+    }
 
     public EquipType EquipType
-    { 
-        get 
+    {
+        get
         {
-            return _equipType; 
+            return _equipType;
         }
     }
 
@@ -199,25 +207,63 @@ public class EquipmentModel : ItemModel
         get { return _statInfos; }
     }
 
-    public EquipmentModel(ItemData itemData) : base(itemData)
+    public string EquippedBy
     {
-        if (!GameManager.Instance.DataManager.TryGetData(itemData.TypeDataId, out EquipmentData equipmentData))
+        get
         {
-            Debug.LogError($"{itemData.TypeDataId}를 가진 EquipmentData가 없습니다");
+            return _equippedBy;
+        }
+        private set
+        {
+            if (_equippedBy == value)
+            {
+                return;
+            }
+
+            _equippedBy = value;
+            OnPropertyChanged(EquippedByChanged);
+        }
+    }
+
+    public bool IsEquipped
+    {
+        get
+        {
+            return !string.IsNullOrEmpty(_equippedBy);
+        }
+    }
+
+    public EquipmentModel(string instanceId, ItemData itemData) : base(itemData)
+    {
+        _instanceId = instanceId;
+
+        if (!GameManager.Instance.DataManager.TryGetData(itemData.ForeignKey, out EquipmentData equipmentData))
+        {
+            Debug.LogError($"'{itemData.ForeignKey}'를 가진 EquipmentData가 없습니다. DataId={itemData.DataId}");
             return;
         }
 
-        _equipType = equipmentData.EquipType;
+        _equipType = equipmentData.EquipmentType;
         _statInfos = CreateStatInfos(equipmentData);
+    }
+
+    public void SetEquippedBy(string studentDataId)
+    {
+        EquippedBy = studentDataId;
+    }
+
+    public void ClearEquippedBy()
+    {
+        EquippedBy = null;
     }
 
     private static List<StatInfo> CreateStatInfos(EquipmentData equipmentData)
     {
         List<StatInfo> statInfos = new List<StatInfo>()
         {
-            new StatInfo(StatType.Hp, equipmentData.Hp),
+            new StatInfo(StatType.Hp, equipmentData.MaxHp),
             new StatInfo(StatType.Attack, equipmentData.Attack),
-            new StatInfo(StatType.Defense, equipmentData.Defense),
+            new StatInfo(StatType.Defense, equipmentData.Defence),
             new StatInfo(StatType.MoveSpeed, equipmentData.MoveSpeed)
         };
 
@@ -229,11 +275,18 @@ public class InventoryModel : INotifyPropertyChanged
 {
     private static readonly PropertyChangedEventArgs InventoryChanged = new PropertyChangedEventArgs(nameof(Inventory));
 
+    // 재료는 스택형, 장비는 인스턴스형
     private readonly Dictionary<string, ItemModel> _inventory;
+    private readonly Dictionary<string, EquipmentModel> _equipments;
 
     public IReadOnlyDictionary<string, ItemModel> Inventory
     {
         get { return _inventory; }
+    }
+
+    public IReadOnlyDictionary<string, EquipmentModel> Equipments
+    {
+        get { return _equipments; }
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -241,6 +294,7 @@ public class InventoryModel : INotifyPropertyChanged
     public InventoryModel()
     {
         _inventory = new Dictionary<string, ItemModel>();
+        _equipments = new Dictionary<string, EquipmentModel>();
     }
 
     public void NotifyAllProperties()
@@ -281,26 +335,118 @@ public class InventoryModel : INotifyPropertyChanged
 
         return filteredItems;
     }
-    public IReadOnlyDictionary<string, EquipmentModel> GetItemsByEquipType(EquipType equipType)
+
+    public IReadOnlyList<EquipmentModel> GetEquipmentsByEquipType(EquipType equipType)
     {
-        Dictionary<string, EquipmentModel> filteredItems = new Dictionary<string, EquipmentModel>();
+        List<EquipmentModel> filteredEquipments = new List<EquipmentModel>();
 
-        foreach (ItemModel item in _inventory.Values)
+        foreach (EquipmentModel equipmentModel in _equipments.Values)
         {
-            if (item is not EquipmentModel equipmentModel)
-            {
-                continue;
-            }
-
             if (equipmentModel.EquipType != equipType)
             {
                 continue;
             }
 
-            filteredItems.Add(equipmentModel.DataId, equipmentModel);
+            filteredEquipments.Add(equipmentModel);
         }
 
-        return filteredItems;
+        return filteredEquipments;
+    }
+
+    public bool TryGetEquipment(string instanceId, out EquipmentModel equipmentModel)
+    {
+        if (string.IsNullOrWhiteSpace(instanceId))
+        {
+            equipmentModel = null;
+            return false;
+        }
+
+        return _equipments.TryGetValue(instanceId, out equipmentModel);
+    }
+
+    public void AddEquipment(EquipmentModel equipmentModel)
+    {
+        if (equipmentModel == null || string.IsNullOrWhiteSpace(equipmentModel.InstanceId))
+        {
+            Debug.LogError("[InventoryModel:AddEquipment] InstanceId가 없는 장비는 추가할 수 없습니다.");
+            return;
+        }
+
+        if (!_equipments.TryAdd(equipmentModel.InstanceId, equipmentModel))
+        {
+            Debug.LogError($"[InventoryModel:AddEquipment] InstanceId가 중복됩니다. InstanceId={equipmentModel.InstanceId}");
+        }
+    }
+
+    public bool TryEquip(StudentModel studentModel, string instanceId)
+    {
+        if (studentModel == null)
+        {
+            Debug.LogError("[InventoryModel:TryEquip] studentModel이 null입니다.");
+            return false;
+        }
+
+        if (!TryGetEquipment(instanceId, out EquipmentModel equipmentModel))
+        {
+            Debug.LogError($"[InventoryModel:TryEquip] 장비를 찾을 수 없습니다. InstanceId={instanceId}");
+            return false;
+        }
+
+        if (equipmentModel.IsEquipped)
+        {
+            if (equipmentModel.EquippedBy == studentModel.DataId)
+            {
+                return false;
+            }
+
+            if (!TryUnequipFrom(equipmentModel.EquippedBy, equipmentModel.EquipType))
+            {
+                return false;
+            }
+        }
+
+        TryUnequip(studentModel, equipmentModel.EquipType);
+
+        studentModel.Equip(equipmentModel.EquipType, equipmentModel.InstanceId);
+        equipmentModel.SetEquippedBy(studentModel.DataId);
+
+        return true;
+    }
+
+    public bool TryUnequip(StudentModel studentModel, EquipType equipType)
+    {
+        if (studentModel == null)
+        {
+            Debug.LogError("[InventoryModel:TryUnequip] studentModel이 null입니다.");
+            return false;
+        }
+
+        if (!studentModel.TryGetEquippedItemId(equipType, out string instanceId))
+        {
+            return false;
+        }
+
+        studentModel.Unequip(equipType);
+
+        if (TryGetEquipment(instanceId, out EquipmentModel equipmentModel))
+        {
+            equipmentModel.ClearEquippedBy();
+        }
+
+        return true;
+    }
+
+    private bool TryUnequipFrom(string studentDataId, EquipType equipType)
+    {
+        StudentModel owner = NetworkManagerTemp.Instance.StudentListModel.GetCharacter(studentDataId);
+
+        if (owner == null)
+        {
+            Debug.LogWarning($"[InventoryModel:TryUnequipFrom] 장착자를 찾을 수 없습니다. DataId={studentDataId}");
+            return false;
+        }
+
+        return TryUnequip(owner, equipType);
     }
 
     public IReadOnlyDictionary<string, MaterialModel> GetItemsByMaterialType(CurrencyType materialType)

@@ -13,13 +13,27 @@ public static class StudentDataId
     {
         return $"Level_{level}";
     }
+
+    public static string CreateShardItemId(string studentDataId)
+    {
+        int separatorIndex = studentDataId.LastIndexOf('_');
+
+        if (separatorIndex < 0 || separatorIndex == studentDataId.Length - 1)
+        {
+            Debug.LogError($"학생 DataId 형식이 예상과 다릅니다. DataId={studentDataId}");
+            return string.Empty;
+        }
+
+        string serial = studentDataId.Substring(separatorIndex + 1);
+
+        return $"Item_Mat_Shard_{serial}";
+    }
 }
 public class StudentGradeData : BaseData
 {
     public int Star { get; init; } //TODO 사용처 없음 확인바람
     public int MaxLevel { get; init; }
-    public string RequiredGradeUpItemId { get; init; }
-    public int RequiredGradeUpItemCount { get; init; }
+    public int RequiredToNext { get; init; }
     public float HpGrow { get; init; }
     public float AtkGrow { get; init; }
     public float DefGrow { get; init; }
@@ -79,6 +93,7 @@ public class StudentModel : INotifyPropertyChanged
     private static readonly PropertyChangedEventArgs MoveSpeedChanged = new PropertyChangedEventArgs(nameof(TotalMoveSpeed));
     private static readonly PropertyChangedEventArgs FullBodyKeyChanged = new PropertyChangedEventArgs(nameof(FullBodyKey));
     private static readonly PropertyChangedEventArgs PortraitKeyChanged = new PropertyChangedEventArgs(nameof(PortraitKey));
+    private static readonly PropertyChangedEventArgs EquippedItemIdsChanged = new PropertyChangedEventArgs(nameof(EquippedItemIds));
 
 
     //private static readonly PropertyChangedEventArgs EquipChanged = new PropertyChangedEventArgs(nameof(EquipItem));
@@ -140,7 +155,7 @@ public class StudentModel : INotifyPropertyChanged
     {
         get
         {
-            return _currentGradeData.RequiredGradeUpItemCount <= 0;
+            return _currentGradeData.RequiredToNext <= 0;
         }
     }
 
@@ -148,7 +163,7 @@ public class StudentModel : INotifyPropertyChanged
     {
         get
         {
-            return _currentGradeData.RequiredGradeUpItemId;
+            return StudentDataId.CreateShardItemId(_dataId);
         }
     }
 
@@ -156,7 +171,7 @@ public class StudentModel : INotifyPropertyChanged
     {
         get
         {
-            return _currentGradeData.RequiredGradeUpItemCount;
+            return _currentGradeData.RequiredToNext;
         }
     }
 
@@ -249,6 +264,38 @@ public class StudentModel : INotifyPropertyChanged
         }
     }
 
+    public IReadOnlyDictionary<EquipType, string> EquippedItemIds
+    {
+        get
+        {
+            return _equippedItemIds;
+        }
+    }
+
+    public bool TryGetEquippedItemId(EquipType equipType, out string instanceId)
+    {
+        return _equippedItemIds.TryGetValue(equipType, out instanceId);
+    }
+
+    public void Equip(EquipType equipType, string instanceId)
+    {
+        _equippedItemIds[equipType] = instanceId;
+
+        RecalculateStats();
+        OnPropertyChanged(EquippedItemIdsChanged);
+    }
+
+    public void Unequip(EquipType equipType)
+    {
+        if (!_equippedItemIds.Remove(equipType))
+        {
+            return;
+        }
+
+        RecalculateStats();
+        OnPropertyChanged(EquippedItemIdsChanged);
+    }
+
 
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -257,9 +304,9 @@ public class StudentModel : INotifyPropertyChanged
         _dataId = studentData.DataId;
         _name = studentData.Name;
         _star = studentData.Star;
-        _elementType = studentData.ElementType;
-        _fullBodyKey = studentData.FullBodyKey;
-        _portraitKey = studentData.PortraitKey;
+        _elementType = studentData.Type;
+        _portraitKey = studentData.CharacterIconPath;
+        _fullBodyKey = CreateFullBodyKey(studentData.CharacterIconPath);
         _currentExperience = 0;
         _level = 1;
 
@@ -275,8 +322,29 @@ public class StudentModel : INotifyPropertyChanged
         _gradeStats = new Dictionary<StatType, float>();
         _equipmentStats = new Dictionary<StatType, float>();
 
-        FillStatDictionary(_baseStats, new StatData(studentData.BaseHp, studentData.BaseAttack, studentData.BaseDefense, studentData.BaseMoveSpeed));
+        FillStatDictionary(_baseStats, new StatData(studentData.MaxHp, studentData.Attack, studentData.Defence, studentData.MoveSpeed));
         RecalculateStats();
+    }
+
+    //TODO StudentData에 전신 이미지 컬럼이 없어 초상화 키에서 파생시킨다. 컬럼이 생기면 그 값을 쓸 것
+    // Icon/Lumi → StandImage/Lumi
+    private static string CreateFullBodyKey(string portraitKey)
+    {
+        if (string.IsNullOrWhiteSpace(portraitKey))
+        {
+            return string.Empty;
+        }
+
+        int separatorIndex = portraitKey.LastIndexOf('/');
+
+        if (separatorIndex < 0 || separatorIndex == portraitKey.Length - 1)
+        {
+            return string.Empty;
+        }
+
+        string characterName = portraitKey.Substring(separatorIndex + 1);
+
+        return $"StandImage/{characterName}";
     }
 
     public void NotifyAllProperties()
@@ -365,22 +433,56 @@ public class StudentModel : INotifyPropertyChanged
     private void UpdateEquipmentStats()
     {
         StatData equipmentStats = new StatData();
+        InventoryModel inventoryModel = NetworkManagerTemp.Instance.InventoryModel;
 
         //TODO 장비를 인스턴스 방식으로 바꾸면 여기 담기는 값이 InstanceId가 되므로,
         //     인벤토리에서 인스턴스를 찾아 그 DataId로 EquipmentData를 조회하는 방향으로 교체 필요
-        foreach (string itemId in _equippedItemIds.Values)
+        foreach (string instanceId in _equippedItemIds.Values)
         {
-            if (!GameManager.Instance.DataManager.TryGetData(itemId, out EquipmentData equipmentData))
+            if (!inventoryModel.TryGetEquipment(instanceId, out EquipmentModel equipmentModel))
             {
-                Debug.LogWarning($"{itemId} 장비 데이터가 없습니다.");
+                Debug.LogWarning($"{instanceId} 장비를 인벤토리에서 찾을 수 없습니다.");
                 continue;
             }
 
-            StatData itemStats = new StatData(equipmentData.Hp, equipmentData.Attack, equipmentData.Defense, equipmentData.MoveSpeed);
-            equipmentStats.AddStat(itemStats);
+            equipmentStats.AddStat(CreateStatData(equipmentModel.StatInfos));
         }
 
         FillStatDictionary(_equipmentStats, equipmentStats);
+    }
+
+    private static StatData CreateStatData(IReadOnlyList<StatInfo> statInfos)
+    {
+        float hp = 0f;
+        float attack = 0f;
+        float defense = 0f;
+        float moveSpeed = 0f;
+
+        if (statInfos == null)
+        {
+            return new StatData(hp, attack, defense, moveSpeed);
+        }
+
+        foreach (StatInfo statInfo in statInfos)
+        {
+            switch (statInfo.Type)
+            {
+                case StatType.Hp:
+                    hp += statInfo.Value;
+                    break;
+                case StatType.Attack:
+                    attack += statInfo.Value;
+                    break;
+                case StatType.Defense:
+                    defense += statInfo.Value;
+                    break;
+                case StatType.MoveSpeed:
+                    moveSpeed += statInfo.Value;
+                    break;
+            }
+        }
+
+        return new StatData(hp, attack, defense, moveSpeed);
     }
 
     private void NotifyStatsChanged()
@@ -448,7 +550,7 @@ public class StudentModel : INotifyPropertyChanged
             return false;
         }
 
-        if (!NetworkManagerTemp.Instance.InventoryModel.TryGetItem(_currentGradeData.RequiredGradeUpItemId, out ItemModel itemModel))
+        if (!NetworkManagerTemp.Instance.InventoryModel.TryGetItem(RequiredGradeUpItemId, out ItemModel itemModel))
         {
             return false;
         }
@@ -458,7 +560,7 @@ public class StudentModel : INotifyPropertyChanged
             return false;
         }
 
-        if (!materialModel.TryConsume(_currentGradeData.RequiredGradeUpItemCount))
+        if (!materialModel.TryConsume(RequiredGradeUpItemCount))
         {
             return false;
         }

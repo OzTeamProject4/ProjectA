@@ -2,20 +2,22 @@
 {
     public string Name { get; init; }
     public int Star { get; init; }
-    public string FullBodyKey { get; init; }
-    public string PortraitKey { get; init; }
-    public float BaseHp { get; init; }
-    public float BaseAttack { get; init; }
-    public float BaseDefense { get; init; }
-    public float BaseMoveSpeed { get; init; }
-    public ElementType ElementType { get; init; }
+    public ElementType Type { get; init; }
 
+    // 1레벨 기준 스탯
+    public float MaxHp { get; init; }
+    public float Attack { get; init; }
+    public float Defence { get; init; }
+    public float MoveSpeed { get; init; }
+
+    // 레벨당 상승량
     public float HpGrow { get; init; }
     public float AtkGrow { get; init; }
     public float DefGrow { get; init; }
     public float MoveSpeedGrow { get; init; }
 
-
+    public string CharacterIconPath { get; init; }
+    public string PrefabPath { get; init; }
 
     //public string SkillList { get; init; }
 
