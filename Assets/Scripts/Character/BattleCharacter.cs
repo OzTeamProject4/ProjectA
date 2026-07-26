@@ -86,8 +86,17 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         }
     }
 
+    public float MaxHp
+    {
+        get
+        {
+            return _maxHp;
+        }
+    }
+
     public event Action<float> OnMoveSpeedChanged;
     public event Action<bool> OnGroundedChanged;
+    public event Action<float, float> OnHpChanged;
 
     private void Awake()
     {
@@ -135,13 +144,14 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     public async UniTask InitializeAsync(CharacterData data)
     {
         _data = data;
-        _curHp = data.Hp;
+        _maxHp = data.Hp;
+        SetHp(data.Hp);
+        Debug.Log($"[BattleCharacter] {name} InitializeAsync: data.Hp={data.Hp}, _curHp={_curHp}, _maxHp={_maxHp}");
         _curAtk = data.Attack;
         _curDef = data.Defence;
         _curMoveSpeed = data.MoveSpeed;
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
         _curSkillGauge = 0;
-        _maxHp = data.Hp;
         _curMoveSpeed = data.MoveSpeed;
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
         _baseMoveSpeed = data.MoveSpeed;
@@ -241,20 +251,12 @@ public class BattleCharacter : MonoBehaviour, IDamageable
 
     public void TakeDamage(int damage, GameObject attacker)
     {
-        _curHp -= damage;
-        if(_curHp < 0)
-        {
-            _curHp = 0;
-        }
+        SetHp(_curHp - damage);
     }
 
     public void Heal(int amount)
     {
-        _curHp += amount;
-        if (_curHp > _maxHp)
-        {
-            _curHp = _maxHp;
-        }
+        SetHp(_curHp + amount);
     }
 
     public void ApplyMoveSpeedBuff(float moveSpeedBuff, float duration)
@@ -263,6 +265,12 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         _buffCts?.Dispose();
         _buffCts = new CancellationTokenSource();
         ApplyMoveSpeedBuffAsync(moveSpeedBuff, duration, _buffCts.Token).Forget();
+    }
+
+    private void SetHp(float hp)
+    {
+        _curHp = Mathf.Clamp(hp, 0f, _maxHp);
+        OnHpChanged?.Invoke(_curHp, _maxHp);
     }
 
     private async UniTask ApplyMoveSpeedBuffAsync(float speedBuffPercent, float duration, CancellationToken token)
@@ -300,5 +308,12 @@ public class BattleCharacter : MonoBehaviour, IDamageable
 
         Gizmos.color = IsGrounded() ? Color.green : Color.red;
         Gizmos.DrawWireSphere(_groundCheckPoint.position, _groundCheckRadius);
+    }
+
+    // 테스트용 임시코드
+    [ContextMenu("Test Damage 100")]
+    private void TestDamage()
+    {
+        SetHp(_curHp - 100);
     }
 }

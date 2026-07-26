@@ -39,6 +39,7 @@ public class TempPartySpawner
             Vector3 spawnPosition = spawnOrigin + new Vector3(index * 20, 2, 0);
             GameObject obj = Object.Instantiate(prefab, spawnPosition, Quaternion.identity); BattleCharacter battleCharacter = obj.GetComponent<BattleCharacter>();
             await battleCharacter.InitializeAsync(data);
+            Debug.Log($"[Spawner] {battleCharacter.name} 초기화 후 HP={battleCharacter.CurHp}/{battleCharacter.MaxHp}");
             characters.Add(battleCharacter);
             index++;
         }

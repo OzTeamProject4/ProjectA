@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ public class PartyController
     private List<CharacterAIController> _aiControllerList;
     private List<PlayerController> _playerControllerList;
 
-    
+    public event Action<BattleCharacter> OnCharacterChanged;
 
     public void Initialize(List<BattleCharacter> characters, CinemachineCamera cinemachinCamera)
     {
@@ -126,6 +127,7 @@ public class PartyController
         }
 
         _cinemachineCamera.Target.TrackingTarget = target.transform;
+        SetControlCharacter(target);
     }
    
     public void TrySwitchToCharacter(int index)
@@ -264,5 +266,10 @@ public class PartyController
                 UnityEngine.Object.Destroy(effect, EffectLifeTime);
             }
         }
+    }
+
+    private void SetControlCharacter(BattleCharacter character)
+    {
+        OnCharacterChanged?.Invoke(character);
     }
 }

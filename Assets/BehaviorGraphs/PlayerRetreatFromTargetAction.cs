@@ -57,7 +57,6 @@ public partial class PlayerRetreatFromTargetAction : Action
         }
 
         float distance = Vector3.Distance(Self.Value.transform.position, EnemyTarget.Value.transform.position);
-        Debug.Log($"retreat dist={distance:F1} / target={_skillSystem.MinAttackRange + RetreatBuffer:F1} / desired={_navMeshAgent.desiredVelocity.magnitude:F2}");
         if (distance > _skillSystem.MinAttackRange + RetreatBuffer)
         {
             _battleCharacter.Move(Vector3.zero, false);

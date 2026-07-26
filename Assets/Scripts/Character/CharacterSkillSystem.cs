@@ -84,6 +84,21 @@ public class CharacterSkillSystem : MonoBehaviour
         }
     }
 
+    public int CurUltGauge
+    {
+        get
+        {
+            return _currentGauge;
+        }
+    }
+    
+    public int MaxUltGauge
+    {
+        get
+        {
+            return _maxGauge;
+        }
+    }
     
     
     private void Awake()

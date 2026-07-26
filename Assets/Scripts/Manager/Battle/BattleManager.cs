@@ -14,6 +14,7 @@ public class BattleManager : BaseManager<BattleManager>
     private CinemachineCamera _cinemachineCamera;
     private TempPartySpawner _partySpawner;
     private PartyController _partyController;
+    private BattleHUDPresenter _hudPresenter;
 
     public event Action<bool> OnBattleEnded;
     public event Action OnReturnToSelectRequested;
@@ -25,6 +26,7 @@ public class BattleManager : BaseManager<BattleManager>
 
     private GameObject _enemyRoot;
     private GameObject _enemySkillRoot;
+    
 
     public override UniTask InitializeAsync()
     {
@@ -116,6 +118,12 @@ public class BattleManager : BaseManager<BattleManager>
 
     private void CleanupPartyController()
     {
+        if (_hudPresenter != null)
+        {
+            _hudPresenter.Cleanup();
+            _hudPresenter = null;
+        }
+
         if (_partyController == null)
         {
             return;
@@ -177,8 +185,12 @@ public class BattleManager : BaseManager<BattleManager>
         }
 
         CleanupPartyController();
-
+        
         _partyController = new PartyController();
+        BattleHUDView hudView = await GameManager.Instance.UIManager.OpenBattleHUDAsync(destroyCancellationToken);
+        _hudPresenter = new BattleHUDPresenter();
+        _hudPresenter.Initialize(hudView, _partyController);
+
         _partyController.Initialize(characters, _cinemachineCamera);
 
         SubscribeInputActions();
