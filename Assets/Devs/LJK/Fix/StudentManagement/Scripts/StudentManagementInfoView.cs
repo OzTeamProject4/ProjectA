@@ -11,6 +11,7 @@ public class StudentManagementInfoView : MonoBehaviour
     [Header("Info")]
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private Image _elementIcon;
+    [SerializeField] private Image _requiredGradeUpItemIconImage;
     [SerializeField] private TMP_Text _requiredGradeUpItemCountText;
     [SerializeField] private Button _gradeUpButton;
     [SerializeField] private List<GameObject> _starIconList;
@@ -30,6 +31,7 @@ public class StudentManagementInfoView : MonoBehaviour
     {
         UnityUtil.ValidateReference(_nameText, nameof(StudentManagementInfoView), nameof(_nameText));
         UnityUtil.ValidateReference(_elementIcon, nameof(StudentManagementInfoView), nameof(_elementIcon));
+        UnityUtil.ValidateReference(_requiredGradeUpItemIconImage, nameof(StudentManagementInfoView), nameof(_requiredGradeUpItemIconImage));
         UnityUtil.ValidateReference(_requiredGradeUpItemCountText, nameof(StudentManagementInfoView), nameof(_requiredGradeUpItemCountText));
         UnityUtil.ValidateReference(_gradeUpButton, nameof(StudentManagementInfoView), nameof(_gradeUpButton));
         UnityUtil.ValidateReference(_portraitImage, nameof(StudentManagementInfoView), nameof(_portraitImage));
@@ -94,6 +96,11 @@ public class StudentManagementInfoView : MonoBehaviour
     public UniTask UpdatePortraitImage(string fullBodyKey, CancellationToken cancellationToken)
     {
         return SpriteLoader.LoadIntoAsync(_portraitImage, fullBodyKey, cancellationToken);
+    }
+
+    public UniTask UpdateRequiredGradeUpItemIcon(string iconKey, CancellationToken cancellationToken)
+    {
+        return SpriteLoader.LoadIntoAsync(_requiredGradeUpItemIconImage, iconKey, cancellationToken);
     }
 
     public void UpdateLevelText(int level)

@@ -1,10 +1,10 @@
-[
+﻿[
   {
     "DataId": "Item_Gold",
     "Name": "골드",
     "ItemType": "Currency",
     "ForeignKey": "Currency_Gold",
-    "IconKey": null,
+    "IconKey": "Sprites/Item[Item_Gold]",
     "Description": "기본 화폐 입니다."
   },
   {
@@ -12,7 +12,7 @@
     "Name": "크리스탈",
     "ItemType": "Currency",
     "ForeignKey": "Currency_Crystal",
-    "IconKey": null,
+    "IconKey": "Sprites/Item[Item_Crystal]",
     "Description": "고대에 화폐로 쓰였던 조그만 결정석입니다."
   },
   {
@@ -20,7 +20,7 @@
     "Name": "경험치북(소)",
     "ItemType": "Currency",
     "ForeignKey": "Currency_ExpBook_Small",
-    "IconKey": "Sprites/Items[Items_ExpBook_1]",
+    "IconKey": "Sprites/Item[Item_ExpBook_1]",
     "Description": "경험치북(소)"
   },
   {
@@ -28,7 +28,7 @@
     "Name": "경험치북(중)",
     "ItemType": "Currency",
     "ForeignKey": "Currency_ExpBook_Medium",
-    "IconKey": "Sprites/Items[Items_ExpBook_2]",
+    "IconKey": "Sprites/Item[Item_ExpBook_2]",
     "Description": "경험치북(중)"
   },
   {
@@ -36,7 +36,7 @@
     "Name": "경험치북(대)",
     "ItemType": "Currency",
     "ForeignKey": "Currency_ExpBook_Large",
-    "IconKey": "Sprites/Items[Items_ExpBook_3]",
+    "IconKey": "Sprites/Item[Item_ExpBook_3]",
     "Description": "경험치북(대)"
   },
   {
@@ -76,7 +76,7 @@
     "Name": "마력석 파편(소)",
     "ItemType": "Currency",
     "ForeignKey": "Currency_Mat_T1",
-    "IconKey": null,
+    "IconKey": "Sprites/Item[Item_Material_T1]",
     "Description": "마력이 담긴 조그만 조각"
   },
   {
@@ -84,7 +84,7 @@
     "Name": "마력석 파편(중)",
     "ItemType": "Currency",
     "ForeignKey": "Currency_Mat_T2",
-    "IconKey": null,
+    "IconKey": "Sprites/Item[Item_Material_T2]",
     "Description": "마력이 담긴 조각"
   },
   {
@@ -92,7 +92,7 @@
     "Name": "마력석 파편(대)",
     "ItemType": "Currency",
     "ForeignKey": "Currency_Mat_T3",
-    "IconKey": null,
+    "IconKey": "Sprites/Item[Item_Material_T3]",
     "Description": "마력이 뿜어져 나오는 조각"
   },
   {
@@ -108,7 +108,7 @@
     "Name": "루미 조각",
     "ItemType": "Currency",
     "ForeignKey": "Currency_CharacterShard_001",
-    "IconKey": null,
+    "IconKey": "Sprites/Item[Item_Shard_001]",
     "Description": "루미 승급에 필요한 재료"
   },
   {
@@ -116,7 +116,7 @@
     "Name": "네리 조각",
     "ItemType": "Currency",
     "ForeignKey": "Currency_CharacterShard_002",
-    "IconKey": null,
+    "IconKey": "Sprites/Item[Item_Shard_002]",
     "Description": "네리 승급에 필요한 재료"
   },
   {
@@ -124,7 +124,7 @@
     "Name": "카이 조각",
     "ItemType": "Currency",
     "ForeignKey": "Currency_CharacterShard_003",
-    "IconKey": null,
+    "IconKey": "Sprites/Item[Item_Shard_003]",
     "Description": "카이 승급에 필요한 재료"
   },
   {
@@ -132,7 +132,7 @@
     "Name": "빛나 조각",
     "ItemType": "Currency",
     "ForeignKey": "Currency_CharacterShard_004",
-    "IconKey": null,
+    "IconKey": "Sprites/Item[Item_Shard_004]",
     "Description": "빛나 승급에 필요한 재료"
   },
   {
@@ -140,7 +140,7 @@
     "Name": "유이 조각",
     "ItemType": "Currency",
     "ForeignKey": "Currency_CharacterShard_005",
-    "IconKey": null,
+    "IconKey": "Sprites/Item[Item_Shard_005]",
     "Description": "유이 승급에 필요한 재료"
   },
   {

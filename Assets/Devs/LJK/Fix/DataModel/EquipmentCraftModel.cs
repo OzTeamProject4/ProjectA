@@ -6,6 +6,7 @@ public class EquipmentCraftModel
 {
     private string _dataId;
     private string _name;
+    private string _description;
     private EquipType _equipType;
     private string _iconKey;
     private List<string> _requiredItemIds;
@@ -25,6 +26,14 @@ public class EquipmentCraftModel
         get
         { 
             return _name; 
+        }
+    }
+
+    public string Description
+    {
+        get
+        {
+            return _description;
         }
     }
 
@@ -66,6 +75,7 @@ public class EquipmentCraftModel
 
         _dataId = itemData.DataId;
         _name = itemData.Name;
+        _description = itemData.Description;
         _iconKey = itemData.IconKey;
         _equipType = equipmentData.EquipmentType;
         _requiredItemIds = equipmentData.RequiredItemIds.ToList();

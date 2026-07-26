@@ -130,6 +130,8 @@ public class EquipmentInfoPopupView : BaseUI
     {
         _rootRect.pivot = new Vector2(1, 1);
         _rootRect.position = worldPosition;
+
+        PopupPositioner.ClampInsideCanvas(_rootRect);
     }
 
     //TODO 슬롯 오브젝트 풀 사용 생성

@@ -78,6 +78,19 @@ public class StudentManagementViewModel
         }
     }
 
+    public string RequiredGradeUpItemIconKey
+    {
+        get
+        {
+            if (!GameManager.Instance.DataManager.TryGetData(_studentModel.RequiredGradeUpItemId, out ItemData itemData))
+            {
+                return string.Empty;
+            }
+
+            return itemData.IconKey;
+        }
+    }
+
     public string FullBodyKey
     {
         get

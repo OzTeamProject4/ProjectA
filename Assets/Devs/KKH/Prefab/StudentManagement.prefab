@@ -468,6 +468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StudentManagementInfoView
   _nameText: {fileID: 3878972153799845678}
   _elementIcon: {fileID: 5258805123318466864}
+  _requiredGradeUpItemIconImage: {fileID: 2584824612415379347}
   _requiredGradeUpItemCountText: {fileID: 1019303362291357113}
   _gradeUpButton: {fileID: 2522309839523071140}
   _starIconList:
@@ -6672,7 +6673,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TopbarView
   _backButton: {fileID: 1768940341127429492}
+  _goldIconImage: {fileID: 2680397665349223725}
   _goldCountText: {fileID: 3278798076607262667}
+  _crystalIconImage: {fileID: 8597419826008713315}
   _crystalCountText: {fileID: 7160172661317410698}
 --- !u!1 &6083728497066979767
 GameObject:

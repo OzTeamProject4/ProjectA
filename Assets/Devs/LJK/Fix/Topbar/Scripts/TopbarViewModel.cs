@@ -25,6 +25,22 @@ public class TopbarViewModel
         }
     }
 
+    public string GoldIconKey
+    {
+        get
+        {
+            return GetItemIconKey(CurrencyItemId.Gold);
+        }
+    }
+
+    public string CrystalIconKey
+    {
+        get
+        {
+            return GetItemIconKey(CurrencyItemId.Crystal);
+        }
+    }
+
     public event Action<string> PropertyChanged;
 
     public TopbarViewModel()
@@ -48,6 +64,18 @@ public class TopbarViewModel
     {
         OnPropertyChanged(nameof(GoldCount));
         OnPropertyChanged(nameof(CrystalCount));
+        OnPropertyChanged(nameof(GoldIconKey));
+        OnPropertyChanged(nameof(CrystalIconKey));
+    }
+
+    private static string GetItemIconKey(string itemId)
+    {
+        if (!GameManager.Instance.DataManager.TryGetData(itemId, out ItemData itemData))
+        {
+            return string.Empty;
+        }
+
+        return itemData.IconKey;
     }
 
     public void Dispose()

@@ -798,7 +798,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TopbarView
   _backButton: {fileID: 838356853531273091}
+  _goldIconImage: {fileID: 3899087835106484186}
   _goldCountText: {fileID: 4516646129316934972}
+  _crystalIconImage: {fileID: 7241457266037797524}
   _crystalCountText: {fileID: 8102243849620243837}
 --- !u!1 &6022088395933494576
 GameObject:

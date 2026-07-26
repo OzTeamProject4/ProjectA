@@ -19,7 +19,6 @@ public class CraftEquipmentInfoPopupView : BaseUI
 
     private CraftEquipmentInfoPopupViewModel _craftEquipmentInfoPopupViewModel;
 
-    // 장비마다 붙는 스탯 종류가 달라 고정 칸 대신 필요한 만큼 생성한다
     private readonly List<EquipmentStatOptionView> _spawnedStatRowList = new List<EquipmentStatOptionView>();
 
     private CancellationTokenSource _disableCts;
@@ -63,6 +62,7 @@ public class CraftEquipmentInfoPopupView : BaseUI
     private void Refresh()
     {
         RefreshNameText();
+        RefreshDescriptionText();
         RefreshIconImageAsync().Forget();
         RefreshStatRows();
     }
@@ -70,6 +70,11 @@ public class CraftEquipmentInfoPopupView : BaseUI
     private void RefreshNameText()
     {
         _itemNameText.text = _craftEquipmentInfoPopupViewModel.Name;
+    }
+
+    private void RefreshDescriptionText()
+    {
+        _itemDescriptionText.text = _craftEquipmentInfoPopupViewModel.Description;
     }
 
     private UniTask RefreshIconImageAsync()
@@ -81,6 +86,8 @@ public class CraftEquipmentInfoPopupView : BaseUI
     {
         _rootRect.pivot = new Vector2(1, 1);
         _rootRect.position = worldPosition;
+
+        PopupPositioner.ClampInsideCanvas(_rootRect);
     }
 
     //TODO 슬롯 오브젝트 풀 사용 생성

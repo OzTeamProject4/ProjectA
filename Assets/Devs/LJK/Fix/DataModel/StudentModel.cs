@@ -94,6 +94,7 @@ public class StudentModel : INotifyPropertyChanged
     private static readonly PropertyChangedEventArgs FullBodyKeyChanged = new PropertyChangedEventArgs(nameof(FullBodyKey));
     private static readonly PropertyChangedEventArgs PortraitKeyChanged = new PropertyChangedEventArgs(nameof(PortraitKey));
     private static readonly PropertyChangedEventArgs EquippedItemIdsChanged = new PropertyChangedEventArgs(nameof(EquippedItemIds));
+    private static readonly PropertyChangedEventArgs RequiredGradeUpItemIdChanged = new PropertyChangedEventArgs(nameof(RequiredGradeUpItemId));
 
 
     private string _dataId;
@@ -359,6 +360,7 @@ public class StudentModel : INotifyPropertyChanged
         OnPropertyChanged(MoveSpeedChanged);
         OnPropertyChanged(FullBodyKeyChanged);
         OnPropertyChanged(PortraitKeyChanged);
+        OnPropertyChanged(RequiredGradeUpItemIdChanged);
     }
 
     private bool TryUpdateCurrentGradeData()

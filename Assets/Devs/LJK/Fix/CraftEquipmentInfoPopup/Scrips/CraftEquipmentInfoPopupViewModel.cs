@@ -10,6 +10,11 @@ public class CraftEquipmentInfoPopupViewModel
         get { return _equipmentCraftModel.Name; }
     }
 
+    public string Description
+    {
+        get { return _equipmentCraftModel.Description; }
+    }
+
     public string IconKey
     {
         get { return _equipmentCraftModel.IconKey; }

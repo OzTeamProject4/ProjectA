@@ -106,6 +106,9 @@ public class StudentManagementView : BaseUI
             case nameof(_studentManagementViewModel.EquippedItemIds):
                 HandleEquippedItemsChanged();
                 break;
+            case nameof(StudentModel.RequiredGradeUpItemId):
+                HandleRequiredGradeUpItemIdChanged();
+                break;
         }
     }
 
@@ -185,6 +188,11 @@ public class StudentManagementView : BaseUI
 
             _studentManagementEquipmentView.UpdateEquipmentSlot(equipmentModel);
         }
+    }
+
+    private void HandleRequiredGradeUpItemIdChanged()
+    {
+        _studentManagementInfoView.UpdateRequiredGradeUpItemIcon(_studentManagementViewModel.RequiredGradeUpItemIconKey, _disableCts.Token).Forget();
     }
 
     private void HandleOwnedGradeUpItemCountChanged()
