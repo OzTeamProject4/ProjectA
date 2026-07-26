@@ -1,0 +1,62 @@
+[
+  {
+    "DataId": "D1",
+    "Order": 1,
+    "SpeakerName": "Teacher",
+    "Text": "오늘도 부탁한다.",
+    "ChoiceGroupId": "C1",
+    "NextDialogueId": null,
+    "LeftCharacter": "Teacher",
+    "CenterCharacter": null,
+    "RightCharacter": "Alice",
+    "ActiveCharacter": "Teacher",
+    "Background": "BG_Classroom",
+    "Bgm": "BGM_School",
+    "AutoNextDelay": 0
+  },
+  {
+    "DataId": "D2",
+    "Order": 2,
+    "SpeakerName": "Alice",
+    "Text": "네, 선생님!",
+    "ChoiceGroupId": null,
+    "NextDialogueId": "D3",
+    "LeftCharacter": "Teacher",
+    "CenterCharacter": null,
+    "RightCharacter": "Alice",
+    "ActiveCharacter": "Alice",
+    "Background": null,
+    "Bgm": null,
+    "AutoNextDelay": 0
+  },
+  {
+    "DataId": "D3",
+    "Order": 3,
+    "SpeakerName": "Teacher",
+    "Text": "출격하자.",
+    "ChoiceGroupId": null,
+    "NextDialogueId": null,
+    "LeftCharacter": "Teacher",
+    "CenterCharacter": null,
+    "RightCharacter": "Alice",
+    "ActiveCharacter": "Teacher",
+    "Background": "BG_Battlefield",
+    "Bgm": "BGM_Battle",
+    "AutoNextDelay": 0
+  },
+  {
+    "DataId": "D4",
+    "Order": 1,
+    "SpeakerName": "Alice",
+    "Text": "임무 완료했습니다.",
+    "ChoiceGroupId": null,
+    "NextDialogueId": null,
+    "LeftCharacter": "Teacher",
+    "CenterCharacter": null,
+    "RightCharacter": "Alice",
+    "ActiveCharacter": "Alice",
+    "Background": "BG_Battlefield",
+    "Bgm": "BGM_Result",
+    "AutoNextDelay": 0
+  }
+]
