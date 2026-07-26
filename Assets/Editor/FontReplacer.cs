@@ -69,7 +69,7 @@ public class FontReplacer : EditorWindow
     {
         _replacedCount = 0;
 
-        string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets/Prefabs" });
+        string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets/Devs/LJK" });
 
         foreach (string guid in guids)
         {
