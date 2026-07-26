@@ -1,27 +1,27 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 public class StageSelectHudViewModel
 {
     private ScreenStateModel _screenStateModel;
-    private StageSelectPlayer _player;
+    private PlayerMoveLockModel _moveLockModel;
 
     public event Action OnReturnToLobbyConfirmRequested;
 
-    public StageSelectHudViewModel(ScreenStateModel screenStateModel, StageSelectPlayer player)
+    public StageSelectHudViewModel(ScreenStateModel screenStateModel, PlayerMoveLockModel moveLockModel)
     {
         if (null == screenStateModel)
         {
             Debug.LogError("[StageSelectHudViewModel] screenStateModel 이 null 입니다.");
         }
 
-        if (null == player)
+        if (null == moveLockModel)
         {
-            Debug.LogError("[StageSelectHudViewModel] player 가 null 입니다.");
+            Debug.LogError("[StageSelectHudViewModel] moveLockModel 이 null 입니다.");
         }
 
         _screenStateModel = screenStateModel;
-        _player = player;
+        _moveLockModel = moveLockModel;
     }
 
     // ===== 로비 복귀 =====
@@ -59,27 +59,29 @@ public class StageSelectHudViewModel
 
     private void StopPlayer()
     {
-        if (null == _player)
+        if (null == _moveLockModel)
         {
             return;
         }
 
-        _player.StopMove();
+        _moveLockModel.Lock(MoveLockReason.ReturnToLobbyPopup);
     }
 
     private void ResumePlayer()
     {
-        if (null == _player)
+        if (null == _moveLockModel)
         {
             return;
         }
 
-        _player.ResumeMove();
+        _moveLockModel.Unlock(MoveLockReason.ReturnToLobbyPopup);
     }
 
     public void Dispose()
     {
+        ResumePlayer();
+
         _screenStateModel = null;
-        _player = null;
+        _moveLockModel = null;
     }
 }

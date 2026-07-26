@@ -48,24 +48,15 @@ public class StageSelectPlayer
         return null != _party;
     }
 
-    public void StopMove()
+    public void Bind(StagePlayerPartyViewModel viewModel)
     {
         if (null == _party)
         {
+            Debug.LogError("[StageSelectPlayer] Bind: _party 가 null 입니다.");
             return;
         }
 
-        _party.StopMove();
-    }
-
-    public void ResumeMove()
-    {
-        if (null == _party)
-        {
-            return;
-        }
-
-        _party.ResumeMove();
+        _party.Bind(viewModel);
     }
 
     public void WarpTo(Vector3 position)
@@ -78,25 +69,4 @@ public class StageSelectPlayer
         _party.WarpTo(position);
     }
 
-    public void Activate()
-    {
-        if (null == _party)
-        {
-            return;
-        }
-
-        _party.gameObject.SetActive(true);
-        _party.ResumeMove();
-    }
-
-    public void Deactivate()
-    {
-        if (null == _party)
-        {
-            return;
-        }
-
-        _party.StopMove();
-        _party.gameObject.SetActive(false);
-    }
 }

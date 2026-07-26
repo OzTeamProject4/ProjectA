@@ -6,15 +6,40 @@ public class StageSelectMapViewModel
     private StageProgressModel _progressModel;
     private ScreenStateModel _screenStateModel;
     private StudentListModel _characterListModel;
-    private StageSelectPlayer _player;
+    private PlayerMoveLockModel _moveLockModel;
     private StageDataModel _stageDataModel;
 
     private StageInfoPopupViewModel _stageInfoViewModel;
 
+    private StageSelectHudViewModel _hudViewModel;
+
     public event Action<StageInfoPopupViewModel> OnStageInfoPopupOpenRequested;
     public event Action OnStageInfoPopupCloseRequested;
 
-    public StageSelectMapViewModel(StageProgressModel progressModel, ScreenStateModel screenStateModel, StudentListModel characterListModel, StageSelectPlayer player, StageDataModel stageDataModel)
+    public bool IsVisible
+    {
+        get
+        {
+            return null != _screenStateModel && _screenStateModel.CurrentScreen == ScreenType.StageSelect;
+        }
+    }
+
+    public event Action<bool> OnVisibleChanged;
+    public event Action<StageSelectHudViewModel> OnHudOpenRequested;
+    public event Action OnHudCloseRequested;
+    public event Action<string> OnStageCleared;
+
+    public bool IsStageCleared(string stageId)
+    {
+        if (null == _progressModel)
+        {
+            return false;
+        }
+
+        return _progressModel.IsCleared(stageId);
+    }
+
+    public StageSelectMapViewModel(StageProgressModel progressModel, ScreenStateModel screenStateModel, StudentListModel characterListModel, PlayerMoveLockModel moveLockModel, StageDataModel stageDataModel)
     {
         if (null == progressModel)
         {
@@ -31,9 +56,9 @@ public class StageSelectMapViewModel
             Debug.LogError("[StageSelectMapViewModel] characterListModel 이 null 입니다.");
         }
 
-        if (null == player)
+        if (null == moveLockModel)
         {
-            Debug.LogError("[StageSelectMapViewModel] player 가 null 입니다.");
+            Debug.LogError("[StageSelectMapViewModel] moveLockModel 이 null 입니다.");
         }
 
         if (null == stageDataModel)
@@ -44,18 +69,53 @@ public class StageSelectMapViewModel
         _progressModel = progressModel;
         _screenStateModel = screenStateModel;
         _characterListModel = characterListModel;
-        _player = player;
+        _moveLockModel = moveLockModel;
         _stageDataModel = stageDataModel;
+
+        _hudViewModel = new StageSelectHudViewModel(screenStateModel, moveLockModel);
+
+        if (null != _screenStateModel)
+        {
+            _screenStateModel.OnScreenChanged += HandleScreenChanged;
+        }
+
+        if (null != _progressModel)
+        {
+            _progressModel.OnStageCleared += HandleStageCleared;
+        }
+    }
+
+    public void Refresh()
+    {
+        ApplyScreenState();
     }
 
     public void Dispose()
     {
+        if (null != _screenStateModel)
+        {
+            _screenStateModel.OnScreenChanged -= HandleScreenChanged;
+        }
+
+        if (null != _progressModel)
+        {
+            _progressModel.OnStageCleared -= HandleStageCleared;
+        }
+
         CloseAllPopups();
+
+        ResumePlayer();
+
+        if (null != _hudViewModel)
+        {
+            _hudViewModel.Dispose();
+            _hudViewModel = null;
+        }
 
         _progressModel = null;
         _screenStateModel = null;
         _characterListModel = null;
-        _player = null;
+        _moveLockModel = null;
         _stageDataModel = null;
     }
 
@@ -64,11 +124,50 @@ public class StageSelectMapViewModel
         RequestCloseStageInfoPopup();
     }
 
+    // ===== 화면 상태 =====
+
+    private void HandleScreenChanged(ScreenType screen)
+    {
+        ApplyScreenState();
+    }
+
+    private void HandleStageCleared(string stageId)
+    {
+        if (null != _progressModel && _progressModel.SelectedStageId == stageId)
+        {
+            RequestCloseStageInfoPopup();
+        }
+
+        OnStageCleared?.Invoke(stageId);
+    }
+
+    private void ApplyScreenState()
+    {
+        bool isVisible = IsVisible;
+
+        OnVisibleChanged?.Invoke(isVisible);
+
+        if (isVisible)
+        {
+            OnHudOpenRequested?.Invoke(_hudViewModel);
+            return;
+        }
+
+        CloseAllPopups();
+
+        OnHudCloseRequested?.Invoke();
+    }
+
     // ===== 몬스터 파티 도달/이탈 =====
 
     public void HandlePartyReached(string stageId)
     {
         if (null == _progressModel)
+        {
+            return;
+        }
+
+        if (_progressModel.IsCleared(stageId))
         {
             return;
         }
@@ -96,22 +195,22 @@ public class StageSelectMapViewModel
 
     private void StopPlayer()
     {
-        if (null == _player)
+        if (null == _moveLockModel)
         {
             return;
         }
 
-        _player.StopMove();
+        _moveLockModel.Lock(MoveLockReason.StageInfoPopup);
     }
 
     private void ResumePlayer()
     {
-        if (null == _player)
+        if (null == _moveLockModel)
         {
             return;
         }
 
-        _player.ResumeMove();
+        _moveLockModel.Unlock(MoveLockReason.StageInfoPopup);
     }
 
     // ===== 스테이지 정보 팝업 =====
