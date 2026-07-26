@@ -361,6 +361,8 @@ public class StageManager : BaseManager <StageManager>
         }
 
         await battleManager.EnterBattle(spawnPoint.position, stageData.DataId, battleCamera, partyIds);
+
+        await GameManager.Instance.UIManager.OpenBattleHUDAsync(destroyCancellationToken);
     }
 
     // ===== 선택맵 복귀 전환 =====
