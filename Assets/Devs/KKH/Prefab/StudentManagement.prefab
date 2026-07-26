@@ -265,6 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54406dc5745569d49a86523bfc20e986, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StudentManagementView
+  _topbarView: {fileID: 8550894250437866130}
   _studentManagementInfoView: {fileID: 4064990679267494246}
   _studentManagementEquipmentView: {fileID: 5872169918818275296}
   _studentManagementStatusView: {fileID: 6778295959705556144}
@@ -6626,6 +6627,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8304806619459056028}
+  - component: {fileID: 8550894250437866130}
   m_Layer: 5
   m_Name: Topbar
   m_TagString: Untagged
@@ -6657,6 +6659,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &8550894250437866130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6065841324211865834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afaa84e7fcef07b40b94115f04d17a1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TopbarView
+  _backButton: {fileID: 1768940341127429492}
+  _goldCountText: {fileID: 3278798076607262667}
+  _crystalCountText: {fileID: 7160172661317410698}
 --- !u!1 &6083728497066979767
 GameObject:
   m_ObjectHideFlags: 0

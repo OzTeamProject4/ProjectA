@@ -116,6 +116,7 @@ public class EquipmentInfoPopupView : BaseUI
                 break;
             case nameof(EquipmentModel.EquippedBy):
                 RefreshEquipButtons();
+                RefreshStatRows();
                 break;
         }
     }
@@ -136,23 +137,13 @@ public class EquipmentInfoPopupView : BaseUI
     {
         ReleaseStatRows();
 
-        IReadOnlyList<StatInfo> statInfos = _equipmentInfoPopupViewModel.StatInfo;
+        IReadOnlyList<StatDelta> statDeltas = _equipmentInfoPopupViewModel.CreateStatDeltas();
 
-        if (statInfos == null)
+        foreach (StatDelta statDelta in statDeltas)
         {
-            return;
-        }
-
-        foreach (StatInfo statInfo in statInfos)
-        {
-            if (Mathf.Approximately(statInfo.Value, 0f))
-            {
-                continue;
-            }
-
             EquipmentStatOptionView statRowView = Instantiate(_statRowPrefab, _statRowContent);
 
-            statRowView.SetValue(statInfo.Type, statInfo.Value);
+            statRowView.SetStat(statDelta);
 
             _spawnedStatRowList.Add(statRowView);
         }

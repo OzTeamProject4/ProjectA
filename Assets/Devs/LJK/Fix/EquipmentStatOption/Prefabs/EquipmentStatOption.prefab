@@ -67,11 +67,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StatItemView
   _iconImage: {fileID: 7539006200111201456}
   _statText: {fileID: 1790348592123742962}
+  _bonusText: {fileID: 5667465039497034027}
   _statIcons:
   - {fileID: -21263152, guid: e34deea0e2fb7264c85dfa31acda1f9b, type: 3}
   - {fileID: 1696489950, guid: e34deea0e2fb7264c85dfa31acda1f9b, type: 3}
   - {fileID: -499785336, guid: e34deea0e2fb7264c85dfa31acda1f9b, type: 3}
   - {fileID: -376682963, guid: e34deea0e2fb7264c85dfa31acda1f9b, type: 3}
+  _increaseColor: {r: 0.2, g: 0.85, b: 0.35, a: 1}
+  _decreaseColor: {r: 0.9, g: 0.25, b: 0.25, a: 1}
+  _noChangeColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
 --- !u!1 &2703215834388011290
 GameObject:
   m_ObjectHideFlags: 0

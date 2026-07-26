@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StudentManagementView : BaseUI
 {
+    [SerializeField] private TopbarView _topbarView;
     [SerializeField] private StudentManagementInfoView _studentManagementInfoView;
     [SerializeField] private StudentManagementEquipmentView _studentManagementEquipmentView;
     [SerializeField] private StudentManagementStatusView _studentManagementStatusView;
@@ -12,6 +13,7 @@ public class StudentManagementView : BaseUI
 
     private void Awake()
     {
+        UnityUtil.ValidateReference(_topbarView, nameof(StudentManagementView), nameof(_topbarView));
         UnityUtil.ValidateReference(_studentManagementInfoView, nameof(StudentManagementView), nameof(_studentManagementInfoView));
         UnityUtil.ValidateReference(_studentManagementEquipmentView, nameof(StudentManagementView), nameof(_studentManagementEquipmentView));
         UnityUtil.ValidateReference(_studentManagementStatusView, nameof(StudentManagementView), nameof(_studentManagementStatusView));
@@ -23,6 +25,7 @@ public class StudentManagementView : BaseUI
 
     private void OnEnable()
     {
+        _topbarView.OnBackClicked += HandleBackClicked;
         _studentManagementInfoView.OnOpenExperienceInventoryClicked += HandleOpenExperienceInventoryClicked;
         _studentManagementInfoView.OnGradeUpClicked += HandleGradeUpClicked;
         _studentManagementEquipmentView.OnSlotClicked += HandleEquipmentSlotClicked;
@@ -33,6 +36,7 @@ public class StudentManagementView : BaseUI
 
     private void OnDisable()
     {
+        _topbarView.OnBackClicked -= HandleBackClicked;
         _studentManagementInfoView.OnOpenExperienceInventoryClicked -= HandleOpenExperienceInventoryClicked;
         _studentManagementInfoView.OnGradeUpClicked -= HandleGradeUpClicked;
         _studentManagementEquipmentView.OnSlotClicked -= HandleEquipmentSlotClicked;
@@ -186,6 +190,15 @@ public class StudentManagementView : BaseUI
     private void HandleOwnedGradeUpItemCountChanged()
     {
         _studentManagementInfoView.UpdateRequiredGradeUpItemText(_studentManagementViewModel.OwnedGradeUpItemCount, _studentManagementViewModel.RequiredGradeUpItemCount);
+    }
+
+    // 임시 구현
+    //TODO UIManager에 네비게이션 스택이 붙으면 삭제하기
+    private void HandleBackClicked()
+    {
+        // 이 화면 위에 열린 장비/경험치 팝업이 남아 있으면 같이 닫기
+        GameManager.Instance.UIManager.CloseStudentManagementPopups();
+        GameManager.Instance.UIManager.CloseStudentManagement();
     }
 
     private void HandleOpenExperienceInventoryClicked()

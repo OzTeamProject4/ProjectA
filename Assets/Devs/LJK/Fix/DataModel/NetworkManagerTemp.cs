@@ -92,7 +92,8 @@ public class NetworkManagerTemp : MonoBehaviour
     {
         InventoryModel inventoryModel = new InventoryModel();
 
-        AddMaterial(inventoryModel, "Item_Gold", 100000);
+        AddMaterial(inventoryModel, CurrencyItemId.Gold, 100000);
+        AddMaterial(inventoryModel, CurrencyItemId.Crystal, 1200);
 
         AddMaterial(inventoryModel, "Item_ExpBook_Small", 99);
         AddMaterial(inventoryModel, "Item_ExpBook_Medium", 99);

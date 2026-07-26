@@ -4,47 +4,43 @@ using UnityEngine.UI;
 
 public class EquipmentStatOptionView : MonoBehaviour
 {
+    private const string StatValueFormat = "0.##";
+
     [SerializeField] private Image _iconImage;
     [SerializeField] private TMP_Text _statText;
-    //[SerializeField] private TMP_Text _bonusText;
+    [SerializeField] private TMP_Text _bonusText;
 
     [SerializeField] private Sprite[] _statIcons;
 
-    // 장착 시 스탯 증감 표시 기능에서 사용 예정
-    //[Header("Bonus Stat Colors")]
-    //[SerializeField] private Color _increaseColor = Color.green;
-    //[SerializeField] private Color _decreaseColor = Color.red;
-    //[SerializeField] private Color _noChangeColor = Color.gray;
+    [Header("Bonus Stat Colors")]
+    [SerializeField] private Color _increaseColor = Color.green;
+    [SerializeField] private Color _decreaseColor = Color.red;
+    [SerializeField] private Color _noChangeColor = Color.gray;
 
-    //public void SetDelta(StatDelta info)
-    //{
-    //    gameObject.SetActive(true);
-
-    //    _statText.text = info.Value.ToString();
-
-    //    _bonusText.text = BuildBonusText(info);
-    //    _bonusText.color = GetColor(info.Delta);
-
-    //    RefreshIcon(info.Type);
-    //}
-
-    public void SetValue(StatType type, float value)
+    public void SetStat(StatDelta statDelta)
     {
-        gameObject.SetActive(true);
+        _statText.text = FormatValue(statDelta.Value);
 
-        _statText.text = value.ToString();
-
-        //if (null != _bonusText)
-        //{
-        //    _bonusText.gameObject.SetActive(false);
-        //}
-
-        RefreshIcon(type);
+        RefreshBonusText(statDelta);
+        RefreshIcon(statDelta.Type);
     }
 
-    public void Hide()
+    private void RefreshBonusText(StatDelta statDelta)
     {
-        gameObject.SetActive(false);
+        if (null == _bonusText)
+        {
+            return;
+        }
+
+        if (!statDelta.HasComparison)
+        {
+            _bonusText.gameObject.SetActive(false);
+            return;
+        }
+
+        _bonusText.gameObject.SetActive(true);
+        _bonusText.text = BuildBonusText(statDelta);
+        _bonusText.color = GetColor(statDelta.Delta);
     }
 
     private void RefreshIcon(StatType type)
@@ -66,42 +62,36 @@ public class EquipmentStatOptionView : MonoBehaviour
         _iconImage.sprite = _statIcons[index];
     }
 
-    // 장착 시 스탯 증감 표시 기능에서 사용 예정
-    //private string BuildBonusText(StatDelta delta)
-    //{
-    //    if (Mathf.Approximately(delta.Delta, 0f))
-    //    {
-    //        return "(±0)";
-    //    }
+    private string BuildBonusText(StatDelta statDelta)
+    {
+        if (Mathf.Approximately(statDelta.Delta, 0f))
+        {
+            return "(±0)";
+        }
 
-    //    string sign = delta.Delta > 0f ? "+" : "-";
-    //    float absDelta = Mathf.Abs(delta.Delta);
+        string sign = statDelta.Delta > 0f ? "+" : "-";
+        float absDelta = Mathf.Abs(statDelta.Delta);
 
-    //    return $"({sign}{FormatValue(absDelta, delta.IsInteger)})";
-    //}
+        return $"({sign}{FormatValue(absDelta)})";
+    }
 
-    //private string FormatValue(float value, bool isInteger)
-    //{
-    //    if (isInteger)
-    //    {
-    //        return Mathf.RoundToInt(value).ToString();
-    //    }
+    private string FormatValue(float value)
+    {
+        return value.ToString(StatValueFormat);
+    }
 
-    //    return value.ToString("F2");
-    //}
+    private Color GetColor(float delta)
+    {
+        if (Mathf.Approximately(delta, 0f))
+        {
+            return _noChangeColor;
+        }
 
-    //private Color GetColor(float delta)
-    //{
-    //    if (Mathf.Approximately(delta, 0f))
-    //    {
-    //        return _noChangeColor;
-    //    }
+        if (delta > 0f)
+        {
+            return _increaseColor;
+        }
 
-    //    if (delta > 0f)
-    //    {
-    //        return _increaseColor;
-    //    }
-
-    //    return _decreaseColor;
-    //}
+        return _decreaseColor;
+    }
 }

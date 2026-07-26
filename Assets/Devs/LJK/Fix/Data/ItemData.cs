@@ -14,12 +14,10 @@ public class EquipmentData : BaseData
     public string RequiredItemId { get; init; }
     public string RequiredItemCount { get; init; }
     public float BonusRate { get; init; }
-    public float MaxHp { get; init; }
+    public float Hp { get; init; }
     public float Attack { get; init; }
-    public float Defence { get; init; }
+    public float Defense { get; init; }
     public float MoveSpeed { get; init; }
-    public string SpritePath { get; init; }
-    public string Description { get; init; }
 
     private string[] _requiredItemIds;
     private int[] _requiredItemCounts;

@@ -77,9 +77,9 @@ public class EquipmentCraftModel
     {
         List<StatInfo> statInfos = new List<StatInfo>() 
         {
-            new StatInfo(StatType.Hp, equipmentData.MaxHp), 
-            new StatInfo(StatType.Attack, equipmentData.Attack), 
-            new StatInfo(StatType.Defense, equipmentData.Defence), 
+            new StatInfo(StatType.Hp, equipmentData.Hp),
+            new StatInfo(StatType.Attack, equipmentData.Attack),
+            new StatInfo(StatType.Defense, equipmentData.Defense),
             new StatInfo(StatType.MoveSpeed, equipmentData.MoveSpeed) 
         };
 

@@ -54,11 +54,8 @@ MonoBehaviour:
   _itemNameText: {fileID: 7234231984758942260}
   _itemDescriptionText: {fileID: 5575497964543300319}
   _itemIconImage: {fileID: 6157559696623236148}
-  _statRows:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _statRowPrefab: {fileID: 9200887416524325160, guid: 4d4459a7cc0dd9543b3177d38b3b5f22, type: 3}
+  _statRowContent: {fileID: 291649350870730567}
 --- !u!1 &2600889970841737110
 GameObject:
   m_ObjectHideFlags: 0

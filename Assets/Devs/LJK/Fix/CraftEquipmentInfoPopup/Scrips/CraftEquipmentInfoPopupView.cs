@@ -88,24 +88,13 @@ public class CraftEquipmentInfoPopupView : BaseUI
     {
         ReleaseStatRows();
 
-        IReadOnlyList<StatInfo> statInfos = _craftEquipmentInfoPopupViewModel.StatInfos;
+        IReadOnlyList<StatDelta> statDeltas = _craftEquipmentInfoPopupViewModel.CreateStatDeltas();
 
-        if (statInfos == null)
+        foreach (StatDelta statDelta in statDeltas)
         {
-            return;
-        }
-
-        foreach (StatInfo statInfo in statInfos)
-        {
-            // 0인 스탯은 이 장비가 올려주지 않는 항목이라 표시하지 않는다
-            if (Mathf.Approximately(statInfo.Value, 0f))
-            {
-                continue;
-            }
-
             EquipmentStatOptionView statRowView = Instantiate(_statRowPrefab, _statRowContent);
 
-            statRowView.SetValue(statInfo.Type, statInfo.Value);
+            statRowView.SetStat(statDelta);
 
             _spawnedStatRowList.Add(statRowView);
         }

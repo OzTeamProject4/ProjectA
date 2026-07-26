@@ -51,6 +51,27 @@ public static class UIManagerExtension
         uiManager.Close(UIType.StudentManagement);
     }
 
+    //========================================================
+    //TODO 임시 구현. 스택 방식으로 UIManager 리팩토링시 제거
+    private static readonly UIType[] StudentManagementPopupTypes =
+    {
+        UIType.ExperienceInventoryPopup,
+        UIType.EquipmentInventoryPopup,
+        UIType.EquipmentCraftPopup,
+        UIType.EquipmentInfoPopup,
+        UIType.CraftEquipmentInfoPopup
+    };
+
+    
+    public static void CloseStudentManagementPopups(this UIManager uiManager)
+    {
+        foreach (UIType uiType in StudentManagementPopupTypes)
+        {
+            uiManager.Close(uiType);
+        }
+    }
+    //========================================================
+
     public static async UniTask OpenExperienceInventoryPopupAsync(this UIManager uiManager, StudentModel studentModel, CancellationToken cancellationToken = default)
     {
         BaseUI baseUI = await uiManager.OpenOverlayRootAsync(UIType.ExperienceInventoryPopup, cancellationToken);

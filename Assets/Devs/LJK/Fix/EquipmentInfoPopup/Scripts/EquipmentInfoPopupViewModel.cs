@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using UnityEngine;
 
 public class EquipmentInfoPopupViewModel
 {
@@ -31,15 +32,20 @@ public class EquipmentInfoPopupViewModel
         }
     }
 
-    public IReadOnlyList<StatInfo> StatInfo
+    public event Action<string> PropertyChanged;
+
+    private bool HasStatComparison
     {
-        get 
-        { 
-            return _equipmentModel.StatInfos;
+        get
+        {
+            if (_studentModel == null || _equipmentModel == null)
+            {
+                return false;
+            }
+
+            return !IsEquippedByCurrentStudent;
         }
     }
-
-    public event Action<string> PropertyChanged;
 
     public bool IsEquippedByCurrentStudent
     {
@@ -52,6 +58,72 @@ public class EquipmentInfoPopupViewModel
 
             return _equipmentModel.EquippedBy == _studentModel.DataId;
         }
+    }
+
+    public IReadOnlyList<StatDelta> CreateStatDeltas()
+    {
+        List<StatDelta> statDeltas = new List<StatDelta>();
+
+        if (_equipmentModel == null || _equipmentModel.StatInfos == null)
+        {
+            return statDeltas;
+        }
+
+        bool hasComparison = HasStatComparison;
+        IReadOnlyList<StatInfo> equippedStatInfos = GetEquippedStatInfos();
+
+        foreach (StatInfo statInfo in _equipmentModel.StatInfos)
+        {
+            float equippedValue = FindStatValue(equippedStatInfos, statInfo.Type);
+            float delta = statInfo.Value - equippedValue;
+
+            if (Mathf.Approximately(statInfo.Value, 0f) && Mathf.Approximately(delta, 0f))
+            {
+                continue;
+            }
+
+            statDeltas.Add(new StatDelta(statInfo.Type, statInfo.Value, delta, hasComparison));
+        }
+
+        return statDeltas;
+    }
+
+    private IReadOnlyList<StatInfo> GetEquippedStatInfos()
+    {
+        if (!HasStatComparison)
+        {
+            return null;
+        }
+
+        if (!_studentModel.TryGetEquippedItemId(_equipmentModel.EquipType, out string instanceId))
+        {
+            return null;
+        }
+
+        if (!NetworkManagerTemp.Instance.InventoryModel.TryGetEquipment(instanceId, out EquipmentModel equippedModel))
+        {
+            return null;
+        }
+
+        return equippedModel.StatInfos;
+    }
+
+    private static float FindStatValue(IReadOnlyList<StatInfo> statInfos, StatType statType)
+    {
+        if (statInfos == null)
+        {
+            return 0f;
+        }
+
+        foreach (StatInfo statInfo in statInfos)
+        {
+            if (statInfo.Type == statType)
+            {
+                return statInfo.Value;
+            }
+        }
+
+        return 0f;
     }
 
     public void SetModel(EquipmentModel equipmentModel, StudentModel studentModel)
