@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering.UI;
 
 public class BattleHUDPresenter
 {
@@ -7,10 +6,12 @@ public class BattleHUDPresenter
     private PartyController _partyController;
     private BattleCharacter _currentCharacter;
     private CharacterSkillSystem _currentSkillSystem;
+    private BattleTimer _battleTimer;
 
-    public void Initialize(BattleHUDView hudView, PartyController partyController)
+    public void Initialize(BattleHUDView hudView, PartyController partyController, BattleTimer battleTimer)
     {
         _hudView = hudView;
+        _battleTimer = battleTimer;
         _partyController = partyController;
         _partyController.OnCharacterChanged += HandleCharacterChanged;
     }
@@ -85,8 +86,13 @@ public class BattleHUDPresenter
         _hudView.SetUltimateGauge(ratio);
     }
 
-    public void TickSkill()
+    public void Tick()
     {
+        if (_battleTimer != null && _hudView != null)
+        {
+            _hudView.SetTimer(_battleTimer.RemainTime);
+        }
+
         if (_hudView == null || _currentSkillSystem == null)
         {
             return;

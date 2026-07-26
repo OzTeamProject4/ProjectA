@@ -1,74 +1,51 @@
-using UnityEngine;
-using TMPro;
-using UnityEngine.Events;
+﻿using System;
 
-// 해당 파일을 EnemySpawnManager의 OnBattleEnd에 넣어주세요
-
-public class BattleTimer : MonoBehaviour
+public class BattleTimer
 {
-    [SerializeField] private float battleTime = 120f;
-    [SerializeField] private TMP_Text timerText;  // 텍스트로 시간 표시 테스트
-    [SerializeField] private UnityEvent onTimeOver; 
+    private float _battleTime;
+    private float _remainTime;
+    private bool _isBattleRunning;
 
-    private float remainTime;
+    public event Action OnTimeOver;
 
-    private bool isBattleRunning;
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public float RemainTime
     {
-        StartTimer();
-        isBattleRunning = true;
-        Debug.Log("타이머 시작");
+        get
+        {
+             return _remainTime; 
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public BattleTimer(float battleTime)
     {
-        if(!isBattleRunning)
+        _battleTime = battleTime;
+    }
+
+    public void Tick(float deltaTime)
+    {
+        if (_isBattleRunning == false)
         {
             return;
         }
 
-        remainTime -= Time.deltaTime;
+        _remainTime -= deltaTime;
 
-        if(remainTime <= 0f)
+        if (_remainTime <= 0f)
         {
-            remainTime = 0f;
-            isBattleRunning = false;
-            UpdateTimerText();
-
-
-            Debug.Log("Time Over - Lose");
-            onTimeOver.Invoke();
-            // UI 먼저 띄우고 Time.timeScale = 0f가 되어야 합니다!!!!
-            Time.timeScale = 0f;
-            return;
+            _remainTime = 0f;
+            _isBattleRunning = false;
+            OnTimeOver?.Invoke();
         }
-
-        UpdateTimerText();
     }
-
-    private void StartTimer()
+    public void StartTimer()
     {
-        remainTime = battleTime;
-        isBattleRunning = true;
-        UpdateTimerText();
+        _remainTime = _battleTime;
+        _isBattleRunning = true;
     }
 
-
-    // 제한 시간 만료 전 전투 종료시
     public void StopTimer()
     {
-        isBattleRunning = false;
+        _isBattleRunning = false;
     }
-
-    private void UpdateTimerText()
-    {
-        int minute = Mathf.FloorToInt(remainTime / 60f);
-        int second = Mathf.FloorToInt(remainTime % 60f);
-
-        timerText.text = $"{minute:00}:{second:00}";
-    }
+    
 }

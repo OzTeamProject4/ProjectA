@@ -15,6 +15,7 @@ public class BattleManager : BaseManager<BattleManager>
     private TempPartySpawner _partySpawner;
     private PartyController _partyController;
     private BattleHUDPresenter _hudPresenter;
+    private BattleTimer _battleTimer;
 
     public event Action<bool> OnBattleEnded;
     public event Action OnReturnToSelectRequested;
@@ -41,6 +42,32 @@ public class BattleManager : BaseManager<BattleManager>
         }
 
         return UniTask.CompletedTask;
+    }
+
+    private void Update()
+    {
+        if (!_isBattleActive || _isPaused)
+        {
+            return;
+        }
+
+        if (_battleTimer != null)
+        {
+            _battleTimer.Tick(Time.deltaTime);
+        }
+
+        if (_hudPresenter != null)
+        {
+            _hudPresenter.Tick();
+        }
+
+
+        if (null == Keyboard.current || !Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            return;
+        }
+
+        ShowPauseAsync().Forget();
     }
 
     private void OnDisable()
@@ -129,29 +156,17 @@ public class BattleManager : BaseManager<BattleManager>
             return;
         }
 
+        if (_battleTimer != null)
+        {
+            _battleTimer.OnTimeOver -= HandleTimeOver;
+            _battleTimer = null;
+        }
+
         _partyController.Cleanup();
         _partyController = null;
     }
 
-    private void Update()
-    {
-        if (!_isBattleActive || _isPaused)
-        {
-            return;
-        }
-
-        if (_hudPresenter != null)
-        {
-            _hudPresenter.TickSkill();
-        }
-
-        if (null == Keyboard.current || !Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
-            return;
-        }
-
-        ShowPauseAsync().Forget();
-    }
+    
 
     public async UniTask EnterBattle(Vector3 playerSpawnPosition, string stageId, CinemachineCamera battleCamera, IReadOnlyList<string> partyCharacterIds)
     {
@@ -192,12 +207,15 @@ public class BattleManager : BaseManager<BattleManager>
         CleanupPartyController();
         
         _partyController = new PartyController();
+        _battleTimer = new BattleTimer(120f);
+        _battleTimer.OnTimeOver += HandleTimeOver;
+
         BattleHUDView hudView = await GameManager.Instance.UIManager.OpenBattleHUDAsync(destroyCancellationToken);
         _hudPresenter = new BattleHUDPresenter();
-        _hudPresenter.Initialize(hudView, _partyController);
+        _hudPresenter.Initialize(hudView, _partyController, _battleTimer);
 
         _partyController.Initialize(characters, _cinemachineCamera);
-
+        _battleTimer.StartTimer();
         SubscribeInputActions();
     }
 
@@ -409,5 +427,10 @@ public class BattleManager : BaseManager<BattleManager>
             enemySkillController.Bind(skillData, vm, enemyController);
 
         }
+    }
+
+    private void HandleTimeOver()
+    {
+        EndBattle(false);
     }
 }
