@@ -151,22 +151,20 @@ public class BattleManager : BaseManager<BattleManager>
             _hudPresenter = null;
         }
 
-        if (_partyController == null)
-        {
-            return;
-        }
-
         if (_battleTimer != null)
         {
             _battleTimer.OnTimeOver -= HandleTimeOver;
             _battleTimer = null;
         }
 
+        if (_partyController == null)
+        {
+            return;
+        }
+
         _partyController.Cleanup();
         _partyController = null;
     }
-
-    
 
     public async UniTask EnterBattle(Vector3 playerSpawnPosition, string stageId, CinemachineCamera battleCamera, IReadOnlyList<string> partyCharacterIds)
     {
@@ -211,8 +209,20 @@ public class BattleManager : BaseManager<BattleManager>
         _battleTimer.OnTimeOver += HandleTimeOver;
 
         BattleHUDView hudView = await GameManager.Instance.UIManager.OpenBattleHUDAsync(destroyCancellationToken);
+
+        if (GameManager.Instance.DataManager.TryGetData(stageId, out StageData stageData))
+        {
+            hudView.SetStage(stageData.StageName);
+        }
+
+        else
+        {
+            Debug.LogError($"{_stageId}StageData를 찾을수 없음");
+        }
+
         _hudPresenter = new BattleHUDPresenter();
         _hudPresenter.Initialize(hudView, _partyController, _battleTimer);
+
 
         _partyController.Initialize(characters, _cinemachineCamera);
         _battleTimer.StartTimer();

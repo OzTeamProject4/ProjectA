@@ -22,6 +22,7 @@ public class BattleHUDView : BaseUI
     [SerializeField] private Image _skillqImage;
     [SerializeField] private Image _skilleImage;
     [SerializeField] private Image _skillspaceImage;
+    [SerializeField] private TMP_Text _levelText;
 
     public void SetStage(string stageName)
     {
@@ -96,5 +97,13 @@ public class BattleHUDView : BaseUI
         }
 
         _skilleImage.fillAmount = Mathf.Clamp01(1f - progress);
+    }
+    public void SetLevel(int level)
+    {
+        if (_levelText == null)
+        {
+            return;
+        }
+        _levelText.text = $"Lv.{level}";
     }
 }
