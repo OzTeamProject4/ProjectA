@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c2535d6ed11afa6489e3afdb9df9bb7e
+guid: 7311e3b7bcbb234498fb377acf309dda
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -106,43 +106,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Items_ExpBook_1
+      name: ui_storylog_0
       rect:
         serializedVersion: 2
-        x: 36
-        y: 1029
-        width: 150
-        height: 150
+        x: 151
+        y: 1998
+        width: 1776
+        height: 199
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,20 +125,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0218e4fe5eacd584385c23e309a482aa
-      internalID: -561053430
+      spriteID: c52a54e9f52607b4c9a686e5e082d57e
+      internalID: 88738881
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_ExpBook_2
+      name: ui_storylog_2
       rect:
         serializedVersion: 2
-        x: 281
-        y: 1035
-        width: 150
-        height: 150
+        x: 2690
+        y: 848
+        width: 1769
+        height: 1432
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,20 +147,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a5044c98849acba458394fd01461e437
-      internalID: -228021398
+      spriteID: 2b6cd9014db8c634ba095ca0f3d52fbb
+      internalID: 815044022
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_ExpBook_3
+      name: ui_storylog_3
       rect:
         serializedVersion: 2
-        x: 521
-        y: 1022
-        width: 150
-        height: 150
+        x: 177
+        y: 1593
+        width: 319
+        height: 244
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,20 +169,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 62633610e21abeb44b5e919bf9585e71
-      internalID: -906164357
+      spriteID: 725db5f3b576ebb4e8c4d524ca7f80ea
+      internalID: -332763654
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_Mat_Tier1
+      name: ui_storylog_4
       rect:
         serializedVersion: 2
-        x: 12
-        y: 798
-        width: 170
-        height: 170
+        x: 634
+        y: 1493
+        width: 453
+        height: 432
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -217,20 +191,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 16232933107d19e4f942a0dfe4a7efca
-      internalID: 1083278409
+      spriteID: 8b527a982efe0e44cb443ca762390734
+      internalID: 2091759440
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_Mat_Tier2
+      name: ui_storylog_5
       rect:
         serializedVersion: 2
-        x: 262
-        y: 797
-        width: 170
-        height: 170
+        x: 1296
+        y: 1610
+        width: 372
+        height: 273
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -239,20 +213,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3be0583f92ef0da4288cfa03f5fb46df
-      internalID: -1947765365
+      spriteID: 1ebeb3799cca8284d9ab3e2899e2302c
+      internalID: -383567956
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_Mat_Tier3
+      name: ui_storylog_6
       rect:
         serializedVersion: 2
-        x: 512
-        y: 798
-        width: 170
-        height: 170
+        x: 150
+        y: 911
+        width: 697
+        height: 460
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -261,8 +235,118 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4bd9f98a91841d4e97d2cfffc42e081
-      internalID: 750954192
+      spriteID: d9ea381739ca8cb408a7d838d34c63ca
+      internalID: -2032725817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_storylog_7
+      rect:
+        serializedVersion: 2
+        x: 951
+        y: 865
+        width: 948
+        height: 527
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 674999dc3c8f4f142859641014c01ba8
+      internalID: -1892974946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_storylog_10
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 252
+        width: 2515
+        height: 540
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0dc9fad14e7318c4ab708399e3d94eef
+      internalID: -1920787976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_storylog_11
+      rect:
+        serializedVersion: 2
+        x: 2921
+        y: 628
+        width: 49
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 121be89433e6eab429d57370807c98ef
+      internalID: 917861132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_storylog_12
+      rect:
+        serializedVersion: 2
+        x: 3038
+        y: 598
+        width: 105
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a58839af706de64b8db0b3fddac8f18
+      internalID: -1446319613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_storylog_13
+      rect:
+        serializedVersion: 2
+        x: 2775
+        y: 484
+        width: 2208
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da818988d33ee8b4caf1f8ccd90280d3
+      internalID: 720817205
       vertices: []
       indices: 
       edges: []
@@ -271,7 +355,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: d8ebe6f1fe9192f4d846eac29c2c7840
+    spriteID: bbf06665286cccc469cd5815a5d1cee9
     internalID: 0
     vertices: []
     indices: 
@@ -281,14 +365,22 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":100.0,"y":100.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":10.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Items_ExpBook_1: -561053430
-      Items_ExpBook_2: -228021398
-      Items_ExpBook_3: -906164357
-      Items_Mat_Tier1: 1083278409
-      Items_Mat_Tier2: -1947765365
-      Items_Mat_Tier3: 750954192
+      ui_storylog_0: 88738881
+      ui_storylog_1: -936201259
+      ui_storylog_10: -1920787976
+      ui_storylog_11: 917861132
+      ui_storylog_12: -1446319613
+      ui_storylog_13: 720817205
+      ui_storylog_2: 815044022
+      ui_storylog_3: -332763654
+      ui_storylog_4: 2091759440
+      ui_storylog_5: -383567956
+      ui_storylog_6: -2032725817
+      ui_storylog_7: -1892974946
+      ui_storylog_8: 1524349269
+      ui_storylog_9: 2019346951
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
