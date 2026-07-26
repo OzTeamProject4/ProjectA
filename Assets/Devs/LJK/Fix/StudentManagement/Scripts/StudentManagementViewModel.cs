@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
@@ -54,6 +55,19 @@ public class StudentManagementViewModel
         {
             return _studentModel.ElementType;
         }
+    }
+
+    public IReadOnlyDictionary<EquipType, string> EquippedItemIds
+    {
+        get
+        {
+            return _studentModel.EquippedItemIds;
+        }
+    }
+
+    public bool TryGetEquipment(string instanceId, out EquipmentModel equipmentModel)
+    {
+        return _inventoryModel.TryGetEquipment(instanceId, out equipmentModel);
     }
 
     public int RequiredGradeUpItemCount

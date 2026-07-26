@@ -247,6 +247,12 @@ public class EquipmentModel : ItemModel
         _statInfos = CreateStatInfos(equipmentData);
     }
 
+    public override void NotifyAllProperties()
+    {
+        base.NotifyAllProperties();
+        OnPropertyChanged(EquippedByChanged);
+    }
+
     public void SetEquippedBy(string studentDataId)
     {
         EquippedBy = studentDataId;
@@ -274,6 +280,7 @@ public class EquipmentModel : ItemModel
 public class InventoryModel : INotifyPropertyChanged
 {
     private static readonly PropertyChangedEventArgs InventoryChanged = new PropertyChangedEventArgs(nameof(Inventory));
+    private static readonly PropertyChangedEventArgs EquipmentsChanged = new PropertyChangedEventArgs(nameof(Equipments));
 
     // 재료는 스택형, 장비는 인스턴스형
     private readonly Dictionary<string, ItemModel> _inventory;
@@ -375,6 +382,99 @@ public class InventoryModel : INotifyPropertyChanged
         if (!_equipments.TryAdd(equipmentModel.InstanceId, equipmentModel))
         {
             Debug.LogError($"[InventoryModel:AddEquipment] InstanceId가 중복됩니다. InstanceId={equipmentModel.InstanceId}");
+            return;
+        }
+
+        OnPropertyChanged(EquipmentsChanged);
+    }
+
+    // 제작. 요구 재료를 전부 확인한 뒤에 한 번에 소비
+    public bool TryCraftEquipment(EquipmentCraftModel equipmentCraftModel)
+    {
+        if (equipmentCraftModel == null)
+        {
+            Debug.LogError("[InventoryModel:TryCraftEquipment] equipmentCraftModel이 null입니다.");
+            return false;
+        }
+
+        if (!CanCraftEquipment(equipmentCraftModel))
+        {
+            return false;
+        }
+
+        if (!GameManager.Instance.DataManager.TryGetData(equipmentCraftModel.DataId, out ItemData itemData))
+        {
+            Debug.LogError($"[InventoryModel:TryCraftEquipment] '{equipmentCraftModel.DataId}' ItemData를 찾을 수 없습니다.");
+            return false;
+        }
+
+        ConsumeCraftMaterials(equipmentCraftModel);
+
+        AddEquipment(new EquipmentModel(NetworkManagerTemp.Instance.CreateEquipmentInstanceId(), itemData));
+
+        return true;
+    }
+
+    public bool CanCraftEquipment(EquipmentCraftModel equipmentCraftModel)
+    {
+        if (equipmentCraftModel == null)
+        {
+            return false;
+        }
+
+        IReadOnlyList<string> requiredItemIds = equipmentCraftModel.RequiredItemIds;
+        IReadOnlyList<int> requiredItemCounts = equipmentCraftModel.RequiredItemCounts;
+
+        if (requiredItemIds.Count != requiredItemCounts.Count)
+        {
+            Debug.LogError($"[InventoryModel:CanCraftEquipment] 요구 아이템과 수량 개수가 다릅니다. DataId={equipmentCraftModel.DataId}");
+            return false;
+        }
+
+        for (int index = 0; index < requiredItemIds.Count; index++)
+        {
+            if (GetItemCount(requiredItemIds[index]) < requiredItemCounts[index])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public int GetItemCount(string itemId)
+    {
+        if (!TryGetItem(itemId, out ItemModel item))
+        {
+            return 0;
+        }
+
+        if (item is not MaterialModel materialModel)
+        {
+            return 0;
+        }
+
+        return materialModel.Count;
+    }
+
+    private void ConsumeCraftMaterials(EquipmentCraftModel equipmentCraftModel)
+    {
+        IReadOnlyList<string> requiredItemIds = equipmentCraftModel.RequiredItemIds;
+        IReadOnlyList<int> requiredItemCounts = equipmentCraftModel.RequiredItemCounts;
+
+        for (int index = 0; index < requiredItemIds.Count; index++)
+        {
+            if (!TryGetItem(requiredItemIds[index], out ItemModel item))
+            {
+                continue;
+            }
+
+            if (item is not MaterialModel materialModel)
+            {
+                continue;
+            }
+
+            materialModel.TryConsume(requiredItemCounts[index]);
         }
     }
 

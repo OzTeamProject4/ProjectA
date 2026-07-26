@@ -22,10 +22,25 @@ public class EquipmentInventoryPopupView : BaseUI
         _equipmentInventoryPopupViewModel = new EquipmentInventoryPopupViewModel();
     }
 
+    private void OnEnable()
+    {
+        _equipmentInventoryPopupViewModel.EquipmentsChanged += HandleEquipmentsChanged;
+    }
+
+    private void OnDisable()
+    {
+        _equipmentInventoryPopupViewModel.EquipmentsChanged -= HandleEquipmentsChanged;
+    }
+
     private void OnDestroy()
     {
         _equipmentInventoryPopupViewModel.Dispose();
         _equipmentInventoryPopupViewModel = null;
+    }
+
+    private void HandleEquipmentsChanged()
+    {
+        RefreshSlots();
     }
 
     public void SetModel(EquipType equipType, StudentModel studentModel)
@@ -51,11 +66,11 @@ public class EquipmentInventoryPopupView : BaseUI
     {
         ReleaseSlots();
 
-        foreach (EquipmentModel equipmentModel in _equipmentInventoryPopupViewModel.FilteredEquipmentItems.Values)
+        foreach (EquipmentModel equipmentModel in _equipmentInventoryPopupViewModel.FilteredEquipmentItems)
         {
             EquipmentItemSlotView equipmentItemSlotView = Instantiate(_slotPrefab, _content);
-            //equipmentItemSlotView.SetModel(equipmentModel);
-            //equipmentItemSlotView.OnSlotClicked += HandleSlotClicked;
+            equipmentItemSlotView.SetModel(equipmentModel);
+            equipmentItemSlotView.OnSlotClicked += HandleSlotClicked;
             _spawnedSlotList.Add(equipmentItemSlotView);
         }
     }

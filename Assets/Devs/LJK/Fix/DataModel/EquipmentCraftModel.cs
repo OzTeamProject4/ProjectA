@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class EquipmentCraftModel
 {
-    private const string GoldItemId = "Item_Gold";
-
     private string _dataId;
     private string _name;
     private EquipType _equipType;
     private string _iconKey;
-    private int _requiredGold; //TODO 리퀘스트 아이템으로 들어가도 되지않을까
     private List<string> _requiredItemIds;
     private List<int> _requiredItemCounts;
     private List<StatInfo> _statInfos;
@@ -44,14 +41,6 @@ public class EquipmentCraftModel
         }
     }
 
-    public int RequiredGold
-    {
-        get 
-        { 
-            return _requiredGold;
-        }
-    }
-
     public IReadOnlyList<string> RequiredItemIds
     {
         get { return _requiredItemIds; }
@@ -81,28 +70,7 @@ public class EquipmentCraftModel
         _equipType = equipmentData.EquipmentType;
         _requiredItemIds = equipmentData.RequiredItemIds.ToList();
         _requiredItemCounts = equipmentData.RequiredItemCounts.ToList();
-        _requiredGold = ExtractRequiredGold(_requiredItemIds, _requiredItemCounts);
         _statInfos = CreateStatInfos(equipmentData);
-    }
-
-    private static int ExtractRequiredGold(List<string> requiredItemIds, List<int> requiredItemCounts)
-    {
-        for (int index = 0; index < requiredItemIds.Count; index++)
-        {
-            if (requiredItemIds[index] != GoldItemId)
-            {
-                continue;
-            }
-
-            if (index >= requiredItemCounts.Count)
-            {
-                break;
-            }
-
-            return requiredItemCounts[index];
-        }
-
-        return 0;
     }
 
     private static List<StatInfo> CreateStatInfos(EquipmentData equipmentData)

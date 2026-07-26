@@ -92,6 +92,8 @@ public class NetworkManagerTemp : MonoBehaviour
     {
         InventoryModel inventoryModel = new InventoryModel();
 
+        AddMaterial(inventoryModel, "Item_Gold", 100000);
+
         AddMaterial(inventoryModel, "Item_ExpBook_Small", 99);
         AddMaterial(inventoryModel, "Item_ExpBook_Medium", 99);
         AddMaterial(inventoryModel, "Item_ExpBook_Large", 99);
@@ -101,6 +103,11 @@ public class NetworkManagerTemp : MonoBehaviour
         AddMaterial(inventoryModel, "Item_Mat_Shard_003", 20);
         AddMaterial(inventoryModel, "Item_Mat_Shard_004", 20);
         AddMaterial(inventoryModel, "Item_Mat_Shard_005", 20);
+
+        // 장비 제작 재료
+        AddMaterial(inventoryModel, "Item_Mat_T1", 50);
+        AddMaterial(inventoryModel, "Item_Mat_T2", 50);
+        AddMaterial(inventoryModel, "Item_Mat_T3", 50);
 
         AddEquipment(inventoryModel, "Item_Equipment_01");
         AddEquipment(inventoryModel, "Item_Equipment_01");
@@ -151,25 +158,26 @@ public class NetworkManagerTemp : MonoBehaviour
         return false;
     }
 
-    //TODO 데이터에 맞게 구조 수정
     private EquipmentCraftListModel CreateEquipmentCraftListModel()
     {
-        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, EquipmentData> equipmentDataTable))
-        {
-            Debug.LogError("dasdad");
-            return null;
-        }
-
         List<EquipmentCraftModel> equipmentCraftModels = new List<EquipmentCraftModel>();
 
-        //foreach (EquipmentData equipmentData in equipmentDataTable.Values)
-        //{
-        //    EquipmentCraftModel equipmentCraftModel = new EquipmentCraftModel(equipmentData);
-        //    equipmentCraftModels.Add(equipmentCraftModel);
-        //}
+        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, ItemData> itemDataTable))
+        {
+            Debug.LogError("ItemData 테이블을 찾을 수 없습니다.");
+            return new EquipmentCraftListModel(equipmentCraftModels);
+        }
 
-        EquipmentCraftListModel equipmentCraftListModel = new EquipmentCraftListModel(equipmentCraftModels);
+        foreach (ItemData itemData in itemDataTable.Values)
+        {
+            if (itemData.ItemType != ItemType.Equipment)
+            {
+                continue;
+            }
 
-        return equipmentCraftListModel;
+            equipmentCraftModels.Add(new EquipmentCraftModel(itemData));
+        }
+
+        return new EquipmentCraftListModel(equipmentCraftModels);
     }
 }

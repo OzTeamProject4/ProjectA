@@ -22,7 +22,8 @@ public class EquipmentItemSlotView : MonoBehaviour
 
     private void Awake()
     {
-        //TODO 추후 필드를 사용하면 추가
+        UnityUtil.ValidateReference(_rectTransfrom, nameof(EquipmentItemSlotView), nameof(_rectTransfrom));
+        UnityUtil.ValidateReference(_slotButton, nameof(EquipmentItemSlotView), nameof(_slotButton));
         UnityUtil.ValidateReference(_itemIconImage, nameof(EquipmentItemSlotView), nameof(_itemIconImage));
 
         _equipmentItemSlotViewModel = new EquipmentItemSlotViewModel();
@@ -32,47 +33,73 @@ public class EquipmentItemSlotView : MonoBehaviour
     {
         _disableCts = new CancellationTokenSource();
 
+        _equipmentItemSlotViewModel.PropertyChanged += OnPropertyChanged;
         _slotButton.onClick.AddListener(HandleSlotClicked);
     }
 
     public void OnDisable()
     {
-        if (_disableCts == null)
+        if (_disableCts != null)
         {
             _disableCts.Cancel();
             _disableCts.Dispose();
             _disableCts = null;
         }
 
+        _equipmentItemSlotViewModel.PropertyChanged -= OnPropertyChanged;
         _slotButton.onClick.RemoveAllListeners();
+    }
+
+    private void OnDestroy()
+    {
+        _equipmentItemSlotViewModel.Dispose();
+        _equipmentItemSlotViewModel = null;
     }
 
     public void SetModel(EquipmentModel equipmentModel)
     {
         _equipmentItemSlotViewModel.SetModel(equipmentModel);
-       
-        Refresh();
-    }
-
-    private void Refresh()
-    {
-        RefreshIconImageAsync().Forget();
-
         _equipmentItemSlotViewModel.Refresh();
+
+        RefreshEquippedMark();
     }
 
-    //TODO 기능 추가
     private void OnPropertyChanged(string propertyName)
     {
         switch (propertyName)
         {
-            //case nameof(_equipmentSlotViewModel.Name):
-            //    break;
-            //case nameof(_equipmentSlotViewModel.Count):
-            //    break;
-            //case nameof(_equipmentSlotViewModel.IconKey):
-            //    break;
+            case nameof(_equipmentItemSlotViewModel.Name):
+                UpdateNameText();
+                break;
+            case nameof(_equipmentItemSlotViewModel.IconKey):
+                RefreshIconImageAsync().Forget();
+                break;
+            case nameof(_equipmentItemSlotViewModel.EquippedBy):
+                RefreshEquippedMark();
+                break;
         }
+    }
+
+    private void UpdateNameText()
+    {
+        if (_equippedText == null)
+        {
+            return;
+        }
+
+        _equippedText.text = _equipmentItemSlotViewModel.Name;
+    }
+
+    private void RefreshEquippedMark()
+    {
+        bool isEquipped = _equipmentItemSlotViewModel.IsEquipped;
+
+        if (_selector != null)
+        {
+            _selector.SetActive(isEquipped);
+        }
+
+        UpdateEquippedCharacterIconAsync().Forget();
     }
 
     private async UniTask RefreshIconImageAsync()
@@ -94,43 +121,31 @@ public class EquipmentItemSlotView : MonoBehaviour
         _itemIconImage.sprite = iconSprite;
     }
 
-    //TODO 기능 추가
     private async UniTaskVoid UpdateEquippedCharacterIconAsync()
     {
-        //if (null == _equippedCharacterIconImage)
-        //{
-        //    return;
-        //}
+        if (_equippedCharacterIconImage == null)
+        {
+            return;
+        }
 
-        //string iconPath = _equipmentSlotViewModel.EquippedCharacterIconPath;
+        string portraitKey = _equipmentItemSlotViewModel.EquippedStudentPortraitKey;
 
-        //if (string.IsNullOrEmpty(iconPath))
-        //{
-        //    _equippedCharacterIconImage.enabled = false;
-        //    return;
-        //}
+        if (string.IsNullOrWhiteSpace(portraitKey))
+        {
+            _equippedCharacterIconImage.enabled = false;
+            return;
+        }
 
-        //try
-        //{
-        //    Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(iconPath, destroyCancellationToken);
+        Sprite portraitSprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(portraitKey, _disableCts.Token);
 
-        //    if (null == sprite)
-        //    {
-        //        _equippedCharacterIconImage.enabled = false;
-        //        return;
-        //    }
+        if (portraitSprite == null)
+        {
+            _equippedCharacterIconImage.enabled = false;
+            return;
+        }
 
-        //    _equippedCharacterIconImage.enabled = true;
-        //    _equippedCharacterIconImage.sprite = sprite;
-        //}
-        //catch (OperationCanceledException)
-        //{
-        //    // 오브젝트 파괴로 취소됨, 무시
-        //}
-        //catch (Exception exception)
-        //{
-        //    Debug.LogWarning($"[EquipmentListItemView] 장착 캐릭터 초상화 로드 실패. iconPath={iconPath}\n{exception}");
-        //}
+        _equippedCharacterIconImage.enabled = true;
+        _equippedCharacterIconImage.sprite = portraitSprite;
     }
 
     private void HandleSlotClicked()

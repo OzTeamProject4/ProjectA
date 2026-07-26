@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using UnityEngine;
@@ -10,33 +11,29 @@ public class EquipmentCraftSlotView : MonoBehaviour
     [SerializeField] private TMP_Text _itemNameText;
     [SerializeField] private Image _itemIconImage;
 
-    //리스트 아이템으로 변경
-    [Header("Gold")]
-    [SerializeField] private GameObject _goldObject;
-    [SerializeField] private Image _goldIconImage;
-    [SerializeField] private TMP_Text _goldAmountText;
-    //리스트 아이템으로 변경
-    [Header("Material 1")]
-    [SerializeField] private GameObject _material1Object;
-    [SerializeField] private Image _material1IconImage;
-    [SerializeField] private TMP_Text _material1TierText;
-    [SerializeField] private TMP_Text _material1CountText;
-    //리스트 아이템으로 변경
-    [Header("Material 2")]
-    [SerializeField] private GameObject _material2Object;
-    [SerializeField] private Image _material2IconImage;
-    [SerializeField] private TMP_Text _material2TierText;
-    [SerializeField] private TMP_Text _material2CountText;
+    [Header("Material")]
+    [SerializeField] private CraftMaterialItemView _materialItemPrefab;
+    [SerializeField] private Transform _materialContent;
 
     [SerializeField] private Button _iconButton;
     [SerializeField] private Button _craftButton;
 
     private EquipmentCraftSlotViewModel _equipmentCraftSlotViewModel;
-    
+
+    private readonly List<CraftMaterialItemView> _spawnedMaterialList = new List<CraftMaterialItemView>();
+
     private CancellationTokenSource _disableCts;
 
     private void Awake()
     {
+        UnityUtil.ValidateReference(_root, nameof(EquipmentCraftSlotView), nameof(_root));
+        UnityUtil.ValidateReference(_itemNameText, nameof(EquipmentCraftSlotView), nameof(_itemNameText));
+        UnityUtil.ValidateReference(_itemIconImage, nameof(EquipmentCraftSlotView), nameof(_itemIconImage));
+        UnityUtil.ValidateReference(_materialItemPrefab, nameof(EquipmentCraftSlotView), nameof(_materialItemPrefab));
+        UnityUtil.ValidateReference(_materialContent, nameof(EquipmentCraftSlotView), nameof(_materialContent));
+        UnityUtil.ValidateReference(_iconButton, nameof(EquipmentCraftSlotView), nameof(_iconButton));
+        UnityUtil.ValidateReference(_craftButton, nameof(EquipmentCraftSlotView), nameof(_craftButton));
+
         _equipmentCraftSlotViewModel = new EquipmentCraftSlotViewModel();
     }
 
@@ -81,10 +78,9 @@ public class EquipmentCraftSlotView : MonoBehaviour
     private void Refresh()
     {
         RefreshNameText();
-        RefreshIconsImage();
-        RefreshMaterialTexts();
+        LoadSpriteAsync(_itemIconImage, _equipmentCraftSlotViewModel.IconKey).Forget();
+        RefreshMaterials();
         RefreshCraftButton();
-        RefreshMaterialInventory();
     }
 
     private void OnPropertyChanged(object sender, string propertyName)
@@ -92,19 +88,9 @@ public class EquipmentCraftSlotView : MonoBehaviour
         switch (propertyName)
         {
             case nameof(_equipmentCraftSlotViewModel.RequiredItems):
-                UpdateRequiredItemCount(sender);
+                RefreshMaterials();
+                RefreshCraftButton();
                 break;
-        }
-    }
-
-    private void UpdateRequiredItemCount(object sender)
-    {
-        for (int index = 0; index < _equipmentCraftSlotViewModel.RequiredItems.Count; index++)
-        {
-            if (ReferenceEquals(sender, _equipmentCraftSlotViewModel.RequiredItems[index]))
-            { 
-                //TODO 리스트 인덱스 텍스트 변경
-            }
         }
     }
 
@@ -113,150 +99,74 @@ public class EquipmentCraftSlotView : MonoBehaviour
         _itemNameText.text = _equipmentCraftSlotViewModel.Name;
     }
    
-    //TODO 리스트로 변경하면 아이콘 이미지 변경 로직
-    private async UniTask UpdateIconImageAsync()
+    //TODO 슬롯 오브젝트 풀 사용 생성
+    private void RefreshMaterials()
     {
-        string iconKey = _equipmentCraftSlotViewModel.IconKey;
+        ReleaseMaterials();
 
-        if (string.IsNullOrWhiteSpace(iconKey))
+        IReadOnlyList<string> requiredItemIds = _equipmentCraftSlotViewModel.RequiredItemIds;
+        IReadOnlyList<int> requiredItemCounts = _equipmentCraftSlotViewModel.RequiredItemCounts;
+
+        for (int index = 0; index < requiredItemIds.Count; index++)
         {
-            return;
+            if (index >= requiredItemCounts.Count)
+            {
+                break;
+            }
+
+            string requiredItemId = requiredItemIds[index];
+
+            CraftMaterialItemView materialItemView = Instantiate(_materialItemPrefab, _materialContent);
+
+            materialItemView.UpdateView(
+                _equipmentCraftSlotViewModel.GetItemTier(requiredItemId),
+                _equipmentCraftSlotViewModel.GetOwnedItemCount(requiredItemId),
+                requiredItemCounts[index]);
+
+            materialItemView.UpdateIconAsync(_equipmentCraftSlotViewModel.GetItemIconKey(requiredItemId), _disableCts.Token).Forget();
+
+            _spawnedMaterialList.Add(materialItemView);
+        }
+    }
+
+    //TODO 슬롯 오브젝트 풀 사용 해제
+    private void ReleaseMaterials()
+    {
+        foreach (CraftMaterialItemView materialItemView in _spawnedMaterialList)
+        {
+            if (materialItemView == null)
+            {
+                continue;
+            }
+
+            Destroy(materialItemView.gameObject);
         }
 
-        Sprite iconSprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(iconKey, _disableCts.Token);
-
-        if (iconSprite == null)
-        {
-            return;
-        }
-
-        _itemIconImage.sprite = iconSprite;
+        _spawnedMaterialList.Clear();
     }
 
-    //TODO 요구 재료 확인
-    private void RefreshMaterialTexts()
-    {
-        //for (int index = 0; index < quipmentCraftSlotViewModel.RequiredItemIds.Count; index++)
-        //{
-        //    string requiredItemId = quipmentCraftSlotViewModel.RequiredItemIds[index];
-
-        //    if (!GameManager.Instance.DataManager.TryGetData(requiredItemId, out ItemData itemData))
-        //    {
-        //        Debug.LogError("");
-        //        return;
-        //    }
-
-        //    int tier = itemData.Tier;
-
-        //    if (index == 0)
-        //    {
-        //        _mat1TierText.text = tier > 0 ? $"T{tier}" : "-";
-        //    }
-        //    else
-        //    {
-        //        _mat2TierText.text = tier > 0 ? $"T{tier}" : "-";
-        //    }
-        //}
-    }
-
-    //TODO 갯수만 변경
-    //TODO 골드 택스트 변경
-    private void RefreshMaterialInventory()
-    {
-        //for (int index = 0; index < _equipmentCraftSlotViewModel.RequiredItemIds.Count; index++)
-        //{
-        //    string requiredItemId = _equipmentCraftSlotViewModel.RequiredItemIds[index];
-        //    int requiredItemCount = _equipmentCraftSlotViewModel.RequiredItemCounts[index];
-
-        //    if (!_equipmentCraftSlotViewModel.ItemLists.TryGetValue(requiredItemId, out ItemModel itemModel))
-        //    {
-        //        HasItem = false;
-        //    }
-
-        //    if (index == 0)
-        //    {
-        //        _material1CountText.text = $"{owned}/{requiredItemCount}";
-        //    }
-        //    else
-        //    {
-        //        _material2CountText.text = $"{owned}/{requiredItemCount}";
-        //    }
-        //}
-    }
-
-    //TODO 기능 구현
     private void RefreshCraftButton()
     {
-        //TODO 조건문 확인
-        if (_equipmentCraftSlotViewModel.RequiredItemIds.Count != _equipmentCraftSlotViewModel.RequiredItemCounts.Count)
+        _craftButton.interactable = _equipmentCraftSlotViewModel.CanCraft;
+    }
+
+    private async UniTask LoadSpriteAsync(Image image, string spriteKey)
+    {
+        if (string.IsNullOrWhiteSpace(spriteKey))
         {
-            Debug.LogError(" ");
+            image.enabled = false;
             return;
         }
 
-        //for (int index = 0; index < _craftListItemViewModel.RequiredItemIds.Count; index++)
-        //{
-        //    string requiredItemId = _craftListItemViewModel.RequiredItemIds[index];
-        //    int requiredItemCount = _craftListItemViewModel.RequiredItemCounts[index];
+        Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(spriteKey, _disableCts.Token);
 
-        //    if(!_craftListItemViewModel.ItemLists.TryGetValue(requiredItemId, out ItemModel itemModel))
-        //    {
-        //        _craftButton.interactable = false;
-        //        return;
-        //    }
-
-        //    if(itemModel.Count < requiredItemCount)
-        //    {
-        //        _craftButton.interactable = false;
-        //        return;
-        //    }
-        //}
-
-        _craftButton.interactable = true;
-    }
-
-    private void RefreshIconsImage()
-    {
-        LoadSpriteAsync(_itemIconImage, _equipmentCraftSlotViewModel.IconKey).Forget();
-
-        //TODO 리스트로 만들어서 초기화후 Add
-        _material1IconImage.gameObject.SetActive(false);
-        _material2IconImage.gameObject.SetActive(false);
-
-        for (int index = 0; index < _equipmentCraftSlotViewModel.RequiredItemIds.Count; index++)
+        if (sprite == null)
         {
-            string requiredItemId = _equipmentCraftSlotViewModel.RequiredItemIds[index];
-
-            if (!GameManager.Instance.DataManager.TryGetData(requiredItemId, out ItemData itemData))
-            {
-                Debug.LogError("");
-                return;
-            }
-
-            //TODO  리스트로 만들어서 초기화후 Add
-            if (index == 0)
-            {
-                LoadSpriteAsync(_material1IconImage, itemData.IconKey).Forget();
-                _material1IconImage.gameObject.SetActive(true);
-            }
-            else
-            {
-                LoadSpriteAsync(_material2IconImage, itemData.IconKey).Forget();
-
-                _material1IconImage.gameObject.SetActive(true);
-            }
-        }
-    }
-
-    private async UniTask LoadSpriteAsync(Image image, string spritePath)
-    {
-        Sprite sprite = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(spritePath, destroyCancellationToken);
-
-        if (null == sprite)
-        {
+            image.enabled = false;
             return;
         }
 
+        image.enabled = true;
         image.sprite = sprite;
     }
 

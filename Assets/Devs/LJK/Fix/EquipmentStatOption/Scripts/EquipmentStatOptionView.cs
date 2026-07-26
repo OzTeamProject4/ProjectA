@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StatItemView : MonoBehaviour
+public class EquipmentStatOptionView : MonoBehaviour
 {
     [SerializeField] private Image _iconImage;
     [SerializeField] private TMP_Text _statText;

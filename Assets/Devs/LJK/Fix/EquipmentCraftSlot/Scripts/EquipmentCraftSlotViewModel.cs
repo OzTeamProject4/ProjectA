@@ -40,14 +40,6 @@ public class EquipmentCraftSlotViewModel
         }
     }
 
-    public int RequiredGold
-    {
-        get 
-        {
-            return _equipmentCraftModel.RequiredGold; 
-        }
-    }
-
     public IReadOnlyList<string> RequiredItemIds
     {
         get
@@ -93,10 +85,53 @@ public class EquipmentCraftSlotViewModel
         _equipmentCraftModel = null;
     }
 
-    //기능 구현
+    public bool CanCraft
+    {
+        get
+        {
+            return NetworkManagerTemp.Instance.InventoryModel.CanCraftEquipment(_equipmentCraftModel);
+        }
+    }
+
+    public int GetOwnedItemCount(string itemId)
+    {
+        return NetworkManagerTemp.Instance.InventoryModel.GetItemCount(itemId);
+    }
+
+    public string GetItemTier(string itemId)
+    {
+        if (!GameManager.Instance.DataManager.TryGetData(itemId, out ItemData itemData))
+        {
+            return string.Empty;
+        }
+
+        if (!GameManager.Instance.DataManager.TryGetData(itemData.ForeignKey, out CurrencyData currencyData))
+        {
+            return string.Empty;
+        }
+
+        return currencyData.Tier;
+    }
+
+    public string GetItemIconKey(string itemId)
+    {
+        if (!GameManager.Instance.DataManager.TryGetData(itemId, out ItemData itemData))
+        {
+            return string.Empty;
+        }
+
+        return itemData.IconKey;
+    }
+
+
     public void RequestCraftItem()
     {
-        throw new NotImplementedException();
+        if (_equipmentCraftModel == null)
+        {
+            return;
+        }
+
+        NetworkManagerTemp.Instance.InventoryModel.TryCraftEquipment(_equipmentCraftModel);
     }
 
     private void CacheRequiredMaterials()

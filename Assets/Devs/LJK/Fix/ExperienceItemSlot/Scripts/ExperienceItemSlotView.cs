@@ -11,7 +11,6 @@ public class ExperienceItemSlotView : MonoBehaviour, IPointerDownHandler, IPoint
     private const float HoldDelaySeconds = 1.5f;
     private const float RepeatIntervalSeconds = 0.15f;
 
-    [SerializeField] private TMP_Text _itemNameText;
     [SerializeField] private Image _itemIconImage;
     [SerializeField] private TMP_Text _itemCountText;
     [SerializeField] private Button _slotButton;
@@ -25,7 +24,6 @@ public class ExperienceItemSlotView : MonoBehaviour, IPointerDownHandler, IPoint
 
     public void Awake()
     {
-        UnityUtil.ValidateReference(_itemNameText, nameof(ExperienceItemSlotView), nameof(_itemNameText));
         UnityUtil.ValidateReference(_itemIconImage, nameof(ExperienceItemSlotView), nameof(_itemIconImage));
         UnityUtil.ValidateReference(_itemCountText, nameof(ExperienceItemSlotView), nameof(_itemCountText));
         UnityUtil.ValidateReference(_slotButton, nameof(ExperienceItemSlotView), nameof(_slotButton));

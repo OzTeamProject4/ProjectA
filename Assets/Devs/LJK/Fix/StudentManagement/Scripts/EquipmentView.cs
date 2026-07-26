@@ -41,7 +41,13 @@ public class EquipmentView : BaseButton
             return;
         }
 
+        _iconImage.enabled = true;
         _iconImage.sprite = iconSprite;
+    }
+
+    public virtual void ClearView()
+    {
+        _iconImage.enabled = false;
     }
 
     public virtual void UpdateView(EquipmentModel equipmentModel)

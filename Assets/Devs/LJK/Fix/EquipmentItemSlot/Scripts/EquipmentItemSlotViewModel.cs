@@ -13,11 +13,55 @@ public class EquipmentItemSlotViewModel
         }
     }
 
+    public string Name
+    {
+        get
+        {
+            return _equipmentModel.Name;
+        }
+    }
+
     public string IconKey
     {
         get
         {
             return _equipmentModel.IconKey;
+        }
+    }
+
+    public string EquippedBy
+    {
+        get
+        {
+            return _equipmentModel.EquippedBy;
+        }
+    }
+
+    public bool IsEquipped
+    {
+        get
+        {
+            return _equipmentModel.IsEquipped;
+        }
+    }
+
+    public string EquippedStudentPortraitKey
+    {
+        get
+        {
+            if (!_equipmentModel.IsEquipped)
+            {
+                return string.Empty;
+            }
+
+            StudentModel studentModel = NetworkManagerTemp.Instance.StudentListModel.GetCharacter(_equipmentModel.EquippedBy);
+
+            if (studentModel == null)
+            {
+                return string.Empty;
+            }
+
+            return studentModel.PortraitKey;
         }
     }
 

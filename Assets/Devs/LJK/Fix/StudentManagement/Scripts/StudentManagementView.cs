@@ -99,6 +99,9 @@ public class StudentManagementView : BaseUI
             case nameof(_studentManagementViewModel.OwnedGradeUpItemCount):
                 HandleOwnedGradeUpItemCountChanged();
                 break;
+            case nameof(_studentManagementViewModel.EquippedItemIds):
+                HandleEquippedItemsChanged();
+                break;
         }
     }
 
@@ -163,6 +166,21 @@ public class StudentManagementView : BaseUI
     private void HandleStudentMoveSpeedChanged()
     {
         _studentManagementStatusView.UpdateMoveSpeedText(_studentManagementViewModel.TotalMoveSpeed);
+    }
+
+    private void HandleEquippedItemsChanged()
+    {
+        _studentManagementEquipmentView.ClearSlots();
+
+        foreach (string instanceId in _studentManagementViewModel.EquippedItemIds.Values)
+        {
+            if (!_studentManagementViewModel.TryGetEquipment(instanceId, out EquipmentModel equipmentModel))
+            {
+                continue;
+            }
+
+            _studentManagementEquipmentView.UpdateEquipmentSlot(equipmentModel);
+        }
     }
 
     private void HandleOwnedGradeUpItemCountChanged()

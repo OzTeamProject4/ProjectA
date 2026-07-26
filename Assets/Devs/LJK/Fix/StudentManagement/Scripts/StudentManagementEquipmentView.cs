@@ -44,11 +44,30 @@ public class StudentManagementEquipmentView : MonoBehaviour
         }
     }
 
+    public void ClearSlots()
+    {
+        foreach (EquipmentView equipmentView in _equipmentViewList)
+        {
+            if (equipmentView == null)
+            {
+                continue;
+            }
+
+            equipmentView.ClearView();
+        }
+    }
+
     public void UpdateEquipmentSlot(EquipmentModel equipmentModel)
     {
+        if (equipmentModel == null)
+        {
+            Debug.LogError("장비 모델이 null입니다.", this);
+            return;
+        }
+
         if (!_equipmentViewCacheDictionary.TryGetValue(equipmentModel.EquipType, out EquipmentView equipmentView))
         {
-            Debug.LogError($"Duplicate EquipmentSlot: {equipmentView.EquipType}", this);
+            Debug.LogError($"'{equipmentModel.EquipType}' 슬롯을 찾을 수 없습니다.", this);
             return;
         }
 

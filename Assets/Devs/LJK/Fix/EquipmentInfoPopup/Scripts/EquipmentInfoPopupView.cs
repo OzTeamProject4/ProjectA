@@ -8,17 +8,21 @@ using UnityEngine.UI;
 public class EquipmentInfoPopupView : BaseUI
 {
     [SerializeField] private RectTransform _rootRect;
+    [SerializeField] private PopupBackgroundButton _backgroundButton;
     [SerializeField] private TMP_Text _itemNameText;
     [SerializeField] private TMP_Text _itemDescriptionText;
     [SerializeField] private Image _itemIconImage;
 
-    //TODO ADD하는 식으로 수정
-    [SerializeField] private StatItemView[] _statRows;
+    [Header("Stat")]
+    [SerializeField] private EquipmentStatOptionView _statRowPrefab;
+    [SerializeField] private Transform _statRowContent;
 
     [SerializeField] private Button _equipButton;
     [SerializeField] private Button _unequipButton;
 
     private EquipmentInfoPopupViewModel _equipmentInfoPopupViewModel;
+
+    private readonly List<EquipmentStatOptionView> _spawnedStatRowList = new List<EquipmentStatOptionView>();
 
     private CancellationTokenSource _disableCts;
 
@@ -27,6 +31,9 @@ public class EquipmentInfoPopupView : BaseUI
         UnityUtil.ValidateReference(_itemNameText, nameof(EquipmentInfoPopupView), nameof(_itemNameText));
         UnityUtil.ValidateReference(_itemDescriptionText, nameof(EquipmentInfoPopupView), nameof(_itemDescriptionText));
         UnityUtil.ValidateReference(_itemIconImage, nameof(EquipmentInfoPopupView), nameof(_itemIconImage));
+        UnityUtil.ValidateReference(_backgroundButton, nameof(EquipmentInfoPopupView), nameof(_backgroundButton));
+        UnityUtil.ValidateReference(_statRowPrefab, nameof(EquipmentInfoPopupView), nameof(_statRowPrefab));
+        UnityUtil.ValidateReference(_statRowContent, nameof(EquipmentInfoPopupView), nameof(_statRowContent));
 
         _equipmentInfoPopupViewModel = new EquipmentInfoPopupViewModel();
     }
@@ -36,6 +43,11 @@ public class EquipmentInfoPopupView : BaseUI
         _disableCts = new CancellationTokenSource();
 
         _equipmentInfoPopupViewModel.PropertyChanged += OnModelPropertyChanged;
+
+        _equipButton.onClick.AddListener(HandleEquipClicked);
+        _unequipButton.onClick.AddListener(HandleUnequipClicked);
+
+        _backgroundButton.OnBackgroundClicked += HandleBackgroundClicked;
     }
 
     private void OnDisable()
@@ -51,6 +63,13 @@ public class EquipmentInfoPopupView : BaseUI
 
         _equipButton.onClick.RemoveAllListeners();
         _unequipButton.onClick.RemoveAllListeners();
+
+        _backgroundButton.OnBackgroundClicked -= HandleBackgroundClicked;
+    }
+
+    private void HandleBackgroundClicked()
+    {
+        GameManager.Instance.UIManager.CloseEquipmentInfoPopup();
     }
 
     private void OnDestroy()
@@ -63,27 +82,41 @@ public class EquipmentInfoPopupView : BaseUI
     {
         _equipmentInfoPopupViewModel.SetModel(equipmentModel, studentModel);
 
-        _equipButton.onClick.AddListener(HandleEquipClicked);
-        _unequipButton.onClick.AddListener(HandleUnequipClicked);
-
         Refresh();
         MoveCardTo(position);
     }
 
     private void Refresh()
     {
+        _itemNameText.text = _equipmentInfoPopupViewModel.Name;
+        _itemDescriptionText.text = _equipmentInfoPopupViewModel.Description;
+
         UpdateIconImageAsync().Forget();
         RefreshStatRows();
+        RefreshEquipButtons();
     }
 
-    //TODO 필요한 기능 추가
+    private void RefreshEquipButtons()
+    {
+        bool isEquipped = _equipmentInfoPopupViewModel.IsEquippedByCurrentStudent;
+
+        _equipButton.gameObject.SetActive(!isEquipped);
+        _unequipButton.gameObject.SetActive(isEquipped);
+    }
+
     private void OnModelPropertyChanged(string propertyName)
     {
         switch (propertyName)
         {
-            //case nameof(_equipmentInfoPopupViewModel.IconPath):
-            //    //UpdateList();
-            //    break;
+            case nameof(_equipmentInfoPopupViewModel.Name):
+                _itemNameText.text = _equipmentInfoPopupViewModel.Name;
+                break;
+            case nameof(_equipmentInfoPopupViewModel.IconKey):
+                UpdateIconImageAsync().Forget();
+                break;
+            case nameof(EquipmentModel.EquippedBy):
+                RefreshEquipButtons();
+                break;
         }
     }
 
@@ -112,26 +145,47 @@ public class EquipmentInfoPopupView : BaseUI
         _rootRect.position = worldPosition;
     }
 
-    //List로 바꾸기
+    //TODO 슬롯 오브젝트 풀 사용 생성
     private void RefreshStatRows()
     {
-        IReadOnlyList<StatInfo> info = _equipmentInfoPopupViewModel.StatInfo;
+        ReleaseStatRows();
 
-        for (int i = 0; i < _statRows.Length; i++)
+        IReadOnlyList<StatInfo> statInfos = _equipmentInfoPopupViewModel.StatInfo;
+
+        if (statInfos == null)
         {
-            if (null == _statRows[i])
-            {
-                continue;
-            }
-
-            if (i >= info.Count)
-            {
-                _statRows[i].Hide();
-                continue;
-            }
-
-            _statRows[i].SetValue(info[i].Type, info[i].Value);
+            return;
         }
+
+        foreach (StatInfo statInfo in statInfos)
+        {
+            if (Mathf.Approximately(statInfo.Value, 0f))
+            {
+                continue;
+            }
+
+            EquipmentStatOptionView statRowView = Instantiate(_statRowPrefab, _statRowContent);
+
+            statRowView.SetValue(statInfo.Type, statInfo.Value);
+
+            _spawnedStatRowList.Add(statRowView);
+        }
+    }
+
+    //TODO 슬롯 오브젝트 풀 사용 해제
+    private void ReleaseStatRows()
+    {
+        foreach (EquipmentStatOptionView statRowView in _spawnedStatRowList)
+        {
+            if (statRowView == null)
+            {
+                continue;
+            }
+
+            Destroy(statRowView.gameObject);
+        }
+
+        _spawnedStatRowList.Clear();
     }
 
     private void HandleEquipClicked()
