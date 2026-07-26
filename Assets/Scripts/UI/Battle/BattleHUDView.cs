@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
@@ -67,10 +67,34 @@ public class BattleHUDView : BaseUI
     public void SetUltimateGauge(float normalizedValue)
     {
         _ultimateGaugeSlider.value = Mathf.Clamp01(normalizedValue);
+
+        if (_skillspaceImage != null)
+        {
+            _skillspaceImage.fillAmount = Mathf.Clamp01(normalizedValue);
+        }
     }
 
     public void SetExperience(float normalizedValue)
     {
         _experienceSlider.value = Mathf.Clamp01(normalizedValue);
+    }
+
+    public void SetBasicSkillCooldown(float progress)
+    {
+        if (_skillqImage == null)
+        {
+            return;
+        }
+
+        _skillqImage.fillAmount = Mathf.Clamp01(1f - progress);
+    }
+    public void SetNormalSkillCooldown(float progress)
+    {
+        if (_skilleImage == null)
+        {
+            return;
+        }
+
+        _skilleImage.fillAmount = Mathf.Clamp01(1f - progress);
     }
 }

@@ -28,7 +28,6 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     private CharacterData _data;
     private Rigidbody _rigidbody;
     private float _curHp;
-    private int _curSkillGauge;
     private float _curAtk;
     private float _curDef;
     private float _curMoveSpeed;
@@ -146,12 +145,10 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         _data = data;
         _maxHp = data.Hp;
         SetHp(data.Hp);
-        Debug.Log($"[BattleCharacter] {name} InitializeAsync: data.Hp={data.Hp}, _curHp={_curHp}, _maxHp={_maxHp}");
         _curAtk = data.Attack;
         _curDef = data.Defence;
         _curMoveSpeed = data.MoveSpeed;
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
-        _curSkillGauge = 0;
         _curMoveSpeed = data.MoveSpeed;
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
         _baseMoveSpeed = data.MoveSpeed;

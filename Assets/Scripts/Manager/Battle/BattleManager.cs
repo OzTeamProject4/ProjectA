@@ -140,6 +140,11 @@ public class BattleManager : BaseManager<BattleManager>
             return;
         }
 
+        if (_hudPresenter != null)
+        {
+            _hudPresenter.TickSkill();
+        }
+
         if (null == Keyboard.current || !Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             return;

@@ -99,8 +99,32 @@ public class CharacterSkillSystem : MonoBehaviour
             return _maxGauge;
         }
     }
-    
-    
+
+    public float BasicSkillCooldownProgress
+    {
+        get
+        {
+            if (_basicSkill == null)
+            {
+                return 1.0f;
+            }
+            
+            return _basicSkill.CooldownProgress;
+        }
+    }
+    public float NormalSkillCooldownProgress
+    {
+        get
+        {
+            if (_normalSkill == null)
+            {
+                return 1.0f;
+            }
+
+            return _normalSkill.CooldownProgress;
+        }
+    }
+
     private void Awake()
     {
         _battleCharacter = GetComponent<BattleCharacter>();

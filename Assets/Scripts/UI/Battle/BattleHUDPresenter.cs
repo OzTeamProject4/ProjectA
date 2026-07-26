@@ -17,7 +17,6 @@ public class BattleHUDPresenter
 
     private void HandleCharacterChanged(BattleCharacter character)
     {
-        Debug.Log($"[Presenter] HandleCharacterChanged 호출됨. character={character?.name}");
         if (_currentCharacter != null && _currentSkillSystem != null)
         {
             _currentCharacter.OnHpChanged -= HandleHpChanged;
@@ -46,7 +45,6 @@ public class BattleHUDPresenter
 
     private void HandleHpChanged(float current, float max)
     {
-        Debug.Log($"[Presenter] HandleHpChanged: {current}/{max}, hudView={_hudView != null}");
         if (_hudView != null)
         {
             _hudView.SetPlayerHp(current, max);
@@ -85,5 +83,17 @@ public class BattleHUDPresenter
         }
 
         _hudView.SetUltimateGauge(ratio);
+    }
+
+    public void TickSkill()
+    {
+        if (_hudView == null || _currentSkillSystem == null)
+        {
+            return;
+        }
+
+        _hudView.SetBasicSkillCooldown(_currentSkillSystem.BasicSkillCooldownProgress);
+        _hudView.SetNormalSkillCooldown(_currentSkillSystem.NormalSkillCooldownProgress);
+
     }
 }
