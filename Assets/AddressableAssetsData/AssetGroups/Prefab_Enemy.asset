@@ -10,23 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: Prefab_Enemy
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: Default Local Group
-  m_GUID: 6c3b65eb4f8cd5349a5ea4eb7c4658ed
+  m_GroupName: Prefab_Enemy
+  m_GUID: fb91137459e58624d87284c18c3366db
   m_SerializeEntries:
-  - m_GUID: 306aacece41374f42b6be8c1c0ae993b
-    m_Address: TestEnemy
+  - m_GUID: 12a20e8eb75dd3946ab2ee7505596076
+    m_Address: Prefabs/Enemy_Wizard_Fire
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9691e482a6200e8478da7b3fd3ea4d6f
-    m_Address: Assets/Textures/StandImage/Lumi_Standimg.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c1e3f459ebd31684a9bf8772ff117721
-    m_Address: Video/Test
+  - m_GUID: a9b4617be87cce744a6cb785f0f900a4
+    m_Address: Prefabs/EnemySkill_Fireball
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -34,5 +29,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: a2c5544ffab75cb428ed6b2ff736503e, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: f39ee91c6cb8b914f9c68fe77ce9b363, type: 2}
-    - {fileID: 11400000, guid: f2027b85aadf1554d9f0affcfd9db5bb, type: 2}
+    - {fileID: 11400000, guid: 1fedcf4fb031c4148bad355e36ce5dbe, type: 2}
+    - {fileID: 11400000, guid: fea41041e1e67b34885c7be94c0ecce7, type: 2}
