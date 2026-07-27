@@ -1672,13 +1672,14 @@ MonoBehaviour:
   - {fileID: 6764028431172487275}
   - {fileID: 0}
   - {fileID: 0}
-  _playerHpSlider: {fileID: 0}
-  _ultimateGaugeSlider: {fileID: 0}
-  _experienceSlider: {fileID: 0}
+  _playerHpSlider: {fileID: 2686042891785121755}
+  _ultimateGaugeSlider: {fileID: 8806292047403237380}
+  _experienceSlider: {fileID: 5843579361316400861}
   _typeICON: {fileID: 5063069492439071696}
   _skillqImage: {fileID: 3991332867222439364}
   _skilleImage: {fileID: 5715540426397886700}
   _skillspaceImage: {fileID: 5034027509929370680}
+  _levelText: {fileID: 0}
 --- !u!1 &1792946725139482861
 GameObject:
   m_ObjectHideFlags: 0
