@@ -50,7 +50,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uC2A4\uD0AC\uC774\uD399\uD2B8_0"
+      name: SkillWater001
       rect:
         serializedVersion: 2
         x: 1277
@@ -132,7 +132,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC2A4\uD0AC\uC774\uD399\uD2B8_3"
+      name: SkillNormal010
       rect:
         serializedVersion: 2
         x: 4745
@@ -154,7 +154,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC2A4\uD0AC\uC774\uD399\uD2B8_4"
+      name: SkillFire001
       rect:
         serializedVersion: 2
         x: 322
@@ -176,7 +176,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC2A4\uD0AC\uC774\uD399\uD2B8_5"
+      name: SkillGrass001
       rect:
         serializedVersion: 2
         x: 2529
@@ -198,11 +198,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC2A4\uD0AC\uC774\uD399\uD2B8_17"
+      name: SkillNormal001
       rect:
         serializedVersion: 2
-        x: 3539
-        y: 2059
+        x: 3513
+        y: 2074
         width: 818
         height: 714
       alignment: 0
@@ -220,7 +220,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC2A4\uD0AC\uC774\uD399\uD2B8_30"
+      name: SkillFire002
       rect:
         serializedVersion: 2
         x: 104
@@ -242,10 +242,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC2A4\uD0AC\uC774\uD399\uD2B8_34"
+      name: SkillWater002
       rect:
         serializedVersion: 2
-        x: 1215
+        x: 1210
         y: 1226
         width: 909
         height: 839
@@ -264,10 +264,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC2A4\uD0AC\uC774\uD399\uD2B8_35"
+      name: SkillGrass002
       rect:
         serializedVersion: 2
-        x: 2478
+        x: 2473
         y: 1307
         width: 845
         height: 707
@@ -286,7 +286,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC2A4\uD0AC\uC774\uD399\uD2B8_36"
+      name: SkillNormal002
       rect:
         serializedVersion: 2
         x: 3678
@@ -308,7 +308,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC2A4\uD0AC\uC774\uD399\uD2B8_37"
+      name: SkillNormal020
       rect:
         serializedVersion: 2
         x: 4696
@@ -330,7 +330,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC2A4\uD0AC\uC774\uD399\uD2B8_43"
+      name: SkillWater003
       rect:
         serializedVersion: 2
         x: 1232
@@ -352,11 +352,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC2A4\uD0AC\uC774\uD399\uD2B8_46"
+      name: SkillGrass003
       rect:
         serializedVersion: 2
         x: 2393
-        y: 133
+        y: 128
         width: 1001
         height: 1024
       alignment: 0
@@ -374,7 +374,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC2A4\uD0AC\uC774\uD399\uD2B8_47"
+      name: SkillNormal030
       rect:
         serializedVersion: 2
         x: 4618
@@ -396,11 +396,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC2A4\uD0AC\uC774\uD399\uD2B8_49"
+      name: SkillFire003
       rect:
         serializedVersion: 2
-        x: 110
-        y: 221
+        x: 89
+        y: 236
         width: 803
         height: 833
       alignment: 0
@@ -418,11 +418,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC2A4\uD0AC\uC774\uD399\uD2B8_50"
+      name: SkillNormal003
       rect:
         serializedVersion: 2
-        x: 3600
-        y: 178
+        x: 3595
+        y: 183
         width: 777
         height: 917
       alignment: 0
@@ -455,7 +455,22 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_0": -527311213
+      2: -833407920
+      SkillFire001: 1017119999
+      SkillFire002: -974578009
+      SkillFire003: -83496127
+      SkillGrass001: -802647199
+      SkillGrass002: -833407920
+      SkillGrass003: 132969875
+      SkillNormal001: 1722453126
+      SkillNormal002: 2104743824
+      SkillNormal003: 512986160
+      SkillNormal010: 1507844711
+      SkillNormal020: -667168465
+      SkillNormal030: 1147928125
+      SkillWater001: -527311213
+      SkillWater002: -656595699
+      SkillWater003: 375670262
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_1": -829773900
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_10": 1041875329
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_11": 734010567
@@ -464,11 +479,8 @@ TextureImporter:
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_14": 1434755437
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_15": 1058100458
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_16": -2010731130
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_17": 1722453126
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_18": 436409680
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_19": 1401136468
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_2": -2024006004
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_20": 1355223922
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_21": 909971782
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_22": 697085460
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_23": 2055156902
@@ -478,30 +490,17 @@ TextureImporter:
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_27": -281883186
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_28": -1661244127
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_29": 1051780788
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_3": 1507844711
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_30": -974578009
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_31": -1700709924
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_32": 414917975
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_33": -947838556
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_34": -656595699
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_35": -833407920
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_36": 2104743824
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_37": -667168465
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_38": -1256313012
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_39": 798591940
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_4": 1017119999
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_40": 1208456769
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_41": 76666850
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_42": -835140341
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_43": 375670262
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_44": 2117443855
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_45": -797577302
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_46": 132969875
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_47": 1147928125
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_48": 1048969788
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_49": -83496127
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_5": -802647199
-      "\uC2A4\uD0AC\uC774\uD399\uD2B8_50": 512986160
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_51": -1400032885
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_52": -1627321105
       "\uC2A4\uD0AC\uC774\uD399\uD2B8_53": -1062849312
