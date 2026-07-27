@@ -13,7 +13,8 @@
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 30
+    "SkillRange": 30,
+    "IconPath": "IconSkill[SkillFire001]"
   },
   {
     "DataId": "Skill_Fire_002",
@@ -29,7 +30,8 @@
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 30
+    "SkillRange": 30,
+    "IconPath": "IconSkill[SkillFire002]"
   },
   {
     "DataId": "Skill_Fire_003",
@@ -45,7 +47,8 @@
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 60
+    "SkillRange": 60,
+    "IconPath": "IconSkill[SkillFire003]"
   },
   {
     "DataId": "Skill_Water_001",
@@ -61,7 +64,8 @@
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 30
+    "SkillRange": 30,
+    "IconPath": "IconSkill[SkillWater001]"
   },
   {
     "DataId": "Skill_Water_002",
@@ -77,7 +81,8 @@
     "HealAmount": 15,
     "MoveSpeedBuff": 5,
     "BuffDuration": 10,
-    "SkillRange": 0
+    "SkillRange": 0,
+    "IconPath": "IconSkill[SkillWater002]"
   },
   {
     "DataId": "Skill_Water_003",
@@ -93,7 +98,8 @@
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 60
+    "SkillRange": 60,
+    "IconPath": "IconSkill[SkillWater003]"
   },
   {
     "DataId": "Skill_Grass_001",
@@ -109,7 +115,8 @@
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 36
+    "SkillRange": 36,
+    "IconPath": "IconSkill[SkillGrass001]"
   },
   {
     "DataId": "Skill_Grass_002",
@@ -125,7 +132,8 @@
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 42
+    "SkillRange": 42,
+    "IconPath": "IconSkill[SkillGrass002]"
   },
   {
     "DataId": "Skill_Grass_003",
@@ -141,7 +149,8 @@
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 66
+    "SkillRange": 66,
+    "IconPath": "IconSkill[SkillGrass003]"
   },
   {
     "DataId": "Skill_Normal_001",
@@ -157,7 +166,8 @@
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 33 
+    "SkillRange": 33,
+    "IconPath": "IconSkill[SkillNormal001]"
   },
   {
     "DataId": "Skill_Normal_002",
@@ -173,7 +183,8 @@
     "HealAmount": 20,
     "MoveSpeedBuff": 10,
     "BuffDuration": 13,
-    "SkillRange": 0
+    "SkillRange": 0,
+    "IconPath": "IconSkill[SkillNormal002]"
   },
   {
     "DataId": "Skill_Normal_003",
@@ -189,7 +200,8 @@
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 72
+    "SkillRange": 72,
+    "IconPath": "IconSkill[SkillNormal003]"
   },
   {
     "DataId": "Skill_Normal_010",
@@ -205,7 +217,8 @@
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 36
+    "SkillRange": 36,
+    "IconPath": "IconSkill[SkillNormal010]"
   },
   {
     "DataId": "Skill_Normal_020",
@@ -221,7 +234,8 @@
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 42
+    "SkillRange": 42,
+    "IconPath": "IconSkill[SkillNormal020]"
   },
   {
     "DataId": "Skill_Normal_030",
@@ -237,6 +251,7 @@
     "HealAmount": 0,
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
-    "SkillRange": 72
+    "SkillRange": 72,
+    "IconPath": "IconSkill[SkillNormal030]"
   }
 ]
