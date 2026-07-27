@@ -1,8 +1,15 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
+public enum BattleResultChoice
+{
+    None,
+    Return,
+    Retry
+}
 
 public class BattleResultPopupView : BaseUI
 {
@@ -12,12 +19,14 @@ public class BattleResultPopupView : BaseUI
     [SerializeField] private Sprite _clearedSprite;
     [SerializeField] private Sprite _failedSprite;
     [SerializeField] private Transform _rewardContainer;
+    [SerializeField] private GameObject _rewardSection;
     [SerializeField] private RewardSlotView _rewardSlotPrefab;
     [SerializeField] private Button _returnButton;
+    [SerializeField] private Button _retryButton;
 
     private readonly List<RewardSlotView> _spawnedRewards = new List<RewardSlotView>();
 
-    private UniTaskCompletionSource _completionSource;
+    private UniTaskCompletionSource<BattleResultChoice> _completionSource;
     private bool _isSubscribed;
 
     private void OnDisable()
@@ -31,13 +40,13 @@ public class BattleResultPopupView : BaseUI
         ClearRewards();
     }
 
-    public UniTask WaitForReturnAsync(bool isVictory, string stageId)
+    public UniTask<BattleResultChoice> WaitForChoiceAsync(bool isVictory, string stageId)
     {
         BattleResultPopupViewModel viewModel = new BattleResultPopupViewModel(isVictory, stageId);
 
         RefreshDisplay(viewModel);
 
-        _completionSource = new UniTaskCompletionSource();
+        _completionSource = new UniTaskCompletionSource<BattleResultChoice>();
 
         Subscribe();
 
@@ -56,6 +65,11 @@ public class BattleResultPopupView : BaseUI
             _returnButton.onClick.AddListener(HandleClickReturn);
         }
 
+        if (null != _retryButton)
+        {
+            _retryButton.onClick.AddListener(HandleClickRetry);
+        }
+
         _isSubscribed = true;
     }
 
@@ -68,11 +82,16 @@ public class BattleResultPopupView : BaseUI
                 _returnButton.onClick.RemoveListener(HandleClickReturn);
             }
 
+            if (null != _retryButton)
+            {
+                _retryButton.onClick.RemoveListener(HandleClickRetry);
+            }
+
             _isSubscribed = false;
         }
 
         // 선택 없이 닫히면 대기 지점이 멈추지 않도록 완료
-        Complete();
+        Complete(BattleResultChoice.None);
     }
 
     private void RefreshDisplay(BattleResultPopupViewModel viewModel)
@@ -83,7 +102,33 @@ public class BattleResultPopupView : BaseUI
         }
 
         RefreshClearedState(viewModel.IsVictory);
+        RefreshResultSections(viewModel.IsVictory);
         RefreshRewards(viewModel);
+    }
+
+    private void RefreshResultSections(bool isVictory)
+    {
+        if (null != _retryButton)
+        {
+            _retryButton.gameObject.SetActive(!isVictory);
+        }
+
+        GameObject rewardRoot = null != _rewardSection ? _rewardSection : GetRewardContainerObject();
+
+        if (null != rewardRoot)
+        {
+            rewardRoot.SetActive(isVictory);
+        }
+    }
+
+    private GameObject GetRewardContainerObject()
+    {
+        if (null == _rewardContainer)
+        {
+            return null;
+        }
+
+        return _rewardContainer.gameObject;
     }
 
     private void RefreshClearedState(bool isVictory)
@@ -149,18 +194,23 @@ public class BattleResultPopupView : BaseUI
 
     private void HandleClickReturn()
     {
-        Complete();
+        Complete(BattleResultChoice.Return);
     }
 
-    private void Complete()
+    private void HandleClickRetry()
+    {
+        Complete(BattleResultChoice.Retry);
+    }
+
+    private void Complete(BattleResultChoice choice)
     {
         if (null == _completionSource)
         {
             return;
         }
 
-        UniTaskCompletionSource source = _completionSource;
+        UniTaskCompletionSource<BattleResultChoice> source = _completionSource;
         _completionSource = null;
-        source.TrySetResult();
+        source.TrySetResult(choice);
     }
 }

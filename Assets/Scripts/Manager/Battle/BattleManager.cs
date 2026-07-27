@@ -19,6 +19,7 @@ public class BattleManager : BaseManager<BattleManager>
 
     public event Action<bool> OnBattleEnded;
     public event Action OnReturnToSelectRequested;
+    public event Action OnRetryRequested;
 
     private string _stageId;
     private bool _isBattleActive;
@@ -302,9 +303,11 @@ public class BattleManager : BaseManager<BattleManager>
     {
         BattleResultPopupView view = await GameManager.Instance.UIManager.OpenBattleResultAsync(isVictory, _stageId, destroyCancellationToken);
 
+        BattleResultChoice choice = BattleResultChoice.Return;
+
         if (null != view)
         {
-            await view.WaitForReturnAsync(isVictory, _stageId);
+            choice = await view.WaitForChoiceAsync(isVictory, _stageId);
 
             GameManager.Instance.UIManager.CloseBattleResult();
         }
@@ -314,6 +317,12 @@ public class BattleManager : BaseManager<BattleManager>
         }
 
         CleanupBattleObjects();
+
+        if (choice == BattleResultChoice.Retry)
+        {
+            OnRetryRequested?.Invoke();
+            return;
+        }
 
         OnReturnToSelectRequested?.Invoke();
     }
