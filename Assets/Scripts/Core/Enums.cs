@@ -25,7 +25,8 @@
     BattlePausePopup,
     ReturnToLobbyPopup,
     StageSelectHud,
-    BattleHUD
+    BattleHUD,
+    EnemyHud
 }
 
 public enum LoadingState

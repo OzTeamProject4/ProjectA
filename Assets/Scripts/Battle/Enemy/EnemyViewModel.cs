@@ -13,6 +13,7 @@ public class EnemyViewModel : ViewModelBase
         OnPropertyChanged(nameof(BaseHp));
         OnPropertyChanged(nameof(CurrentHp));
         OnPropertyChanged(nameof(BaseDamage));
+        OnPropertyChanged(nameof(IsActive));
         OnPropertyChanged(nameof(CurrentDamage));
         OnPropertyChanged(nameof(PrefabAddress));
 
@@ -28,6 +29,7 @@ public class EnemyViewModel : ViewModelBase
     private int _currentHp;
     private int _baseDamage;
     private int _currentDamage;
+    private bool _isActive;
     private string _prefabAddress;
     private string _skillDataId;
 
@@ -162,6 +164,21 @@ public class EnemyViewModel : ViewModelBase
             }
         }
     }
+
+    public bool IsActive
+    {
+        get => _isActive;
+        set
+        {
+            if (_isActive != value)
+            {
+                _isActive = value;
+                OnPropertyChanged(nameof(IsActive));
+            }
+        }
+    }
+    
+
 
     public string PrefabAddress
     {

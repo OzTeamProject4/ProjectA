@@ -349,6 +349,17 @@ public static class UIManagerExtension
         uiManager.Close(UIType.Lobby);
     }
 
+    public static async UniTask<EnemyHud> OpenEnemyHudUI(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        BaseUI baseUI = await uiManager.OpenTestRootAsync(UIType.EnemyHud, cancellationToken);
+        return GetView<EnemyHud>(baseUI, UIType.EnemyHud);
+    }
+
+    public static void CloseEnemyHudUI(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.EnemyHud);
+    }
+
     private static T GetView<T>(BaseUI baseUI, UIType uiType) where T : BaseUI
     {
         if (baseUI == null)
