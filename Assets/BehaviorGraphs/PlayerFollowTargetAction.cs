@@ -17,7 +17,6 @@ public partial class PlayerFollowTargetAction : Action
     private NavMeshAgent _navMeshAgent;
     protected override Status OnStart()
     {
-        Debug.Log("PlayerFollowTarget OnStart");
         if (Self.Value == null)
         {
             return Status.Failure;
@@ -50,6 +49,13 @@ public partial class PlayerFollowTargetAction : Action
         if (_navMeshAgent.isOnNavMesh == false)
         {
             return Status.Failure;
+        }
+
+        float distance = Vector3.Distance(Self.Value.transform.position, Target.Value.transform.position);
+        if (distance <= _navMeshAgent.stoppingDistance)
+        {
+            _battleCharacter.Move(Vector3.zero, false);
+            return Status.Success;
         }
 
         _navMeshAgent.nextPosition = Self.Value.transform.position;

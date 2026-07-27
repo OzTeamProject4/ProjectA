@@ -114,6 +114,18 @@ PrefabInstance:
       value: Grass002_Projectile
       objectReference: {fileID: 0}
     - target: {fileID: 4215891199679236, guid: fc1fba682ecd41e4c9d2a76268178ac9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215891199679236, guid: fc1fba682ecd41e4c9d2a76268178ac9, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215891199679236, guid: fc1fba682ecd41e4c9d2a76268178ac9, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215891199679236, guid: fc1fba682ecd41e4c9d2a76268178ac9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
