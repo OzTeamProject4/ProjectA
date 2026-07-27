@@ -10,23 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: UI_Loading
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: Default Local Group
-  m_GUID: 6c3b65eb4f8cd5349a5ea4eb7c4658ed
+  m_GroupName: UI_Loading
+  m_GUID: d5de042010c981541b44b566241b91e3
   m_SerializeEntries:
-  - m_GUID: 306aacece41374f42b6be8c1c0ae993b
-    m_Address: TestEnemy
+  - m_GUID: 4e291bdf7f3aec941b355064fb0bb5c2
+    m_Address: UI/Overlay
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9691e482a6200e8478da7b3fd3ea4d6f
-    m_Address: Assets/Textures/StandImage/Lumi_Standimg.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c1e3f459ebd31684a9bf8772ff117721
-    m_Address: Video/Test
+  - m_GUID: d8ebe98eb77cd1649b4003bddaeb4c96
+    m_Address: UI/Loading
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -34,5 +29,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: a2c5544ffab75cb428ed6b2ff736503e, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: f39ee91c6cb8b914f9c68fe77ce9b363, type: 2}
-    - {fileID: 11400000, guid: f2027b85aadf1554d9f0affcfd9db5bb, type: 2}
+    - {fileID: 11400000, guid: 05acd5b2235c5514aa03e14927a91343, type: 2}
+    - {fileID: 11400000, guid: a18e8533611949249a26abda2fb87a90, type: 2}

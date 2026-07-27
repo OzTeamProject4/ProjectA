@@ -10,23 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: UI_Stage
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: Default Local Group
-  m_GUID: 6c3b65eb4f8cd5349a5ea4eb7c4658ed
+  m_GroupName: UI_Stage
+  m_GUID: 2ae7b7652b9453d4497453b5f8dccd39
   m_SerializeEntries:
-  - m_GUID: 306aacece41374f42b6be8c1c0ae993b
-    m_Address: TestEnemy
+  - m_GUID: 10e3024174d5ebf4197616748bfb3835
+    m_Address: UI/StageInfoPopup
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9691e482a6200e8478da7b3fd3ea4d6f
-    m_Address: Assets/Textures/StandImage/Lumi_Standimg.png
+  - m_GUID: 1dbf6e51a8499c847aa6446dc112a33e
+    m_Address: UI/StageSelectHud
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c1e3f459ebd31684a9bf8772ff117721
-    m_Address: Video/Test
+  - m_GUID: 289addca755280542a0d7cc8c4368e4f
+    m_Address: UI/ReturnToLobbyPopup
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d647c40aa81ebd84b8c7c322d7af8834
+    m_Address: UI/PartySelectPopup
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -34,5 +39,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: a2c5544ffab75cb428ed6b2ff736503e, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: f39ee91c6cb8b914f9c68fe77ce9b363, type: 2}
-    - {fileID: 11400000, guid: f2027b85aadf1554d9f0affcfd9db5bb, type: 2}
+    - {fileID: 11400000, guid: 8a211a5ff6b7ba14dbe9a48ce1d0a0dc, type: 2}
+    - {fileID: 11400000, guid: c3a91043853365045be30ed918c0969a, type: 2}

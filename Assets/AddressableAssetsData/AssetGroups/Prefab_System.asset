@@ -10,23 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: Prefab_System
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: Default Local Group
-  m_GUID: 6c3b65eb4f8cd5349a5ea4eb7c4658ed
+  m_GroupName: Prefab_System
+  m_GUID: 3544096c3229ce04897e083eaaf39174
   m_SerializeEntries:
-  - m_GUID: 306aacece41374f42b6be8c1c0ae993b
-    m_Address: TestEnemy
+  - m_GUID: 21888c59bd8ff894ea1296594f6f462d
+    m_Address: Prefab/UILayer
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9691e482a6200e8478da7b3fd3ea4d6f
-    m_Address: Assets/Textures/StandImage/Lumi_Standimg.png
+  - m_GUID: 28cdce35451576f46903271196144346
+    m_Address: Prefab/AudioView
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c1e3f459ebd31684a9bf8772ff117721
-    m_Address: Video/Test
+  - m_GUID: 957d354e80b0b7b498197c777ce487a7
+    m_Address: Prefab_TestBattleCharacterBase
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb40ffa39297bb84fad6a9cd6c4f770b
+    m_Address: Prefab/ObjectPoolRoot
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -34,5 +39,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: a2c5544ffab75cb428ed6b2ff736503e, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: f39ee91c6cb8b914f9c68fe77ce9b363, type: 2}
-    - {fileID: 11400000, guid: f2027b85aadf1554d9f0affcfd9db5bb, type: 2}
+    - {fileID: 11400000, guid: 1792638c898eeab43831b608b0c62cb8, type: 2}
+    - {fileID: 11400000, guid: 1edcbf37f26ff344880a5232b186ded6, type: 2}
