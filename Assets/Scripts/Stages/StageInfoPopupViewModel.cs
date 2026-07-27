@@ -31,7 +31,7 @@ public class StageInfoPopupViewModel
                 return string.Empty;
             }
 
-            return _stageData.StageName;
+            return _stageData.DisplayName;
         }
     }
 

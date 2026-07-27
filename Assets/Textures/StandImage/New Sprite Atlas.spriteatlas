@@ -73,17 +73,17 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 020dc0eb32f3f5148acbd9a471d94120, type: 3}
   - {fileID: 21300000, guid: c1da4b5ece50ef14c8f2207cdc7d5b21, type: 3}
   m_PackedSpriteNamesToIndex:
-  - 4
-  - 3-3
-  - 2
-  - 2-3
-  - 4-2
-  - 3-4
-  - 5
-  - 2-2
-  - 3
-  - 1
-  - 1-2
+  - StandImage_Yui1
+  - StandImage_Bitna2
+  - StandImage_Lumi1
+  - StandImage_Lumi3
+  - StandImage_Yui2
+  - StandImage_Bitna3
+  - StandImage_Kai1
+  - StandImage_Lumi2
+  - StandImage_Bitna1
+  - StandImage_Neri1
+  - StandImage_Neri2
   m_RenderDataMap: {}
   m_Tag: New Sprite Atlas
   m_IsVariant: 0

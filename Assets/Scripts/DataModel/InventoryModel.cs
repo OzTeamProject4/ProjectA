@@ -580,10 +580,11 @@ public class InventoryModel : INotifyPropertyChanged
         return filteredItems;
     }
 
-    //TODO Test용 추후 삭제바람
     public void AddExpItem(MaterialModel materialModel)
     {
         _inventory.Add(materialModel.DataId, materialModel);
+
+        OnPropertyChanged(InventoryChanged);
     }
 
     private void OnPropertyChanged(PropertyChangedEventArgs propertyChangedEventArgs)
