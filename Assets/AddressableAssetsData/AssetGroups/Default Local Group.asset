@@ -70,11 +70,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 185990812fb4e014d89d3dacff831b74
-    m_Address: StandImage/Bitna
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1c3223c1ff11d914487a88e80b9c1a49
     m_Address: SkillFire001
     m_ReadOnly: 0
@@ -160,11 +155,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7b804111baeddf74c94ade8f4b6c911a
-    m_Address: StandImage/Yui
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7e7a3890e38bdab4883d45a5373f053d
     m_Address: UI/ExpItemSelectPopup
     m_ReadOnly: 0
@@ -202,11 +192,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 957d354e80b0b7b498197c777ce487a7
     m_Address: Prefab_TestBattleCharacterBase
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9691e482a6200e8478da7b3fd3ea4d6f
-    m_Address: Assets/Textures/StandImage/Lumi_Standimg.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -282,21 +267,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c6c29b11b34510246afb2950e11a9fc3
     m_Address: Prefab_Bitna
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ca1814f66ac4fbc4fa2adc398d34a820
-    m_Address: StandImage/Lumi
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: cc51eb11bd69f4443840fac53bf9795e
-    m_Address: StandImage/Kai
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d5f9e28e10472ff47abf0c3f5115cd6e
-    m_Address: StandImage/Neri
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
