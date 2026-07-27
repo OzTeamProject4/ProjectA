@@ -45,6 +45,9 @@ public class BattleManager : BaseManager<BattleManager>
     {
         Time.timeScale = 1f;
 
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         UnsubscribeInputActions();
         CleanupBattleObjects();
     }
