@@ -13,6 +13,8 @@ public class BattleHUDView : BaseUI
 
     [Header("Middle")]
     [SerializeField] private Image[] _characterImage;
+    [SerializeField] private Slider[] _partyMemberHpSliders;
+    [SerializeField] private Image[] _partyMemberGaugeImages;
 
     [Header("Bottom")]
     [SerializeField] private Slider _playerHpSlider;
@@ -23,6 +25,7 @@ public class BattleHUDView : BaseUI
     [SerializeField] private Image _skilleImage;
     [SerializeField] private Image _skillspaceImage;
     [SerializeField] private TMP_Text _levelText;
+    [SerializeField] private Image _switchCooldownOverlay;
 
     public void SetStage(string stageName)
     {
@@ -105,5 +108,58 @@ public class BattleHUDView : BaseUI
             return;
         }
         _levelText.text = $"Lv.{level}";
+    }
+    public void SetPartyMemberHp(int index, float currentHp, float maxHp)
+    {
+        if (_partyMemberHpSliders == null)
+        {
+            return;
+        }
+        if (index < 0 || index >= _partyMemberHpSliders.Length)
+        {
+            return;
+        }
+
+        Slider slider = _partyMemberHpSliders[index];
+        if (slider == null)
+        {
+            return;
+        }
+
+        if (maxHp <= 0f)
+        {
+            slider.value = 0f;
+        }
+        else
+        {
+            slider.value = Mathf.Clamp01(currentHp / maxHp);
+        }
+    }
+    public void SetPartyMemberGauge(int index, float ratio)
+    {
+        if (_partyMemberGaugeImages == null)
+        {
+            return;
+        }
+        if (index < 0 || index >= _partyMemberGaugeImages.Length)
+        {
+            return;
+        }
+
+        Image gaugeImage = _partyMemberGaugeImages[index];
+        if (gaugeImage == null)
+        {
+            return;
+        }
+
+        gaugeImage.fillAmount = Mathf.Clamp01(ratio);
+    }
+    public void SetSwitchCooldown(float progress)
+    {
+        if (_switchCooldownOverlay == null)
+        {
+            return;
+        }
+        _switchCooldownOverlay.fillAmount = Mathf.Clamp01(1f - progress);
     }
 }

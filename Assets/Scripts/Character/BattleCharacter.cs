@@ -92,6 +92,13 @@ public class BattleCharacter : MonoBehaviour, IDamageable
             return _maxHp;
         }
     }
+    public string DataId
+    {
+        get
+        {
+            return _data.DataId;
+        }
+    }
 
     public event Action<float> OnMoveSpeedChanged;
     public event Action<bool> OnGroundedChanged;

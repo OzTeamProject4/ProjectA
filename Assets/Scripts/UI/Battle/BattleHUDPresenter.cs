@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class BattleHUDPresenter
 {
@@ -41,6 +42,15 @@ public class BattleHUDPresenter
             _currentSkillSystem.OnGaugeChanged += HandleGaugeChanged;
             HandleHpChanged(_currentCharacter.CurHp, _currentCharacter.MaxHp);
             HandleGaugeChanged(_currentSkillSystem.CurUltGauge, _currentSkillSystem.MaxUltGauge);
+
+            if (NetworkManagerTemp.Instance != null)
+            {
+                CharacterModel model = NetworkManagerTemp.Instance.GetcharacterModel(_currentCharacter.DataId);
+                if (model != null)
+                {
+                    _hudView.SetLevel(model.Level);
+                }
+            }
         }
     }
 
@@ -91,6 +101,34 @@ public class BattleHUDPresenter
         if (_battleTimer != null && _hudView != null)
         {
             _hudView.SetTimer(_battleTimer.RemainTime);
+        }
+
+        if (_hudView != null && _partyController != null)
+        {
+            IReadOnlyList<BattleCharacter> party = _partyController.PartyCharacters;
+            if (party != null)
+            {
+                for (int i = 0; i < party.Count; i++)
+                {
+                    BattleCharacter member = party[i];
+                    if (member != null)
+                    {
+                        _hudView.SetPartyMemberHp(i, member.CurHp, member.MaxHp);
+
+                        CharacterSkillSystem skillSystem = member.GetComponent<CharacterSkillSystem>();
+                        if (skillSystem != null)
+                        {
+                            float ratio = 0f;
+                            if (skillSystem.MaxUltGauge > 0)
+                            {
+                                ratio = (float)skillSystem.CurUltGauge / skillSystem.MaxUltGauge;
+                            }
+                            _hudView.SetPartyMemberGauge(i, ratio);
+                        }
+                    }
+                }
+            }
+            _hudView.SetSwitchCooldown(_partyController.SwitchCooldownProgress);
         }
 
         if (_hudView == null || _currentSkillSystem == null)
