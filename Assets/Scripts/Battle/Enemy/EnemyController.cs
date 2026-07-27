@@ -46,6 +46,11 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     }
 
+    private void OnDisable()
+    {
+        _vm.IsActive = false;
+
+    }
     public void Bind(EnemyData enemyData, EnemyViewModel vm)
     {
         _vm = vm;
@@ -59,6 +64,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         _vm.MaxHp = enemyData.BaseHp;
         _vm.BaseDamage = enemyData.BaseDamage;
         _vm.CurrentDamage = enemyData.BaseDamage;
+        _vm.IsActive = true;
         _vm.PrefabAddress = enemyData.PrefabAddress;
         _vm.SkillDataId = enemyData.SkillDataId;
 
@@ -232,7 +238,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void Die()
     {
-
+        _vm.IsActive = false;
         GameManager.Instance.ObjectManager.Despawn(this.gameObject);
     }
 }

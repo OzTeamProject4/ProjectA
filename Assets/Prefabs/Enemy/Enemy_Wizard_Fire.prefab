@@ -462,9 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 185942395e818ba46a1ab57efdd141af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyView
-  _textMesh_Name: {fileID: 5322068127504751908}
-  _textMesh_Level: {fileID: 401625125016857345}
-  _textMesh_CurrentHp: {fileID: 5287203824641863071}
+  _headAnchor: {fileID: 0}
 --- !u!114 &3097224844243519375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -684,6 +682,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 63762ca20a196224aa2cbcf1c0996415, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 042f27d5209d94244935f71b1401e487, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

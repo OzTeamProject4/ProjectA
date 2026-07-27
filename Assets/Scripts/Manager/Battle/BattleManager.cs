@@ -392,6 +392,10 @@ public class BattleManager : BaseManager<BattleManager>
             if (prefab.TryGetComponent<EnemyView>(out var enemyView))
             {
                 enemyView.BindEnemyViewModel(vm);
+                enemyView.SetHead(prefab.transform);
+                var enemyHUD = await GameManager.Instance.UIManager.OpenEnemyHudUI();
+                await enemyHUD.AddEnemyHudSlot(vm,enemyView.HeadAnchor);
+
             }
             else
             {
