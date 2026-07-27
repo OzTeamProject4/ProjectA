@@ -286,7 +286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19eb4fed6dfeabe4590a5a2ec3e94d4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageSelectHudView
-  _returnToLobbyButton: {fileID: 0}
+  _returnToLobbyButton: {fileID: 1237148500770957377}
 --- !u!1 &1971855535295260399
 GameObject:
   m_ObjectHideFlags: 0

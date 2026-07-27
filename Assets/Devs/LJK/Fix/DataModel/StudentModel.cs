@@ -361,6 +361,7 @@ public class StudentModel : INotifyPropertyChanged
         OnPropertyChanged(FullBodyKeyChanged);
         OnPropertyChanged(PortraitKeyChanged);
         OnPropertyChanged(RequiredGradeUpItemIdChanged);
+        OnPropertyChanged(EquippedItemIdsChanged);
     }
 
     private bool TryUpdateCurrentGradeData()

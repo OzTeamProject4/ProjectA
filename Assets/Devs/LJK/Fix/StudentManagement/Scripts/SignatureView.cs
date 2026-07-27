@@ -13,6 +13,21 @@ public class SignatureView : EquipmentView
         UnityUtil.ValidateReference(_descriptionText, nameof(SignatureView), nameof(_descriptionText));
     }
 
+    public override void ClearView()
+    {
+        base.ClearView();
+
+        if (_nameText != null)
+        {
+            _nameText.text = string.Empty;
+        }
+
+        if (_descriptionText != null)
+        {
+            _descriptionText.text = string.Empty;
+        }
+    }
+
     public override void UpdateView(EquipmentModel equipmentModel)
     {
         base.UpdateView(equipmentModel);

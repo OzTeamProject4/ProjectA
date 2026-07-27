@@ -23,6 +23,8 @@ public class EquipmentView : BaseButton
         base.Awake();
 
         UnityUtil.ValidateReference(_iconImage, nameof(EquipmentView), nameof(_iconImage));
+
+        ClearView();
     }
 
     public UniTask UpdateIconAsync(string iconKey)
@@ -32,6 +34,11 @@ public class EquipmentView : BaseButton
 
     public virtual void ClearView()
     {
+        if (_iconImage == null)
+        {
+            return;
+        }
+
         _iconImage.enabled = false;
     }
 

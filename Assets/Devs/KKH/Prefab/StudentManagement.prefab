@@ -1977,7 +1977,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1590468048853304966}
-  - component: {fileID: 8862128644688406795}
+  - component: {fileID: 5488572075607683243}
   m_Layer: 0
   m_Name: Signature
   m_TagString: Untagged
@@ -2007,7 +2007,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 120}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &8862128644688406795
+--- !u!114 &5488572075607683243
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2016,12 +2016,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1014094098932077028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac010d56fb765ea49b2249c0e6ec3043, type: 3}
+  m_Script: {fileID: 11500000, guid: 768ef7fc1dbfbce4c83da98051d04c7a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EquipmentView
+  m_EditorClassIdentifier: Assembly-CSharp::SignatureView
   _button: {fileID: 3163663927642255488}
   _iconImage: {fileID: 390575454001056146}
   _equipType: 5
+  _nameText: {fileID: 8670676687115148190}
+  _descriptionText: {fileID: 90686693185686935}
 --- !u!1 &1138898115159818037
 GameObject:
   m_ObjectHideFlags: 0
@@ -3855,7 +3857,7 @@ MonoBehaviour:
   - {fileID: 3981843371879352955}
   - {fileID: 4925068725471814819}
   - {fileID: 4687790455534069213}
-  - {fileID: 8862128644688406795}
+  - {fileID: 0}
 --- !u!1 &3418409321704892322
 GameObject:
   m_ObjectHideFlags: 0
