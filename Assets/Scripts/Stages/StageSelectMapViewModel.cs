@@ -1,35 +1,62 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StageSelectMapViewModel
 {
-    private readonly StageProgressModel _progressModel;
-    private readonly ScreenStateModel _screenStateModel;
-    private readonly CharacterListModel _characterListModel;
-    private readonly StagePlayerParty _playerParty;
+    private StageProgressModel _progressModel;
+    private ScreenStateModel _screenStateModel;
+    private CharacterListModel _characterListModel;
+    private StageSelectPlayer _player;
+    private StageDataModel _stageDataModel;
 
     private StageInfoPopupViewModel _stageInfoViewModel;
 
     public event Action<StageInfoPopupViewModel> OnStageInfoPopupOpenRequested;
     public event Action OnStageInfoPopupCloseRequested;
 
-    public StageSelectMapViewModel(StageProgressModel progressModel, ScreenStateModel screenStateModel, StagePlayerParty playerParty, CharacterListModel characterListModel)
+    public StageSelectMapViewModel(StageProgressModel progressModel, ScreenStateModel screenStateModel, CharacterListModel characterListModel, StageSelectPlayer player, StageDataModel stageDataModel)
     {
-        if (null == progressModel || null == screenStateModel || null == playerParty || null == characterListModel)
+        if (null == progressModel)
         {
-            Debug.LogError("[StageSelectMapViewModel] 생성자 인자 중 null 이 있습니다.");
+            Debug.LogError("[StageSelectMapViewModel] progressModel 이 null 입니다.");
+        }
+
+        if (null == screenStateModel)
+        {
+            Debug.LogError("[StageSelectMapViewModel] screenStateModel 이 null 입니다.");
+        }
+
+        if (null == characterListModel)
+        {
+            Debug.LogError("[StageSelectMapViewModel] characterListModel 이 null 입니다.");
+        }
+
+        if (null == player)
+        {
+            Debug.LogError("[StageSelectMapViewModel] player 가 null 입니다.");
+        }
+
+        if (null == stageDataModel)
+        {
+            Debug.LogError("[StageSelectMapViewModel] stageDataModel 이 null 입니다.");
         }
 
         _progressModel = progressModel;
         _screenStateModel = screenStateModel;
-        _playerParty = playerParty;
         _characterListModel = characterListModel;
+        _player = player;
+        _stageDataModel = stageDataModel;
     }
 
     public void Dispose()
     {
         CloseAllPopups();
+
+        _progressModel = null;
+        _screenStateModel = null;
+        _characterListModel = null;
+        _player = null;
+        _stageDataModel = null;
     }
 
     public void CloseAllPopups()
@@ -41,36 +68,62 @@ public class StageSelectMapViewModel
 
     public void HandlePartyReached(string stageId)
     {
+        if (null == _progressModel)
+        {
+            return;
+        }
+
         _progressModel.SelectStage(stageId);
 
-        if (null != _playerParty)
-        {
-            _playerParty.StopMove();
-        }
+        StopPlayer();
 
         RequestOpenStageInfoPopup(stageId);
     }
 
     public void HandlePartyLeft(string stageId)
     {
-        if (_progressModel.SelectedStageId != stageId)
+        if (null == _progressModel || _progressModel.SelectedStageId != stageId)
         {
             return;
         }
 
         RequestCloseStageInfoPopup();
 
-        if (null != _playerParty)
+        ResumePlayer();
+    }
+
+    // ===== 플레이어 이동 제어 =====
+
+    private void StopPlayer()
+    {
+        if (null == _player)
         {
-            _playerParty.ResumeMove();
+            return;
         }
+
+        _player.StopMove();
+    }
+
+    private void ResumePlayer()
+    {
+        if (null == _player)
+        {
+            return;
+        }
+
+        _player.ResumeMove();
     }
 
     // ===== 스테이지 정보 팝업 =====
 
     private void RequestOpenStageInfoPopup(string stageId)
     {
-        StageData stageData = GetStage(stageId);
+        if (null == _stageDataModel)
+        {
+            return;
+        }
+
+        StageData stageData = _stageDataModel.GetStage(stageId);
 
         if (null == stageData)
         {
@@ -78,55 +131,10 @@ public class StageSelectMapViewModel
             return;
         }
 
-        _stageInfoViewModel = new StageInfoPopupViewModel(stageData, GetStageWaves(stageId), _screenStateModel, _progressModel, _characterListModel);
+        _stageInfoViewModel = new StageInfoPopupViewModel(stageData, _stageDataModel.GetStageWaves(stageId), _screenStateModel, _progressModel, _characterListModel);
         _stageInfoViewModel.OnCloseRequested += HandleStageInfoCloseRequested;
 
         OnStageInfoPopupOpenRequested?.Invoke(_stageInfoViewModel);
-    }
-
-    private StageData GetStage(string stageId)
-    {
-        if (string.IsNullOrEmpty(stageId))
-        {
-            Debug.LogWarning("[StageSelectMapViewModel] GetStage: stageId 가 비어 있습니다.");
-            return null;
-        }
-
-        GameManager.Instance.DataManager.TryGetData(stageId, out StageData data);
-        return data;
-    }
-
-    private IReadOnlyList<StageWaveData> GetStageWaves(string stageId)
-    {
-        if (string.IsNullOrEmpty(stageId))
-        {
-            Debug.LogWarning("[StageSelectMapViewModel] GetStageWaves: stageId 가 비어 있습니다.");
-            return Array.Empty<StageWaveData>();
-        }
-
-        if (!GameManager.Instance.DataManager.TryGetDataTable(out Dictionary<string, StageWaveData> table))
-        {
-            return Array.Empty<StageWaveData>();
-        }
-
-        List<StageWaveData> waves = new List<StageWaveData>();
-
-        foreach (StageWaveData wave in table.Values)
-        {
-            if (wave.StageId == stageId)
-            {
-                waves.Add(wave);
-            }
-        }
-
-        waves.Sort(CompareByWaveNumber);
-
-        return waves;
-    }
-
-    private static int CompareByWaveNumber(StageWaveData a, StageWaveData b)
-    {
-        return a.WaveNumber.CompareTo(b.WaveNumber);
     }
 
     private void RequestCloseStageInfoPopup()
@@ -158,9 +166,6 @@ public class StageSelectMapViewModel
     {
         RequestCloseStageInfoPopup();
 
-        if (null != _playerParty)
-        {
-            _playerParty.ResumeMove();
-        }
+        ResumePlayer();
     }
 }

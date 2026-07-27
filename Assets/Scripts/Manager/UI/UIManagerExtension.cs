@@ -194,6 +194,28 @@ public static class UIManagerExtension
         uiManager.Close(UIType.BattlePausePopup);
     }
 
+    public static async UniTask<ReturnToLobbyPopupView> OpenReturnToLobbyPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.ReturnToLobbyPopup, cancellationToken);
+        return GetView<ReturnToLobbyPopupView>(baseUI, UIType.ReturnToLobbyPopup);
+    }
+
+    public static void CloseReturnToLobbyPopup(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.ReturnToLobbyPopup);
+    }
+
+    public static async UniTask<StageSelectHudView> OpenStageSelectHudAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        BaseUI baseUI = await uiManager.OpenTestRootAsync(UIType.StageSelectHud, cancellationToken);
+        return GetView<StageSelectHudView>(baseUI, UIType.StageSelectHud);
+    }
+
+    public static void CloseStageSelectHud(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.StageSelectHud);
+    }
+
     public static async UniTask OpenMissionScreenAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
         await uiManager.OpenTestRootAsync(UIType.MissionScreen, cancellationToken);
