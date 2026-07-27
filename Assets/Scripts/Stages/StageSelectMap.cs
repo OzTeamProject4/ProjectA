@@ -16,6 +16,7 @@ public class StageSelectMap : MonoBehaviour
     private StageInfoPopupView _stageInfoPopup;
 
     private bool _isStageInfoPopupRequested;
+    private bool _isHudRequested;
 
     public Transform PlayerSpawnPoint
     {
@@ -56,6 +57,10 @@ public class StageSelectMap : MonoBehaviour
         _viewModel = viewModel;
 
         SubscribeViewModel();
+
+        RefreshClearedParties();
+
+        _viewModel.Refresh();
     }
 
     private void SubscribeViewModel()
@@ -67,21 +72,89 @@ public class StageSelectMap : MonoBehaviour
 
         _viewModel.OnStageInfoPopupOpenRequested += HandleStageInfoPopupOpenRequested;
         _viewModel.OnStageInfoPopupCloseRequested += HandleStageInfoPopupCloseRequested;
+        _viewModel.OnVisibleChanged += HandleVisibleChanged;
+        _viewModel.OnHudOpenRequested += HandleHudOpenRequested;
+        _viewModel.OnHudCloseRequested += HandleHudCloseRequested;
+        _viewModel.OnStageCleared += HandleStageCleared;
 
         _isSubscribed = true;
     }
 
     private void UnsubscribeViewModel()
     {
-        if (!_isSubscribed || null == _viewModel)
+        if (!_isSubscribed)
         {
             return;
         }
 
-        _viewModel.OnStageInfoPopupOpenRequested -= HandleStageInfoPopupOpenRequested;
-        _viewModel.OnStageInfoPopupCloseRequested -= HandleStageInfoPopupCloseRequested;
+        if (null != _viewModel)
+        {
+            _viewModel.OnStageInfoPopupOpenRequested -= HandleStageInfoPopupOpenRequested;
+            _viewModel.OnStageInfoPopupCloseRequested -= HandleStageInfoPopupCloseRequested;
+            _viewModel.OnVisibleChanged -= HandleVisibleChanged;
+            _viewModel.OnHudOpenRequested -= HandleHudOpenRequested;
+            _viewModel.OnHudCloseRequested -= HandleHudCloseRequested;
+            _viewModel.OnStageCleared -= HandleStageCleared;
+        }
 
         _isSubscribed = false;
+    }
+
+    // ===== 표시/숨김 =====
+
+    private void HandleVisibleChanged(bool isVisible)
+    {
+        gameObject.SetActive(isVisible);
+    }
+
+    // ===== 선택맵 HUD =====
+
+    private void HandleHudOpenRequested(StageSelectHudViewModel hudViewModel)
+    {
+        _isHudRequested = true;
+
+        ShowHudAsync(hudViewModel).Forget();
+    }
+
+    private async UniTaskVoid ShowHudAsync(StageSelectHudViewModel hudViewModel)
+    {
+        if (null == GameManager.Instance)
+        {
+            return;
+        }
+
+        StageSelectHudView hud = await GameManager.Instance.UIManager.OpenStageSelectHudAsync(destroyCancellationToken);
+
+        if (null == GameManager.Instance)
+        {
+            return;
+        }
+
+        if (null == hud)
+        {
+            Debug.LogError("[StageSelectMap] 스테이지 선택 HUD 를 열지 못했습니다.");
+            return;
+        }
+
+        if (!_isHudRequested)
+        {
+            GameManager.Instance.UIManager.CloseStageSelectHud();
+            return;
+        }
+
+        hud.Bind(hudViewModel);
+    }
+
+    private void HandleHudCloseRequested()
+    {
+        _isHudRequested = false;
+
+        if (null == GameManager.Instance)
+        {
+            return;
+        }
+
+        GameManager.Instance.UIManager.CloseStageSelectHud();
     }
 
     private void CloseAllPopups()
@@ -127,6 +200,49 @@ public class StageSelectMap : MonoBehaviour
         party.OnPlayerLeft += HandlePlayerLeft;
 
         _spawnedParties.Add(party);
+    }
+
+    // ===== 스테이지 클리어 =====
+
+    private void HandleStageCleared(string stageId)
+    {
+        SetPartyActive(stageId, false);
+    }
+
+    private void RefreshClearedParties()
+    {
+        if (null == _viewModel)
+        {
+            return;
+        }
+
+        foreach (StageMonsterParty party in _spawnedParties)
+        {
+            if (null == party)
+            {
+                continue;
+            }
+
+            party.gameObject.SetActive(!_viewModel.IsStageCleared(party.StageId));
+        }
+    }
+
+    private void SetPartyActive(string stageId, bool isActive)
+    {
+        if (string.IsNullOrEmpty(stageId))
+        {
+            return;
+        }
+
+        foreach (StageMonsterParty party in _spawnedParties)
+        {
+            if (null == party || party.StageId != stageId)
+            {
+                continue;
+            }
+
+            party.gameObject.SetActive(isActive);
+        }
     }
 
     private void UnsubscribeParties()
@@ -176,7 +292,17 @@ public class StageSelectMap : MonoBehaviour
 
     private async UniTaskVoid ShowStageInfoPopupAsync(StageInfoPopupViewModel viewModel)
     {
+        if (null == GameManager.Instance)
+        {
+            return;
+        }
+
         StageInfoPopupView popup = await GameManager.Instance.UIManager.OpenStageInfoPopupAsync();
+
+        if (null == GameManager.Instance)
+        {
+            return;
+        }
 
         if (null == popup)
         {
@@ -208,7 +334,10 @@ public class StageSelectMap : MonoBehaviour
             return;
         }
 
-        GameManager.Instance.UIManager.CloseStageInfoPopup();
+        if (null != GameManager.Instance)
+        {
+            GameManager.Instance.UIManager.CloseStageInfoPopup();
+        }
 
         _stageInfoPopup = null;
     }

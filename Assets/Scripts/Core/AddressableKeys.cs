@@ -11,16 +11,16 @@
 
     public static class Data
     {
-        public const string CharacterData = "Data/CharacterData";
-        public const string CharacterGrade = "Data/CharacterGrade";
-        public const string LevelExp = "Data/LevelExp";
+        public const string StudentData = "Data/StudentData";
+        public const string StudentGradeData = "Data/StudentGrade";
+        public const string StudentLevelData = "Data/StudentLevel";
         public const string Item = "Data/Item";
         public const string Currency = "Data/Currency";
         public const string Equipment = "Data/Equipment";
         public const string Signature = "Data/Signature";
         public const string Stage = "Data/Stage";
         public const string StageWave = "Data/StageWave";
-        public const string CharacterSkill = "Data/CharacterSkill";
+        public const string CharacterSkill = "Data/StudentSkill";
         public const string Enemy = "Data/EnemyData";
         public const string EnemySkill = "Data/EnemySkillData";
         

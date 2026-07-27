@@ -25,7 +25,7 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     [SerializeField] private Transform _modelTransform;
     [SerializeField] private LayerMask _groundLayer;
 
-    private CharacterData _data;
+    private StudentData _data;
     private Rigidbody _rigidbody;
     private float _curHp;
     private float _curAtk;
@@ -58,11 +58,11 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     {
         get
         {
-            return _curAtk; // 임시 자료형 통합
+            return _curAtk;
         }
     }
 
-    public int CurrentAttack // 컴파일 통과용 프로퍼티 추가
+    public int CurrentAttack
     {
         get
         {
@@ -140,11 +140,11 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         _buffCts?.Cancel();
         _buffCts?.Dispose();
     }
-    public async UniTask InitializeAsync(CharacterData data)
+    public async UniTask InitializeAsync(StudentData data)
     {
         _data = data;
-        _maxHp = data.Hp;
-        SetHp(data.Hp);
+        _maxHp = data.MaxHp;
+        SetHp(data.MaxHp);
         _curAtk = data.Attack;
         _curDef = data.Defence;
         _curMoveSpeed = data.MoveSpeed;

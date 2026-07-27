@@ -1,9 +1,12 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class StageProgressModel
 {
     private readonly HashSet<string> _clearedSet = new HashSet<string>();
+
+    public event Action<string> OnStageCleared;
 
     public string SelectedStageId { get; private set; }
     public Vector3 PlayerPosition { get; private set; }
@@ -69,6 +72,11 @@ public class StageProgressModel
             return;
         }
 
-        _clearedSet.Add(stageId);
+        if (!_clearedSet.Add(stageId))
+        {
+            return;
+        }
+
+        OnStageCleared?.Invoke(stageId);
     }
 }
