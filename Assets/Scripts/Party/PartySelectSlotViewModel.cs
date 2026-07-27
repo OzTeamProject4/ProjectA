@@ -3,6 +3,17 @@
 public class PartySelectSlotViewModel
 {
     private readonly StudentModel _model;
+    private readonly int _assignedSlotNumber;
+
+    public int AssignedSlotNumber
+    {
+        get { return _assignedSlotNumber; }
+    }
+
+    public bool IsAssigned
+    {
+        get { return _assignedSlotNumber > 0; }
+    }
 
     public string DataId
     {
@@ -56,7 +67,7 @@ public class PartySelectSlotViewModel
         }
     }
 
-    public PartySelectSlotViewModel(StudentModel model)
+    public PartySelectSlotViewModel(StudentModel model, int assignedSlotNumber)
     {
         if (null == model)
         {
@@ -64,5 +75,6 @@ public class PartySelectSlotViewModel
         }
 
         _model = model;
+        _assignedSlotNumber = assignedSlotNumber;
     }
 }

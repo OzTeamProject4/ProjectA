@@ -15,7 +15,7 @@ public class PartySelectPopupViewModel
     public event Action<StudentModel> OnCharacterSelected;
     public event Action OnCloseRequested;
 
-    public PartySelectPopupViewModel(IReadOnlyList<StudentModel> studentModel)
+    public PartySelectPopupViewModel(IReadOnlyList<StudentModel> studentModel, IReadOnlyList<StudentModel> partySlots)
     {
         if (null == studentModel)
         {
@@ -30,9 +30,32 @@ public class PartySelectPopupViewModel
                 continue;
             }
 
-            _items.Add(new PartySelectSlotViewModel(model));
+            _items.Add(new PartySelectSlotViewModel(model, FindAssignedSlotNumber(partySlots, model)));
             _modelById[model.DataId] = model;
         }
+    }
+
+    private static int FindAssignedSlotNumber(IReadOnlyList<StudentModel> partySlots, StudentModel model)
+    {
+        if (null == partySlots)
+        {
+            return 0;
+        }
+
+        for (int i = 0; i < partySlots.Count; i++)
+        {
+            if (null == partySlots[i])
+            {
+                continue;
+            }
+
+            if (partySlots[i].DataId == model.DataId)
+            {
+                return i + 1;
+            }
+        }
+
+        return 0;
     }
 
     public void SelectCommand(string characterId)

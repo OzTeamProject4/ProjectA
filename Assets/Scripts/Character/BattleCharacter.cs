@@ -143,8 +143,8 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     public async UniTask InitializeAsync(StudentData data)
     {
         _data = data;
-        _maxHp = data.Hp;
-        SetHp(data.Hp);
+        _maxHp = data.MaxHp;
+        SetHp(data.MaxHp);
         _curAtk = data.Attack;
         _curDef = data.Defence;
         _curMoveSpeed = data.MoveSpeed;

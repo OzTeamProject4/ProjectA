@@ -188,7 +188,7 @@ public class StageInfoPopupViewModel
 
         IReadOnlyList<StudentModel> candidates = GetCandidateCharacters();
 
-        _partySelectViewModel = new PartySelectPopupViewModel(candidates);
+        _partySelectViewModel = new PartySelectPopupViewModel(candidates, _partySlots);
         _partySelectViewModel.OnCharacterSelected += HandleCharacterSelected;
         _partySelectViewModel.OnCloseRequested += HandlePartySelectCloseRequested;
 
@@ -205,14 +205,58 @@ public class StageInfoPopupViewModel
         return _characterListModel.StudentList;
     }
 
+    private int FindAssignedSlotIndex(StudentModel student)
+    {
+        if (null == student)
+        {
+            return -1;
+        }
+
+        for (int i = 0; i < _partySlots.Length; i++)
+        {
+            if (null == _partySlots[i])
+            {
+                continue;
+            }
+
+            if (_partySlots[i].DataId == student.DataId)
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    private void AssignToSelectingSlot(StudentModel character)
+    {
+        if (_selectingSlotIndex < 0 || _selectingSlotIndex >= _partySlots.Length)
+        {
+            return;
+        }
+
+        int assignedIndex = FindAssignedSlotIndex(character);
+
+        if (assignedIndex == _selectingSlotIndex)
+        {
+            return;
+        }
+
+        if (assignedIndex >= 0)
+        {
+            _partySlots[assignedIndex] = _partySlots[_selectingSlotIndex];
+
+            OnPartySlotChanged?.Invoke(assignedIndex);
+        }
+
+        _partySlots[_selectingSlotIndex] = character;
+
+        OnPartySlotChanged?.Invoke(_selectingSlotIndex);
+    }
+
     private void HandleCharacterSelected(StudentModel character)
     {
-        if (_selectingSlotIndex >= 0 && _selectingSlotIndex < _partySlots.Length)
-        {
-            _partySlots[_selectingSlotIndex] = character;
-
-            OnPartySlotChanged?.Invoke(_selectingSlotIndex);
-        }
+        AssignToSelectingSlot(character);
 
         ClosePartySelect();
     }
