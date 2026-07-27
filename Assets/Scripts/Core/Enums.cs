@@ -1,14 +1,13 @@
 ﻿public enum UIType
 {
     Lobby,
-    CharacterList,
-    CharacterDetail,
-    InventoryDetail,
-    ExpItemSelectPopup,
-    CraftPopup,
-    EquipmentListPopup,
-    EquipmentDetailPopup,
-    ItemPreviewPopup,
+    StudentManagementList,
+    StudentManagement,
+    ExperienceInventoryPopup,
+    EquipmentInventoryPopup,
+    EquipmentCraftPopup,
+    EquipmentInfoPopup,
+    CraftEquipmentInfoPopup,
     StageInfoPopup,
     PartySetupPopup,
     Overlay,
@@ -39,9 +38,9 @@ public enum LoadingStep
 {
     None,
     Initialize,
-    LoadCharacterData,
-    LoadCharacterGradeData,
-    LoadLevelExpData,
+    LoadStudentData,
+    LoadStudentGradeData,
+    LoadStudentLevelData,
     LoadItemData,
     LoadCurrencyData,
     LoadEquipmentData,
@@ -81,7 +80,8 @@ public enum ItemType
 {
     Currency,
     Equipment,
-    Signature
+    Signature,
+    Material
 }
 
 public enum CurrencyType
@@ -90,7 +90,8 @@ public enum CurrencyType
     Crystal,
     ExpBook,
     Ticket,
-    Material
+    Material,
+    Shard
 }
 
 public enum EquipType
@@ -101,14 +102,6 @@ public enum EquipType
     Boots,
     Accessory,
     Signature
-}
-
-public enum StatType
-{
-    MaxHp,
-    Attack,
-    Defence,
-    MoveSpeed
 }
 
 public enum ScreenType

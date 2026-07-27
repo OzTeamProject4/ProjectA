@@ -12,6 +12,9 @@ public class StagePlayerParty : MonoBehaviour
 
     private NavMeshAgent _agent;
 
+    private StagePlayerPartyViewModel _viewModel;
+    private bool _isSubscribed;
+
     private void Awake()
     {
         _agent = this.GetRequiredComponent<NavMeshAgent>();
@@ -22,8 +25,25 @@ public class StagePlayerParty : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        ApplyCanMove(null == _viewModel || _viewModel.CanMove);
+    }
+
+    private void OnDestroy()
+    {
+        Unsubscribe();
+
+        _viewModel = null;
+    }
+
     private void Update()
     {
+        if (null != _viewModel && !_viewModel.CanMove)
+        {
+            return;
+        }
+
         Mouse mouse = Mouse.current;
 
         if (null == mouse)
@@ -44,10 +64,81 @@ public class StagePlayerParty : MonoBehaviour
         HandleClick(mouse.position.ReadValue());
     }
 
-    public void StopMove()
+    // ===== ViewModel 바인딩 =====
+
+    public void Bind(StagePlayerPartyViewModel viewModel)
     {
-        if (null == _agent)
+        if (null == viewModel)
         {
+            Debug.LogError("[StagePlayerParty] Bind: viewModel 이 null 입니다.");
+            return;
+        }
+
+        Unsubscribe();
+
+        _viewModel = viewModel;
+
+        Subscribe();
+
+        _viewModel.Refresh();
+    }
+
+    private void Subscribe()
+    {
+        if (_isSubscribed || null == _viewModel)
+        {
+            return;
+        }
+
+        _viewModel.OnCanMoveChanged += HandleCanMoveChanged;
+        _viewModel.OnActiveChanged += HandleActiveChanged;
+
+        _isSubscribed = true;
+    }
+
+    private void Unsubscribe()
+    {
+        if (!_isSubscribed)
+        {
+            return;
+        }
+
+        if (null != _viewModel)
+        {
+            _viewModel.OnCanMoveChanged -= HandleCanMoveChanged;
+            _viewModel.OnActiveChanged -= HandleActiveChanged;
+        }
+
+        _isSubscribed = false;
+    }
+
+    private void HandleCanMoveChanged(bool canMove)
+    {
+        ApplyCanMove(canMove);
+    }
+
+    private void HandleActiveChanged(bool isActive)
+    {
+        if (!isActive)
+        {
+            ClearPath();
+        }
+
+        gameObject.SetActive(isActive);
+    }
+
+    // ===== 이동 제어 =====
+
+    private void ApplyCanMove(bool canMove)
+    {
+        if (!IsAgentUsable())
+        {
+            return;
+        }
+
+        if (canMove)
+        {
+            _agent.isStopped = false;
             return;
         }
 
@@ -55,21 +146,21 @@ public class StagePlayerParty : MonoBehaviour
         _agent.isStopped = true;
     }
 
-    public void ResumeMove()
+    public void ClearPath()
     {
-        if (null == _agent)
+        if (!IsAgentUsable())
         {
             return;
         }
 
-        _agent.isStopped = false;
+        _agent.ResetPath();
     }
 
     public void WarpTo(Vector3 position)
     {
-        if (null == _agent)
+        if (!IsAgentUsable())
         {
-            Debug.LogError("[StagePlayerParty] WarpTo: _agent 가 null 입니다.");
+            Debug.LogWarning("[StagePlayerParty] WarpTo: 에이전트를 사용할 수 없는 상태입니다.");
             return;
         }
 
@@ -81,6 +172,18 @@ public class StagePlayerParty : MonoBehaviour
 
         _agent.Warp(navHit.position);
     }
+
+    private bool IsAgentUsable()
+    {
+        if (null == _agent)
+        {
+            return false;
+        }
+
+        return _agent.isActiveAndEnabled && _agent.isOnNavMesh;
+    }
+
+    // ===== 클릭 이동 =====
 
     private void HandleClick(Vector2 screenPosition)
     {
@@ -114,6 +217,11 @@ public class StagePlayerParty : MonoBehaviour
 
     private void MoveTo(Vector3 worldPosition)
     {
+        if (!IsAgentUsable())
+        {
+            return;
+        }
+
         if (!NavMesh.SamplePosition(worldPosition, out NavMeshHit navHit, _sampleMaxDistance, NavMesh.AllAreas))
         {
             Debug.Log($"[StagePlayerParty] NavMesh 위 유효한 지점을 찾지 못했습니다. pos={worldPosition}");

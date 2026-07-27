@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Data
   m_GUID: f76d45c30971cf44a89a304231ffdff2
   m_SerializeEntries:
+  - m_GUID: 0475ad6aa9e85004c8cd1aa339e38c6f
+    m_Address: Data/Currency
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 312b5b677d329f34e8d07ad0052682e9
     m_Address: Data/Signature
     m_ReadOnly: 0
@@ -30,8 +35,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 75cc95b7fc55e1a42803fcc8ae91243f
+    m_Address: Data/StudentSkill
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 78cbf6308a967b147b07264ba9546f56
     m_Address: Data/StageWave
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 96e278e288a7ad7408a6059827f3e335
+    m_Address: Data/StudentLevel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 979d696b47feb7e47945fb6740fe5b56
+    m_Address: Data/StudentData
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -40,8 +60,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c45a633f4ce2059469598c234f48f6b5
-    m_Address: Data/LevelExp
+  - m_GUID: ad06cf3dbd9ae954cb9bc0795ac8f4a9
+    m_Address: Data/StudentGrade
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -50,13 +70,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e560e7809ce7763468b7de0c85255b45
-    m_Address: Data/CharacterGrade
+  - m_GUID: f2712170b99835f47b5674ffc7b472d4
+    m_Address: Data/Equipment
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f2712170b99835f47b5674ffc7b472d4
-    m_Address: Data/Equipment
+  - m_GUID: f4e4808b7fade814abf5b88b7976d010
+    m_Address: EnemyData
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

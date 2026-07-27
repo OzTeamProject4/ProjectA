@@ -1,22 +1,13 @@
-﻿namespace System.Runtime.CompilerServices
+﻿public readonly struct StatInfo
 {
-    internal static class IsExternalInit { }
-}
+    public StatType Type { get; init; }
+    public float Value { get; init; }
 
-public readonly struct StatData
-{
-    public float Hp { get; init; }
-    public float Atk { get; init; }
-    public float Def { get; init; }
-    public float MoveSpeed { get; init; }
-}
-
-public readonly struct RolledStats
-{
-    public float Hp { get; init; }
-    public float Atk { get; init; }
-    public float Def { get; init; }
-    public float MoveSpeed { get; init; }
+    public StatInfo(StatType statType, float value)
+    {
+        Type = statType;
+        Value = value;
+    }
 }
 
 public readonly struct StatDelta
@@ -24,12 +15,13 @@ public readonly struct StatDelta
     public StatType Type { get; init; }
     public float Value { get; init; }
     public float Delta { get; init; }
-    public bool IsInteger { get; init; }
-}
+    public bool HasComparison { get; init; }
 
-public readonly struct StatValue
-{
-    public StatType Type { get; init; }
-    public float Value { get; init; }
-    public bool IsInteger { get; init; }
+    public StatDelta(StatType statType, float value, float delta, bool hasComparison)
+    {
+        Type = statType;
+        Value = value;
+        Delta = delta;
+        HasComparison = hasComparison;
+    }
 }

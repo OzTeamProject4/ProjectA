@@ -5,34 +5,57 @@ using UnityEngine;
 public class PartySelectPopupViewModel
 {
     private readonly List<PartySelectSlotViewModel> _items = new List<PartySelectSlotViewModel>();
-    private readonly Dictionary<string, CharacterModel> _modelById = new Dictionary<string, CharacterModel>();
+    private readonly Dictionary<string, StudentModel> _modelById = new Dictionary<string, StudentModel>();
 
     public IReadOnlyList<PartySelectSlotViewModel> Items
     {
         get { return _items; }
     }
 
-    public event Action<CharacterModel> OnCharacterSelected;
+    public event Action<StudentModel> OnCharacterSelected;
     public event Action OnCloseRequested;
 
-    public PartySelectPopupViewModel(IReadOnlyList<CharacterModel> characterModels)
+    public PartySelectPopupViewModel(IReadOnlyList<StudentModel> studentModel, IReadOnlyList<StudentModel> partySlots)
     {
-        if (null == characterModels)
+        if (null == studentModel)
         {
-            Debug.LogError("[PartySelectPopupViewModel] characterModels 가 null 입니다.");
+            Debug.LogError("[PartySelectPopupViewModel] studentModel 가 null 입니다.");
             return;
         }
 
-        foreach (CharacterModel model in characterModels)
+        foreach (StudentModel model in studentModel)
         {
             if (null == model)
             {
                 continue;
             }
 
-            _items.Add(new PartySelectSlotViewModel(model));
-            _modelById[model.Id] = model;
+            _items.Add(new PartySelectSlotViewModel(model, FindAssignedSlotNumber(partySlots, model)));
+            _modelById[model.DataId] = model;
         }
+    }
+
+    private static int FindAssignedSlotNumber(IReadOnlyList<StudentModel> partySlots, StudentModel model)
+    {
+        if (null == partySlots)
+        {
+            return 0;
+        }
+
+        for (int i = 0; i < partySlots.Count; i++)
+        {
+            if (null == partySlots[i])
+            {
+                continue;
+            }
+
+            if (partySlots[i].DataId == model.DataId)
+            {
+                return i + 1;
+            }
+        }
+
+        return 0;
     }
 
     public void SelectCommand(string characterId)
@@ -42,7 +65,7 @@ public class PartySelectPopupViewModel
             return;
         }
 
-        if (!_modelById.TryGetValue(characterId, out CharacterModel model))
+        if (!_modelById.TryGetValue(characterId, out StudentModel model))
         {
             Debug.LogWarning($"[PartySelectPopupViewModel] 캐릭터를 찾을 수 없습니다. id={characterId}");
             return;
