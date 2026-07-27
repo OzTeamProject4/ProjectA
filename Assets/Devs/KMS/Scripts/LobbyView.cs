@@ -1,3 +1,4 @@
+ï»¿using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -96,55 +97,55 @@ public sealed class LobbyView : BaseUI
     {
         if (_profileButton == null)
         {
-            Debug.LogError("[LobbyView] ProfileButtonÀÌ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("[LobbyView] ProfileButtonì´ í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return false;
         }
 
         if (_giftBoxButton == null)
         {
-            Debug.LogError("[LobbyView] GiftBoxButtonÀÌ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("[LobbyView] GiftBoxButtonì´ í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return false;
         }
 
         if (_settingButton == null)
         {
-            Debug.LogError("[LobbyView] SettingButtonÀÌ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("[LobbyView] SettingButtonì´ í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return false;
         }
 
         if (_missionButton == null)
         {
-            Debug.LogError("[LobbyView] MissionButtonÀÌ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("[LobbyView] MissionButtonì´ í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return false;
         }
 
         if (_achievementButton == null)
         {
-            Debug.LogError("[LobbyView] AchievementButtonÀÌ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("[LobbyView] AchievementButtonì´ í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return false;
         }
 
         if (_dictionaryButton == null)
         {
-            Debug.LogError("[LobbyView] DictionaryButtonÀÌ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("[LobbyView] DictionaryButtonì´ í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return false;
         }
 
         if (_characterGachaButton == null)
         {
-            Debug.LogError("[LobbyView] CharacterGachaButtonÀÌ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("[LobbyView] CharacterGachaButtonì´ í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return false;
         }
 
         if (_inventoryButton == null)
         {
-            Debug.LogError("[LobbyView] InventoryButtonÀÌ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("[LobbyView] InventoryButtonì´ í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return false;
         }
 
         if (_characterButton == null)
         {
-            Debug.LogError("[LobbyView] CharacterButtonÀÌ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("[LobbyView] CharacterButtonì´ í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return false;
         }
 
@@ -194,5 +195,6 @@ public sealed class LobbyView : BaseUI
     private void OnCharacterButtonClicked()
     {
         Debug.Log("Character Button Clicked");
+        GameManager.Instance.UIManager.OpenStudentManagementListAsync().Forget();
     }
 }

@@ -11,10 +11,26 @@ public class PartySelectSlotView : MonoBehaviour
     [SerializeField] private GameObject[] _starIcons;
     [SerializeField] private Button _selectButton;
 
+    [Header("편성 표시")]
+    [SerializeField] private GameObject _assignedMark;
+    [SerializeField] private Color _assignedPortraitColor = new Color(0.45f, 0.45f, 0.45f, 1f);
+
     private PartySelectSlotViewModel _viewModel;
     private bool _isSubscribed;
 
+    private Color _defaultPortraitColor = Color.white;
+    private bool _hasCachedPortraitColor;
+
     public event Action<string> OnClicked;
+
+    private void Awake()
+    {
+        if (null != _portraitImage)
+        {
+            _defaultPortraitColor = _portraitImage.color;
+            _hasCachedPortraitColor = true;
+        }
+    }
 
     private void OnDisable()
     {
@@ -86,7 +102,23 @@ public class PartySelectSlotView : MonoBehaviour
         }
 
         RefreshStar(_viewModel.Star);
+        RefreshAssignedMark();
         LoadPortraitAsync(_viewModel.IconPath).Forget();
+    }
+
+    private void RefreshAssignedMark()
+    {
+        bool isAssigned = _viewModel.IsAssigned;
+
+        if (null != _assignedMark)
+        {
+            _assignedMark.SetActive(isAssigned);
+        }
+
+        if (null != _portraitImage && _hasCachedPortraitColor)
+        {
+            _portraitImage.color = isAssigned ? _assignedPortraitColor : _defaultPortraitColor;
+        }
     }
 
     private async UniTaskVoid LoadPortraitAsync(string iconPath)

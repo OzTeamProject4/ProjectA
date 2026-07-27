@@ -1,6 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
-using Unity.AppUI.Redux;
 using UnityEngine;
 
 
@@ -58,10 +57,10 @@ public class PartySpawn : MonoBehaviour
             // 파티원 id 저장
             string dataId = partyDataIds[i];
 
-            // DataManager 에서 dataID에 해당하는 CharacterData를 탐색했는데 없다면?
-            if (!GameManager.Instance.DataManager.TryGetData<CharacterData>(dataId, out CharacterData data))
+            // DataManager 에서 dataID에 해당하는 StudentData를 탐색했는데 없다면?
+            if (!GameManager.Instance.DataManager.TryGetData<StudentData>(dataId, out StudentData data))
             {
-                Debug.LogError($"CharacterData not found. DataId: {dataId}");
+                Debug.LogError($"StudentData not found. DataId: {dataId}");
                 continue;
             }
 

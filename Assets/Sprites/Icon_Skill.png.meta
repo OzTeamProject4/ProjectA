@@ -1,0 +1,522 @@
+fileFormatVersion: 2
+guid: 8e3f7b5b0fbc3d34492f8ccfd10c6443
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 0
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SkillWater001
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 2434
+        width: 845
+        height: 406
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 871d73c8a241f9145a54ddb807bdc26d
+      internalID: -527311213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillNormal010
+      rect:
+        serializedVersion: 2
+        x: 4745
+        y: 2214
+        width: 806
+        height: 654
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98f38201e4177e9488ff7132c6f86e94
+      internalID: 1507844711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillFire001
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 2255
+        width: 556
+        height: 518
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e65cd3e92f693f640847f5bab71a4c11
+      internalID: 1017119999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillGrass001
+      rect:
+        serializedVersion: 2
+        x: 2529
+        y: 2123
+        width: 703
+        height: 700
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3299243697eade43a17490d6db9cc04
+      internalID: -802647199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillNormal001
+      rect:
+        serializedVersion: 2
+        x: 3513
+        y: 2074
+        width: 818
+        height: 714
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13d0ca3b5d46c534ba02bebf14ed4268
+      internalID: 1722453126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillFire002
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 1343
+        width: 825
+        height: 588
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32f410c4b1c3090418bb07c8e6730c4e
+      internalID: -974578009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillWater002
+      rect:
+        serializedVersion: 2
+        x: 1210
+        y: 1226
+        width: 909
+        height: 839
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3c134ad59d7ba14a9437a0302fb2dcb
+      internalID: -656595699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillGrass002
+      rect:
+        serializedVersion: 2
+        x: 2473
+        y: 1307
+        width: 845
+        height: 707
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1243ce5b0cbed0441ab0a7a485ad91a3
+      internalID: -833407920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillNormal002
+      rect:
+        serializedVersion: 2
+        x: 3678
+        y: 1247
+        width: 677
+        height: 686
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be6f9a25a2cf5664498ef473183894b5
+      internalID: 2104743824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillNormal020
+      rect:
+        serializedVersion: 2
+        x: 4696
+        y: 1170
+        width: 957
+        height: 995
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f6f94924ad8265429fae4564cc17359
+      internalID: -667168465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillWater003
+      rect:
+        serializedVersion: 2
+        x: 1232
+        y: 189
+        width: 935
+        height: 931
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c65e81d5d6680fa4e82163f61c42eaf1
+      internalID: 375670262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillGrass003
+      rect:
+        serializedVersion: 2
+        x: 2393
+        y: 128
+        width: 1001
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3423bd55ca303343b40cf63dd697e15
+      internalID: 132969875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillNormal030
+      rect:
+        serializedVersion: 2
+        x: 4618
+        y: 217
+        width: 1026
+        height: 936
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c8e6ab8476d2b64b916bdb7e010014f
+      internalID: 1147928125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillFire003
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 236
+        width: 803
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77aae751318da1145a7e6f588b5d519d
+      internalID: -83496127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillNormal003
+      rect:
+        serializedVersion: 2
+        x: 3595
+        y: 183
+        width: 777
+        height: 917
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05a10b682fcbc1b46aeb4aacc1f70d9b
+      internalID: 512986160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: baef28b626cbe494eae97e677a730817
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      2: -833407920
+      SkillFire001: 1017119999
+      SkillFire002: -974578009
+      SkillFire003: -83496127
+      SkillGrass001: -802647199
+      SkillGrass002: -833407920
+      SkillGrass003: 132969875
+      SkillNormal001: 1722453126
+      SkillNormal002: 2104743824
+      SkillNormal003: 512986160
+      SkillNormal010: 1507844711
+      SkillNormal020: -667168465
+      SkillNormal030: 1147928125
+      SkillWater001: -527311213
+      SkillWater002: -656595699
+      SkillWater003: 375670262
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_1": -829773900
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_10": 1041875329
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_11": 734010567
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_12": 1268600459
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_13": -510262919
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_14": 1434755437
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_15": 1058100458
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_16": -2010731130
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_18": 436409680
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_19": 1401136468
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_21": 909971782
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_22": 697085460
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_23": 2055156902
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_24": -661767177
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_25": -1578528991
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_26": -1148612018
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_27": -281883186
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_28": -1661244127
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_29": 1051780788
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_31": -1700709924
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_32": 414917975
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_33": -947838556
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_38": -1256313012
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_39": 798591940
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_40": 1208456769
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_41": 76666850
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_42": -835140341
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_44": 2117443855
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_45": -797577302
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_48": 1048969788
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_51": -1400032885
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_52": -1627321105
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_53": -1062849312
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_54": -581910861
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_55": 1377058832
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_56": 1554431862
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_57": 1656992698
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_58": -414098938
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_59": 1443003227
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_6": 1030180448
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_60": -829422351
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_7": 1830810811
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_8": -1927127544
+      "\uC2A4\uD0AC\uC774\uD399\uD2B8_9": 155239850
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

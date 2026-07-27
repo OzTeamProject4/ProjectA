@@ -41,6 +41,11 @@ public class StageMonsterParty : MonoBehaviour
             return;
         }
 
+        if (string.IsNullOrEmpty(_stageId))
+        {
+            return;
+        }
+
         OnPlayerLeft?.Invoke(_stageId);
     }
 }

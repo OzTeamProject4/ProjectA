@@ -85,7 +85,7 @@ public class LoadingUI : BaseUI
 
         source.Play();
 
-        GameManager.Instance.UIManager.CloseOverlayUI();
+        GameManager.Instance.UIManager.CloseOverlay();
     }
 
     private void UpdateLoadingState(LoadingState loadingState)

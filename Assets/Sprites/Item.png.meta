@@ -106,11 +106,37 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Item_0
+      name: Item_ExpBook_1
       rect:
         serializedVersion: 2
         x: 222
@@ -132,13 +158,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Item_1
+      name: Item_ExpBook_2
       rect:
         serializedVersion: 2
         x: 1113
-        y: 2407
-        width: 767
-        height: 942
+        y: 2515
+        width: 750
+        height: 834
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,13 +180,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Item_2
+      name: Item_ExpBook_3
       rect:
         serializedVersion: 2
         x: 1964
-        y: 2419
-        width: 757
-        height: 854
+        y: 2487
+        width: 709
+        height: 786
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -176,13 +202,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Item_3
+      name: Item_Crystal
       rect:
         serializedVersion: 2
-        x: 1144
-        y: 1600
+        x: 1136
+        y: 1697
         width: 341
-        height: 674
+        height: 494
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -220,13 +246,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Item_5
+      name: Item_Shard_005
       rect:
         serializedVersion: 2
         x: 1813
-        y: 1582
+        y: 1609
         width: 679
-        height: 765
+        height: 738
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -242,13 +268,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Item_6
+      name: Item_Shard_002
       rect:
         serializedVersion: 2
         x: 2656
-        y: 1528
+        y: 1621
         width: 693
-        height: 949
+        height: 706
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -264,13 +290,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Item_17
+      name: Item_Shard_001
       rect:
         serializedVersion: 2
         x: 824
-        y: 631
+        y: 791
         width: 719
-        height: 874
+        height: 714
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -286,7 +312,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Item_18
+      name: Item_Material_T2
       rect:
         serializedVersion: 2
         x: 939
@@ -308,10 +334,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Item_19
+      name: Item_Material_T3
       rect:
         serializedVersion: 2
-        x: 1437
+        x: 1433
         y: 184
         width: 503
         height: 570
@@ -330,13 +356,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Item_20
+      name: Item_Shard_004
       rect:
         serializedVersion: 2
         x: 1773
-        y: 630
+        y: 777
         width: 679
-        height: 859
+        height: 712
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -352,13 +378,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Item_21
+      name: Item_Shard_003
       rect:
         serializedVersion: 2
         x: 2688
-        y: 630
+        y: 777
         width: 679
-        height: 858
+        height: 711
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -374,7 +400,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Item_22
+      name: Item_Material_T1
       rect:
         serializedVersion: 2
         x: 602
@@ -396,15 +422,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Item_7
+      name: Item_Gold
       rect:
         serializedVersion: 2
-        x: 292
-        y: 1667
-        width: 517
-        height: 547
+        x: 315
+        y: 1701
+        width: 459
+        height: 451
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -433,8 +459,6 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Item_0: 471104632
-      Item_1: 1544368051
       Item_10: 796644416
       Item_11: -236680863
       Item_12: -336129970
@@ -442,21 +466,23 @@ TextureImporter:
       Item_14: -735106340
       Item_15: -1374878732
       Item_16: 751916666
-      Item_17: -802457690
-      Item_18: -216994628
-      Item_19: -1174695009
-      Item_2: 1864723034
-      Item_20: -1539847829
-      Item_21: -319205530
-      Item_22: -2127184551
       Item_23: -1651013210
-      Item_3: -858357485
       Item_4: 1745061923
-      Item_5: -2140932077
-      Item_6: 1322383648
-      Item_7: 1593982946
       Item_8: 1024544889
       Item_9: 1265349445
+      Item_Crystal: -858357485
+      Item_ExpBook_1: 471104632
+      Item_ExpBook_2: 1544368051
+      Item_ExpBook_3: 1864723034
+      Item_Gold: 1593982946
+      Item_Material_T1: -2127184551
+      Item_Material_T2: -216994628
+      Item_Material_T3: -1174695009
+      Item_Shard_001: -802457690
+      Item_Shard_002: 1322383648
+      Item_Shard_003: -319205530
+      Item_Shard_004: -1539847829
+      Item_Shard_005: -2140932077
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

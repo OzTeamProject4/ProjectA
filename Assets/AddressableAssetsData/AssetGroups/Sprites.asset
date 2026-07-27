@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Sprites
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Sprites
+  m_GUID: dc3c2ff5896786a4386b6597dc70e8fe
+  m_SerializeEntries:
+  - m_GUID: 185990812fb4e014d89d3dacff831b74
+    m_Address: StandImage/Bitna
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2657868fb52b9d64d8a49e316640b5cf
+    m_Address: Icon/Lumi
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3db8a9f55142cd44383a32de6dd313c6
+    m_Address: StandImage/Kai
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5acf23e59b3fe324ebaf1571cba0a9df
+    m_Address: Icon/Kai
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7b804111baeddf74c94ade8f4b6c911a
+    m_Address: StandImage/Yui
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e3f7b5b0fbc3d34492f8ccfd10c6443
+    m_Address: IconSkill
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9ec58ec72d03e9748ad4171a03ff22ff
+    m_Address: Sprites/Item
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aea2e2ab5a48bc646a02695482318b45
+    m_Address: Sprites/Equipment
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b2f1e6829777c884dba98e974c5269e9
+    m_Address: Icon/Neri
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c30ae38498f6fda45ab3b205bbb42e48
+    m_Address: Icon/Bitna
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca1814f66ac4fbc4fa2adc398d34a820
+    m_Address: StandImage/Lumi
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d5f9e28e10472ff47abf0c3f5115cd6e
+    m_Address: StandImage/Neri
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f8833382ef20ff94c8ebc32850ad3c53
+    m_Address: Icon/Yui
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: a2c5544ffab75cb428ed6b2ff736503e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 3d114d7e78e3b5540b7ebc3f4fdc22ff, type: 2}
+    - {fileID: 11400000, guid: 8dd2c356717a6304fbe9be0ca9e99d08, type: 2}

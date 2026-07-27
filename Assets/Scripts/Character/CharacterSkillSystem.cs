@@ -22,6 +22,10 @@ public class CharacterSkillSystem : MonoBehaviour
     private float _gaugeAccumulator;
     private List<string> _loadedPrefabKeys = new List<string>();
 
+    public event Action<int, int> OnGaugeChanged;
+    public event Action<int, float, float, GameObject> OnHealBuffRequested;
+    public event Action<CharacterSkillCategory> OnSkillUsed;
+
     public float MaxSkillRange
     {
         get
@@ -80,9 +84,47 @@ public class CharacterSkillSystem : MonoBehaviour
         }
     }
 
-    public event Action<int, int> OnGaugeChanged;
-    public event Action<int, float, float, GameObject> OnHealBuffRequested;
+    public int CurUltGauge
+    {
+        get
+        {
+            return _currentGauge;
+        }
+    }
     
+    public int MaxUltGauge
+    {
+        get
+        {
+            return _maxGauge;
+        }
+    }
+
+    public float BasicSkillCooldownProgress
+    {
+        get
+        {
+            if (_basicSkill == null)
+            {
+                return 1.0f;
+            }
+            
+            return _basicSkill.CooldownProgress;
+        }
+    }
+    public float NormalSkillCooldownProgress
+    {
+        get
+        {
+            if (_normalSkill == null)
+            {
+                return 1.0f;
+            }
+
+            return _normalSkill.CooldownProgress;
+        }
+    }
+
     private void Awake()
     {
         _battleCharacter = GetComponent<BattleCharacter>();
@@ -118,7 +160,7 @@ public class CharacterSkillSystem : MonoBehaviour
         }
         _loadedPrefabKeys.Clear();
     }
-    public async UniTask InitializeAsync(CharacterData data)
+    public async UniTask InitializeAsync(StudentData data)
     {
         _maxGauge = data.SkillGauge;
         ChangeGauge(0);
@@ -277,6 +319,8 @@ public class CharacterSkillSystem : MonoBehaviour
         {
             _battleCharacter.LookAtInstant(target.position); 
         }
+
+        OnSkillUsed?.Invoke(skill.Data.Category);
 
         int damage = (int)(_battleCharacter.CurAtk * SkillDamageMultiplier * skill.Data.DamageCoefficient);
 
@@ -452,5 +496,13 @@ public class CharacterSkillSystem : MonoBehaviour
         }
 
         return skill.Data.SkillRange;
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, AttackRange);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, MinAttackRange);
     }
 }

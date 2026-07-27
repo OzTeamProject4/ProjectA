@@ -867,9 +867,9 @@ GameObject:
   - component: {fileID: 8948422595159024414}
   - component: {fileID: 1761686581793098736}
   - component: {fileID: 2990931221344548703}
-  - component: {fileID: 8948422595159024415}
   - component: {fileID: 8948422595159024416}
   - component: {fileID: 8948422595159024417}
+  - component: {fileID: 8948422595159024415}
   m_Layer: 0
   m_Name: =======Managers========
   m_TagString: Untagged
@@ -937,7 +937,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3469007303332692609}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96004c91e33d46b4893850268e709906, type: 3}
+  m_Script: {fileID: 11500000, guid: 1dafa49b4fc9ab642b76405db3485a51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkManagerTemp
 --- !u!114 &8948422595159024416
