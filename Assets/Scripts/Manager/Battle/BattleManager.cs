@@ -189,7 +189,7 @@ public class BattleManager : BaseManager<BattleManager>
     public void EndBattle(bool isVictory)
     {
         _isBattleActive = false;
-
+        GameManager.Instance.UIManager.CloseBattleHUD();
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         GameManager.Instance.InputManager.DisablePlayerActions();
@@ -220,6 +220,8 @@ public class BattleManager : BaseManager<BattleManager>
         if (choice == BattlePauseChoice.BackToStage)
         {
             _isBattleActive = false;
+
+            GameManager.Instance.UIManager.CloseBattleHUD();
 
             UnsubscribeInputActions();
 
