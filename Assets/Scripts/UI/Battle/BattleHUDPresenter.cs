@@ -56,6 +56,20 @@ public class BattleHUDPresenter
                 }
             }
         }
+
+        IReadOnlyList<int> waitingIndices = _partyController.WaitingMemberIndices;
+        IReadOnlyList<BattleCharacter> party = _partyController.PartyCharacters;
+        _hudView.SetPartyMemberCount(waitingIndices.Count);
+        for (int i = 0; i < waitingIndices.Count; i++)
+        {
+            int partyIndex = waitingIndices[i];
+            BattleCharacter member = party[partyIndex];
+            if (member != null)
+            {
+                _hudView.SetPartyMemberPortrait(i, member.PortraitSprite);
+                _hudView.SetPartyMemberNumber(i, partyIndex + 1);  
+            }
+        }
     }
 
     private void HandleHpChanged(float current, float max)
@@ -109,29 +123,29 @@ public class BattleHUDPresenter
 
         if (_hudView != null && _partyController != null)
         {
+            IReadOnlyList<int> waitingIndices = _partyController.WaitingMemberIndices;
             IReadOnlyList<BattleCharacter> party = _partyController.PartyCharacters;
-            if (party != null)
+            for (int i = 0; i < waitingIndices.Count; i++)
             {
-                for (int i = 0; i < party.Count; i++)
+                int partyIndex = waitingIndices[i];
+                BattleCharacter member = party[partyIndex];
+                if (member != null)
                 {
-                    BattleCharacter member = party[i];
-                    if (member != null)
-                    {
-                        _hudView.SetPartyMemberHp(i, member.CurHp, member.MaxHp);
+                    _hudView.SetPartyMemberHp(i, member.CurHp, member.MaxHp);
 
-                        CharacterSkillSystem skillSystem = member.GetComponent<CharacterSkillSystem>();
-                        if (skillSystem != null)
+                    CharacterSkillSystem skillSystem = member.GetComponent<CharacterSkillSystem>();
+                    if (skillSystem != null)
+                    {
+                        float ratio = 0f;
+                        if (skillSystem.MaxUltGauge > 0)
                         {
-                            float ratio = 0f;
-                            if (skillSystem.MaxUltGauge > 0)
-                            {
-                                ratio = (float)skillSystem.CurUltGauge / skillSystem.MaxUltGauge;
-                            }
-                            _hudView.SetPartyMemberGauge(i, ratio);
+                            ratio = (float)skillSystem.CurUltGauge / skillSystem.MaxUltGauge;
                         }
+                        _hudView.SetPartyMemberGauge(i, ratio);
                     }
                 }
             }
+            
             _hudView.SetSwitchCooldown(_partyController.SwitchCooldownProgress);
         }
 
@@ -142,6 +156,5 @@ public class BattleHUDPresenter
 
         _hudView.SetBasicSkillCooldown(_currentSkillSystem.BasicSkillCooldownProgress);
         _hudView.SetNormalSkillCooldown(_currentSkillSystem.NormalSkillCooldownProgress);
-
     }
 }

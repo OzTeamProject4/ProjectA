@@ -36,6 +36,30 @@ public class PartyController
             }
         }
     }
+    public IReadOnlyList<int> WaitingMemberIndices
+    {
+        get
+        {
+            List<int> waiting = new List<int>();
+            if (_partyCharacters == null)
+            {
+                return waiting;
+            }
+            for (int i = 0; i < _partyCharacters.Count; i++)
+            {
+                if (i == _currentCharacterIndex)
+                {
+                    continue;
+                }
+                if (_partyCharacters[i] == null)
+                {
+                    continue;
+                }
+                waiting.Add(i);
+            }
+            return waiting;
+        }
+    }
 
     public event Action<BattleCharacter> OnCharacterChanged;
 

@@ -16,6 +16,7 @@ public class BattleHUDView : BaseUI
     [SerializeField] private Slider[] _partyMemberHpSliders;
     [SerializeField] private Image[] _partyMemberGaugeImages;
     [SerializeField] private GameObject[] _partyMemberSlots;
+    [SerializeField] private TMP_Text[] _partyMemberNumberTexts;
 
     [Header("Bottom")]
     [SerializeField] private Slider _playerHpSlider;
@@ -244,5 +245,13 @@ public class BattleHUDView : BaseUI
             }
             slot.SetActive(i < count);
         }
+    }
+    public void SetPartyMemberNumber(int index, int number)
+    {
+        if (_partyMemberNumberTexts == null) { return; }
+        if (index < 0 || index >= _partyMemberNumberTexts.Length) { return; }
+        TMP_Text text = _partyMemberNumberTexts[index];
+        if (text == null) { return; }
+        text.text = number.ToString();
     }
 }

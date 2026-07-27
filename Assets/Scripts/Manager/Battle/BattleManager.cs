@@ -231,7 +231,6 @@ public class BattleManager : BaseManager<BattleManager>
 
         _hudPresenter = new BattleHUDPresenter();
         _hudPresenter.Initialize(hudView, _partyController, _battleTimer);
-        hudView.SetPartyMemberCount(characters.Count);
         await LoadPartyPortraitsAsync(characters, hudView);
         _partyController.Initialize(characters, _cinemachineCamera);
         _battleTimer.StartTimer();
@@ -470,7 +469,7 @@ public class BattleManager : BaseManager<BattleManager>
                 Sprite portrait = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(iconPath);
                 if (portrait != null)
                 {
-                    hudView.SetPartyMemberPortrait(i, portrait);
+                    character.SetPortraitSprite(portrait);
                     _loadedPortraitKeys.Add(iconPath);
                 }
                 else

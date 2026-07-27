@@ -39,6 +39,7 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     private CancellationTokenSource _buffCts;
     private NavMeshAgent _navMeshAgent;
     private Sprite _elementIcon;
+    private Sprite _portraitSprite;
 
     public string CharacterName
     {
@@ -112,6 +113,13 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         get
         {
             return _elementIcon;
+        }
+    }
+    public Sprite PortraitSprite
+    {
+        get
+        {
+            return _portraitSprite;
         }
     }
 
@@ -353,5 +361,9 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     public void SetElementIcon(Sprite icon)
     {
         _elementIcon = icon;
+    }
+    public void SetPortraitSprite(Sprite sprite)
+    {
+        _portraitSprite = sprite;
     }
 }
