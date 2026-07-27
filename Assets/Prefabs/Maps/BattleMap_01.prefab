@@ -7361,6 +7361,7 @@ Transform:
   - {fileID: 8390872013431881048}
   - {fileID: 8259914171493607117}
   - {fileID: 1409419794567625676}
+  - {fileID: 8115389213287560961}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8138844733863203994
@@ -7377,7 +7378,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleMap
   _playerSpawnPoint: {fileID: 3131218167925748598}
   _battleCamera: {fileID: 2799177896211918910}
-  _battleManager: {fileID: 1506372717735690033}
   _waveTriggerZones:
   - {fileID: 1863523625727659535}
   - {fileID: 8519480206827254846}
@@ -7394,7 +7394,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fceef11ce8623dc4ba28e7fadfe5193c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleManager
-  _cinemachineCamera: {fileID: 2799177896211918910}
 --- !u!1 &4125188389511038955
 GameObject:
   m_ObjectHideFlags: 0
@@ -7932,7 +7931,7 @@ MonoBehaviour:
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
   OrbitStyle: 0
-  Radius: 10
+  Radius: 30
   Orbits:
     Top:
       Radius: 2
@@ -7946,7 +7945,7 @@ MonoBehaviour:
     SplineCurvature: 0.5
   RecenteringTarget: 2
   HorizontalAxis:
-    Value: 41.992203
+    Value: 57.19522
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -7956,7 +7955,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 20.746872
+    Value: 28.689516
     Center: 17.5
     Range: {x: -10, y: 45}
     Wrap: 0
@@ -7988,13 +7987,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineRotationComposer
   Composition:
-    ScreenPosition: {x: 0, y: 0}
+    ScreenPosition: {x: 0, y: -0.00092592835}
     DeadZone:
       Enabled: 0
-      Size: {x: 0.2, y: 0.2}
+      Size: {x: 0, y: 0}
     HardLimits:
       Enabled: 0
-      Size: {x: 0.8, y: 0.8}
+      Size: {x: 0, y: 0}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
   TargetOffset: {x: 0, y: 3, z: 0}
@@ -10688,7 +10687,6 @@ MonoBehaviour:
   - {fileID: 9120509135574886312}
   _bossSpawnPoint: {fileID: 0}
   _stageWaveDataId: Stage_001_Wave_1
-  battleManager: {fileID: 1506372717735690033}
 --- !u!1 &5684606251194218251
 GameObject:
   m_ObjectHideFlags: 0
@@ -13555,7 +13553,6 @@ MonoBehaviour:
   - {fileID: 512264116144960547}
   _bossSpawnPoint: {fileID: 9009014376157863864}
   _stageWaveDataId: Stage_001_Wave_1
-  battleManager: {fileID: 1506372717735690033}
 --- !u!1 &7038008375730467286
 GameObject:
   m_ObjectHideFlags: 0
@@ -16025,6 +16022,118 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!1 &8244368564520094479
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8115389213287560961}
+  - component: {fileID: 3878173628507990424}
+  - component: {fileID: 3253954778250041018}
+  - component: {fileID: 6152517452128488539}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8115389213287560961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8244368564520094479}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 197.82372, y: 51.44, z: 167.58711}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1285517884081619568}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &3878173628507990424
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8244368564520094479}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &3253954778250041018
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8244368564520094479}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6152517452128488539
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8244368564520094479}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8250942269269315987
 GameObject:
   m_ObjectHideFlags: 0
@@ -16968,7 +17077,6 @@ MonoBehaviour:
   - {fileID: 7202699504609271669}
   _bossSpawnPoint: {fileID: 0}
   _stageWaveDataId: Stage_001_Wave_1
-  battleManager: {fileID: 1506372717735690033}
 --- !u!1 &9042134176749640626
 GameObject:
   m_ObjectHideFlags: 0

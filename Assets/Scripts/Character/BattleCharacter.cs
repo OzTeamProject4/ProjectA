@@ -11,12 +11,15 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     private const float MoveThreshold = 0.1f;
     private const float WalkSpeedRatio = 0.5f;
     private const float RunSpeedRatio = 1.0f;
-    private const float JumpVelocityThreshold = 1.0f;
+    private const float JumpVelocityThreshold = 3.0f;
     private const float AnimSpeedDamping = 3.0f;
     private const float RunSpeedMultiplier = 2.0f;
+    private const int GroundCheckBufferSize = 4;
+    private const float FallMultiplier = 3.0f;
+    private readonly Collider[] _groundCheckBuffer = new Collider[GroundCheckBufferSize];
     // TODO 희준 캐릭터 모델링시 수치 변화 필요
     [SerializeField] private float _jumpForce = 5f;
-    [SerializeField] private float _groundCheckDistance = 0.1f; 
+    [SerializeField] private float _groundCheckRadius = 1.0f; 
     [SerializeField] private float _rotationSpeed = 4.0f;
     [SerializeField] private Transform _groundCheckPoint;
     [SerializeField] private Transform _modelTransform;
@@ -25,7 +28,6 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     private CharacterData _data;
     private Rigidbody _rigidbody;
     private float _curHp;
-    private int _curSkillGauge;
     private float _curAtk;
     private float _curDef;
     private float _curMoveSpeed;
@@ -83,8 +85,17 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         }
     }
 
+    public float MaxHp
+    {
+        get
+        {
+            return _maxHp;
+        }
+    }
+
     public event Action<float> OnMoveSpeedChanged;
     public event Action<bool> OnGroundedChanged;
+    public event Action<float, float> OnHpChanged;
 
     private void Awake()
     {
@@ -116,6 +127,14 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (_rigidbody.linearVelocity.y < 0f)
+        {
+            _rigidbody.linearVelocity += Vector3.up * Physics.gravity.y * (FallMultiplier - 1f) * Time.fixedDeltaTime;
+        }
+    }
+
     private void OnDestroy()
     {
         _buffCts?.Cancel();
@@ -124,13 +143,12 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     public async UniTask InitializeAsync(CharacterData data)
     {
         _data = data;
-        _curHp = data.Hp;
+        _maxHp = data.Hp;
+        SetHp(data.Hp);
         _curAtk = data.Attack;
         _curDef = data.Defence;
         _curMoveSpeed = data.MoveSpeed;
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
-        _curSkillGauge = 0;
-        _maxHp = data.Hp;
         _curMoveSpeed = data.MoveSpeed;
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
         _baseMoveSpeed = data.MoveSpeed;
@@ -187,13 +205,8 @@ public class BattleCharacter : MonoBehaviour, IDamageable
             return false;
         }
 
-        if (Mathf.Abs(_rigidbody.linearVelocity.y) > JumpVelocityThreshold)
-        {
-            return false;
-        }
-
-        bool result = Physics.CheckSphere(_groundCheckPoint.position, _groundCheckDistance, _groundLayer, QueryTriggerInteraction.Ignore);
-        return result;
+        int hitCount = Physics.OverlapSphereNonAlloc(_groundCheckPoint.position, _groundCheckRadius, _groundCheckBuffer, _groundLayer, QueryTriggerInteraction.Ignore);
+        return hitCount > 0;
     }
 
     public void LookAt(Vector3 targetPosition)
@@ -235,20 +248,12 @@ public class BattleCharacter : MonoBehaviour, IDamageable
 
     public void TakeDamage(int damage, GameObject attacker)
     {
-        _curHp -= damage;
-        if(_curHp < 0)
-        {
-            _curHp = 0;
-        }
+        SetHp(_curHp - damage);
     }
 
     public void Heal(int amount)
     {
-        _curHp += amount;
-        if (_curHp > _maxHp)
-        {
-            _curHp = _maxHp;
-        }
+        SetHp(_curHp + amount);
     }
 
     public void ApplyMoveSpeedBuff(float moveSpeedBuff, float duration)
@@ -257,6 +262,12 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         _buffCts?.Dispose();
         _buffCts = new CancellationTokenSource();
         ApplyMoveSpeedBuffAsync(moveSpeedBuff, duration, _buffCts.Token).Forget();
+    }
+
+    private void SetHp(float hp)
+    {
+        _curHp = Mathf.Clamp(hp, 0f, _maxHp);
+        OnHpChanged?.Invoke(_curHp, _maxHp);
     }
 
     private async UniTask ApplyMoveSpeedBuffAsync(float speedBuffPercent, float duration, CancellationToken token)
@@ -288,11 +299,18 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         if (null == _rigidbody)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(_groundCheckPoint.position, _groundCheckDistance);
+            Gizmos.DrawWireSphere(_groundCheckPoint.position, _groundCheckRadius);
             return;
         }
 
         Gizmos.color = IsGrounded() ? Color.green : Color.red;
-        Gizmos.DrawWireSphere(_groundCheckPoint.position, _groundCheckDistance);
+        Gizmos.DrawWireSphere(_groundCheckPoint.position, _groundCheckRadius);
+    }
+
+    // 테스트용 임시코드
+    [ContextMenu("Test Damage 100")]
+    private void TestDamage()
+    {
+        SetHp(_curHp - 100);
     }
 }

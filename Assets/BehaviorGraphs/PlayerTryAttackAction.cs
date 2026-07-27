@@ -34,6 +34,12 @@ public partial class PlayerTryAttackAction : Action
             return Status.Failure;   
         }
 
+        if (_characterSkillSystem.CanUseBasicSkill() == false)
+        {
+            return Status.Failure;
+        }
+
+        _battleCharacter.Move(Vector3.zero, false);
         _battleCharacter.LookAt(EnemyTarget.Value.transform.position);
         _characterSkillSystem.UseBasicSkill(EnemyTarget.Value.transform);
         return Status.Success;

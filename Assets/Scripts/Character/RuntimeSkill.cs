@@ -27,6 +27,22 @@ public class RuntimeSkill
         _lastUsedTime = -data.Cooldown;
     }
 
+    public float CooldownProgress
+    {
+        get
+        {
+            if (_data.Cooldown <= 0)
+            {
+                return 1.0f;
+            }
+
+            else
+            {
+                return Mathf.Clamp01((Time.time - _lastUsedTime) / _data.Cooldown);
+            }
+        }
+    }
+
     public void SetProjectilePrefab(GameObject prefab)
     {
         _projectilePrefab = prefab;

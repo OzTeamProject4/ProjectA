@@ -36,7 +36,7 @@ public class TempPartySpawner
             //CharacterGradeData grade = provider.GetGrade(data.Star);
             //StatData stats = StatCalculator.Calculate(data, grade, data.Level, default);
 
-            Vector3 spawnPosition = spawnOrigin + new Vector3(index * 3, 2, 0);
+            Vector3 spawnPosition = spawnOrigin + new Vector3(index * 20, 2, 0);
             GameObject obj = Object.Instantiate(prefab, spawnPosition, Quaternion.identity); BattleCharacter battleCharacter = obj.GetComponent<BattleCharacter>();
             await battleCharacter.InitializeAsync(data);
             characters.Add(battleCharacter);
