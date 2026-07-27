@@ -59,8 +59,10 @@ MonoBehaviour:
   _clearedSprite: {fileID: -785225419, guid: efadd2c1dad2c024f970d7c7f9988c9b, type: 3}
   _failedSprite: {fileID: -1352752727, guid: efadd2c1dad2c024f970d7c7f9988c9b, type: 3}
   _rewardContainer: {fileID: 4519238898095275017}
+  _rewardSection: {fileID: 921176699182050663}
   _rewardSlotPrefab: {fileID: 3627535398853748935, guid: 317f5216b7d4d2241a63870d05870281, type: 3}
   _returnButton: {fileID: 138242408130323989}
+  _retryButton: {fileID: 1576789454182307437}
 --- !u!1 &143443014369534710
 GameObject:
   m_ObjectHideFlags: 0
