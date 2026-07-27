@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 public class DialogueViewModel
@@ -18,6 +19,54 @@ public class DialogueViewModel
         get 
         {
             return _dialogueModel.DialogueText;
+        }
+    }
+
+    public string LeftCharacterId
+    {
+        get 
+        {
+            return _dialogueModel.LeftCharacterId;
+        }
+    }
+
+    public string CenterCharacterId
+    {
+        get 
+        { 
+            return _dialogueModel.CenterCharacterId; 
+        }
+    }
+
+    public string RightCharacterId
+    {
+        get 
+        { 
+            return _dialogueModel.RightCharacterId; 
+        }
+    }
+
+    public string ActiveCharacterId
+    {
+        get 
+        { 
+            return _dialogueModel.ActiveCharacterId; 
+        }
+    }
+
+    public IReadOnlyList<ChoiceData> Choices
+    {
+        get 
+        {
+            return _dialogueModel.Choices;
+        }
+    }
+
+    public bool IsChoiceOpen
+    {
+        get 
+        {
+            return _dialogueModel.IsChoiceOpen;
         }
     }
 

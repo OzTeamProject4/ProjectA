@@ -12,7 +12,7 @@ public class DialogueManager : BaseManager<DialogueManager>
     private string _currentDialogueId;
 
     private readonly Dictionary<string, DialogueData> _dialogueLines = new Dictionary<string, DialogueData>();
-    private readonly Dictionary<string, List<ChoiceData>> _choiceData = new Dictionary<string, List<ChoiceData>>();
+    private readonly Dictionary<string, List<ChoiceData>> _choiceDataDictionary = new Dictionary<string, List<ChoiceData>>();
 
     public override UniTask InitializeAsync()
     {
@@ -55,7 +55,25 @@ public class DialogueManager : BaseManager<DialogueManager>
             return;
         }
 
-        _currentDialogueId = dialogueData.NextDialogueId;
+        ChangeDialogue(dialogueData.NextDialogueId);
+    }
+
+    public void SelectChoice(string nextDialogueId)
+    {
+        _dialogueModel.SetChoiceOpen(false);
+
+        if (string.IsNullOrEmpty(nextDialogueId))
+        {
+            EndDialogue();
+            return;
+        }
+
+        ChangeDialogue(nextDialogueId);
+    }
+
+    private void ChangeDialogue(string dialogueId)
+    {
+        _currentDialogueId = dialogueId;
 
         if (!_dialogueLines.TryGetValue(_currentDialogueId, out DialogueData nextDialogueData))
         {
@@ -78,12 +96,19 @@ public class DialogueManager : BaseManager<DialogueManager>
 
     private void EnterChoicePhase(string choiceGroupId)
     {
+        if (!_choiceDataDictionary.TryGetValue(choiceGroupId, out List<ChoiceData> choiceDatas))
+        {
+            Debug.LogError($"[{nameof(DialogueManager)}:{nameof(EnterChoicePhase)}] '{choiceGroupId}' 선택지 데이터를 찾을 수 없습니다.");
+            return;
+        }
+
+        _dialogueModel.SetChoices(choiceDatas);
         _dialogueModel.SetChoiceOpen(true);
     }
 
     private void EndDialogue()
     {
-        throw new NotImplementedException();
+        GameManager.Instance.UIManager.CloseDialogue();
     }
 
     private async UniTask LoadDialogueAsync(string key)
@@ -167,7 +192,7 @@ public class DialogueManager : BaseManager<DialogueManager>
 
     private void CacheChoiceData(IReadOnlyList<ChoiceData> choiceDatas)
     {
-        _choiceData.Clear();
+        _choiceDataDictionary.Clear();
 
         if (choiceDatas == null || choiceDatas.Count == 0)
         {
@@ -176,10 +201,10 @@ public class DialogueManager : BaseManager<DialogueManager>
 
         foreach (ChoiceData choiceData in choiceDatas)
         {
-            if (!_choiceData.TryGetValue(choiceData.DataId, out List<ChoiceData> choices))
+            if (!_choiceDataDictionary.TryGetValue(choiceData.DataId, out List<ChoiceData> choices))
             {
                 choices = new List<ChoiceData>();
-                _choiceData.Add(choiceData.DataId, choices);
+                _choiceDataDictionary.Add(choiceData.DataId, choices);
             }
 
             choices.Add(choiceData);

@@ -29,6 +29,7 @@ public enum LoadingStep
     LoadEquipmentData,
     LoadSignatureData,
     LoadStoryInfoData,
+    LoadDialoguePortraitData,
     Complete
 }
 
