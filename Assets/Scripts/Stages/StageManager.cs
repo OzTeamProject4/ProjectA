@@ -52,6 +52,7 @@ public class StageManager : BaseManager <StageManager>
         {
             GameManager.Instance.BattleManager.OnReturnToSelectRequested -= HandleReturnToSelectRequested;
             GameManager.Instance.BattleManager.OnBattleEnded -= HandleBattleEnded;
+            GameManager.Instance.BattleManager.OnRetryRequested -= HandleRetryRequested;
         }
 
         if (null != _mapBuilder)
@@ -79,6 +80,7 @@ public class StageManager : BaseManager <StageManager>
 
         GameManager.Instance.BattleManager.OnReturnToSelectRequested += HandleReturnToSelectRequested;
         GameManager.Instance.BattleManager.OnBattleEnded += HandleBattleEnded;
+        GameManager.Instance.BattleManager.OnRetryRequested += HandleRetryRequested;
 
         _mapBuilder = new StageMapBuilder(transform);
         _mapBuilder.CreateMapRoot();
@@ -235,6 +237,27 @@ public class StageManager : BaseManager <StageManager>
     private void HandleReturnToSelectRequested()
     {
         _session.ScreenState.ChangeScreen(ScreenType.StageSelect);
+    }
+
+    private void HandleRetryRequested()
+    {
+        RetryBattleAsync().Forget();
+    }
+
+    private async UniTask RetryBattleAsync()
+    {
+        await GameManager.Instance.UIManager.OpenOverlayAsync();
+
+        try
+        {
+            _mapBuilder.ClearBattleMap();
+
+            await TransitionToBattleInternalAsync();
+        }
+        finally
+        {
+            GameManager.Instance.UIManager.CloseOverlay();
+        }
     }
 
     private void HandleBattleEnded(bool isVictory)
