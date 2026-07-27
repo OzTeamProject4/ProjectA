@@ -15,6 +15,7 @@ public class BattleHUDView : BaseUI
     [SerializeField] private Image[] _characterImage;
     [SerializeField] private Slider[] _partyMemberHpSliders;
     [SerializeField] private Image[] _partyMemberGaugeImages;
+    [SerializeField] private GameObject[] _partyMemberSlots;
 
     [Header("Bottom")]
     [SerializeField] private Slider _playerHpSlider;
@@ -26,6 +27,11 @@ public class BattleHUDView : BaseUI
     [SerializeField] private Image _skillspaceImage;
     [SerializeField] private TMP_Text _levelText;
     [SerializeField] private Image _switchCooldownOverlay;
+    [SerializeField] private TMP_Text _playerHpText;
+    [SerializeField] private TMP_Text _ultimateGaugeText;
+    [SerializeField] private Image _basicSkillIconImage;
+    [SerializeField] private Image _normalSkillIconImage;
+    [SerializeField] private Image _ultimateSkillIconImage;
 
     public void SetStage(string stageName)
     {
@@ -66,15 +72,27 @@ public class BattleHUDView : BaseUI
         {
             _playerHpSlider.value = Mathf.Clamp01(currentHp / maxHp);
         }
+
+        if (_playerHpText != null)
+        {
+            _playerHpText.text = $"HP : {currentHp:0}/{maxHp:0}";
+        }
     }
-
-    public void SetUltimateGauge(float normalizedValue)
+    public void SetUltimateGauge(int current, int max)
     {
-        _ultimateGaugeSlider.value = Mathf.Clamp01(normalizedValue);
-
+        float ratio = 0f;
+        if (max > 0)
+        {
+            ratio = (float)current / max;
+        }
+        _ultimateGaugeSlider.value = Mathf.Clamp01(ratio);
         if (_skillspaceImage != null)
         {
-            _skillspaceImage.fillAmount = Mathf.Clamp01(normalizedValue);
+            _skillspaceImage.fillAmount = Mathf.Clamp01(1f - ratio);
+        }
+        if (_ultimateGaugeText != null)
+        {
+            _ultimateGaugeText.text = $"{current}/{max}";
         }
     }
 
@@ -161,5 +179,70 @@ public class BattleHUDView : BaseUI
             return;
         }
         _switchCooldownOverlay.fillAmount = Mathf.Clamp01(1f - progress);
+    }
+    public void SetBasicSkillIcon(Sprite icon)
+    {
+        if (_basicSkillIconImage == null)
+        {
+            return;
+        }
+        _basicSkillIconImage.sprite = icon;
+    }
+    public void SetNormalSkillIcon(Sprite icon)
+    {
+        if (_normalSkillIconImage == null)
+        {
+            return;
+        }
+        _normalSkillIconImage.sprite = icon;
+    }
+    public void SetUltimateSkillIcon(Sprite icon)
+    {
+        if (_ultimateSkillIconImage == null)
+        {
+            return;
+        }
+        _ultimateSkillIconImage.sprite = icon;
+    }
+    public void SetPartyMemberPortrait(int index, Sprite portrait)
+    {
+        if (_characterImage == null)
+        {
+            return;
+        }
+        if (index < 0 || index >= _characterImage.Length)
+        {
+            return;
+        }
+        Image image = _characterImage[index];
+        if (image == null)
+        {
+            return;
+        }
+        image.sprite = portrait;
+    }
+    public void SetTypeIcon(Sprite icon)
+    {
+        if (_typeICON == null)
+        {
+            return;
+        }
+        _typeICON.sprite = icon;
+    }
+    public void SetPartyMemberCount(int count)
+    {
+        if (_partyMemberSlots == null)
+        {
+            return;
+        }
+        for (int i = 0; i < _partyMemberSlots.Length; i++)
+        {
+            GameObject slot = _partyMemberSlots[i];
+            if (slot == null)
+            {
+                continue;
+            }
+            slot.SetActive(i < count);
+        }
     }
 }

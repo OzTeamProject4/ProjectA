@@ -42,10 +42,14 @@ public class BattleHUDPresenter
             _currentSkillSystem.OnGaugeChanged += HandleGaugeChanged;
             HandleHpChanged(_currentCharacter.CurHp, _currentCharacter.MaxHp);
             HandleGaugeChanged(_currentSkillSystem.CurUltGauge, _currentSkillSystem.MaxUltGauge);
+            _hudView.SetBasicSkillIcon(_currentSkillSystem.BasicSkillIcon);
+            _hudView.SetNormalSkillIcon(_currentSkillSystem.NormalSkillIcon);
+            _hudView.SetUltimateSkillIcon(_currentSkillSystem.UltimateSkillIcon);
+            _hudView.SetTypeIcon(_currentCharacter.ElementIcon);
 
             if (NetworkManagerTemp.Instance != null)
             {
-                CharacterModel model = NetworkManagerTemp.Instance.GetcharacterModel(_currentCharacter.DataId);
+                StudentModel model = NetworkManagerTemp.Instance.StudentListModel.GetCharacter(_currentCharacter.DataId);
                 if (model != null)
                 {
                     _hudView.SetLevel(model.Level);
@@ -93,7 +97,7 @@ public class BattleHUDPresenter
             ratio = (float)current / max;
         }
 
-        _hudView.SetUltimateGauge(ratio);
+        _hudView.SetUltimateGauge(current, max);
     }
 
     public void Tick()
