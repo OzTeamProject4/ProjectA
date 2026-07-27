@@ -620,11 +620,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2518
-        y: 2701
+        y: 2866
         width: 910
-        height: 989
+        height: 824
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -646,7 +646,7 @@ TextureImporter:
         width: 905
         height: 236
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -655,6 +655,28 @@ TextureImporter:
       bones: []
       spriteID: 88bab8c25d2ec884da63c02b12f93981
       internalID: 1665767557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\uC778\uAC8C\uC784ui\uB9AC\uC18C\uC2A4_25"
+      rect:
+        serializedVersion: 2
+        x: 2576
+        y: 2760
+        width: 779
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9384ea85e73f284ea92b052b47cc427
+      internalID: 358069871
       vertices: []
       indices: 
       edges: []
@@ -693,6 +715,7 @@ TextureImporter:
       "\uC778\uAC8C\uC784ui\uB9AC\uC18C\uC2A4_22": 882845170
       "\uC778\uAC8C\uC784ui\uB9AC\uC18C\uC2A4_23": -1997752814
       "\uC778\uAC8C\uC784ui\uB9AC\uC18C\uC2A4_24": 1665767557
+      "\uC778\uAC8C\uC784ui\uB9AC\uC18C\uC2A4_25": 358069871
       "\uC778\uAC8C\uC784ui\uB9AC\uC18C\uC2A4_3": 1273156328
       "\uC778\uAC8C\uC784ui\uB9AC\uC18C\uC2A4_4": 965646058
       "\uC778\uAC8C\uC784ui\uB9AC\uC18C\uC2A4_5": 1034789512
