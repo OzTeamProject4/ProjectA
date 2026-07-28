@@ -45,7 +45,7 @@ public class BattleHUDPresenter
             _hudView.SetBasicSkillIcon(_currentSkillSystem.BasicSkillIcon);
             _hudView.SetNormalSkillIcon(_currentSkillSystem.NormalSkillIcon);
             _hudView.SetUltimateSkillIcon(_currentSkillSystem.UltimateSkillIcon);
-            _hudView.SetTypeIcon(_currentCharacter.ElementIcon);
+            _hudView.SetCharacterIcon(_currentCharacter.PortraitSprite);
 
             if (NetworkManagerTemp.Instance != null)
             {
@@ -67,7 +67,8 @@ public class BattleHUDPresenter
             if (member != null)
             {
                 _hudView.SetPartyMemberPortrait(i, member.PortraitSprite);
-                _hudView.SetPartyMemberNumber(i, partyIndex + 1);  
+                _hudView.SetPartyMemberNumber(i, partyIndex + 1);
+                _hudView.SetPartyMemberElement(i, member.ElementIcon);
             }
         }
     }
