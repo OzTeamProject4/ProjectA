@@ -355,6 +355,11 @@ public class CharacterSkillSystem : MonoBehaviour
 
         OnSkillUsed?.Invoke(skill.Data.Category);
 
+        if (string.IsNullOrEmpty(skill.Data.CastSfxId) == false)
+        {
+            GameManager.Instance.AudioManager.PlaySFX(skill.Data.CastSfxId);
+        }
+
         int damage = (int)(_battleCharacter.CurAtk * SkillDamageMultiplier * skill.Data.DamageCoefficient);
 
         switch (skill.Data.Type)
@@ -362,7 +367,7 @@ public class CharacterSkillSystem : MonoBehaviour
             case CharacterSkillType.SingleAttack:
                 if (skill.Data.ProjectileSpeed > 0)
                 {
-                    _characterAttack.FireProjectile(skill.Data.PrefabPath, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed);
+                    _characterAttack.FireProjectile(skill.Data.PrefabPath, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed, 0, skill.Data.HitSfxId);
                 }
 
                 else
@@ -391,7 +396,7 @@ public class CharacterSkillSystem : MonoBehaviour
             case CharacterSkillType.AreaAttack:
                 if (skill.Data.ProjectileSpeed > 0)
                 {
-                    _characterAttack.FireProjectile(skill.Data.PrefabPath, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed, skill.Data.AreaRadius);
+                    _characterAttack.FireProjectile(skill.Data.PrefabPath, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed, skill.Data.AreaRadius, skill.Data.HitSfxId);
                 }
 
                 else

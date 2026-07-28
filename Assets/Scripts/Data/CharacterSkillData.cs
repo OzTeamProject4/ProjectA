@@ -27,6 +27,7 @@ public class CharacterSkillData : BaseData
     public float MoveSpeedBuff { get; set; }
     public float BuffDuration { get; set; }
     public float SkillRange { get; set; }
-
     public string IconPath { get; set; }
+    public string CastSfxId { get; set; }
+    public string HitSfxId { get; set; }
 }
