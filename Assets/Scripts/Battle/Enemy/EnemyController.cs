@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+ï»¿using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 using Unity.Behavior;
@@ -46,6 +46,15 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     }
 
+    private void OnDisable()
+    {
+        if (_vm == null)
+        {
+            return;
+        }
+
+        _vm.IsActive = false;
+    }
     public void Bind(EnemyData enemyData, EnemyViewModel vm)
     {
         _vm = vm;
@@ -59,6 +68,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         _vm.MaxHp = enemyData.BaseHp;
         _vm.BaseDamage = enemyData.BaseDamage;
         _vm.CurrentDamage = enemyData.BaseDamage;
+        _vm.IsActive = true;
         _vm.PrefabAddress = enemyData.PrefabAddress;
         _vm.SkillDataId = enemyData.SkillDataId;
 
@@ -66,6 +76,12 @@ public class EnemyController : MonoBehaviour, IDamageable
     
     public void TakeDamage(int damage, GameObject attacker)
     {
+        if (_vm == null)
+        {
+            Debug.LogError("ì»¨íŠ¸ë¡¤ëŸ¬ì— ë·° ëª¨ë¸ì´ ì—†ìŠµë‹ˆë‹¤");
+            return;
+        }
+
         if (_vm.CurrentHp <= 0 || damage <= 0)
         {
             return;
@@ -78,17 +94,10 @@ public class EnemyController : MonoBehaviour, IDamageable
             _vm.CurrentHp = 0;
         }
 
-        if (_vm == null)
-        {
-            Debug.LogError("ÄÁÆ®·Ñ·¯¿¡ ºä ¸ğµ¨ÀÌ ¾ø½À´Ï´Ù");
-            return;
-        }
-
-
         if (_vm.CurrentHp == 0)
         {
             Die();
-            // Ã¼·ÂÀÌ 0ÀÌ¸é »ç¸Á ¾Ë¸²
+            // ì²´ë ¥ì´ 0ì´ë©´ ì‚¬ë§ ì•Œë¦¼
         }
     }
 
@@ -171,7 +180,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private bool IsStateChangeable(EnemyBattleState newState)
     {
-        // ¿¹¿ÜÃ³¸® Àü¿ë (Æ¯Á¤ »óÅÂÀÏ¶§´Â ÇöÀç »óÅÂ°¡ ¾î¶²Áö¿¡ µû¶ó ÀüÈ¯ ¸øÇÏ°Ô ¹Ì¸® ¸·À½)
+        // ì˜ˆì™¸ì²˜ë¦¬ ì „ìš© (íŠ¹ì • ìƒíƒœì¼ë•ŒëŠ” í˜„ì¬ ìƒíƒœê°€ ì–´ë–¤ì§€ì— ë”°ë¼ ì „í™˜ ëª»í•˜ê²Œ ë¯¸ë¦¬ ë§‰ìŒ)
         if (newState == EnemyBattleState.Walk)
         {
             if (_currentStateEnum == EnemyBattleState.Attack)
@@ -205,7 +214,7 @@ public class EnemyController : MonoBehaviour, IDamageable
                 break;
 
             case EnemyBattleState.Attack:
-                // ÀÏÈ¸¼º Æ®¸®°Å ¿¹½Ã
+                // ì¼íšŒì„± íŠ¸ë¦¬ê±° ì˜ˆì‹œ
                 _animator.SetTrigger(AttackHash);
                 break;
 
@@ -215,7 +224,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
     }
 
-    // Bool ÆÄ¶ó¹ÌÅÍµéÀ» ÃÊ±âÈ­ÇØÁÖ´Â ÆíÀÇ ¸Ş¼­µå
+    // Bool íŒŒë¼ë¯¸í„°ë“¤ì„ ì´ˆê¸°í™”í•´ì£¼ëŠ” í¸ì˜ ë©”ì„œë“œ
     private void ResetBoolParameters()
     {
         _animator.SetBool(WalkHash, false);
@@ -232,7 +241,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void Die()
     {
-
+        _vm.IsActive = false;
         GameManager.Instance.ObjectManager.Despawn(this.gameObject);
     }
 }
