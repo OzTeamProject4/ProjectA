@@ -173,6 +173,28 @@ public class StageInfoPopupViewModel
         return result;
     }
 
+    public IReadOnlyList<RewardSlotViewModel> GetRewards()
+    {
+        List<RewardSlotViewModel> result = new List<RewardSlotViewModel>();
+
+        if (null == _stageData)
+        {
+            return result;
+        }
+
+        if (!_stageData.TryGetRewards(out (string ItemId, int Count)[] rewards))
+        {
+            return result;
+        }
+
+        foreach ((string ItemId, int Count) reward in rewards)
+        {
+            result.Add(new RewardSlotViewModel(reward.ItemId, reward.Count));
+        }
+
+        return result;
+    }
+
     // ===== 캐릭터 슬롯 =====
 
     public void SelectSlotCommand(int slotIndex)

@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 
 public class BattleManager : BaseManager<BattleManager>
 {
+    private const float DefaultBattleTime = 180f;
+
     private CinemachineCamera _cinemachineCamera;
     private TempPartySpawner _partySpawner;
     private PartyController _partyController;
@@ -267,19 +269,22 @@ public class BattleManager : BaseManager<BattleManager>
         CleanupPartyController();
         
         _partyController = new PartyController();
-        _battleTimer = new BattleTimer(120f);
+
+        bool hasStageData = GameManager.Instance.DataManager.TryGetData(stageId, out StageData stageData);
+
+        if (!hasStageData)
+        {
+            Debug.LogError($"{_stageId}StageData를 찾을수 없음");
+        }
+
+        _battleTimer = new BattleTimer(GetBattleTime(hasStageData ? stageData : null));
         _battleTimer.OnTimeOver += HandleTimeOver;
 
         BattleHUDView hudView = await GameManager.Instance.UIManager.OpenBattleHUDAsync(destroyCancellationToken);
 
-        if (GameManager.Instance.DataManager.TryGetData(stageId, out StageData stageData))
+        if (hasStageData)
         {
             hudView.SetStage(stageData.StageName);
-        }
-
-        else
-        {
-            Debug.LogError($"{_stageId}StageData를 찾을수 없음");
         }
 
         _hudPresenter = new BattleHUDPresenter();
@@ -289,6 +294,16 @@ public class BattleManager : BaseManager<BattleManager>
         _partyController.Initialize(characters, _cinemachineCamera);
         _battleTimer.StartTimer();
         SubscribeInputActions();
+    }
+
+    private float GetBattleTime(StageData stageData)
+    {
+        if (null == stageData || stageData.TimeLimit <= 0f)
+        {
+            return DefaultBattleTime;
+        }
+
+        return stageData.TimeLimit;
     }
 
     public void EndBattle(bool isVictory)

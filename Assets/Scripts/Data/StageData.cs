@@ -3,6 +3,7 @@
     public string StageName {  get; init; }
     public string StageNumber { get; init; }
     public string MapPrefabKey { get; init; }
+    public float TimeLimit { get; init; }
     public int WaveCount { get; init; }
     public string RewardItemId { get; init; }
     public string RewardItemCount { get; init; }

@@ -496,10 +496,13 @@ public class StudentModel : INotifyPropertyChanged
             return false;
         }
 
-        //TODO 여러 레벨이 한 번에 오르면 Level 세터가 매번 RecalculateStats를 불러 스탯 통지가 레벨 수만큼 나간다.
-        //     루프가 끝난 뒤 한 번만 재계산/통지하도록 묶는 것을 고려.
-        int gainedExperience = _currentExperience + amount;
+        CurrentExperience = ApplyLevelUp(_currentExperience + amount);
 
+        return true;
+    }
+
+    private int ApplyLevelUp(int experience)
+    {
         while (!IsMaxLevel)
         {
             int requiredExperience = _currentLevelData.RequiredExp;
@@ -509,23 +512,16 @@ public class StudentModel : INotifyPropertyChanged
                 break;
             }
 
-            if (gainedExperience < requiredExperience)
+            if (experience < requiredExperience)
             {
                 break;
             }
 
-            gainedExperience -= requiredExperience;
+            experience -= requiredExperience;
             Level++;
         }
 
-        if (IsMaxLevel && gainedExperience > _currentLevelData.RequiredExp)
-        {
-            gainedExperience = _currentLevelData.RequiredExp;
-        }
-
-        CurrentExperience = gainedExperience;
-
-        return true;
+        return experience;
     }
 
     public bool TryGradeUp()
@@ -551,6 +547,7 @@ public class StudentModel : INotifyPropertyChanged
         }
 
         Star++;
+        CurrentExperience = ApplyLevelUp(_currentExperience);
 
         return true;
     }

@@ -135,24 +135,37 @@ public class StudentManagementView : BaseUI
 
     private void HandleStudentCurrentExperienceChanged()
     {
-        int value = _studentManagementViewModel.CurrentExperience;
-
-        _studentManagementInfoView.UpdateExperienceSliderValue(value);
-        _studentManagementInfoView.UpdateExperienceText();
+        RefreshExperienceDisplay();
     }
 
     private void HandleStudentLevelChanged()
     {
         _studentManagementInfoView.UpdateLevelText(_studentManagementViewModel.Level);
 
-        _studentManagementInfoView.UpdateExperienceSliderRange(_studentManagementViewModel.CurrentExperience, _studentManagementViewModel.RequiredExp);
-
-        _studentManagementInfoView.UpdateExperienceText();
+        RefreshExperienceDisplay();
     }
 
     private void HandleStudentIsMaxLevelChanged()
     {
-        _studentManagementInfoView.InterectiveGradeUp(_studentManagementViewModel.IsMaxLevel);
+        bool isMaxLevel = _studentManagementViewModel.IsMaxLevel;
+
+        _studentManagementInfoView.InterectiveGradeUp(isMaxLevel);
+
+        _studentManagementInfoView.SetExperienceInventoryInteractable(!isMaxLevel);
+
+        RefreshExperienceDisplay();
+    }
+
+    private void RefreshExperienceDisplay()
+    {
+        if (_studentManagementViewModel.IsMaxLevel)
+        {
+            _studentManagementInfoView.UpdateExperienceAsMax();
+            return;
+        }
+
+        _studentManagementInfoView.UpdateExperienceSliderRange(_studentManagementViewModel.CurrentExperience, _studentManagementViewModel.RequiredExp);
+        _studentManagementInfoView.UpdateExperienceText();
     }
 
     private void HandleStudentHpChanged()
