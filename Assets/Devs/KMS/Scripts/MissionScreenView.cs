@@ -1,6 +1,6 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class MissionScreenView : BaseUI
 {
@@ -11,9 +11,10 @@ public class MissionScreenView : BaseUI
     [SerializeField] private Button _dailyMissionTabButton;
     [SerializeField] private Button _weeklyMissionTabButton;
 
-    [SerializeField] private TMP_Text _missionContentText;
-    [SerializeField] private Button _completeButton;
+    [SerializeField] private Transform _missionContent;
+    [SerializeField] private MissionSlotView _missionSlotTemplate;
 
+    private readonly List<MissionSlotView> _spawnedSlots = new();
     private void OnEnable()
     {
         ResetRectTransform();
@@ -22,6 +23,8 @@ public class MissionScreenView : BaseUI
         {
             return;
         }
+
+        CheckMissionData();
 
         RegisterButtonEvents();
         ShowAllMission();
@@ -40,8 +43,6 @@ public class MissionScreenView : BaseUI
         _scenarioMissionTabButton.onClick.AddListener(ShowScenarioMission);
         _dailyMissionTabButton.onClick.AddListener(ShowDailyMission);
         _weeklyMissionTabButton.onClick.AddListener(ShowWeeklyMission);
-
-        _completeButton.onClick.AddListener(OnCompleteButtonClicked);
     }
 
     private void UnRegisterButtonEvents()
@@ -57,8 +58,6 @@ public class MissionScreenView : BaseUI
         _scenarioMissionTabButton.onClick.RemoveListener(ShowScenarioMission);
         _dailyMissionTabButton.onClick.RemoveListener(ShowDailyMission);
         _weeklyMissionTabButton.onClick.RemoveListener(ShowWeeklyMission);
-
-        _completeButton.onClick.RemoveListener(OnCompleteButtonClicked);
     }
 
     private void OnBackToLobbyButtonClicked()
@@ -80,36 +79,63 @@ public class MissionScreenView : BaseUI
 
     private void ShowAllMission()
     {
-        SetMissionContent("¿¸√º πÃº«¿‘¥œ¥Ÿ.");
+        RefreshMissionSlots(null);
     }
 
     private void ShowScenarioMission()
     {
-        SetMissionContent("Ω√≥™∏Æø¿ πÃº«¿‘¥œ¥Ÿ.");
+        RefreshMissionSlots("Scenario");
     }
 
     private void ShowDailyMission()
     {
-        SetMissionContent("∏≈¿œ πÃº«¿‘¥œ¥Ÿ.");
+        RefreshMissionSlots("Daily");
     }
 
     private void ShowWeeklyMission()
     {
-        SetMissionContent("¡÷∞£ πÃº«¿‘¥œ¥Ÿ.");
+        RefreshMissionSlots("Weekly");
     }
 
-    private void OnCompleteButtonClicked()
+    private void RefreshMissionSlots(string category)
     {
-        _missionContentText.text = "πÃº«¿ª øœ∑·«ﬂΩ¿¥œ¥Ÿ.";
-        _completeButton.interactable = false;
+        ClearMissionSlots();
 
-        Debug.Log("Mission Completed.");
+        if (!GameManager.Instance.DataManager.TryGetDataTable(
+            out Dictionary<string, MissionData> missionTable))
+        {
+            Debug.LogError("ÎØ∏ÏÖò Îç∞Ïù¥ÌÑ∞Î•º Ï∞æÏùÑ Ïàò ÏóÜÏäµÎãàÎã§.");
+            return;
+        }
+
+        foreach (MissionData mission in missionTable.Values)
+        {
+            if (category != null && mission.Category != category)
+            {
+                continue;
+            }
+
+            MissionSlotView slot =
+                Instantiate(_missionSlotTemplate, _missionContent);
+
+            slot.Bind(mission);
+            slot.gameObject.SetActive(true);
+
+            _spawnedSlots.Add(slot);
+        }
     }
 
-    private void SetMissionContent(string missionContent)
+    private void ClearMissionSlots()
     {
-        _missionContentText.text = missionContent;
-        _completeButton.interactable = true;
+        foreach (MissionSlotView slot in _spawnedSlots)
+        {
+            if (slot != null)
+            {
+                Destroy(slot.gameObject);
+            }
+        }
+
+        _spawnedSlots.Clear();
     }
 
     private void ResetRectTransform()
@@ -135,13 +161,22 @@ public class MissionScreenView : BaseUI
             _scenarioMissionTabButton == null ||
             _dailyMissionTabButton == null ||
             _weeklyMissionTabButton == null ||
-            _missionContentText == null ||
-            _completeButton == null)
+            _missionContent == null ||
+            _missionSlotTemplate == null)
         {
             Debug.LogError("MissionScreen reference is not assigned.");
             return true;
         }
 
         return false;
+    }
+
+    private void CheckMissionData()
+    {
+        if (GameManager.Instance.DataManager.TryGetDataTable(
+            out Dictionary<string, MissionData> missionTable))
+        {
+            Debug.Log($"ÎØ∏ÏÖò Îç∞Ïù¥ÌÑ∞ Í∞úÏàò: {missionTable.Count}");
+        }
     }
 }
