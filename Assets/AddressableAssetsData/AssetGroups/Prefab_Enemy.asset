@@ -15,13 +15,33 @@ MonoBehaviour:
   m_GroupName: Prefab_Enemy
   m_GUID: fb91137459e58624d87284c18c3366db
   m_SerializeEntries:
+  - m_GUID: 04ee442203bb8eb4e96367b71a722901
+    m_Address: Prefabs/Enemy_Straw
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 12a20e8eb75dd3946ab2ee7505596076
     m_Address: Prefabs/Enemy_Wizard_Fire
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7aadb74098641e940a4c0c1a9d9ce53b
+    m_Address: Prefabs/Enemy_RootTree
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 99a6c10654034b64ab143681639c253d
+    m_Address: Prefabs/Enemy_Slime
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a9b4617be87cce744a6cb785f0f900a4
     m_Address: Prefabs/EnemySkill_Fireball
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ac965d1f172812c409a306b57a0bbfc3
+    m_Address: Prefabs/Enemy_Mushroom
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
