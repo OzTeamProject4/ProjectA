@@ -15,6 +15,7 @@ public class BattleManager : BaseManager<BattleManager>
     private PartyController _partyController;
     private BattleHUDPresenter _hudPresenter;
     private BattleTimer _battleTimer;
+    private List<string> _loadedPortraitKeys = new List<string>();
 
     public event Action<bool> OnBattleEnded;
     public event Action OnReturnToSelectRequested;
@@ -84,6 +85,14 @@ public class BattleManager : BaseManager<BattleManager>
         DespawnChildren(_enemyRoot);
         DespawnChildren(_enemySkillRoot);
 
+        if (GameManager.Instance != null)
+        {
+            foreach (string key in _loadedPortraitKeys)
+            {
+                GameManager.Instance.ResourceManager.ReleaseAsset(key);
+            }
+        }
+        _loadedPortraitKeys.Clear();
         CleanupPartyController();
     }
 
@@ -289,8 +298,7 @@ public class BattleManager : BaseManager<BattleManager>
 
         _hudPresenter = new BattleHUDPresenter();
         _hudPresenter.Initialize(hudView, _partyController, _battleTimer);
-
-
+        await LoadPartyPortraitsAsync(characters, hudView);
         _partyController.Initialize(characters, _cinemachineCamera);
         _battleTimer.StartTimer();
         SubscribeInputActions();
@@ -548,5 +556,64 @@ public class BattleManager : BaseManager<BattleManager>
     private void HandleTimeOver()
     {
         EndBattle(false);
+    }
+    private async UniTask LoadPartyPortraitsAsync(List<BattleCharacter> characters, BattleHUDView hudView)
+    {
+        for (int i = 0; i < characters.Count; i++)
+        {
+            BattleCharacter character = characters[i];
+            if (character == null)
+            {
+                continue;
+            }
+
+            string iconPath = character.CharacterIconPath;
+            if (string.IsNullOrEmpty(iconPath) == false)
+            {
+                Sprite portrait = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(iconPath);
+                if (portrait != null)
+                {
+                    character.SetPortraitSprite(portrait);
+                    _loadedPortraitKeys.Add(iconPath);
+                }
+                else
+                {
+                    Debug.LogError($"초상화 로드 실패 {iconPath}");
+                }
+            }
+
+            string elementIconKey = GetElementIconKey(character.ElementType);
+            if (string.IsNullOrEmpty(elementIconKey) == false)
+            {
+                Sprite elementIcon = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(elementIconKey);
+                if (elementIcon != null)
+                {
+                    character.SetElementIcon(elementIcon);
+                    _loadedPortraitKeys.Add(elementIconKey);
+                }
+                else
+                {
+                    Debug.LogError($"속성 아이콘 로드 실패 {elementIconKey}");
+                }
+            }
+        }
+    }
+    private string GetElementIconKey(ElementType elementType)
+    {
+        // UI_Icon 시트 sub-sprite 인덱스 매핑 (11=불, 26=물, 20=풀, 12=무)
+        // 스프라이트 시트 재slice 시 인덱스가 바뀔 수 있으니 주의
+        switch (elementType)
+        {
+            case ElementType.Fire:
+                return "UI/UI_Icon[UI_Icon_11]";
+            case ElementType.Water:
+                return "UI/UI_Icon[UI_Icon_26]";
+            case ElementType.Grass:
+                return "UI/UI_Icon[UI_Icon_20]";
+            case ElementType.Normal:
+                return "UI/UI_Icon[UI_Icon_12]";
+            default:
+                return string.Empty;
+        }
     }
 }

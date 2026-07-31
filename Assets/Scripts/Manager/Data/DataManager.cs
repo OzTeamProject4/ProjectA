@@ -63,9 +63,9 @@ public class DataManager : BaseManager<DataManager>
                         new LoadingTask(LoadingStep.LoadStageData, AddressableKey.Data.Stage, LoadDataAsync<StageData>),
             new LoadingTask(LoadingStep.LoadStageWaveData, AddressableKey.Data.StageWave, LoadDataAsync<StageWaveData>),
             new LoadingTask(LoadingStep.LoadEnemyData, AddressableKey.Data.Enemy, LoadDataAsync<EnemyData>),
-            new LoadingTask(LoadingStep.LoadEnemySkillData, AddressableKey.Data.EnemySkill, LoadDataAsync<EnemySkillData>)
+            new LoadingTask(LoadingStep.LoadEnemySkillData, AddressableKey.Data.EnemySkill, LoadDataAsync<EnemySkillData>),
 
-
+            new LoadingTask(LoadingStep.LoadMissionData, AddressableKey.Data.MissionList, LoadDataAsync<MissionData>)
 
         };
 

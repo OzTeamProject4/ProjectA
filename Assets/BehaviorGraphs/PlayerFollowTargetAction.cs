@@ -45,34 +45,29 @@ public partial class PlayerFollowTargetAction : Action
         {
             return Status.Failure;
         }
-
         if (_navMeshAgent.isOnNavMesh == false)
         {
             return Status.Failure;
         }
-
         float distance = Vector3.Distance(Self.Value.transform.position, Target.Value.transform.position);
         if (distance <= _navMeshAgent.stoppingDistance)
         {
             _battleCharacter.Move(Vector3.zero, false);
             return Status.Success;
         }
-
         _navMeshAgent.nextPosition = Self.Value.transform.position;
         _navMeshAgent.SetDestination(Target.Value.transform.position);
-
         Vector3 direction = _navMeshAgent.desiredVelocity;
         direction.y = 0;
-
         if (direction.sqrMagnitude < 0.01f)
         {
             _battleCharacter.Move(Vector3.zero, false);
             return Status.Running;
         }
-
         _battleCharacter.Move(direction.normalized, IsRunning.Value);
         return Status.Running;
     }
+
 
     protected override void OnEnd()
     {
