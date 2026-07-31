@@ -1,4 +1,6 @@
-﻿using TMPro;
+﻿using Cysharp.Threading.Tasks;
+using System.Threading;
+using TMPro;
 using UnityEngine;
 
 public class DialogueView : BaseUI
@@ -13,22 +15,30 @@ public class DialogueView : BaseUI
     [SerializeField] private CharacterPortraitView _rightPortrait;
 
     [Header("Buttons")]
-    [SerializeField] private DialogueButton _nextButton;
+    [SerializeField] private DialogueNextButton _nextButton;
 
     [Header("Choice")]
     [SerializeField] private ChoiceListView _choiceListView;
 
+    //[Header("Buttons")]
+    //[SerializeField] private Button _skipButton;
+    [SerializeField] private DialogueAutoButton _autoButton;
+    //[SerializeField] private Button _logButton; 
+
     private DialogueViewModel _dialogueViewModel;
+
 
     private void Awake()
     {
-        UnityUtil.ValidateReference(_speakerNameText, nameof(AudioClip), nameof(_speakerNameText));
-        UnityUtil.ValidateReference(_dialogueText, nameof(AudioClip), nameof(_dialogueText));
-        UnityUtil.ValidateReference(_dialogueText, nameof(AudioClip), nameof(_leftPortrait));
-        UnityUtil.ValidateReference(_dialogueText, nameof(AudioClip), nameof(_centerPortrait));
-        UnityUtil.ValidateReference(_dialogueText, nameof(AudioClip), nameof(_rightPortrait));
-        UnityUtil.ValidateReference(_nextButton, nameof(AudioClip), nameof(_nextButton));
-        UnityUtil.ValidateReference(_choiceListView, nameof(AudioClip), nameof(_choiceListView));
+        UnityUtil.ValidateReference(_speakerNameText, nameof(DialogueView), nameof(_speakerNameText));
+        UnityUtil.ValidateReference(_dialogueText, nameof(DialogueView), nameof(_dialogueText));
+        UnityUtil.ValidateReference(_dialogueText, nameof(DialogueView), nameof(_leftPortrait));
+        UnityUtil.ValidateReference(_dialogueText, nameof(DialogueView), nameof(_centerPortrait));
+        UnityUtil.ValidateReference(_dialogueText, nameof(DialogueView), nameof(_rightPortrait));
+        UnityUtil.ValidateReference(_nextButton, nameof(DialogueView), nameof(_nextButton));
+        UnityUtil.ValidateReference(_choiceListView, nameof(DialogueView), nameof(_choiceListView));
+
+        UnityUtil.ValidateReference(_autoButton, nameof(DialogueView), nameof(_autoButton));
 
         _dialogueViewModel = new DialogueViewModel();
     }
@@ -85,6 +95,9 @@ public class DialogueView : BaseUI
             case nameof(_dialogueViewModel.IsChoiceOpen):
                 UpdateChoiceListVisibility();
                 break;
+            case nameof(_dialogueViewModel.IsAutoMode):
+                UpdateAutoButtonSprite();
+                break;
         }
     }
 
@@ -130,16 +143,23 @@ public class DialogueView : BaseUI
         _choiceListView.gameObject.SetActive(_dialogueViewModel.IsChoiceOpen);
     }
 
+    private void UpdateAutoButtonSprite()
+    {
+        _autoButton.UpdateButtonSprite(_dialogueViewModel.IsAutoMode);
+    }
+
     private void SubscribeEvents()
     {
         _nextButton.ButtonClicked += HandleNextClicked;
         _choiceListView.ChoiceSelected += HandleChoiceSelected;
+        _autoButton.ButtonClicked += HandleAutoModeClicked;
     }
 
     private void UnsubscribeEvents()
     {
         _nextButton.ButtonClicked -= HandleNextClicked;
         _choiceListView.ChoiceSelected -= HandleChoiceSelected;
+        _autoButton.ButtonClicked -= HandleAutoModeClicked;
     }
 
     private void HandleNextClicked()
@@ -151,23 +171,20 @@ public class DialogueView : BaseUI
     {
         GameManager.Instance.DialogueManager.SelectChoice(nextDialogueId);
     }
+
+    private void HandleAutoModeClicked()
+    {
+        GameManager.Instance.DialogueManager.RequestToggleAutoMode();
+    } 
 }
 
 
     //[Header("Background")]
     //[SerializeField] private Image _backgroundImage; 
 
-    //[Header("Character")]
-    //[SerializeField] private Image _leftPortraitImage; 
-    //[SerializeField] private Image _centerPortraitImage; 
-    //[SerializeField] private Image _rightPortraitImage; 
     
 
 
-    //[Header("Buttons")]
-    //[SerializeField] private Button _skipButton;
-    //[SerializeField] private Button _autoButton; 
-    //[SerializeField] private Button _logButton; 
     
 
 

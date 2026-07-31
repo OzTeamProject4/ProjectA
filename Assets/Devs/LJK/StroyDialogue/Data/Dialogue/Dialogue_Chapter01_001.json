@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "DataId": "D1",
     "Order": 1,
@@ -12,7 +12,7 @@
     "ActiveCharacter": "Teacher",
     "Background": "BG_Classroom",
     "Bgm": "BGM_School",
-    "AutoNextDelay": 0
+    "AutoNextDelay": 1
   },
   {
     "DataId": "D2",
@@ -27,7 +27,7 @@
     "ActiveCharacter": "Alice",
     "Background": null,
     "Bgm": null,
-    "AutoNextDelay": 0
+    "AutoNextDelay": 1
   },
   {
     "DataId": "D3",
@@ -35,7 +35,7 @@
     "SpeakerName": "Teacher",
     "Text": "출격하자.",
     "ChoiceGroupId": null,
-    "NextDialogueId": null,
+    "NextDialogueId": "D4",
     "LeftCharacter": "Teacher",
     "CenterCharacter": null,
     "RightCharacter": "Alice",
@@ -57,6 +57,6 @@
     "ActiveCharacter": "Alice",
     "Background": "BG_Battlefield",
     "Bgm": "BGM_Result",
-    "AutoNextDelay": 0
+    "AutoNextDelay": 1
   }
 ]

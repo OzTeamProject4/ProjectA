@@ -70,6 +70,14 @@ public class DialogueViewModel
         }
     }
 
+    public bool IsAutoMode
+    {
+        get 
+        {
+            return _dialogueModel.IsAutoMode;
+        }
+    }
+
     public event Action<string> ModelPropertyChanged;
 
     public DialogueViewModel()

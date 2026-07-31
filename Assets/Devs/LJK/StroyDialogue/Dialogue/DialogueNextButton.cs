@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class DialogueButton : BaseButton
+public class DialogueNextButton : BaseButton
 {
     public event Action ButtonClicked;
 

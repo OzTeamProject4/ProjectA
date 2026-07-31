@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class DialogueManager : BaseManager<DialogueManager>
@@ -11,8 +12,12 @@ public class DialogueManager : BaseManager<DialogueManager>
     private string _currentStoryKey;
     private string _currentDialogueId;
 
+    private bool _isRunningAutoMode;
+
     private readonly Dictionary<string, DialogueData> _dialogueLines = new Dictionary<string, DialogueData>();
     private readonly Dictionary<string, List<ChoiceData>> _choiceDataDictionary = new Dictionary<string, List<ChoiceData>>();
+
+    private CancellationTokenSource _autoModeCts;
 
     public override UniTask InitializeAsync()
     {
@@ -30,6 +35,9 @@ public class DialogueManager : BaseManager<DialogueManager>
             return;
         }
 
+        _isRunningAutoMode = false;
+
+        _dialogueModel.SetAutoMode(false);
         _dialogueModel.UpdateDialogue(dialogueData);
 
         GameManager.Instance.UIManager.OpenDialogueAsync().Forget();
@@ -71,6 +79,90 @@ public class DialogueManager : BaseManager<DialogueManager>
         ChangeDialogue(nextDialogueId);
     }
 
+    public void RequestToggleAutoMode()
+    {
+        bool targetMode = !_dialogueModel.IsAutoMode;
+
+        if (targetMode)
+        {
+            StartAutoMode();
+            return;
+        }
+
+        StopAutoMode();
+    }
+
+    private void StartAutoMode()
+    {
+        if (_isRunningAutoMode)
+        {
+            return;
+        }
+
+        if (_autoModeCts != null)
+        {
+            _autoModeCts.Cancel();
+            _autoModeCts.Dispose();
+        }
+
+        _autoModeCts = new CancellationTokenSource();
+
+        _dialogueModel.SetAutoMode(true);
+
+        RunAutoModeAsync(_autoModeCts.Token).Forget();
+    }
+
+    private void StopAutoMode()
+    {
+        _dialogueModel.SetAutoMode(false);
+
+        if (_autoModeCts != null)
+        {
+            _autoModeCts.Cancel();
+            _autoModeCts.Dispose();
+            _autoModeCts = null;
+        }
+    }
+
+    private async UniTask RunAutoModeAsync(CancellationToken cancellationToken)
+    {
+        _isRunningAutoMode = true;
+
+        try
+        {
+            AdvanceDialogue();
+
+            while (_dialogueModel.IsAutoMode)
+            {
+                if (!_dialogueLines.TryGetValue(_currentDialogueId, out DialogueData dialogueData))
+                {
+                    Debug.LogError($"[{nameof(DialogueManager)}:{nameof(RunAutoModeAsync)}] '{_currentDialogueId}' 대화 데이터를 찾을 수 없습니다.");
+                    return;
+                }
+
+                if (dialogueData.AutoNextDelay <= 0)
+                {
+                    StopAutoMode();
+                    return;
+                }
+
+                await UniTask.Delay(TimeSpan.FromSeconds(dialogueData.AutoNextDelay), cancellationToken: cancellationToken);
+
+                if (!_dialogueModel.IsAutoMode)
+                {
+                    return;
+                }
+
+                AdvanceDialogue();
+            }
+        }
+        catch (OperationCanceledException) { }
+        finally
+        {
+            _isRunningAutoMode = false;
+        }
+    }
+
     private void ChangeDialogue(string dialogueId)
     {
         _currentDialogueId = dialogueId;
@@ -108,6 +200,11 @@ public class DialogueManager : BaseManager<DialogueManager>
 
     private void EndDialogue()
     {
+        if (_isRunningAutoMode)
+        {
+            StopAutoMode();
+        }
+
         GameManager.Instance.UIManager.CloseDialogue();
     }
 

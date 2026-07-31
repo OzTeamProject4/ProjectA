@@ -13,6 +13,7 @@ public class DialogueModel : INotifyPropertyChanged
     private static readonly PropertyChangedEventArgs ActiveCharacterIdChanged = new PropertyChangedEventArgs(nameof(ActiveCharacterId));
     private static readonly PropertyChangedEventArgs IsChoiceOpenChanged = new PropertyChangedEventArgs(nameof(IsChoiceOpen));
     private static readonly PropertyChangedEventArgs ChoicesChanged = new PropertyChangedEventArgs(nameof(Choices));
+    private static readonly PropertyChangedEventArgs AutoModeChanged = new PropertyChangedEventArgs(nameof(IsAutoMode));
 
     private string _speakerNameText;
     private string _dialogueText;
@@ -23,6 +24,8 @@ public class DialogueModel : INotifyPropertyChanged
     private string _rightCharacterId;
 
     public string _activeCharacterId;
+
+    private bool _isAutoMode;
 
     private IReadOnlyList<ChoiceData> _choices = Array.Empty<ChoiceData>();
 
@@ -117,6 +120,19 @@ public class DialogueModel : INotifyPropertyChanged
         }
     }
 
+    public bool IsAutoMode
+    {
+        get { return _isAutoMode; }
+        private set
+        {
+            if (_isAutoMode != value)
+            {
+                _isAutoMode = value;
+                OnPropertyChanged(AutoModeChanged);
+            }
+        }
+    }
+
     public IReadOnlyList<ChoiceData> Choices
     {
         get { return _choices; }
@@ -158,6 +174,11 @@ public class DialogueModel : INotifyPropertyChanged
         IsChoiceOpen = isOpen;
     }
 
+    public void SetAutoMode(bool isAutoMode)
+    {
+        IsAutoMode = isAutoMode;
+    }
+
     public void NotifyAllProperties()
     {
         OnPropertyChanged(SpeakerNameTextChanged);
@@ -168,6 +189,7 @@ public class DialogueModel : INotifyPropertyChanged
         OnPropertyChanged(IsChoiceOpenChanged);
         OnPropertyChanged(ChoicesChanged);
         OnPropertyChanged(ActiveCharacterIdChanged);
+        OnPropertyChanged(AutoModeChanged);
     }
 
     private void OnPropertyChanged(PropertyChangedEventArgs propertyChangedEventArgs)
