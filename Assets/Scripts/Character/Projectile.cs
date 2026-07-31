@@ -19,7 +19,8 @@ public class Projectile : MonoBehaviour
     private float _explosionRadius;
     private float _projectileSpeed;
     private float _spawnTime = float.MaxValue;
-    
+    private string _hitSfxId;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -77,12 +78,17 @@ public class Projectile : MonoBehaviour
                 _ownerSkillSystem.AddGauge(_gaugeRecovery);
             }
 
+            if (string.IsNullOrEmpty(_hitSfxId) == false)
+            {
+                GameManager.Instance.AudioManager.PlaySFX(_hitSfxId);
+            }
+
             SpawnHitEffect();
 
             GameManager.Instance.ObjectManager.Despawn(gameObject);
         }
     }
-    public void Launch(Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float projectileSpeed, float explosionRadius)
+    public void Launch(Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float projectileSpeed, float explosionRadius, string hitSfxId)
     {
         _rigidbody.linearVelocity = Vector3.zero;
         _rigidbody.angularVelocity = Vector3.zero;
@@ -93,6 +99,7 @@ public class Projectile : MonoBehaviour
         _explosionRadius = explosionRadius;
         _projectileSpeed = projectileSpeed;
         _spawnTime = Time.time;
+        _hitSfxId = hitSfxId;
 
         if (target != null)
         {

@@ -6,7 +6,7 @@ public class CharacterAttack : MonoBehaviour
     [SerializeField] private Transform _firePoint;
     //TODO 희준 : 임시 공격 쿨타임 추후 변경필요
 
-    public void FireProjectile(string prefabKey, Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float projectileSpeed, float explosionRadius = 0)
+    public void FireProjectile(string prefabKey, Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float projectileSpeed, float explosionRadius = 0, string hitSfxId = null)
     {
         if (string.IsNullOrEmpty(prefabKey) == true)
         {
@@ -20,10 +20,10 @@ public class CharacterAttack : MonoBehaviour
             return;
         }
 
-        FireProjectileAsync(prefabKey, target, damage, owner, gaugeRecovery, projectileSpeed, explosionRadius).Forget();
+        FireProjectileAsync(prefabKey, target, damage, owner, gaugeRecovery, projectileSpeed, explosionRadius, hitSfxId).Forget();
     }
 
-    private async UniTaskVoid FireProjectileAsync(string prefabKey, Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float projectileSpeed, float explosionRadius)
+    private async UniTaskVoid FireProjectileAsync(string prefabKey, Transform target, int damage, CharacterSkillSystem owner, int gaugeRecovery, float projectileSpeed, float explosionRadius, string hitSfxId)
     {
         try
         {
@@ -35,7 +35,7 @@ public class CharacterAttack : MonoBehaviour
 
             if (projectile.TryGetComponent(out Projectile projectileComponent) == true)
             {
-                projectileComponent.Launch(target, damage, owner, gaugeRecovery, projectileSpeed, explosionRadius);
+                projectileComponent.Launch(target, damage, owner, gaugeRecovery, projectileSpeed, explosionRadius, hitSfxId);
             }
         }
         catch (System.OperationCanceledException)

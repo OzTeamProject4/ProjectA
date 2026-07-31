@@ -14,7 +14,9 @@
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
     "SkillRange": 30,
-    "IconPath": "IconSkill[SkillFire001]"
+    "IconPath": "IconSkill[SkillFire001]",
+    "CastSfxId": "CastSfx_Fire_001",
+    "HitSfxId": "HitSfx_Fire_001"
   },
   {
     "DataId": "Skill_Fire_002",
@@ -31,7 +33,9 @@
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
     "SkillRange": 30,
-    "IconPath": "IconSkill[SkillFire002]"
+    "IconPath": "IconSkill[SkillFire002]",
+    "CastSfxId": "CastSfx_Fire_002",
+    "HitSfxId": ""
   },
   {
     "DataId": "Skill_Fire_003",
@@ -48,7 +52,9 @@
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
     "SkillRange": 60,
-    "IconPath": "IconSkill[SkillFire003]"
+    "IconPath": "IconSkill[SkillFire003]",
+    "CastSfxId": "CastSfx_Fire_003",
+    "HitSfxId": "HitSfx_Fire_003"
   },
   {
     "DataId": "Skill_Water_001",
@@ -65,7 +71,9 @@
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
     "SkillRange": 30,
-    "IconPath": "IconSkill[SkillWater001]"
+    "IconPath": "IconSkill[SkillWater001]",
+    "CastSfxId": "CastSfx_Water_001",
+    "HitSfxId": "HitSfx_Water_001"
   },
   {
     "DataId": "Skill_Water_002",
@@ -82,7 +90,9 @@
     "MoveSpeedBuff": 5,
     "BuffDuration": 10,
     "SkillRange": 0,
-    "IconPath": "IconSkill[SkillWater002]"
+    "IconPath": "IconSkill[SkillWater002]",
+    "CastSfxId": "CastSfx_Water_002",
+    "HitSfxId": ""
   },
   {
     "DataId": "Skill_Water_003",
@@ -99,7 +109,9 @@
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
     "SkillRange": 60,
-    "IconPath": "IconSkill[SkillWater003]"
+    "IconPath": "IconSkill[SkillWater003]",
+    "CastSfxId": "CastSfx_Water_003",
+    "HitSfxId": "HitSfx_Water_003"
   },
   {
     "DataId": "Skill_Grass_001",
@@ -116,7 +128,9 @@
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
     "SkillRange": 36,
-    "IconPath": "IconSkill[SkillGrass001]"
+    "IconPath": "IconSkill[SkillGrass001]",
+    "CastSfxId": "CastSfx_Grass_001",
+    "HitSfxId": "HitSfx_Grass_001"
   },
   {
     "DataId": "Skill_Grass_002",
@@ -133,7 +147,9 @@
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
     "SkillRange": 42,
-    "IconPath": "IconSkill[SkillGrass002]"
+    "IconPath": "IconSkill[SkillGrass002]",
+    "CastSfxId": "CastSfx_Grass_002",
+    "HitSfxId": "HitSfx_Grass_002"
   },
   {
     "DataId": "Skill_Grass_003",
@@ -150,7 +166,9 @@
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
     "SkillRange": 66,
-    "IconPath": "IconSkill[SkillGrass003]"
+    "IconPath": "IconSkill[SkillGrass003]",
+    "CastSfxId": "CastSfx_Grass_003",
+    "HitSfxId": "HitSfx_Grass_003"
   },
   {
     "DataId": "Skill_Normal_001",
@@ -167,7 +185,9 @@
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
     "SkillRange": 33,
-    "IconPath": "IconSkill[SkillNormal001]"
+    "IconPath": "IconSkill[SkillNormal001]",
+    "CastSfxId": "CastSfx_Normal_001",
+    "HitSfxId": "HitSfx_Normal_001"
   },
   {
     "DataId": "Skill_Normal_002",
@@ -184,7 +204,9 @@
     "MoveSpeedBuff": 10,
     "BuffDuration": 13,
     "SkillRange": 0,
-    "IconPath": "IconSkill[SkillNormal002]"
+    "IconPath": "IconSkill[SkillNormal002]",
+    "CastSfxId": "CastSfx_Normal_002",
+    "HitSfxId": ""
   },
   {
     "DataId": "Skill_Normal_003",
@@ -201,7 +223,9 @@
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
     "SkillRange": 72,
-    "IconPath": "IconSkill[SkillNormal003]"
+    "IconPath": "IconSkill[SkillNormal003]",
+    "CastSfxId": "CastSfx_Normal_003",
+    "HitSfxId": ""
   },
   {
     "DataId": "Skill_Normal_010",
@@ -218,7 +242,9 @@
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
     "SkillRange": 36,
-    "IconPath": "IconSkill[SkillNormal010]"
+    "IconPath": "IconSkill[SkillNormal010]",
+    "CastSfxId": "CastSfx_Normal_010",
+    "HitSfxId": "HitSfx_Normal_010"
   },
   {
     "DataId": "Skill_Normal_020",
@@ -235,7 +261,9 @@
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
     "SkillRange": 42,
-    "IconPath": "IconSkill[SkillNormal020]"
+    "IconPath": "IconSkill[SkillNormal020]",
+    "CastSfxId": "CastSfx_Normal_020",
+    "HitSfxId": "HitSfx_Normal_020"
   },
   {
     "DataId": "Skill_Normal_030",
@@ -252,6 +280,8 @@
     "MoveSpeedBuff": 0,
     "BuffDuration": 0,
     "SkillRange": 72,
-    "IconPath": "IconSkill[SkillNormal030]"
+    "IconPath": "IconSkill[SkillNormal030]",
+    "CastSfxId": "CastSfx_Normal_030",
+    "HitSfxId": "HitSfx_Normal_030"
   }
 ]
