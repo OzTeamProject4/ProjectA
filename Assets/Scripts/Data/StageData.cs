@@ -1,13 +1,28 @@
-public class StageData : BaseData
+﻿public class StageData : BaseData
 {
     public string StageName {  get; init; }
+    public string StageNumber { get; init; }
     public string MapPrefabKey { get; init; }
+    public float TimeLimit { get; init; }
     public int WaveCount { get; init; }
     public string RewardItemId { get; init; }
     public string RewardItemCount { get; init; }
 
     private string[] _rewardItemIds;
     private int[] _rewardItemCounts;
+
+    public string DisplayName
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(StageNumber))
+            {
+                return StageName;
+            }
+
+            return $"Stage{StageNumber}: {StageName}";
+        }
+    }
 
     public string[] RewardItemIds
     {

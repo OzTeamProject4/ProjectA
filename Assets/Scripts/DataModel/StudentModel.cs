@@ -31,7 +31,7 @@ public static class StudentDataId
 }
 public class StudentGradeData : BaseData
 {
-    public int Star { get; init; } //TODO 사용처 없음 확인바람
+    public int Star { get; init; }
     public int MaxLevel { get; init; }
     public int RequiredToNext { get; init; }
     public float HpGrow { get; init; }
@@ -42,7 +42,7 @@ public class StudentGradeData : BaseData
 
 public class StudentLevelData : BaseData
 {
-    public int Level { get; init; } //TODO 사용처 없음 확인바람
+    public int Level { get; init; }
     public int RequiredExp { get; init; }
 }
 
@@ -81,6 +81,8 @@ public struct StatData
 
 public class StudentModel : INotifyPropertyChanged
 {
+    private const int BaseStandImageNumber = 1;
+
     private static readonly PropertyChangedEventArgs NameChanged = new PropertyChangedEventArgs(nameof(Name));
     private static readonly PropertyChangedEventArgs StarChanged = new PropertyChangedEventArgs(nameof(Star));
     private static readonly PropertyChangedEventArgs ElementTypeChanged = new PropertyChangedEventArgs(nameof(ElementType));
@@ -305,7 +307,7 @@ public class StudentModel : INotifyPropertyChanged
         _star = studentData.Star;
         _elementType = studentData.Type;
         _portraitKey = studentData.CharacterIconPath;
-        _fullBodyKey = CreateFullBodyKey(studentData.CharacterIconPath);
+        _fullBodyKey = CreateFullBodyKey(studentData.StandImagePath);
         _currentExperience = 0;
         _level = 1;
 
@@ -325,25 +327,14 @@ public class StudentModel : INotifyPropertyChanged
         RecalculateStats();
     }
 
-    //TODO StudentData에 전신 이미지 컬럼이 없어 초상화 키에서 파생시킨다. 컬럼이 생기면 그 값을 쓸 것
-    // Icon/Lumi → StandImage/Lumi
-    private static string CreateFullBodyKey(string portraitKey)
+    private static string CreateFullBodyKey(string standImagePath)
     {
-        if (string.IsNullOrWhiteSpace(portraitKey))
+        if (string.IsNullOrWhiteSpace(standImagePath))
         {
             return string.Empty;
         }
 
-        int separatorIndex = portraitKey.LastIndexOf('/');
-
-        if (separatorIndex < 0 || separatorIndex == portraitKey.Length - 1)
-        {
-            return string.Empty;
-        }
-
-        string characterName = portraitKey.Substring(separatorIndex + 1);
-
-        return $"StandImage/{characterName}";
+        return $"{standImagePath}{BaseStandImageNumber}";
     }
 
     public void NotifyAllProperties()
@@ -436,7 +427,6 @@ public class StudentModel : INotifyPropertyChanged
         StatData equipmentStats = new StatData();
         InventoryModel inventoryModel = NetworkManagerTemp.Instance.InventoryModel;
 
-        // 담긴 값은 InstanceId다. 마스터 데이터를 다시 조회하지 않고 인스턴스가 들고 있는 StatInfos를 합산한다
         foreach (string instanceId in _equippedItemIds.Values)
         {
             if (!inventoryModel.TryGetEquipment(instanceId, out EquipmentModel equipmentModel))
@@ -506,10 +496,13 @@ public class StudentModel : INotifyPropertyChanged
             return false;
         }
 
-        //TODO 여러 레벨이 한 번에 오르면 Level 세터가 매번 RecalculateStats를 불러 스탯 통지가 레벨 수만큼 나간다.
-        //     루프가 끝난 뒤 한 번만 재계산/통지하도록 묶는 것을 고려.
-        int gainedExperience = _currentExperience + amount;
+        CurrentExperience = ApplyLevelUp(_currentExperience + amount);
 
+        return true;
+    }
+
+    private int ApplyLevelUp(int experience)
+    {
         while (!IsMaxLevel)
         {
             int requiredExperience = _currentLevelData.RequiredExp;
@@ -519,23 +512,16 @@ public class StudentModel : INotifyPropertyChanged
                 break;
             }
 
-            if (gainedExperience < requiredExperience)
+            if (experience < requiredExperience)
             {
                 break;
             }
 
-            gainedExperience -= requiredExperience;
+            experience -= requiredExperience;
             Level++;
         }
 
-        if (IsMaxLevel && gainedExperience > _currentLevelData.RequiredExp)
-        {
-            gainedExperience = _currentLevelData.RequiredExp;
-        }
-
-        CurrentExperience = gainedExperience;
-
-        return true;
+        return experience;
     }
 
     public bool TryGradeUp()
@@ -561,6 +547,7 @@ public class StudentModel : INotifyPropertyChanged
         }
 
         Star++;
+        CurrentExperience = ApplyLevelUp(_currentExperience);
 
         return true;
     }

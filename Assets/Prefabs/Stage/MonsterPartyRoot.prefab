@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1357133131474940219}
   - component: {fileID: 158743970779387831}
+  - component: {fileID: 5422751318011906878}
   - component: {fileID: 7791950196357461657}
   m_Layer: 11
   m_Name: MonsterPartyRoot
@@ -46,6 +47,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3747b7240a129904bbd722cff4c42c32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageMonsterParty
+--- !u!114 &5422751318011906878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3793812955786678734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f7c3760431d56b4e9a43205945fb846, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StageMonsterPartyBillboard
 --- !u!135 &7791950196357461657
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -65,7 +78,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 5
+  m_Radius: 3
   m_Center: {x: 0, y: 2, z: 0}
 --- !u!1 &4405651104848826956
 GameObject:

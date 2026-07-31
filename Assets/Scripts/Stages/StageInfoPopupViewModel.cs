@@ -31,7 +31,7 @@ public class StageInfoPopupViewModel
                 return string.Empty;
             }
 
-            return _stageData.StageName;
+            return _stageData.DisplayName;
         }
     }
 
@@ -168,6 +168,28 @@ public class StageInfoPopupViewModel
 
                 result.Add(monsterId);
             }
+        }
+
+        return result;
+    }
+
+    public IReadOnlyList<RewardSlotViewModel> GetRewards()
+    {
+        List<RewardSlotViewModel> result = new List<RewardSlotViewModel>();
+
+        if (null == _stageData)
+        {
+            return result;
+        }
+
+        if (!_stageData.TryGetRewards(out (string ItemId, int Count)[] rewards))
+        {
+            return result;
+        }
+
+        foreach ((string ItemId, int Count) reward in rewards)
+        {
+            result.Add(new RewardSlotViewModel(reward.ItemId, reward.Count));
         }
 
         return result;

@@ -9,11 +9,14 @@ public class StageInfoPopupView : BaseUI
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private Transform _monsterListContainer;
     [SerializeField] private MonsterListSlotView _monsterItemPrefab;
+    [SerializeField] private Transform _rewardListContainer;
+    [SerializeField] private RewardSlotView _rewardSlotPrefab;
     [SerializeField] private Button _startButton;
     [SerializeField] private Button _blockerButton;
     [SerializeField] private PartySlotButton[] _partySlots;
 
     private readonly List<MonsterListSlotView> _spawnedItems = new List<MonsterListSlotView>();
+    private readonly List<RewardSlotView> _spawnedRewards = new List<RewardSlotView>();
 
     private StageInfoPopupViewModel _viewModel;
     private bool _isSubscribed;
@@ -34,6 +37,7 @@ public class StageInfoPopupView : BaseUI
     {
         Unsubscribe();
         ClearItems();
+        ClearRewards();
 
         _isPartySelectPopupRequested = false;
         _partySelectPopup = null;
@@ -124,7 +128,41 @@ public class StageInfoPopupView : BaseUI
         }
 
         RefreshMonsterList();
+        RefreshRewardList();
         RefreshAllSlotIcons();
+    }
+
+    private void RefreshRewardList()
+    {
+        ClearRewards();
+
+        if (null == _rewardListContainer || null == _rewardSlotPrefab)
+        {
+            return;
+        }
+
+        foreach (RewardSlotViewModel rewardViewModel in _viewModel.GetRewards())
+        {
+            RewardSlotView slot = Instantiate(_rewardSlotPrefab, _rewardListContainer);
+            slot.Bind(rewardViewModel);
+
+            _spawnedRewards.Add(slot);
+        }
+    }
+
+    private void ClearRewards()
+    {
+        foreach (RewardSlotView slot in _spawnedRewards)
+        {
+            if (null == slot)
+            {
+                continue;
+            }
+
+            Destroy(slot.gameObject);
+        }
+
+        _spawnedRewards.Clear();
     }
 
     private void RefreshAllSlotIcons()

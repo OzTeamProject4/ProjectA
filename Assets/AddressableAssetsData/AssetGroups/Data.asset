@@ -60,8 +60,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aac4c2ce70f28b648aace11a1da1b7c8
+    m_Address: Data/MissionList
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ad06cf3dbd9ae954cb9bc0795ac8f4a9
     m_Address: Data/StudentGrade
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b9898fd81f9b83249aeb10200edec78c
+    m_Address: Data/Audio
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

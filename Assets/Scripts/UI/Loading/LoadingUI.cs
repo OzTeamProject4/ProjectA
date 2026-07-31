@@ -40,6 +40,7 @@ public class LoadingUI : BaseUI
         IProgress<LoadingProgress> progress = new Progress<LoadingProgress>(OnLoadingProgressChanged);
 
         await GameManager.Instance.DataManager.LoadRuntimeDataAsync(progress);
+        await GameManager.Instance.AudioManager.LoadAudioClipsAsync();
 
         await UniTask.WaitUntil(IsLoadingCompleted);
 

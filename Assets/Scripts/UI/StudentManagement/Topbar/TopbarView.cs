@@ -5,7 +5,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-//TODO 버튼이 늘어나면(Setting/Home) 여기에 필드와 이벤트를 추가
 public class TopbarView : MonoBehaviour
 {
     private const string CurrencyCountFormat = "N0";
