@@ -14,7 +14,15 @@ public class MissionScreenView : BaseUI
     [SerializeField] private Transform _missionContent;
     [SerializeField] private MissionSlotView _missionSlotTemplate;
 
+
+    [SerializeField] private Color _normalTabColor = Color.white;
+    [SerializeField] private Color _selectedTabColor = new Color32(170, 240, 110, 255);
+
+
+
     private readonly List<MissionSlotView> _spawnedSlots = new();
+
+
     private void OnEnable()
     {
         ResetRectTransform();
@@ -79,21 +87,25 @@ public class MissionScreenView : BaseUI
 
     private void ShowAllMission()
     {
+        SetSelectedTab(_allMissionTabButton);
         RefreshMissionSlots(null);
     }
 
     private void ShowScenarioMission()
     {
+        SetSelectedTab(_scenarioMissionTabButton);
         RefreshMissionSlots("Scenario");
     }
 
     private void ShowDailyMission()
     {
+        SetSelectedTab(_dailyMissionTabButton);
         RefreshMissionSlots("Daily");
     }
 
     private void ShowWeeklyMission()
     {
+        SetSelectedTab(_weeklyMissionTabButton);
         RefreshMissionSlots("Weekly");
     }
 
@@ -179,4 +191,35 @@ public class MissionScreenView : BaseUI
             Debug.Log($"미션 데이터 개수: {missionTable.Count}");
         }
     }
+
+    private void SetSelectedTab(Button selectedButton)
+    {
+        SetTabColor(
+            _allMissionTabButton,
+            _allMissionTabButton == selectedButton);
+
+        SetTabColor(
+            _scenarioMissionTabButton,
+            _scenarioMissionTabButton == selectedButton);
+
+        SetTabColor(
+            _dailyMissionTabButton,
+            _dailyMissionTabButton == selectedButton);
+
+        SetTabColor(
+            _weeklyMissionTabButton,
+            _weeklyMissionTabButton == selectedButton);
+    }
+
+    private void SetTabColor(Button button, bool isSelected)
+    {
+        if (button == null || button.targetGraphic == null)
+        {
+            return;
+        }
+
+        button.targetGraphic.color =
+            isSelected ? _selectedTabColor : _normalTabColor;
+    }
+
 }
