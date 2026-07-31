@@ -14656,8 +14656,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveTriggerZone
   _waveIndex: 4
-  _monsterSpawnPoints: []
-  _bossSpawnPoint: {fileID: 4837879864852605577}
+  _monsterSpawnPoints:
+  - {fileID: 4837879864852605577}
+  _bossSpawnPoint: {fileID: 0}
   _stageWaveDataId: Stage_001_Wave_5
 --- !u!1 &7545429674275825743
 GameObject:
