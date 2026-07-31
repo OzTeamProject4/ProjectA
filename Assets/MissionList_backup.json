@@ -11,7 +11,7 @@
       { "ItemId": "Currency_Gold", "Amount": 1000 }
     ]
   },
-    {
+  {
     "DataId": "Scenario_002",
     "Category": "Scenario",
     "Title": "첫 만남",
@@ -23,8 +23,20 @@
       { "ItemId": "Currency_Ticket_Gacha", "Amount": 5 }
     ]
   },
-    {
+  {
     "DataId": "Scenario_003",
+    "Category": "Scenario",
+    "Title": "첫 강화",
+    "Description": "장비 1개를 강화하세요.",
+    "ObjectiveType": "EquipmentEnhance",
+    "TargetId": "",
+    "TargetCount": 1,
+    "Rewards": [
+      { "ItemId": "Currency_Gold", "Amount": 2000 }
+    ]
+  },
+  {
+    "DataId": "Scenario_004",
     "Category": "Scenario",
     "Title": "새로운 동료",
     "Description": "도감에서 캐릭터 정보 1개를 확인하세요.",
@@ -35,8 +47,8 @@
       { "ItemId": "Currency_ExpBook_Small", "Amount": 10 }
     ]
   },
-    {
-    "DataId": "Scenario_004",
+  {
+    "DataId": "Scenario_005",
     "Category": "Scenario",
     "Title": "출격 준비",
     "Description": "파티에 캐릭터 3명을 편성하세요.",
