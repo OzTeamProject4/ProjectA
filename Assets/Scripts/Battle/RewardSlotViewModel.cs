@@ -26,16 +26,11 @@
             return null;
         }
 
-        if (null == item || string.IsNullOrEmpty(item.ForeignKey))
+        if (null == item || string.IsNullOrEmpty(item.IconKey))
         {
             return null;
         }
 
-        if (GameManager.Instance.DataManager.TryGetData(item.ForeignKey, out ItemData data))
-        {
-            return data.IconKey;
-        }
-
-        return null;
+        return item.IconKey;
     }
 }

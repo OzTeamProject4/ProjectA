@@ -2504,6 +2504,8 @@ Transform:
   - {fileID: 977939927468510905}
   - {fileID: 4082038485438371209}
   - {fileID: 1182822106050955250}
+  - {fileID: 3880355757776017165}
+  - {fileID: 6646264739392704004}
   m_Father: {fileID: 1285517884081619568}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1466730882083952585
@@ -5121,7 +5123,7 @@ Transform:
   m_GameObject: {fileID: 3148115621441419736}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.8, y: 2.5, z: 110.3}
+  m_LocalPosition: {x: -17.3, y: 2.5, z: 62.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6672,7 +6674,7 @@ Transform:
   m_GameObject: {fileID: 3910380960766442995}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.793518, y: 2.5, z: 88.399994}
+  m_LocalPosition: {x: 2.793518, y: 2.5, z: 106.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6906,37 +6908,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!1 &3947128297739916040
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9009014376157863864}
-  m_Layer: 0
-  m_Name: BossSpawnPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9009014376157863864
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3947128297739916040}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 176.7, y: 3.5, z: 152}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1182822106050955250}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4023294246437998838
 GameObject:
   m_ObjectHideFlags: 0
@@ -8581,6 +8552,37 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!1 &4683313927838859545
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1164567663191139041}
+  m_Layer: 0
+  m_Name: MonsterSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1164567663191139041
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4683313927838859545}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 28.4, y: 3.5, z: -69.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3880355757776017165}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4710213364803947379
 GameObject:
   m_ObjectHideFlags: 0
@@ -9797,6 +9799,37 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!1 &5435949406102644918
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4837879864852605577}
+  m_Layer: 0
+  m_Name: BossSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4837879864852605577
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5435949406102644918}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 56, y: 2.5, z: 8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6646264739392704004}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5463727312114193170
 GameObject:
   m_ObjectHideFlags: 0
@@ -10233,7 +10266,7 @@ Transform:
   m_GameObject: {fileID: 5584188524203898094}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 74.4, y: 3.5, z: -26.8}
+  m_LocalPosition: {x: 28.6, y: 3.5, z: -26.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10676,8 +10709,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5651434215427922557}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.38100842, z: -0, w: 0.9245716}
-  m_LocalPosition: {x: 852.9, y: 48.5, z: 200.8}
+  m_LocalRotation: {x: -0, y: 0.09431833, z: -0, w: 0.99554217}
+  m_LocalPosition: {x: 509, y: 48.5, z: 224}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10685,7 +10718,7 @@ Transform:
   - {fileID: 2456588808232991509}
   - {fileID: 9120509135574886312}
   m_Father: {fileID: 8390872013431881048}
-  m_LocalEulerAnglesHint: {x: 0, y: -44.792, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 10.824, z: 0}
 --- !u!65 &6746437687405630126
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10725,7 +10758,7 @@ MonoBehaviour:
   - {fileID: 2456588808232991509}
   - {fileID: 9120509135574886312}
   _bossSpawnPoint: {fileID: 0}
-  _stageWaveDataId: Stage_001_Wave_1
+  _stageWaveDataId: Stage_001_Wave_2
 --- !u!1 &5684606251194218251
 GameObject:
   m_ObjectHideFlags: 0
@@ -10802,6 +10835,113 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!1 &5708730395277972779
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3880355757776017165}
+  - component: {fileID: 3799987029481517600}
+  - component: {fileID: 588887989796012406}
+  m_Layer: 0
+  m_Name: Wave4Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3880355757776017165
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5708730395277972779}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.011992941, z: -0, w: 0.9999281}
+  m_LocalPosition: {x: 1064, y: 48.5, z: 230}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5437477315486099046}
+  - {fileID: 3391177402017712752}
+  - {fileID: 1164567663191139041}
+  m_Father: {fileID: 8390872013431881048}
+  m_LocalEulerAnglesHint: {x: 0, y: -1.374, z: 0}
+--- !u!65 &3799987029481517600
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5708730395277972779}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 100, y: 100, z: 300}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &588887989796012406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5708730395277972779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53adb6b732340694f9392634a1803172, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveTriggerZone
+  _waveIndex: 3
+  _monsterSpawnPoints:
+  - {fileID: 5437477315486099046}
+  - {fileID: 3391177402017712752}
+  - {fileID: 1164567663191139041}
+  _bossSpawnPoint: {fileID: 0}
+  _stageWaveDataId: Stage_001_Wave_4
+--- !u!1 &5731338406961172437
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3391177402017712752}
+  m_Layer: 0
+  m_Name: MonsterSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3391177402017712752
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5731338406961172437}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 103.6, y: 3.5, z: -34.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3880355757776017165}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5769295004582189972
 GameObject:
   m_ObjectHideFlags: 0
@@ -11739,7 +11879,7 @@ Transform:
   m_GameObject: {fileID: 6128746918156450205}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 56.5, y: 2.5, z: 88.399994}
+  m_LocalPosition: {x: 56.5, y: 2.5, z: 24.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12597,7 +12737,7 @@ Transform:
   m_GameObject: {fileID: 6667618615462688694}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 75, y: 3.5, z: 50.2}
+  m_LocalPosition: {x: 59.59, y: 3.5, z: 44.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13541,17 +13681,16 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7002734285277342958}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1190.9, y: 48.5, z: 127.8}
+  m_LocalRotation: {x: -0, y: 0.076853395, z: -0, w: 0.9970424}
+  m_LocalPosition: {x: 733, y: 48.5, z: 144}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9097538678920585896}
   - {fileID: 6448071927148788644}
   - {fileID: 512264116144960547}
-  - {fileID: 9009014376157863864}
   m_Father: {fileID: 8390872013431881048}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 8.815, z: 0}
 --- !u!65 &5994970437211504525
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13590,8 +13729,8 @@ MonoBehaviour:
   - {fileID: 9097538678920585896}
   - {fileID: 6448071927148788644}
   - {fileID: 512264116144960547}
-  _bossSpawnPoint: {fileID: 9009014376157863864}
-  _stageWaveDataId: Stage_001_Wave_1
+  _bossSpawnPoint: {fileID: 0}
+  _stageWaveDataId: Stage_001_Wave_3
 --- !u!1 &7038008375730467286
 GameObject:
   m_ObjectHideFlags: 0
@@ -13855,6 +13994,37 @@ Transform:
   - {fileID: 3628474063125765242}
   - {fileID: 557689054095401788}
   m_Father: {fileID: 1285517884081619568}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7098595651738725920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5437477315486099046}
+  m_Layer: 0
+  m_Name: MonsterSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5437477315486099046
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7098595651738725920}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 56.5, y: 2.5, z: 24.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3880355757776017165}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7133612683154501642
 GameObject:
@@ -14418,6 +14588,77 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!1 &7493556281845177506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6646264739392704004}
+  - component: {fileID: 4499955278349890651}
+  - component: {fileID: 6991462261500845864}
+  m_Layer: 0
+  m_Name: Wave5Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6646264739392704004
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7493556281845177506}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.011992941, z: -0, w: 0.9999281}
+  m_LocalPosition: {x: 1251, y: 48.5, z: 216}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4837879864852605577}
+  m_Father: {fileID: 8390872013431881048}
+  m_LocalEulerAnglesHint: {x: 0, y: -1.374, z: 0}
+--- !u!65 &4499955278349890651
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7493556281845177506}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 100, y: 100, z: 300}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6991462261500845864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7493556281845177506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53adb6b732340694f9392634a1803172, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveTriggerZone
+  _waveIndex: 4
+  _monsterSpawnPoints: []
+  _bossSpawnPoint: {fileID: 4837879864852605577}
+  _stageWaveDataId: Stage_001_Wave_5
 --- !u!1 &7545429674275825743
 GameObject:
   m_ObjectHideFlags: 0
@@ -16542,7 +16783,7 @@ Transform:
   m_GameObject: {fileID: 8770139433550054397}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 121.3, y: 3.5, z: 95.2}
+  m_LocalPosition: {x: 28.4, y: 3.5, z: -69.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16955,7 +17196,7 @@ Transform:
   m_GameObject: {fileID: 8977012362379493557}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 497.4, y: 48.5, z: 218.5}
+  m_LocalPosition: {x: 351, y: 48.5, z: 218.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -17333,7 +17574,7 @@ Transform:
   m_GameObject: {fileID: 9201760008933263683}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 103.6, y: 3.5, z: 9.3}
+  m_LocalPosition: {x: 103.6, y: 3.5, z: -34.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
