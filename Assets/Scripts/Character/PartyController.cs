@@ -14,6 +14,52 @@ public class PartyController
     private float _lastSwitchTime;
     private List<CharacterAIController> _aiControllerList;
     private List<PlayerController> _playerControllerList;
+    public IReadOnlyList<BattleCharacter> PartyCharacters
+    {
+        get
+        {
+            return _partyCharacters;
+        }
+    }
+    public float SwitchCooldownProgress
+    {
+        get
+        {
+            if (_switchCoolTime <= 0)
+            {
+                return 1.0f;
+            }
+
+            else
+            {
+                return Mathf.Clamp01((Time.time - _lastSwitchTime) / _switchCoolTime);
+            }
+        }
+    }
+    public IReadOnlyList<int> WaitingMemberIndices
+    {
+        get
+        {
+            List<int> waiting = new List<int>();
+            if (_partyCharacters == null)
+            {
+                return waiting;
+            }
+            for (int i = 0; i < _partyCharacters.Count; i++)
+            {
+                if (i == _currentCharacterIndex)
+                {
+                    continue;
+                }
+                if (_partyCharacters[i] == null)
+                {
+                    continue;
+                }
+                waiting.Add(i);
+            }
+            return waiting;
+        }
+    }
 
     public event Action<BattleCharacter> OnCharacterChanged;
 
@@ -149,8 +195,6 @@ public class PartyController
         
         if (Time.time - _lastSwitchTime < _switchCoolTime)
         {
-            // TODO 희준 : 추후 UI에 표시 필요
-            Debug.Log("아직 캐릭터 태그 기능 사용할수 없습니다");
             return;
         }
 

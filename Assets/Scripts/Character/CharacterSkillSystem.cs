@@ -124,6 +124,39 @@ public class CharacterSkillSystem : MonoBehaviour
             return _normalSkill.CooldownProgress;
         }
     }
+    public Sprite BasicSkillIcon
+    {
+        get
+        {
+            if (_basicSkill == null)
+            {
+                return null;
+            }
+            return _basicSkill.IconSprite;
+        }
+    }
+    public Sprite NormalSkillIcon
+    {
+        get
+        {
+            if (_normalSkill == null)
+            {
+                return null;
+            }
+            return _normalSkill.IconSprite;
+        }
+    }
+    public Sprite UltimateSkillIcon
+    {
+        get
+        {
+            if (_ultimateSkill == null)
+            {
+                return null;
+            }
+            return _ultimateSkill.IconSprite;
+        }
+    }
 
     private void Awake()
     {
@@ -322,6 +355,11 @@ public class CharacterSkillSystem : MonoBehaviour
 
         OnSkillUsed?.Invoke(skill.Data.Category);
 
+        if (string.IsNullOrEmpty(skill.Data.CastSfxId) == false)
+        {
+            GameManager.Instance.AudioManager.PlaySFX(skill.Data.CastSfxId);
+        }
+
         int damage = (int)(_battleCharacter.CurAtk * SkillDamageMultiplier * skill.Data.DamageCoefficient);
 
         switch (skill.Data.Type)
@@ -329,7 +367,7 @@ public class CharacterSkillSystem : MonoBehaviour
             case CharacterSkillType.SingleAttack:
                 if (skill.Data.ProjectileSpeed > 0)
                 {
-                    _characterAttack.FireProjectile(skill.Data.PrefabPath, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed);
+                    _characterAttack.FireProjectile(skill.Data.PrefabPath, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed, 0, skill.Data.HitSfxId);
                 }
 
                 else
@@ -358,7 +396,7 @@ public class CharacterSkillSystem : MonoBehaviour
             case CharacterSkillType.AreaAttack:
                 if (skill.Data.ProjectileSpeed > 0)
                 {
-                    _characterAttack.FireProjectile(skill.Data.PrefabPath, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed, skill.Data.AreaRadius);
+                    _characterAttack.FireProjectile(skill.Data.PrefabPath, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed, skill.Data.AreaRadius, skill.Data.HitSfxId);
                 }
 
                 else
@@ -460,26 +498,37 @@ public class CharacterSkillSystem : MonoBehaviour
             return;
         }
 
-        if (string.IsNullOrEmpty(skill.Data.PrefabPath) == true)
+        if (string.IsNullOrEmpty(skill.Data.PrefabPath) == false)
         {
-            return;
+            GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(skill.Data.PrefabPath);
+            if (prefab != null)
+            {
+                skill.SetProjectilePrefab(prefab);
+                _loadedPrefabKeys.Add(skill.Data.PrefabPath);
+
+                if (skill.Data.ProjectileSpeed > 0)
+                {
+                    await GameManager.Instance.ObjectManager.PrewarmAsync(skill.Data.PrefabPath, SkillPrewarmCount, destroyCancellationToken);
+                }
+            }
+            else
+            {
+                Debug.LogError($"프리팹 로드 실패 {skill.Data.PrefabPath}");
+            }
         }
 
-        GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(skill.Data.PrefabPath);
-
-        if (prefab == null)
+        if (string.IsNullOrEmpty(skill.Data.IconPath) == false)
         {
-            Debug.LogError($"프리팹 로드 실패 {skill.Data.PrefabPath}");
-            return;
-        }
-
-        skill.SetProjectilePrefab(prefab);
-        _loadedPrefabKeys.Add(skill.Data.PrefabPath);
-
-        
-        if (skill.Data.ProjectileSpeed > 0)
-        {
-            await GameManager.Instance.ObjectManager.PrewarmAsync(skill.Data.PrefabPath, SkillPrewarmCount, destroyCancellationToken);
+            Sprite icon = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(skill.Data.IconPath);
+            if (icon != null)
+            {
+                skill.SetIconSprite(icon);
+                _loadedPrefabKeys.Add(skill.Data.IconPath);
+            }
+            else
+            {
+                Debug.LogError($"아이콘 로드 실패 {skill.Data.IconPath}");
+            }
         }
     }
 

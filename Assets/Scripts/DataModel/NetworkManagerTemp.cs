@@ -181,4 +181,27 @@ public class NetworkManagerTemp : MonoBehaviour
 
         return new EquipmentCraftListModel(equipmentCraftModels);
     }
+
+    public bool TryGetStudentStats(string studentDataId, out StatData statData)
+    {
+        statData = default;
+
+        if (string.IsNullOrEmpty(studentDataId))
+        {
+            Debug.LogError("[NetworkManagerTemp] studentDataId 가 비어 있습니다.");
+            return false;
+        }
+
+        StudentModel studentModel = StudentListModel.GetCharacter(studentDataId);
+
+        if (studentModel == null)
+        {
+            Debug.LogError($"[NetworkManagerTemp] 보유하지 않은 학생입니다. DataId={studentDataId}");
+            return false;
+        }
+
+        statData = new StatData(studentModel.TotalHp, studentModel.TotalAttack, studentModel.TotalDefense, studentModel.TotalMoveSpeed);
+
+        return true;
+    }
 }

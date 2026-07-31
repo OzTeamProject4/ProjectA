@@ -38,6 +38,8 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     private float _baseMoveSpeed;
     private CancellationTokenSource _buffCts;
     private NavMeshAgent _navMeshAgent;
+    private Sprite _elementIcon;
+    private Sprite _portraitSprite;
 
     public string CharacterName
     {
@@ -92,6 +94,34 @@ public class BattleCharacter : MonoBehaviour, IDamageable
             return _maxHp;
         }
     }
+    public string DataId
+    {
+        get
+        {
+            return _data.DataId;
+        }
+    }
+    public string CharacterIconPath
+    {
+        get
+        {
+            return _data.CharacterIconPath;
+        }
+    }
+    public Sprite ElementIcon
+    {
+        get
+        {
+            return _elementIcon;
+        }
+    }
+    public Sprite PortraitSprite
+    {
+        get
+        {
+            return _portraitSprite;
+        }
+    }
 
     public event Action<float> OnMoveSpeedChanged;
     public event Action<bool> OnGroundedChanged;
@@ -143,15 +173,30 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     public async UniTask InitializeAsync(StudentData data)
     {
         _data = data;
-        _maxHp = data.MaxHp;
-        SetHp(data.MaxHp);
-        _curAtk = data.Attack;
-        _curDef = data.Defence;
-        _curMoveSpeed = data.MoveSpeed;
+
+        float maxHp = data.MaxHp;
+        float attack = data.Attack;
+        float defense = data.Defence;
+        float moveSpeed = data.MoveSpeed;
+
+        if (NetworkManagerTemp.Instance != null)
+        {
+            if (NetworkManagerTemp.Instance.TryGetStudentStats(data.DataId, out StatData statData))
+            {
+                maxHp = statData.Hp;
+                attack = statData.Attack;
+                defense = statData.Defense;
+                moveSpeed = statData.MoveSpeed;
+            }
+        }
+        _maxHp = maxHp;
+        SetHp(maxHp);
+
+        _curAtk = attack;
+        _curDef = defense;
+        _curMoveSpeed = moveSpeed;
         _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
-        _curMoveSpeed = data.MoveSpeed;
-        _curRunSpeed = _curMoveSpeed * RunSpeedMultiplier;
-        _baseMoveSpeed = data.MoveSpeed;
+        _baseMoveSpeed = moveSpeed;
 
         CharacterSkillSystem skillSystem = GetComponent<CharacterSkillSystem>();
         if (skillSystem != null)
@@ -312,5 +357,13 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     private void TestDamage()
     {
         SetHp(_curHp - 100);
+    }
+    public void SetElementIcon(Sprite icon)
+    {
+        _elementIcon = icon;
+    }
+    public void SetPortraitSprite(Sprite sprite)
+    {
+        _portraitSprite = sprite;
     }
 }
