@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class StudentManagementInfoView : MonoBehaviour
 {
+    private const string MaxExperienceText = "Max";
+
     [Header("Info")]
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private Image _elementIcon;
@@ -93,6 +95,11 @@ public class StudentManagementInfoView : MonoBehaviour
         _gradeUpButton.interactable = interective;
     }
 
+    public void SetExperienceInventoryInteractable(bool interactable)
+    {
+        _openExperienceInventoryButton.interactable = interactable;
+    }
+
     public UniTask UpdatePortraitImage(string fullBodyKey, CancellationToken cancellationToken)
     {
         return SpriteLoader.LoadIntoAsync(_portraitImage, fullBodyKey, cancellationToken);
@@ -123,6 +130,15 @@ public class StudentManagementInfoView : MonoBehaviour
     public void UpdateExperienceText()
     {
         _experienceText.text = $"{_experienceSlider.value} / {_experienceSlider.maxValue}";
+    }
+
+    public void UpdateExperienceAsMax()
+    {
+        _experienceSlider.minValue = 0;
+        _experienceSlider.maxValue = 1;
+        _experienceSlider.value = 1;
+
+        _experienceText.text = MaxExperienceText;
     }
 
     private void HandleGradeUpButtonClicked()

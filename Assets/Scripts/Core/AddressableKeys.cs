@@ -23,7 +23,8 @@
         public const string CharacterSkill = "Data/StudentSkill";
         public const string Enemy = "Data/EnemyData";
         public const string EnemySkill = "Data/EnemySkillData";
-        
+        public const string MissionList = "Data/MissionList";
+        public const string Audio = "Data/Audio";
     }
 
     public static class Asset

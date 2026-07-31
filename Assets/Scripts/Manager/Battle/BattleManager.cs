@@ -3,14 +3,13 @@ using System;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
-// TODO 희준 : 팀 매니저 체계 편입 필요
-// - BaseManager<BattleManager> 상속으로 변경
-// - Awake의 초기화를 Initialize() 오버라이드로 이동
-// - GameManager에 BattleManager 프로퍼티/Setup/Initialzie 추가 요청
 public class BattleManager : BaseManager<BattleManager>
 {
+    private const float DefaultBattleTime = 180f;
+
     private CinemachineCamera _cinemachineCamera;
     private TempPartySpawner _partySpawner;
     private PartyController _partyController;
@@ -95,6 +94,70 @@ public class BattleManager : BaseManager<BattleManager>
         }
         _loadedPortraitKeys.Clear();
         CleanupPartyController();
+    }
+
+    private void StopEnemies()
+    {
+        StopEnemyAgents();
+
+        DespawnChildren(_enemySkillRoot);
+    }
+
+    private void StopEnemyAgents()
+    {
+        if (_enemyRoot == null)
+        {
+            return;
+        }
+
+        Transform rootTransform = _enemyRoot.transform;
+
+        for (int i = 0; i < rootTransform.childCount; i++)
+        {
+            GameObject child = rootTransform.GetChild(i).gameObject;
+
+            if (child.TryGetComponent(out Unity.Behavior.BehaviorGraphAgent behaviorGraphAgent))
+            {
+                behaviorGraphAgent.enabled = false;
+            }
+
+            if (child.TryGetComponent(out NavMeshAgent navMeshAgent))
+            {
+                StopNavMeshAgent(navMeshAgent);
+            }
+
+            if (child.TryGetComponent(out EnemyController enemyController))
+            {
+                enemyController.ChangeState(EnemyBattleState.Idle);
+            }
+        }
+    }
+
+    private void StopNavMeshAgent(NavMeshAgent navMeshAgent)
+    {
+        if (!navMeshAgent.isActiveAndEnabled || !navMeshAgent.isOnNavMesh)
+        {
+            return;
+        }
+
+        navMeshAgent.ResetPath();
+        navMeshAgent.isStopped = true;
+    }
+
+    private void ResumeEnemyAgent(GameObject enemyObject)
+    {
+        if (enemyObject.TryGetComponent(out NavMeshAgent navMeshAgent))
+        {
+            if (navMeshAgent.isActiveAndEnabled && navMeshAgent.isOnNavMesh)
+            {
+                navMeshAgent.isStopped = false;
+            }
+        }
+
+        if (enemyObject.TryGetComponent(out Unity.Behavior.BehaviorGraphAgent behaviorGraphAgent))
+        {
+            behaviorGraphAgent.enabled = true;
+        }
     }
 
     private void DespawnChildren(GameObject rootObject)
@@ -215,19 +278,22 @@ public class BattleManager : BaseManager<BattleManager>
         CleanupPartyController();
         
         _partyController = new PartyController();
-        _battleTimer = new BattleTimer(120f);
+
+        bool hasStageData = GameManager.Instance.DataManager.TryGetData(stageId, out StageData stageData);
+
+        if (!hasStageData)
+        {
+            Debug.LogError($"{_stageId}StageData를 찾을수 없음");
+        }
+
+        _battleTimer = new BattleTimer(GetBattleTime(hasStageData ? stageData : null));
         _battleTimer.OnTimeOver += HandleTimeOver;
 
         BattleHUDView hudView = await GameManager.Instance.UIManager.OpenBattleHUDAsync(destroyCancellationToken);
 
-        if (GameManager.Instance.DataManager.TryGetData(stageId, out StageData stageData))
+        if (hasStageData)
         {
             hudView.SetStage(stageData.StageName);
-        }
-
-        else
-        {
-            Debug.LogError($"{_stageId}StageData를 찾을수 없음");
         }
 
         _hudPresenter = new BattleHUDPresenter();
@@ -238,9 +304,22 @@ public class BattleManager : BaseManager<BattleManager>
         SubscribeInputActions();
     }
 
+    private float GetBattleTime(StageData stageData)
+    {
+        if (null == stageData || stageData.TimeLimit <= 0f)
+        {
+            return DefaultBattleTime;
+        }
+
+        return stageData.TimeLimit;
+    }
+
     public void EndBattle(bool isVictory)
     {
         _isBattleActive = false;
+
+        StopEnemies();
+
         GameManager.Instance.UIManager.CloseBattleHUD();
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -378,6 +457,11 @@ public class BattleManager : BaseManager<BattleManager>
 
     public async UniTask SpawnEnemyAsync(string enemyDataId, Transform enemySpawnTransform)
     {
+        if (!_isBattleActive)
+        {
+            return;
+        }
+
         EnemyViewModel vm = new EnemyViewModel();
 
         if (GameManager.Instance.DataManager.TryGetData<EnemyData>(enemyDataId, out EnemyData enemyData))
@@ -395,6 +479,8 @@ public class BattleManager : BaseManager<BattleManager>
                 Debug.LogError("적 프리팹을 로드하지 못했습니다.");
                 return;
             }
+
+            ResumeEnemyAgent(prefab);
 
             EnemyController enemyController = prefab.GetComponent<EnemyController>();
 
@@ -432,6 +518,11 @@ public class BattleManager : BaseManager<BattleManager>
     }
     public async UniTask SpawnEnemySkillAsync(string skillDataId, Transform spawnTransform, Transform rotationTransform, EnemyController enemyController)
     {
+        if (!_isBattleActive)
+        {
+            return;
+        }
+
         if (spawnTransform == null || rotationTransform == null)
         {
             Debug.LogError($"[SpawnEnemySkillAsync] spawnTransform 또는 rotationTransform이 null입니다. (SkillId: {skillDataId})");

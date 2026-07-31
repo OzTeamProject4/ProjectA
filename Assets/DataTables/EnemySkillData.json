@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "DataId": "EnemySkill_Fireball_01",
     "Name": "화염구",
@@ -11,7 +11,7 @@
     "Name": "흙구",
     "ElementalType": "Normal",
     "BaseDamage": 10,
-    "PrefabAddress": "Prefabs/EnemySkill_StoneBall"
+    "PrefabAddress": "Prefabs/EnemySkill_Stoneball"
   },
   {
     "DataId": "EnemySkill_Waterball_01",

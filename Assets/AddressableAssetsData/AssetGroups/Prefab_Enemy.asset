@@ -25,6 +25,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 43a65a54c9204654bbd3b4894c474e61
+    m_Address: Prefabs/EnemySkill_Stoneball
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a7145f54df1bda4694b5f08c4d9df19
+    m_Address: Prefabs/EnemySkill_Windball
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7aadb74098641e940a4c0c1a9d9ce53b
     m_Address: Prefabs/Enemy_RootTree
     m_ReadOnly: 0
@@ -42,6 +52,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ac965d1f172812c409a306b57a0bbfc3
     m_Address: Prefabs/Enemy_Mushroom
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dee5f3212db01fd4a82a317077eaf09a
+    m_Address: Prefabs/EnemySkill_Waterball
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

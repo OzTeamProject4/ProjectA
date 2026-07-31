@@ -51,7 +51,9 @@ public enum LoadingStep
     Complete,
     LoadSkillData,
     LoadEnemyData,
-    LoadEnemySkillData
+    LoadEnemySkillData,
+    LoadMissionData,
+    LoadAudioData
 }
 
 public enum UIRoot

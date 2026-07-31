@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 
-// 상단바 재화 표시용
 public class TopbarViewModel
 {
     private readonly InventoryModel _inventoryModel;
@@ -47,13 +46,20 @@ public class TopbarViewModel
     {
         _inventoryModel = NetworkManagerTemp.Instance.InventoryModel;
 
-        if (_inventoryModel.TryGetMaterial(CurrencyItemId.Gold, out MaterialModel goldMaterial))
+        _inventoryModel.PropertyChanged += OnInventoryChanged;
+
+        SubscribeMaterials();
+    }
+
+    private void SubscribeMaterials()
+    {
+        if (_goldMaterial == null && _inventoryModel.TryGetMaterial(CurrencyItemId.Gold, out MaterialModel goldMaterial))
         {
             _goldMaterial = goldMaterial;
             _goldMaterial.PropertyChanged += OnGoldMaterialChanged;
         }
 
-        if (_inventoryModel.TryGetMaterial(CurrencyItemId.Crystal, out MaterialModel crystalMaterial))
+        if (_crystalMaterial == null && _inventoryModel.TryGetMaterial(CurrencyItemId.Crystal, out MaterialModel crystalMaterial))
         {
             _crystalMaterial = crystalMaterial;
             _crystalMaterial.PropertyChanged += OnCrystalMaterialChanged;
@@ -80,6 +86,11 @@ public class TopbarViewModel
 
     public void Dispose()
     {
+        if (_inventoryModel != null)
+        {
+            _inventoryModel.PropertyChanged -= OnInventoryChanged;
+        }
+
         if (_goldMaterial != null)
         {
             _goldMaterial.PropertyChanged -= OnGoldMaterialChanged;
@@ -91,6 +102,21 @@ public class TopbarViewModel
             _crystalMaterial.PropertyChanged -= OnCrystalMaterialChanged;
             _crystalMaterial = null;
         }
+    }
+
+    private void OnInventoryChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != nameof(InventoryModel.Inventory))
+        {
+            return;
+        }
+
+        SubscribeMaterials();
+
+        OnPropertyChanged(nameof(GoldCount));
+        OnPropertyChanged(nameof(CrystalCount));
+        OnPropertyChanged(nameof(GoldIconKey));
+        OnPropertyChanged(nameof(CrystalIconKey));
     }
 
     private void OnGoldMaterialChanged(object sender, PropertyChangedEventArgs e)
