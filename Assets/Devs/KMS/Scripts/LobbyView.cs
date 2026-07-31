@@ -189,12 +189,11 @@ public sealed class LobbyView : BaseUI
 
     private void OnInventoryButtonClicked()
     {
-        Debug.Log("Inventory Button Clicked");
+        GameManager.Instance.UIManager.OpenInventoryDetailAsync().Forget();
     }
 
     private void OnCharacterButtonClicked()
     {
-        Debug.Log("Character Button Clicked");
         GameManager.Instance.UIManager.OpenStudentManagementListAsync().Forget();
     }
 }

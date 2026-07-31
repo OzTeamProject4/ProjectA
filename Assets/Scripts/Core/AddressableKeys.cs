@@ -7,6 +7,7 @@
         public const string ObjectPoolRoot = "Prefab/ObjectPoolRoot";
         public const string StageSelectMap01 = "Prefab/StageSelectMap_01";
         public const string StageEntry = "Prefab/StageEntry";
+        public const string InventoryItemSlot = "Prefab/ItemSlot";
     }
 
     public static class Data
@@ -15,6 +16,7 @@
         public const string StudentGradeData = "Data/StudentGrade";
         public const string StudentLevelData = "Data/StudentLevel";
         public const string Item = "Data/Item";
+        public const string Material = "Data/Material";
         public const string Currency = "Data/Currency";
         public const string Equipment = "Data/Equipment";
         public const string Signature = "Data/Signature";

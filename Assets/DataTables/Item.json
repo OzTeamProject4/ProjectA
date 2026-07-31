@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "DataId": "Item_Gold",
     "Name": "골드",
@@ -74,7 +74,7 @@
   {
     "DataId": "Item_Mat_T1",
     "Name": "마력석 파편(소)",
-    "ItemType": "Currency",
+    "ItemType": "Material",
     "ForeignKey": "Currency_Mat_T1",
     "IconKey": "Sprites/Item[Item_Material_T1]",
     "Description": "마력이 담긴 조그만 조각"
@@ -82,7 +82,7 @@
   {
     "DataId": "Item_Mat_T2",
     "Name": "마력석 파편(중)",
-    "ItemType": "Currency",
+    "ItemType": "Material",
     "ForeignKey": "Currency_Mat_T2",
     "IconKey": "Sprites/Item[Item_Material_T2]",
     "Description": "마력이 담긴 조각"
@@ -90,7 +90,7 @@
   {
     "DataId": "Item_Mat_T3",
     "Name": "마력석 파편(대)",
-    "ItemType": "Currency",
+    "ItemType": "Material",
     "ForeignKey": "Currency_Mat_T3",
     "IconKey": "Sprites/Item[Item_Material_T3]",
     "Description": "마력이 뿜어져 나오는 조각"
@@ -98,7 +98,7 @@
   {
     "DataId": "Item_Mat_Signature",
     "Name": "응집된 마나 구슬",
-    "ItemType": "Currency",
+    "ItemType": "Material",
     "ForeignKey": "Currency_Mat_Signature",
     "IconKey": null,
     "Description": "마나가 한곳으로 응집된 푸른 덩어리"
@@ -106,7 +106,7 @@
   {
     "DataId": "Item_Mat_Shard_001",
     "Name": "루미 조각",
-    "ItemType": "Currency",
+    "ItemType": "Material",
     "ForeignKey": "Currency_CharacterShard_001",
     "IconKey": "Sprites/Item[Item_Shard_001]",
     "Description": "루미 승급에 필요한 재료"
@@ -114,7 +114,7 @@
   {
     "DataId": "Item_Mat_Shard_002",
     "Name": "네리 조각",
-    "ItemType": "Currency",
+    "ItemType": "Material",
     "ForeignKey": "Currency_CharacterShard_002",
     "IconKey": "Sprites/Item[Item_Shard_002]",
     "Description": "네리 승급에 필요한 재료"
@@ -122,7 +122,7 @@
   {
     "DataId": "Item_Mat_Shard_003",
     "Name": "카이 조각",
-    "ItemType": "Currency",
+    "ItemType": "Material",
     "ForeignKey": "Currency_CharacterShard_003",
     "IconKey": "Sprites/Item[Item_Shard_003]",
     "Description": "카이 승급에 필요한 재료"
@@ -130,7 +130,7 @@
   {
     "DataId": "Item_Mat_Shard_004",
     "Name": "빛나 조각",
-    "ItemType": "Currency",
+    "ItemType": "Material",
     "ForeignKey": "Currency_CharacterShard_004",
     "IconKey": "Sprites/Item[Item_Shard_004]",
     "Description": "빛나 승급에 필요한 재료"
@@ -138,7 +138,7 @@
   {
     "DataId": "Item_Mat_Shard_005",
     "Name": "유이 조각",
-    "ItemType": "Currency",
+    "ItemType": "Material",
     "ForeignKey": "Currency_CharacterShard_005",
     "IconKey": "Sprites/Item[Item_Shard_005]",
     "Description": "유이 승급에 필요한 재료"
