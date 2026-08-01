@@ -6,6 +6,7 @@ public class CharacterAnimationController : MonoBehaviour
     private static readonly int MoveSpeedHash = Animator.StringToHash("MoveSpeed");
     private static readonly int IsGroundedHash = Animator.StringToHash("IsGrounded");
     private static readonly int AttackTriggerHash = Animator.StringToHash("Attack");
+    private static readonly int IsDeadHash = Animator.StringToHash("IsDead");
 
     private BattleCharacter _battleCharacter;
     private Animator _animator;
@@ -46,6 +47,7 @@ public class CharacterAnimationController : MonoBehaviour
 
         _battleCharacter.OnMoveSpeedChanged += HandleMoveSpeedChanged;
         _battleCharacter.OnGroundedChanged += HandleGroundedChanged;
+        _battleCharacter.OnCharacterDied += HandleCharacterDied;
         _skillSystem.OnSkillUsed += HandleSkillUsed;
     }
 
@@ -55,6 +57,7 @@ public class CharacterAnimationController : MonoBehaviour
         {
             _battleCharacter.OnMoveSpeedChanged -= HandleMoveSpeedChanged;
             _battleCharacter.OnGroundedChanged -= HandleGroundedChanged;
+            _battleCharacter.OnCharacterDied -= HandleCharacterDied;
         }
 
         if (_skillSystem != null)
@@ -86,5 +89,9 @@ public class CharacterAnimationController : MonoBehaviour
                 _animator.SetTrigger(AttackTriggerHash);
                 break;
         }
+    }
+    private void HandleCharacterDied(BattleCharacter character)
+    {
+        _animator.SetBool(IsDeadHash, true);
     }
 }
