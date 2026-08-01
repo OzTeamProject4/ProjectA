@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4fddd1824e67eef4c87d107d59d03249
+    m_Address: UI/StudentGacha
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 52d17b5f58ec80b41a820d772ea9c7b1
     m_Address: UI/DictionaryScreen
     m_ReadOnly: 0
@@ -42,6 +47,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: abc6b5d3a7b00e347ac667ebe88f41ae
     m_Address: UI/FarmingDungeonScreen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cd9a9f7b823fcfc44915af0fec6e706d
+    m_Address: UI/DictionarySlot
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

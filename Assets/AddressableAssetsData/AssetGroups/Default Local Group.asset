@@ -15,48 +15,13 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 6c3b65eb4f8cd5349a5ea4eb7c4658ed
   m_SerializeEntries:
-  - m_GUID: 1ab7d70a6187aca49abe8928afb69ef1
-    m_Address: Sprite/Gacha
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 306aacece41374f42b6be8c1c0ae993b
     m_Address: TestEnemy
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4fddd1824e67eef4c87d107d59d03249
-    m_Address: UI/StudentGacha
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6e21ab53b6d1fe24eadee747917bf491
-    m_Address: Data/StoryInfo
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7fec32171594a1a46bad403b73c83f4b
-    m_Address: Data/DialoguePortrait
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c1e3f459ebd31684a9bf8772ff117721
-    m_Address: Video/Test
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c48682c049503dc428b195efa3f7f532
-    m_Address: Data/StudentGachaList
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: cc47062956ccb3741a318926b7d356be
-    m_Address: Data/StudentGacha
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: cd9a9f7b823fcfc44915af0fec6e706d
-    m_Address: UI/DictionarySlot
+  - m_GUID: a8001c3d639f6f24295f6f90b1ff0cd6
+    m_Address: Video/Loading
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

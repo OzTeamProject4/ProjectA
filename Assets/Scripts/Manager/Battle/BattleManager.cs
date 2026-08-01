@@ -500,7 +500,7 @@ public class BattleManager : BaseManager<BattleManager>
 
         foreach ((string ItemId, int Count) reward in rewards)
         {
-            NetworkManagerTemp.Instance.InventoryModel.GrantMaterial(reward.ItemId, reward.Count);
+            NetworkManager.Instance.InventoryModel.GrantMaterial(reward.ItemId, reward.Count);
         }
     }
 

@@ -869,6 +869,7 @@ GameObject:
   - component: {fileID: 2990931221344548703}
   - component: {fileID: 8948422595159024416}
   - component: {fileID: 8948422595159024417}
+  - component: {fileID: 8948422595159024418}
   - component: {fileID: 8948422595159024415}
   m_Layer: 0
   m_Name: =======Managers========
@@ -937,7 +938,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3469007303332692609}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dafa49b4fc9ab642b76405db3485a51, type: 3}
+  m_Script: {fileID: 11500000, guid: b7fb0e7b2425fcb4dae29a436b8a4c2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkManagerTemp
 --- !u!114 &8948422595159024416
@@ -965,6 +966,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageManager
   _playerPartyPrefab: {fileID: 2275099353202050293, guid: 458d120f1d331624d8f0ebe1d8f339a7, type: 3}
+--- !u!114 &8948422595159024418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3469007303332692609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f72341060113c1941a967f8f5b3181ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NetworkManager
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -4590,7 +4590,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4691779380114975673}
-  - component: {fileID: 3036537200789437509}
   - component: {fileID: 6963381644831106594}
   - component: {fileID: 8860901289209073283}
   - component: {fileID: 8285321220873184395}
@@ -4621,18 +4620,6 @@ RectTransform:
   m_AnchoredPosition: {x: 668.34235, y: -116.58004}
   m_SizeDelta: {x: 222.9906, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3036537200789437509
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3716873095095806835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6df935e897601445b754f3eb1085d55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterGachaButtonView
 --- !u!222 &6963381644831106594
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5515,7 +5502,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2392474563841342455}
-  - component: {fileID: 1882884475100813867}
   - component: {fileID: 3062795758911338537}
   m_Layer: 5
   m_Name: 'CharacterGachaScreen              '
@@ -5546,28 +5532,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1882884475100813867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4969948268763719610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 077465a37aa167e43b4445e02306d4e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterGachaScreenView
-  _characterGachaMainScreen: {fileID: 3173444303390489969}
-  _characterGachaSelectScreen: {fileID: 8538796492487779753}
-  _characterGachaResultScreen: {fileID: 8448735057414102611}
-  _backToLobbyButton: {fileID: 4748981344851030066}
-  _openDrawSelectButton: {fileID: 5582117798062297970}
-  _backToMainButton: {fileID: 368299067334431136}
-  _drawTenButton: {fileID: 8952563527046436572}
-  _drawOneButton: {fileID: 4692554766802975746}
-  _drawAgainButton: {fileID: 7483198049438565869}
-  _confirmButton: {fileID: 588449441278493918}
 --- !u!223 &3062795758911338537
 Canvas:
   m_ObjectHideFlags: 0
@@ -8359,7 +8323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7417b0440330dbc44bd3f9ac76465e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbyView
-  _profileButton: {fileID: 4434855593565933303}
+  _profileButton: {fileID: 3795457526500198006}
   _giftBoxButton: {fileID: 9176272014086202984}
   _settingButton: {fileID: 2256836995929266567}
   _missionButton: {fileID: 8360188390570721903}

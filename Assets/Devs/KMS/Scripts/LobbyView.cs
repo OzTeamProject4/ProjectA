@@ -154,7 +154,6 @@ public sealed class LobbyView : BaseUI
 
     private void OnProfileButtonClicked()
     {
-        Debug.Log("Profile Button Clicked");
         GameManager.Instance.UIManager.OpenProfileAsync(destroyCancellationToken).Forget();
     }
 
