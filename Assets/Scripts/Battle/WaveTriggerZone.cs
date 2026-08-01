@@ -15,7 +15,7 @@ public class WaveTriggerZone : MonoBehaviour
     [SerializeField] private string _stageWaveDataId = "Stage_001_Wave_1";
     private Transform _spawnTransform;
     private float _randomSpawnRadius = 1.5f;
-
+    public bool IsSpawnCompleted { get; private set; }
 
     private void Start()
     {
@@ -51,7 +51,9 @@ public class WaveTriggerZone : MonoBehaviour
     {
         await PlayerFind();
 
-        this.gameObject.SetActive(false);
+        IsSpawnCompleted = true;
+
+        gameObject.SetActive(false);
     }
     private async UniTask PlayerFind()
     {

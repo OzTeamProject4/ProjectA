@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class MissionScreenView : BaseUI
 {
     [SerializeField] private Button _backToLobbyButton;
+    [SerializeField] private Button _homeButton;
 
     [SerializeField] private Button _allMissionTabButton;
     [SerializeField] private Button _scenarioMissionTabButton;
@@ -46,7 +47,7 @@ public class MissionScreenView : BaseUI
     private void RegisterButtonEvents()
     {
         _backToLobbyButton.onClick.AddListener(OnBackToLobbyButtonClicked);
-
+        _homeButton.onClick.AddListener(OnBackToLobbyButtonClicked);
         _allMissionTabButton.onClick.AddListener(ShowAllMission);
         _scenarioMissionTabButton.onClick.AddListener(ShowScenarioMission);
         _dailyMissionTabButton.onClick.AddListener(ShowDailyMission);
@@ -61,7 +62,7 @@ public class MissionScreenView : BaseUI
         }
 
         _backToLobbyButton.onClick.RemoveListener(OnBackToLobbyButtonClicked);
-
+        _homeButton.onClick.RemoveListener(OnBackToLobbyButtonClicked);
         _allMissionTabButton.onClick.RemoveListener(ShowAllMission);
         _scenarioMissionTabButton.onClick.RemoveListener(ShowScenarioMission);
         _dailyMissionTabButton.onClick.RemoveListener(ShowDailyMission);

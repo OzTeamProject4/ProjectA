@@ -51,6 +51,32 @@ public class BattleManager : BaseManager<BattleManager>
         {
             return;
         }
+// In Unity Test
+#if UNITY_EDITOR
+        if (Keyboard.current != null)
+        {
+            // N: 강제 승리
+            if (Keyboard.current.nKey.wasPressedThisFrame)
+            {
+                EndBattle(true);
+                return;
+            }
+
+            // M: 강제 패배
+            if (Keyboard.current.mKey.wasPressedThisFrame)
+            {
+                EndBattle(false);
+                return;
+            }
+        }
+#endif
+
+        CheckPartyDefeat();
+
+        if (!_isBattleActive)
+        {
+            return;
+        }
 
         if (_battleTimer != null)
         {
@@ -69,6 +95,28 @@ public class BattleManager : BaseManager<BattleManager>
         }
 
         ShowPauseAsync().Forget();
+    }
+
+    private void CheckPartyDefeat()
+    {
+        IReadOnlyList<BattleCharacter> party = _partyController?.PartyCharacters;
+
+        if (party == null || party.Count == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < party.Count; i++)
+        {
+            BattleCharacter character = party[i];
+
+            if (character != null && character.CurHp > 0f)
+            {
+                return;
+            }
+        }
+
+        EndBattle(false);
     }
 
     private void OnDisable()
@@ -316,6 +364,12 @@ public class BattleManager : BaseManager<BattleManager>
 
     public void EndBattle(bool isVictory)
     {
+
+        if (!_isBattleActive)
+        {
+            return;
+        }
+
         _isBattleActive = false;
 
         StopEnemies();
