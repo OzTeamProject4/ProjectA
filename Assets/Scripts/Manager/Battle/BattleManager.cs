@@ -17,6 +17,7 @@ public class BattleManager : BaseManager<BattleManager>
     private BattleTimer _battleTimer;
     private List<string> _loadedPortraitKeys = new List<string>();
 
+    public event Action<BattleCharacter> OnPartyCharacterChanged;
     public event Action<bool> OnBattleEnded;
     public event Action OnReturnToSelectRequested;
     public event Action OnRetryRequested;
@@ -235,8 +236,19 @@ public class BattleManager : BaseManager<BattleManager>
             return;
         }
         _partyController.OnPartyWiped -= HandlePartyWiped;
+        _partyController.OnCharacterChanged -= HandlePartyCharacterChanged;
         _partyController.Cleanup();
         _partyController = null;
+    }
+
+    private void HandlePartyCharacterChanged(BattleCharacter battleCharacter)
+    {
+        if (OnPartyCharacterChanged == null)
+        {
+            return;
+        }
+
+        OnPartyCharacterChanged.Invoke(battleCharacter);
     }
 
     public async UniTask EnterBattle(Vector3 playerSpawnPosition, string stageId, CinemachineCamera battleCamera, IReadOnlyList<string> partyCharacterIds)
@@ -279,6 +291,7 @@ public class BattleManager : BaseManager<BattleManager>
         
         _partyController = new PartyController();
         _partyController.OnPartyWiped += HandlePartyWiped;
+        _partyController.OnCharacterChanged += HandlePartyCharacterChanged;
 
         bool hasStageData = GameManager.Instance.DataManager.TryGetData(stageId, out StageData stageData);
 
