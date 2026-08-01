@@ -299,7 +299,17 @@ public class BattleCharacter : MonoBehaviour, IDamageable
 
         _modelTransform.rotation = Quaternion.LookRotation(direction.normalized);
     }
+    public void Teleport(Vector3 position)
+    {
+        _rigidbody.linearVelocity = Vector3.zero;
+        transform.position = position;
+        _rigidbody.position = position;
 
+        if (_navMeshAgent != null && _navMeshAgent.enabled && _navMeshAgent.isOnNavMesh)
+        {
+            _navMeshAgent.Warp(position);
+        }
+    }
     public void TakeDamage(int damage, GameObject attacker)
     {
         SetHp(_curHp - damage);

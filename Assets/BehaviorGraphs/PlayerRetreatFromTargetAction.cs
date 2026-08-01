@@ -86,7 +86,7 @@ public partial class PlayerRetreatFromTargetAction : Action
             return Status.Running;
         }
 
-        _battleCharacter.Move(direction.normalized, false, true);
+        _battleCharacter.Move(direction.normalized, true, true);
 
         return Status.Running;
     }

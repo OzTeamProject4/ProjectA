@@ -133,6 +133,7 @@ public class PartyController
             _playerControllerList.Add(player);
             _aiControllerList.Add(ai);
             validCharacters.Add(character);
+            ai.SetSlotIndex(_aiControllerList.Count - 1);
         }
 
         _partyCharacters = validCharacters;

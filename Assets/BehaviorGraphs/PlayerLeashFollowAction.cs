@@ -14,6 +14,7 @@ public partial class PlayerLeashFollowAction : Action
     [SerializeReference] public BlackboardVariable<GameObject> Target;
     [SerializeReference] public BlackboardVariable<bool> IsRunning;
     [SerializeReference] public BlackboardVariable<float> LeashStopDistance;
+    [SerializeReference] public BlackboardVariable<int> SlotIndex;
 
     private BattleCharacter _battleCharacter;
     private NavMeshAgent _navMeshAgent;
@@ -38,7 +39,7 @@ public partial class PlayerLeashFollowAction : Action
             Debug.LogError("NavMeshAgent가 null");
             return Status.Failure;
         }
-
+        _isFollowing = false;
         return Status.Running;
     }
 
@@ -79,8 +80,13 @@ public partial class PlayerLeashFollowAction : Action
             }
         }
 
-        _navMeshAgent.nextPosition = Self.Value.transform.position;
-        _navMeshAgent.SetDestination(Target.Value.transform.position);
+        Vector3 destination = AIFormationUtil.GetFormationPosition(Target.Value.transform.position, SlotIndex.Value, LeashStopDistance.Value);
+        _navMeshAgent.SetDestination(destination);
+
+        if (_navMeshAgent.pathPending == false && _navMeshAgent.pathStatus != NavMeshPathStatus.PathComplete)
+        {
+            _navMeshAgent.SetDestination(Target.Value.transform.position);
+        }
 
         Vector3 direction = _navMeshAgent.desiredVelocity;
         direction.y = 0;

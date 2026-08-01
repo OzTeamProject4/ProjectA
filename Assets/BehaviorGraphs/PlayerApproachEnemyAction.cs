@@ -12,6 +12,7 @@ public partial class PlayerApproachEnemyAction : Action
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<GameObject> EnemyTarget;
     [SerializeReference] public BlackboardVariable<bool> IsRunning;
+    [SerializeReference] public BlackboardVariable<int> SlotIndex;
 
     private BattleCharacter _battleCharacter;
     private CharacterSkillSystem _skillSystem;
@@ -59,8 +60,13 @@ public partial class PlayerApproachEnemyAction : Action
             return Status.Success;
         }
 
-        _navMeshAgent.nextPosition = Self.Value.transform.position;
-        _navMeshAgent.SetDestination(EnemyTarget.Value.transform.position);
+        Vector3 destination = AIFormationUtil.GetFormationPosition(EnemyTarget.Value.transform.position, SlotIndex.Value, _skillSystem.AttackRange);
+        _navMeshAgent.SetDestination(destination);
+
+        if (_navMeshAgent.pathPending == false && _navMeshAgent.pathStatus != NavMeshPathStatus.PathComplete)
+        {
+            _navMeshAgent.SetDestination(EnemyTarget.Value.transform.position);
+        }
 
         Vector3 direction = _navMeshAgent.desiredVelocity;
         direction.y = 0;
