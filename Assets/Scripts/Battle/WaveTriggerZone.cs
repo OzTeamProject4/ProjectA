@@ -1,9 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Collider))]
 public class WaveTriggerZone : MonoBehaviour
@@ -57,6 +55,7 @@ public class WaveTriggerZone : MonoBehaviour
     {
         if (GameManager.Instance.DataManager.TryGetData<StageWaveData>(_stageWaveDataId, out StageWaveData waveData))
         {
+            bool isBossWave = _bossSpawnPoint != null;
 
             if (waveData.TryGetMonsters(out var monsters))
             {
@@ -66,9 +65,16 @@ public class WaveTriggerZone : MonoBehaviour
 
                     for (int i = 0; i < count; i++)
                     {
+                        if (isBossWave)
+                        {
+                            _spawnTransform = _bossSpawnPoint;
+                        }
+                        else
+                        {
+                            GetRandomSpawnPosition(_randomSpawnRadius);
+                        }
 
-                        GetRandomSpawnPosition(_randomSpawnRadius);
-                        await GameManager.Instance.BattleManager.SpawnEnemyAsync(monsterId, _spawnTransform);
+                        await GameManager.Instance.BattleManager.SpawnEnemyAsync(monsterId, _spawnTransform, isBossWave);
                         await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
                     }
                 }
