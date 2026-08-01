@@ -62,6 +62,7 @@ public class PartyController
     }
 
     public event Action<BattleCharacter> OnCharacterChanged;
+    public event Action OnPartyWiped;
 
     public void Initialize(List<BattleCharacter> characters, CinemachineCamera cinemachinCamera)
     {
@@ -124,6 +125,7 @@ public class PartyController
                 skillSystem.OnHealBuffRequested += HandleHealBuff;
             }
 
+            character.OnCharacterDied += HandleCharacterDied;
             player.enabled = false;
             ai.DisableAI();
             // ai.Initialize(_partyCharacters[0], character);
@@ -131,6 +133,7 @@ public class PartyController
             _playerControllerList.Add(player);
             _aiControllerList.Add(ai);
             validCharacters.Add(character);
+            ai.SetSlotIndex(_aiControllerList.Count - 1);
         }
 
         _partyCharacters = validCharacters;
@@ -157,9 +160,12 @@ public class PartyController
         {
             bool isSelected = (i == index);
 
+            BattleCharacter member = _partyCharacters[i];
+            bool isDead = (member != null && member.IsDead);
+
             _playerControllerList[i].enabled = isSelected;
 
-            if (isSelected)
+            if (isSelected || isDead)
             {
                 _aiControllerList[i].DisableAI();
             }
@@ -192,7 +198,14 @@ public class PartyController
         {
             return;
         }
-        
+
+        BattleCharacter target = _partyCharacters[index];
+
+        if (target == null || target.IsDead)
+        {
+            return;
+        }
+
         if (Time.time - _lastSwitchTime < _switchCoolTime)
         {
             return;
@@ -278,6 +291,8 @@ public class PartyController
                 continue;
             }
 
+            character.OnCharacterDied -= HandleCharacterDied;
+
             CharacterSkillSystem skillSystem = character.GetComponent<CharacterSkillSystem>();
             if (skillSystem != null)
             {
@@ -315,5 +330,68 @@ public class PartyController
     private void SetControlCharacter(BattleCharacter character)
     {
         OnCharacterChanged?.Invoke(character);
+    }
+
+    private void HandleCharacterDied(BattleCharacter character)
+    {
+        if (character == null)
+        {
+            Debug.LogError("[PartyController] HandleCharacterDied: character 가 null 입니다.");
+            return;
+        }
+
+        int diedIndex = _partyCharacters.IndexOf(character);
+
+        if (diedIndex < 0)
+        {
+            Debug.LogError($"[PartyController] 파티에 없는 캐릭터의 사망 신호입니다. name={character.name}");
+            return;
+        }
+
+        _playerControllerList[diedIndex].enabled = false;
+        _aiControllerList[diedIndex].DisableAI();
+
+        int nextIndex = FindNextAliveIndex();
+
+        if (nextIndex < 0)
+        {
+            Debug.Log("[PartyController] 파티 전멸");
+            OnPartyWiped?.Invoke();
+            return;
+        }
+
+        if (diedIndex != _currentCharacterIndex)
+        {
+            return;
+        }
+
+        SwitchCharacter(nextIndex);
+    }
+
+    private int FindNextAliveIndex()
+    {
+        if (_partyCharacters == null)
+        {
+            return -1;
+        }
+
+        for (int i = 0; i < _partyCharacters.Count; i++)
+        {
+            BattleCharacter character = _partyCharacters[i];
+
+            if (character == null)
+            {
+                continue;
+            }
+
+            if (character.IsDead)
+            {
+                continue;
+            }
+
+            return i;
+        }
+
+        return -1;
     }
 }

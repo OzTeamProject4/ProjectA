@@ -23,7 +23,7 @@ public class InventoryDetailViewModel
 
     public InventoryDetailViewModel()
     {
-        _inventoryModel = NetworkManagerTemp.Instance.InventoryModel;
+        _inventoryModel = NetworkManager.Instance.InventoryModel;
         _inventoryModel.PropertyChanged += OnInventoryPropertyChanged;
     }
 

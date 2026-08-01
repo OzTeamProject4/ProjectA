@@ -402,7 +402,7 @@ public class InventoryModel : INotifyPropertyChanged
 
         ConsumeCraftMaterials(equipmentCraftModel);
 
-        AddEquipment(new EquipmentModel(NetworkManagerTemp.Instance.CreateEquipmentInstanceId(), itemData));
+        AddEquipment(new EquipmentModel(NetworkManager.Instance.CreateEquipmentInstanceId(), itemData));
 
         return true;
     }
@@ -553,7 +553,7 @@ public class InventoryModel : INotifyPropertyChanged
 
     private bool TryUnequipFrom(string studentDataId, EquipType equipType)
     {
-        StudentModel owner = NetworkManagerTemp.Instance.StudentListModel.GetCharacter(studentDataId);
+        StudentModel owner = NetworkManager.Instance.StudentListModel.GetCharacter(studentDataId);
 
         if (owner == null)
         {

@@ -114,9 +114,9 @@ public class BattleHUDPresenter
             _hudView.SetUltimateSkillIcon(_currentSkillSystem.UltimateSkillIcon);
             _hudView.SetCharacterIcon(_currentCharacter.PortraitSprite);
 
-            if (NetworkManagerTemp.Instance != null)
+            if (NetworkManager.Instance != null)
             {
-                StudentModel model = NetworkManagerTemp.Instance.StudentListModel.GetCharacter(_currentCharacter.DataId);
+                StudentModel model = NetworkManager.Instance.StudentListModel.GetCharacter(_currentCharacter.DataId);
                 if (model != null)
                 {
                     _hudView.SetLevel(model.Level);
@@ -202,6 +202,7 @@ public class BattleHUDPresenter
                 if (member != null)
                 {
                     _hudView.SetPartyMemberHp(i, member.CurHp, member.MaxHp);
+                    _hudView.SetPartyMemberDead(i, member.IsDead);
 
                     CharacterSkillSystem skillSystem = member.GetComponent<CharacterSkillSystem>();
                     if (skillSystem != null)

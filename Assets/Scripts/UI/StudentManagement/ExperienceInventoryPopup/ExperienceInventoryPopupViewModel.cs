@@ -23,7 +23,7 @@ public class ExperienceInventoryPopupViewModel
     {
         _studentModel = characterModel;
 
-        InventoryModel inventoryModel = NetworkManagerTemp.Instance.InventoryModel;
+        InventoryModel inventoryModel = NetworkManager.Instance.InventoryModel;
         ExperienceItems = inventoryModel.GetItemsByMaterialType(CurrencyType.ExpBook);
     }
 

@@ -40,4 +40,13 @@ public class StudentData : BaseData
             return _parsedSkillList;
         }
     }
+
+    public string OneLiner { get; init; }
+    public string Personality { get; init; } 
+
+    public string Background { get; init; }
+    public string Trait { get; init; }
+    public string Likes { get; init; }
+    public string Dislikes { get; init; }
+
 }

@@ -155,6 +155,7 @@ public sealed class LobbyView : BaseUI
     private void OnProfileButtonClicked()
     {
         Debug.Log("Profile Button Clicked");
+        GameManager.Instance.UIManager.OpenProfileAsync(destroyCancellationToken).Forget();
     }
 
     private void OnGiftBoxButtonClicked()
@@ -184,7 +185,14 @@ public sealed class LobbyView : BaseUI
 
     private void OnCharacterGachaButtonClicked()
     {
-        Debug.Log("CharacterGacha Button Clicked");
+        OpenStudentGachaAsync().Forget();
+    }
+
+    private async UniTask OpenStudentGachaAsync()
+    {
+       await GameManager.Instance.UIManager.OpenOverlayAsync();
+       await GameManager.Instance.UIManager.OpenStudentGachaAsync();
+       GameManager.Instance.UIManager.CloseOverlay();
     }
 
     private void OnInventoryButtonClicked()

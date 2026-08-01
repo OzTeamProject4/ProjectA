@@ -177,6 +177,11 @@ public class CharacterSkillSystem : MonoBehaviour
 
     private void Update()
     {
+        if (_battleCharacter != null && _battleCharacter.IsDead)
+        {
+            return;
+        }
+
         UpdateGauge();
     }
 
@@ -318,7 +323,7 @@ public class CharacterSkillSystem : MonoBehaviour
 
     public void UseUltSkill()
     {
-        if (_ultimateSkill == null /*|| _currentGauge < _maxGauge */)
+        if (_ultimateSkill == null || _currentGauge < _maxGauge)
         {
             return;
         }

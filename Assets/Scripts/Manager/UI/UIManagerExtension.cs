@@ -181,7 +181,12 @@ public static class UIManagerExtension
 
     public static async UniTask OpenLoadingAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
-        await uiManager.OpenTestRootAsync(UIType.Loading, cancellationToken);
+        BaseUI baseUI = await uiManager.OpenTestRootAsync(UIType.Loading, cancellationToken);
+
+        if (baseUI is LoadingUI loadingUI)
+        {
+            await loadingUI.WaitUntilInitializedAsync();
+        }
     }
 
     public static void CloseLoading(this UIManager uiManager)
@@ -238,16 +243,6 @@ public static class UIManagerExtension
     public static void CloseFarmingDungeonScreen(this UIManager uiManager)
     {
         uiManager.Close(UIType.FarmingDungeonScreen);
-    }
-
-    public static async UniTask OpenCharacterGachaScreenAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
-    {
-        await uiManager.OpenTestRootAsync(UIType.CharacterGachaScreen, cancellationToken);
-    }
-
-    public static void CloseCharacterGachaScreen(this UIManager uiManager)
-    {
-        uiManager.Close(UIType.CharacterGachaScreen);
     }
 
     public static async UniTask<BattleResultPopupView> OpenBattleResultAsync(this UIManager uiManager, bool isVictory, string stageId, CancellationToken cancellationToken = default)
@@ -379,6 +374,39 @@ public static class UIManagerExtension
         uiManager.Close(UIType.EnemyHud);
     }
 
+    public static async UniTask<ProfileView> OpenProfileAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        await uiManager.OpenOverlayAsync();
+
+        try
+        {
+            BaseUI baseUI = await uiManager.OpenContentRootAsync(UIType.Profile, cancellationToken);
+
+            return GetView<ProfileView>(baseUI, UIType.Profile);
+        }
+        finally
+        {
+            uiManager.CloseOverlay();
+        }
+    }
+
+    public static void CloseProfile(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.Profile);
+    }
+
+    public static async UniTask<ProfileStudentSelectPopupView> OpenProfileStudentSelectPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.ProfileStudentSelectPopup, cancellationToken);
+
+        return GetView<ProfileStudentSelectPopupView>(baseUI, UIType.ProfileStudentSelectPopup);
+    }
+
+    public static void CloseProfileStudentSelectPopup(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.ProfileStudentSelectPopup);
+    }
+
     private static T GetView<T>(BaseUI baseUI, UIType uiType) where T : BaseUI
     {
         if (baseUI == null)
@@ -392,5 +420,40 @@ public static class UIManagerExtension
         }
 
         return view;
+    }
+
+    public static async UniTask OpenDialogueAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        BaseUI DialogueUI = await uiManager.OpenTestRootAsync(UIType.Dialogue, cancellationToken);
+
+        if (DialogueUI is DialogueView dialogueView)
+        {
+            await dialogueView.WaitUntilInitializedAsync();
+        }
+    }
+
+    public static void CloseDialogue(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.Dialogue);
+    }
+
+    public static async UniTask OpenDialogueHistoryAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        await uiManager.OpenTestRootAsync(UIType.DialogueHistory, cancellationToken);
+    }
+
+    public static void CloseDialogueHistory(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.DialogueHistory);
+    }
+
+    public static async UniTask OpenStudentGachaAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        await uiManager.OpenTestRootAsync(UIType.StudentGacha, cancellationToken);
+    }
+
+    public static void CloseStudentGacha(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.StudentGacha);
     }
 }

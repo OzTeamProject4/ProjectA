@@ -27,11 +27,15 @@
         public const string EnemySkill = "Data/EnemySkillData";
         public const string MissionList = "Data/MissionList";
         public const string Audio = "Data/Audio";
+        public const string StoryInfo = "Data/StoryInfo";
+        public const string DialoguePortrait = "Data/DialoguePortrait";
+        public const string StudentGachaList = "Data/StudentGachaList";
+        public const string StudentGacha = "Data/StudentGacha";
     }
 
     public static class Asset
     {
-        public const string LoadingVideoClip = "Video/Test";
+        public const string LoadingVideoClip = "Video/Loading";
     }
 
     public static string GetUIKey(UIType uIType)

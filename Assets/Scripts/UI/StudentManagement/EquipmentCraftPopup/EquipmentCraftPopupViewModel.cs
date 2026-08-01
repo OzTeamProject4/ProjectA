@@ -13,7 +13,7 @@ public class EquipmentCraftPopupViewModel
 
     public EquipmentCraftPopupViewModel()
     {
-        _equipmentCraftListModel = NetworkManagerTemp.Instance.EquipmentCraftListModel;
+        _equipmentCraftListModel = NetworkManager.Instance.EquipmentCraftListModel;
     }
 
     public void UpdateEquipmentCraftModels(EquipType equipType)

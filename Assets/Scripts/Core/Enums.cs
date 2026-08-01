@@ -16,7 +16,6 @@
     StageSelectScreen,
     DictionaryScreen,
     FarmingDungeonScreen,
-    CharacterGachaScreen,
     MissionScreen,
     InventoryScreen,
     InventoryDetail,
@@ -27,7 +26,12 @@
     ReturnToLobbyPopup,
     StageSelectHud,
     BattleHUD,
-    EnemyHud
+    EnemyHud,
+    Dialogue,
+    DialogueHistory,
+    StudentGacha,
+    Profile,
+    ProfileStudentSelectPopup
 }
 
 public enum LoadingState
@@ -50,12 +54,16 @@ public enum LoadingStep
     LoadSignatureData,
     LoadStageData,
     LoadStageWaveData,
-    Complete,
     LoadSkillData,
     LoadEnemyData,
     LoadEnemySkillData,
     LoadMissionData,
-    LoadAudioData
+    LoadAudioData,
+    LoadStoryInfoData,
+    LoadDialoguePortraitData,
+    LoadStudentGachaListData,
+    LoadStudentGachaData,
+    Complete
 }
 
 public enum UIRoot

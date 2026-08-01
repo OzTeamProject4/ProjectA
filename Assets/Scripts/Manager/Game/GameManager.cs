@@ -17,6 +17,8 @@ public class GameManager : BaseManager<GameManager>
 
     public ObjectManager ObjectManager { get; private set; }
 
+    public DialogueManager DialogueManager { get; private set; }
+
     public BattleManager BattleManager { get; private set; }
 
     public StageManager StageManager { get; private set; }
@@ -44,6 +46,7 @@ public class GameManager : BaseManager<GameManager>
         await ObjectManager.InitializeAsync();
         await BattleManager.InitializeAsync();
         await StageManager.InitializeAsync();
+        await DialogueManager.InitializeAsync();
     }
 
     private void EnsureSingleton()
@@ -68,5 +71,6 @@ public class GameManager : BaseManager<GameManager>
         ObjectManager = this.GetRequiredComponent<ObjectManager>();
         BattleManager = this.GetRequiredComponent<BattleManager>();
         StageManager = this.GetRequiredComponent<StageManager>();
+        DialogueManager = this.GetRequiredComponent<DialogueManager>();
     }
 }

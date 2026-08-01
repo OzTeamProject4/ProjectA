@@ -14,6 +14,8 @@ public class LoadingUI : BaseUI
     [SerializeField] private LoadingSlider _loadingSlider;
     [SerializeField] private LoadingButton _loadingButton;
 
+    private UniTaskCompletionSource _initializeTask;
+
     public void Awake()
     {
         UnityUtil.ValidateReference(_videoPlayer, nameof(LoadingUI), nameof(_videoPlayer));
@@ -24,7 +26,13 @@ public class LoadingUI : BaseUI
 
     private void OnEnable()
     {
+        _initializeTask = new UniTaskCompletionSource();
         StartLoadingAsync().Forget();
+    }
+
+    public UniTask WaitUntilInitializedAsync()
+    {
+        return _initializeTask.Task;
     }
 
     private async UniTask StartLoadingAsync()
@@ -86,7 +94,7 @@ public class LoadingUI : BaseUI
 
         source.Play();
 
-        GameManager.Instance.UIManager.CloseOverlay();
+        _initializeTask.TrySetResult();
     }
 
     private void UpdateLoadingState(LoadingState loadingState)
