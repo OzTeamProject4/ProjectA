@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public class ProfileStudentSelectPopupViewModel
 {
@@ -14,7 +14,7 @@ public class ProfileStudentSelectPopupViewModel
 
     public ProfileStudentSelectPopupViewModel()
     {
-        _studentListModel = NetworkManagerTemp.Instance.StudentListModel;
+        _studentListModel = NetworkManager.Instance.StudentListModel;
     }
 
     public void Dispose()

@@ -11,7 +11,7 @@ public class StudentManagementListViewModel
 
     public StudentManagementListViewModel()
     {
-        _studentListModel = NetworkManagerTemp.Instance.StudentListModel;
+        _studentListModel = NetworkManager.Instance.StudentListModel;
     }
 
     public void Dispose()

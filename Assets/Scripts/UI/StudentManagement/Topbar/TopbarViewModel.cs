@@ -44,7 +44,7 @@ public class TopbarViewModel
 
     public TopbarViewModel()
     {
-        _inventoryModel = NetworkManagerTemp.Instance.InventoryModel;
+        _inventoryModel = NetworkManager.Instance.InventoryModel;
 
         _inventoryModel.PropertyChanged += OnInventoryChanged;
 

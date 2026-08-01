@@ -425,7 +425,7 @@ public class StudentModel : INotifyPropertyChanged
     private void UpdateEquipmentStats()
     {
         StatData equipmentStats = new StatData();
-        InventoryModel inventoryModel = NetworkManagerTemp.Instance.InventoryModel;
+        InventoryModel inventoryModel = NetworkManager.Instance.InventoryModel;
 
         foreach (string instanceId in _equippedItemIds.Values)
         {
@@ -536,7 +536,7 @@ public class StudentModel : INotifyPropertyChanged
             return false;
         }
 
-        if (!NetworkManagerTemp.Instance.InventoryModel.TryGetMaterial(RequiredGradeUpItemId, out MaterialModel materialModel))
+        if (!NetworkManager.Instance.InventoryModel.TryGetMaterial(RequiredGradeUpItemId, out MaterialModel materialModel))
         {
             return false;
         }

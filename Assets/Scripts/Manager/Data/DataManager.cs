@@ -18,11 +18,6 @@ public class DataManager : BaseManager<DataManager>
         await Addressables.InitializeAsync();
     }
 
-    public async UniTask PreloadDataAsync(IProgress<LoadingProgress> progress = null)
-    {
-        await UniTask.Delay(1);
-    }
-
     public async UniTask LoadRuntimeDataAsync(IProgress<LoadingProgress> progress = null)
     {
        List<LoadingTask> loadingTasks = CreateLoadingTasks();

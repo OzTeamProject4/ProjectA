@@ -100,7 +100,7 @@ public class EquipmentInfoPopupViewModel
             return null;
         }
 
-        if (!NetworkManagerTemp.Instance.InventoryModel.TryGetEquipment(instanceId, out EquipmentModel equippedModel))
+        if (!NetworkManager.Instance.InventoryModel.TryGetEquipment(instanceId, out EquipmentModel equippedModel))
         {
             return null;
         }
@@ -166,7 +166,7 @@ public class EquipmentInfoPopupViewModel
             return;
         }
 
-        NetworkManagerTemp.Instance.InventoryModel.TryEquip(_studentModel, _equipmentModel.InstanceId);
+        NetworkManager.Instance.InventoryModel.TryEquip(_studentModel, _equipmentModel.InstanceId);
     }
 
     public void RequestUnequip()
@@ -181,6 +181,6 @@ public class EquipmentInfoPopupViewModel
             return;
         }
 
-        NetworkManagerTemp.Instance.InventoryModel.TryUnequip(_studentModel, _equipmentModel.EquipType);
+        NetworkManager.Instance.InventoryModel.TryUnequip(_studentModel, _equipmentModel.EquipType);
     }
 }

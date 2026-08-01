@@ -126,15 +126,15 @@ public class ProfileViewModel
 
     public ProfileViewModel()
     {
-        _playerProfileModel = NetworkManagerTemp.Instance.PlayerProfileModel;
+        _playerProfileModel = NetworkManager.Instance.PlayerProfileModel;
         _playerProfileModel.PropertyChanged += OnProfileModelChanged;
 
-        _inventoryModel = NetworkManagerTemp.Instance.InventoryModel;
+        _inventoryModel = NetworkManager.Instance.InventoryModel;
         _inventoryModel.PropertyChanged += OnInventoryModelChanged;
 
-        _studentListModel = NetworkManagerTemp.Instance.StudentListModel;
+        _studentListModel = NetworkManager.Instance.StudentListModel;
 
-        _stageClearModel = NetworkManagerTemp.Instance.StageClearModel;
+        _stageClearModel = NetworkManager.Instance.StageClearModel;
         _stageClearModel.PropertyChanged += OnStageClearModelChanged;
 
         BuildCurrencyList();
