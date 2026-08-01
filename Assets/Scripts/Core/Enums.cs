@@ -9,7 +9,8 @@
     ItemPreviewPopup,
     Overlay,
     Loading,
-    Dialogue
+    Dialogue,
+    DialogueHistory
 }
 
 public enum LoadingState

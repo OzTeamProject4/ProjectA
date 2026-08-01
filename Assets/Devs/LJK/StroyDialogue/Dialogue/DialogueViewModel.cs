@@ -6,6 +6,14 @@ public class DialogueViewModel
 {
     private DialogueModel _dialogueModel;
 
+    public string Background
+    {
+        get 
+        {
+            return _dialogueModel.Background; 
+        }
+    }
+
     public string SpeakerNameText
     {
         get 

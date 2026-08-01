@@ -12,8 +12,6 @@ public class DialogueManager : BaseManager<DialogueManager>
     private string _currentStoryKey;
     private string _currentDialogueId;
 
-    private bool _isRunningAutoMode;
-
     private readonly Dictionary<string, DialogueData> _dialogueLines = new Dictionary<string, DialogueData>();
     private readonly Dictionary<string, List<ChoiceData>> _choiceDataDictionary = new Dictionary<string, List<ChoiceData>>();
 
@@ -27,20 +25,27 @@ public class DialogueManager : BaseManager<DialogueManager>
 
     public async UniTask StartDialogue(string storyId)
     {
-        await LoadDialogueAsync(storyId);
+        await GameManager.Instance.UIManager.OpenOverlayUIAsync();
 
-        if (!_dialogueLines.TryGetValue(_currentDialogueId, out DialogueData dialogueData))
+        try
         {
-            Debug.LogError($"[{nameof(DialogueManager)}:{nameof(StartDialogue)}] '{_currentDialogueId}' 대화 데이터를 찾을 수 없습니다.");
-            return;
+            string startDialogueId = await LoadDialogueAsync(storyId);
+
+            if (string.IsNullOrWhiteSpace(startDialogueId))
+            {
+                Debug.LogError($"[{nameof(DialogueManager)}:{nameof(StartDialogue)}] '{storyId}' 스토리의 시작 대화 ID를 가져오지 못했습니다.");
+                return;
+            }
+
+            _dialogueModel.Initialize();
+            ChangeDialogue(startDialogueId);
+
+            await GameManager.Instance.UIManager.OpenDialogueAsync();
         }
-
-        _isRunningAutoMode = false;
-
-        _dialogueModel.SetAutoMode(false);
-        _dialogueModel.UpdateDialogue(dialogueData);
-
-        GameManager.Instance.UIManager.OpenDialogueAsync().Forget();
+        finally
+        {
+            GameManager.Instance.UIManager.CloseOverlayUI();
+        }
     }
 
     public void AdvanceDialogue()
@@ -92,9 +97,26 @@ public class DialogueManager : BaseManager<DialogueManager>
         StopAutoMode();
     }
 
+    public void SkipDialogue()
+    {
+        EndDialogue();
+    }
+
+    public void OpenHistoryDialogue()
+    {
+        StopAutoMode();
+
+        GameManager.Instance.UIManager.OpenDialogueHistoryAsync().Forget();
+    }
+
+    public void HideDialogue()
+    {
+        StopAutoMode();
+    }
+
     private void StartAutoMode()
     {
-        if (_isRunningAutoMode)
+        if (_dialogueModel.IsAutoMode)
         {
             return;
         }
@@ -114,6 +136,11 @@ public class DialogueManager : BaseManager<DialogueManager>
 
     private void StopAutoMode()
     {
+        if (_dialogueModel.IsAutoMode)
+        {
+            return;
+        }
+
         _dialogueModel.SetAutoMode(false);
 
         if (_autoModeCts != null)
@@ -126,8 +153,6 @@ public class DialogueManager : BaseManager<DialogueManager>
 
     private async UniTask RunAutoModeAsync(CancellationToken cancellationToken)
     {
-        _isRunningAutoMode = true;
-
         try
         {
             AdvanceDialogue();
@@ -157,14 +182,16 @@ public class DialogueManager : BaseManager<DialogueManager>
             }
         }
         catch (OperationCanceledException) { }
-        finally
-        {
-            _isRunningAutoMode = false;
-        }
     }
 
     private void ChangeDialogue(string dialogueId)
     {
+        if (string.IsNullOrWhiteSpace(dialogueId))
+        {
+            Debug.LogError($"[{nameof(DialogueManager)}:{nameof(ChangeDialogue)}] 전달된 dialogueId가 null이거나 빈 문자열 또는 공백 문자열입니다.");
+            return;
+        }
+
         _currentDialogueId = dialogueId;
 
         if (!_dialogueLines.TryGetValue(_currentDialogueId, out DialogueData nextDialogueData))
@@ -174,6 +201,11 @@ public class DialogueManager : BaseManager<DialogueManager>
         }
 
         _dialogueModel.UpdateDialogue(nextDialogueData);
+
+        if (!string.IsNullOrWhiteSpace(nextDialogueData.Bgm))
+        {
+            GameManager.Instance.AudioManager.PlayBGM(nextDialogueData.Bgm).Forget();
+        }
     }
 
     private bool HasChoiceGroup(DialogueData dialogueData)
@@ -200,25 +232,22 @@ public class DialogueManager : BaseManager<DialogueManager>
 
     private void EndDialogue()
     {
-        if (_isRunningAutoMode)
-        {
-            StopAutoMode();
-        }
+        StopAutoMode();
 
         GameManager.Instance.UIManager.CloseDialogue();
     }
 
-    private async UniTask LoadDialogueAsync(string key)
+    private async UniTask<string> LoadDialogueAsync(string key)
     {
         if (_currentStoryKey == key)
         {
-            return;
+            return null;
         }
 
         if (!GameManager.Instance.DataManager.TryGetData(key, out StoryInfoData storyInfoData))
         {
             Debug.LogError($"[{nameof(DialogueManager)}:{nameof(LoadDialogueAsync)}] '{key}' 스토리 정보 데이터를 찾을 수 없습니다.");
-            return;
+            return null;
         }
 
         List<DialogueData> dialogueDatas = await LoadDataTableAsync<DialogueData>(storyInfoData.DialogueKey);
@@ -228,7 +257,8 @@ public class DialogueManager : BaseManager<DialogueManager>
         CacheChoiceData(choiceDatas);
 
         _currentStoryKey = key;
-        _currentDialogueId = storyInfoData.StartDialogueId;
+
+        return storyInfoData.StartDialogueId;
     }
 
     private async UniTask<List<T>> LoadDataTableAsync<T>(string key)

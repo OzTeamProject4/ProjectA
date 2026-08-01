@@ -107,7 +107,7 @@ public static class UIManagerExtension
 
     public static async UniTask OpenOverlayUIAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
-        await uiManager.OpenTestRootAsync(UIType.Overlay, cancellationToken);
+        await uiManager.OpenOverlayRootAsync(UIType.Overlay, cancellationToken);
     }
 
     public static void CloseOverlayUI(this UIManager uiManager)
@@ -127,13 +127,26 @@ public static class UIManagerExtension
 
     public static async UniTask OpenDialogueAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
-        await uiManager.OpenOverlayUIAsync();
-        await uiManager.OpenTestRootAsync(UIType.Dialogue, cancellationToken);
-        uiManager.CloseOverlayUI();
+        BaseUI DialogueUI = await uiManager.OpenTestRootAsync(UIType.Dialogue, cancellationToken);
+
+        if (DialogueUI is DialogueView dialogueView)
+        {
+            await dialogueView.WaitUntilInitializedAsync();
+        }
     }
 
     public static void CloseDialogue(this UIManager uiManager)
     {
         uiManager.Close(UIType.Dialogue);
+    }
+
+    public static async UniTask OpenDialogueHistoryAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        await uiManager.OpenTestRootAsync(UIType.DialogueHistory, cancellationToken);
+    }
+
+    public static void CloseDialogueHistory(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.DialogueHistory);
     }
 }

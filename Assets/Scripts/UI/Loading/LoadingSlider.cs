@@ -56,6 +56,7 @@ public class LoadingSlider : MonoBehaviour
         _loadingStepMessages.Add(LoadingStep.LoadItemData, "Preparing items...");
         _loadingStepMessages.Add(LoadingStep.LoadEquipmentData, "Preparing equipment...");
         _loadingStepMessages.Add(LoadingStep.LoadSignatureData, "Preparing signatures...");
+        _loadingStepMessages.Add(LoadingStep.LoadStoryInfoData, "Preparing storyInfo...");
 
         _loadingStepMessages.Add(LoadingStep.Complete, "Loading complete.");
     }

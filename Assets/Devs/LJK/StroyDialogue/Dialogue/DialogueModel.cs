@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class DialogueModel : INotifyPropertyChanged
 {
+    private static readonly PropertyChangedEventArgs BackgroundChanged = new PropertyChangedEventArgs(nameof(Background));
     private static readonly PropertyChangedEventArgs SpeakerNameTextChanged = new PropertyChangedEventArgs(nameof(SpeakerNameText));
     private static readonly PropertyChangedEventArgs DialogueTextChanged = new PropertyChangedEventArgs(nameof(DialogueText));
     private static readonly PropertyChangedEventArgs LeftCharacterIdChanged = new PropertyChangedEventArgs(nameof(LeftCharacterId));
@@ -15,6 +16,7 @@ public class DialogueModel : INotifyPropertyChanged
     private static readonly PropertyChangedEventArgs ChoicesChanged = new PropertyChangedEventArgs(nameof(Choices));
     private static readonly PropertyChangedEventArgs AutoModeChanged = new PropertyChangedEventArgs(nameof(IsAutoMode));
 
+    private string _background;
     private string _speakerNameText;
     private string _dialogueText;
     private bool _isChoiceOpen;
@@ -28,6 +30,26 @@ public class DialogueModel : INotifyPropertyChanged
     private bool _isAutoMode;
 
     private IReadOnlyList<ChoiceData> _choices = Array.Empty<ChoiceData>();
+
+    private readonly List<DialogueData> _dialogueHistory = new List<DialogueData>();
+
+    public string Background
+    {
+        get { return _background; }
+        private set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return;
+            }
+
+            if (_background != value)
+            {
+                _background = value;
+                OnPropertyChanged(BackgroundChanged);
+            }
+        }
+    }
 
     public string SpeakerNameText
     {
@@ -146,22 +168,40 @@ public class DialogueModel : INotifyPropertyChanged
         }
     }
 
+    public IReadOnlyList<DialogueData> DialogueHistory
+    {
+        get 
+        {
+            return _dialogueHistory; 
+        }
+    }
+
     public event PropertyChangedEventHandler PropertyChanged;
 
     public void UpdateDialogue(DialogueData dialogueData)
     {
+        _dialogueHistory.Add(dialogueData);
+
         if (dialogueData == null)
         {
             Debug.LogError($"[{nameof(DialogueModel)}:{nameof(UpdateDialogue)}] 전달된 DialogueData가 null입니다.");
             return;
         }
 
+        Background = dialogueData.Background;
         SpeakerNameText = dialogueData.SpeakerName;
         DialogueText = dialogueData.Text;
         LeftCharacterId = dialogueData.LeftCharacter;
         CenterCharacterId = dialogueData.CenterCharacter;
         RightCharacterId = dialogueData.RightCharacter;
         ActiveCharacterId = dialogueData.ActiveCharacter;
+    }
+
+    public void Initialize()
+    {
+        SetAutoMode(false);
+        Choices = Array.Empty<ChoiceData>();
+        _dialogueHistory.Clear();
     }
 
     public void SetChoices(IReadOnlyList<ChoiceData> choiceDatas)
@@ -181,6 +221,7 @@ public class DialogueModel : INotifyPropertyChanged
 
     public void NotifyAllProperties()
     {
+        OnPropertyChanged(BackgroundChanged);
         OnPropertyChanged(SpeakerNameTextChanged);
         OnPropertyChanged(DialogueTextChanged);
         OnPropertyChanged(LeftCharacterIdChanged);

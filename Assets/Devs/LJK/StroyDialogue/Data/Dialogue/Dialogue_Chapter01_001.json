@@ -41,7 +41,7 @@
     "RightCharacter": "Alice",
     "ActiveCharacter": "Teacher",
     "Background": "BG_Battlefield",
-    "Bgm": "BGM_Battle",
+    "Bgm": null,
     "AutoNextDelay": 0
   },
   {
@@ -55,7 +55,7 @@
     "CenterCharacter": null,
     "RightCharacter": "Alice",
     "ActiveCharacter": "Alice",
-    "Background": "BG_Battlefield",
+    "Background": null,
     "Bgm": "BGM_Result",
     "AutoNextDelay": 1
   }
