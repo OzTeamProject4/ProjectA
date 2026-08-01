@@ -1,11 +1,12 @@
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FarmingDungeonButtonView : MonoBehaviour
+[RequireComponent(typeof(Button))]
+public sealed class FarmingDungeonButtonView : MonoBehaviour
 {
-    [SerializeField] private GameObject _screenRoot;
-    [SerializeField] private GameObject _farmingDungeonScreen;
-
     private Button _button;
 
     private void Awake()
@@ -25,21 +26,46 @@ public class FarmingDungeonButtonView : MonoBehaviour
 
     private void OnButtonClicked()
     {
-        if (_screenRoot == null)
+        if (GameManager.Instance == null)
         {
-            Debug.LogError("ScreenRoot is not assigned.");
+            Debug.LogError(
+                "[FarmingDungeonButtonView] GameManager.Instance가 존재하지 않습니다.");
             return;
         }
 
-        if (_farmingDungeonScreen == null)
+        UIManager uiManager = GameManager.Instance.UIManager;
+
+        if (uiManager == null)
         {
-            Debug.LogError("FarmingDungeonScreen is not assigned.");
+            Debug.LogError(
+                "[FarmingDungeonButtonView] UIManager가 존재하지 않습니다.");
             return;
         }
 
-        _screenRoot.SetActive(true);
-        _farmingDungeonScreen.SetActive(true);
+        OpenFarmingDungeonScreenAsync(
+            uiManager,
+            destroyCancellationToken).Forget();
+    }
 
-        Debug.Log("Farming Dungeon Screen Opened.");
+    private async UniTask OpenFarmingDungeonScreenAsync(
+        UIManager uiManager,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            await uiManager.OpenFarmingDungeonScreenAsync(
+                cancellationToken);
+
+            uiManager.ClosePracticeFieldScreen();
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        catch (Exception exception)
+        {
+            Debug.LogError(
+                $"[FarmingDungeonButtonView] FarmingDungeonScreen을 열지 못했습니다.\n{exception}");
+        }
     }
 }

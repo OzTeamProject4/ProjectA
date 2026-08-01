@@ -1,0 +1,153 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Audio_Skill
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Audio_Skill
+  m_GUID: dae47ee611417fe4fbccd57c70a305c1
+  m_SerializeEntries:
+  - m_GUID: 0e1425070b5d57f48860b69e59405183
+    m_Address: CastSfx_Grass_003
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0fe99114e1610be4890a62564de78e7d
+    m_Address: CastSfx_Normal_020
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22338fac3c442d84885d0798294b2e46
+    m_Address: CastSfx_Normal_010
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2393a60590af2234390324190433ab06
+    m_Address: CastSfx_Fire_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3a5da4b62fd9d0c41ae75eca1ed2de93
+    m_Address: CastSfx_Water_003
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3cfb28267e034cc489d2098486cc9052
+    m_Address: HitSfx_Water_003
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5b9dc5cd7c6914f4284982e4af873eef
+    m_Address: HitSfx_Fire_003
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 609f9fdd2e2022d438c310541f06c59d
+    m_Address: HitSfx_Normal_030
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 62cde5960df563145a5bff27af6a134e
+    m_Address: CastSfx_Grass_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7303d0188e1f3e44c84a9ee362150713
+    m_Address: CastSfx_Water_002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 97ace6e0746766a49b7c3c02cce2065f
+    m_Address: HitSfx_Grass_002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9a5ce084728bd2f4697f838930de022a
+    m_Address: HitSfx_Grass_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a2eacf327c9c36342aa46c387325e1ae
+    m_Address: HitSfx_Fire_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a6f425c726b9acc439c486a33feae758
+    m_Address: CastSfx_Water_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a97148119fe55c5499c82f6ab34a5bd0
+    m_Address: HitSfx_Grass_003
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b87662fc00a21904e8eb304438ef2b13
+    m_Address: CastSfx_Normal_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: baa0b31c46caf4446a78bfc2d125acb4
+    m_Address: HitSfx_Water_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bfdf6cd47d2a4264996a9c343961d05f
+    m_Address: CastSfx_Fire_002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c08b87b73e4b3664b83ef6714ce2fad5
+    m_Address: CastSfx_Fire_003
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c150dfca062780549a75ed87b0e6937f
+    m_Address: HitSfx_Normal_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c36be360df1e679419976e0b5248bdff
+    m_Address: CastSfx_Normal_002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c5bc8de1a7c8c9a41b0f1b0840075f6f
+    m_Address: HitSfx_Normal_010
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ccf134c2d1a665d469d29d34976c8ccd
+    m_Address: CastSfx_Normal_003
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d6dc99dd15cf0a7489a9fc205c322f5d
+    m_Address: CastSfx_Normal_030
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ec4efe485d230a04db028b1893967ff5
+    m_Address: CastSfx_Grass_002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f7e3d317a0e05844d8a2be5717296616
+    m_Address: HitSfx_Normal_020
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: a2c5544ffab75cb428ed6b2ff736503e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 20bdbec09c9c8f240916f52f1d582c89, type: 2}
+    - {fileID: 11400000, guid: 811799908dd8ccc4c840295f441fe0fb, type: 2}

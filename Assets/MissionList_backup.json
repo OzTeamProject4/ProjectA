@@ -1,0 +1,206 @@
+[
+  {
+    "DataId": "Scenario_001",
+    "Category": "Scenario",
+    "Title": "첫 출정",
+    "Description": "스테이지 1-1을 클리어하세요.",
+    "ObjectiveType": "StageClear",
+    "TargetId": "Stage_1_1",
+    "TargetCount": 1,
+    "Rewards": [
+      { "ItemId": "Currency_Gold", "Amount": 1000 }
+    ]
+  },
+  {
+    "DataId": "Scenario_002",
+    "Category": "Scenario",
+    "Title": "첫 만남",
+    "Description": "캐릭터 소환을 1회 진행하세요.",
+    "ObjectiveType": "GachaPull",
+    "TargetId": "CharacterGacha",
+    "TargetCount": 1,
+    "Rewards": [
+      { "ItemId": "Currency_Ticket_Gacha", "Amount": 5 }
+    ]
+  },
+  {
+    "DataId": "Scenario_003",
+    "Category": "Scenario",
+    "Title": "첫 강화",
+    "Description": "장비 1개를 강화하세요.",
+    "ObjectiveType": "EquipmentEnhance",
+    "TargetId": "",
+    "TargetCount": 1,
+    "Rewards": [
+      { "ItemId": "Currency_Gold", "Amount": 2000 }
+    ]
+  },
+  {
+    "DataId": "Scenario_004",
+    "Category": "Scenario",
+    "Title": "새로운 동료",
+    "Description": "도감에서 캐릭터 정보 1개를 확인하세요.",
+    "ObjectiveType": "DictionaryView",
+    "TargetId": "Character",
+    "TargetCount": 1,
+    "Rewards": [
+      { "ItemId": "Currency_ExpBook_Small", "Amount": 10 }
+    ]
+  },
+  {
+    "DataId": "Scenario_005",
+    "Category": "Scenario",
+    "Title": "출격 준비",
+    "Description": "파티에 캐릭터 3명을 편성하세요.",
+    "ObjectiveType": "PartyMemberCount",
+    "TargetId": "",
+    "TargetCount": 3,
+    "Rewards": [
+      { "ItemId": "Currency_Crystal", "Amount": 500 }
+    ]
+  },
+  {
+    "DataId": "Daily_001",
+    "Category": "Daily",
+    "Title": "적 3명 처치",
+    "Description": "적을 3명 처치하세요.",
+    "ObjectiveType": "EnemyKill",
+    "TargetId": "",
+    "TargetCount": 3,
+    "Rewards": [
+      { "ItemId": "Currency_Gold", "Amount": 1000 }
+    ]
+  },
+  {
+    "DataId": "Daily_002",
+    "Category": "Daily",
+    "Title": "스킬 10회 사용",
+    "Description": "스킬을 10회 사용하세요.",
+    "ObjectiveType": "SkillUse",
+    "TargetId": "",
+    "TargetCount": 10,
+    "Rewards": [
+      { "ItemId": "Currency_ExpBook_Small", "Amount": 30 }
+    ]
+  },
+  {
+    "DataId": "Daily_003",
+    "Category": "Daily",
+    "Title": "전투 3회 클리어",
+    "Description": "전투를 3회 클리어하세요.",
+    "ObjectiveType": "BattleClear",
+    "TargetId": "",
+    "TargetCount": 3,
+    "Rewards": [
+      { "ItemId": "Currency_Crystal", "Amount": 100 }
+    ]
+  },
+  {
+    "DataId": "Daily_004",
+    "Category": "Daily",
+    "Title": "경험치 던전 1회 클리어",
+    "Description": "경험치 던전을 1회 클리어하세요.",
+    "ObjectiveType": "FarmingDungeonClear",
+    "TargetId": "Exp",
+    "TargetCount": 1,
+    "Rewards": [
+      { "ItemId": "Currency_ExpBook_Medium", "Amount": 15 }
+    ]
+  },
+  {
+    "DataId": "Daily_005",
+    "Category": "Daily",
+    "Title": "골드 던전 1회 클리어",
+    "Description": "골드 던전을 1회 클리어하세요.",
+    "ObjectiveType": "FarmingDungeonClear",
+    "TargetId": "Gold",
+    "TargetCount": 1,
+    "Rewards": [
+      { "ItemId": "Currency_Ticket_Sweep", "Amount": 2 }
+    ]
+  },
+  {
+    "DataId": "Daily_006",
+    "Category": "Daily",
+    "Title": "일일 미션 5개 완료",
+    "Description": "일일 미션을 5개 완료하세요.",
+    "ObjectiveType": "MissionComplete",
+    "TargetId": "Daily",
+    "TargetCount": 5,
+    "Rewards": [
+      { "ItemId": "Currency_Ticket_Gacha", "Amount": 1 }
+    ]
+  },
+  {
+    "DataId": "Weekly_001",
+    "Category": "Weekly",
+    "Title": "일일 접속 5회",
+    "Description": "게임에 5일 접속하세요.",
+    "ObjectiveType": "LoginDay",
+    "TargetId": "",
+    "TargetCount": 5,
+    "Rewards": [
+      { "ItemId": "Currency_Crystal", "Amount": 250 }
+    ]
+  },
+  {
+    "DataId": "Weekly_002",
+    "Category": "Weekly",
+    "Title": "경험치 던전 10회 클리어",
+    "Description": "경험치 던전을 10회 클리어하세요.",
+    "ObjectiveType": "FarmingDungeonClear",
+    "TargetId": "Exp",
+    "TargetCount": 10,
+    "Rewards": [
+      { "ItemId": "Currency_Ticket_Sweep", "Amount": 3 }
+    ]
+  },
+  {
+    "DataId": "Weekly_003",
+    "Category": "Weekly",
+    "Title": "골드 던전 10회 클리어",
+    "Description": "골드 던전을 10회 클리어하세요.",
+    "ObjectiveType": "FarmingDungeonClear",
+    "TargetId": "Gold",
+    "TargetCount": 10,
+    "Rewards": [
+      { "ItemId": "Currency_Gold", "Amount": 20000 }
+    ]
+  },
+  {
+    "DataId": "Weekly_004",
+    "Category": "Weekly",
+    "Title": "스킬 50회 사용",
+    "Description": "스킬을 50회 사용하세요.",
+    "ObjectiveType": "SkillUse",
+    "TargetId": "",
+    "TargetCount": 50,
+    "Rewards": [
+      { "ItemId": "Currency_Crystal", "Amount": 20000 }
+    ]
+  },
+  {
+    "DataId": "Weekly_005",
+    "Category": "Weekly",
+    "Title": "적 50명 처치",
+    "Description": "적을 50명 처치하세요.",
+    "ObjectiveType": "EnemyKill",
+    "TargetId": "",
+    "TargetCount": 50,
+    "Rewards": [
+      { "ItemId": "Currency_Gold", "Amount": 500 }
+    ]
+  },
+  {
+    "DataId": "Weekly_006",
+    "Category": "Weekly",
+    "Title": "주간 미션 5개 완료",
+    "Description": "주간 미션을 5개 완료하세요.",
+    "ObjectiveType": "MissionComplete",
+    "TargetId": "Weekly",
+    "TargetCount": 5,
+    "Rewards": [
+      { "ItemId": "Currency_Ticket_Gacha", "Amount": 3 }
+    ]
+  }
+]

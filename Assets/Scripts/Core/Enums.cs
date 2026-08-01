@@ -1,14 +1,33 @@
 ﻿public enum UIType
 {
-    CharacterList,
-    CharacterDetail,
-    ExpItemSelectPopup,
-    CraftPopup,
-    EquipmentListPopup,
-    EquipmentDetailPopup,
-    ItemPreviewPopup,
+    Lobby,
+    StudentManagementList,
+    StudentManagement,
+    ExperienceInventoryPopup,
+    EquipmentInventoryPopup,
+    EquipmentCraftPopup,
+    EquipmentInfoPopup,
+    CraftEquipmentInfoPopup,
+    StageInfoPopup,
+    PartySetupPopup,
     Overlay,
     Loading,
+    PracticeFieldScreen,
+    StageSelectScreen,
+    DictionaryScreen,
+    FarmingDungeonScreen,
+    CharacterGachaScreen,
+    MissionScreen,
+    InventoryScreen,
+    InventoryDetail,
+    AchievementScreen,
+    PartySelectPopup,
+    BattleResultPopup,
+    BattlePausePopup,
+    ReturnToLobbyPopup,
+    StageSelectHud,
+    BattleHUD,
+    EnemyHud,   
     Dialogue,
     DialogueHistory
 }
@@ -23,12 +42,22 @@ public enum LoadingStep
 {
     None,
     Initialize,
-    LoadCharacterData,
-    LoadCharacterGradeData,
-    LoadLevelExpData,
+    LoadStudentData,
+    LoadStudentGradeData,
+    LoadStudentLevelData,
     LoadItemData,
+    LoadMaterialData,
+    LoadCurrencyData,
     LoadEquipmentData,
     LoadSignatureData,
+    LoadStageData,
+    LoadStageWaveData,
+    Complete,
+    LoadSkillData,
+    LoadEnemyData,
+    LoadEnemySkillData,
+    LoadMissionData,
+    LoadAudioData,
     LoadStoryInfoData,
     LoadDialoguePortraitData,
     Complete
@@ -59,25 +88,43 @@ public enum RollType
 
 public enum ItemType
 {
+    Currency,
+    Equipment,
+    Signature,
+    Material
+}
+
+public enum CurrencyType
+{
+    Gold,
+    Crystal,
     ExpBook,
     Ticket,
-    Material
+    Material,
+    Shard
 }
 
 public enum EquipType
 {
     Weapon,
-    Helmet,
+    Hat,
     Armor,
-    Greeve,
+    Boots,
     Accessory,
     Signature
 }
 
-public enum StatType
+public enum ScreenType
 {
-    MaxHp,
-    Atk,
-    Def,
-    MoveSpeed
+    Lobby,
+    StageSelect,
+    Battle
+}
+
+public enum InventoryFilterType
+{
+    All,
+    Equipment,
+    Currency,
+    Material
 }

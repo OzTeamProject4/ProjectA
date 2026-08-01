@@ -1,0 +1,32 @@
+[
+  {
+    "DataId": "Stage_001",
+    "StageName": "현장학습 시작!",
+    "StageNumber": "1-1",
+    "WaveCount": 5,
+    "TimeLimit": "900",
+    "RewardItemId": "Item_Gold,Item_Mat_T1",
+    "RewardItemCount": "200,5",
+    "MapPrefabKey": "Prefab/BattleMap_Straight_01"
+  },
+  {
+    "DataId": "Stage_002",
+    "StageName": "마법의 숲 초입",
+    "StageNumber": "1-2",
+    "WaveCount": 3,
+    "TimeLimit": "900",
+    "RewardItemId": "Item_Gold,Item_Mat_T1,Item_Mat_T2",
+    "RewardItemCount": "300,10,5",
+    "MapPrefabKey": "Prefab/BattleMap_Straight_01"
+  },
+  {
+    "DataId": "Stage_003",
+    "StageName": "아름다운 호숫가",
+    "StageNumber": "1-3",
+    "WaveCount": 4,
+    "TimeLimit": "900",
+    "RewardItemId": "Item_Gold,Item_Mat_T1,Item_Mat_T2",
+    "RewardItemCount": "500,10,10",
+    "MapPrefabKey": "Prefab/BattleMap_Straight_01"
+  }
+]
