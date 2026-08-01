@@ -323,7 +323,7 @@ public class CharacterSkillSystem : MonoBehaviour
 
     public void UseUltSkill()
     {
-        if (_ultimateSkill == null /*|| _currentGauge < _maxGauge */)
+        if (_ultimateSkill == null || _currentGauge < _maxGauge)
         {
             return;
         }
