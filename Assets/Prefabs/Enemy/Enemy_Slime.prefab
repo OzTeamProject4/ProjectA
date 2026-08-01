@@ -129,7 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   _enemyTransform: {fileID: 4328385525343379646}
   HeadTransform: {fileID: 170584406280928923}
-  _skillTransform: {fileID: 5311542006240780484}
+  _skillTransform: {fileID: 4328385525343379646}
   _animator: {fileID: 2258079694193818302}
   behaviorGraphAgent: {fileID: 2279304244387654077}
 --- !u!65 &3710799506084892989
