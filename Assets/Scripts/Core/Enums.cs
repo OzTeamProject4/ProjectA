@@ -16,7 +16,6 @@
     StageSelectScreen,
     DictionaryScreen,
     FarmingDungeonScreen,
-    CharacterGachaScreen,
     MissionScreen,
     InventoryScreen,
     InventoryDetail,
@@ -27,10 +26,10 @@
     ReturnToLobbyPopup,
     StageSelectHud,
     BattleHUD,
-    
     EnemyHud,
     Dialogue,
     DialogueHistory,
+    StudentGacha,
     Profile,
     ProfileStudentSelectPopup
 }
@@ -62,6 +61,8 @@ public enum LoadingStep
     LoadAudioData,
     LoadStoryInfoData,
     LoadDialoguePortraitData,
+    LoadStudentGachaListData,
+    LoadStudentGachaData,
     Complete
 }
 

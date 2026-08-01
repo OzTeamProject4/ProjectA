@@ -15,13 +15,33 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 6c3b65eb4f8cd5349a5ea4eb7c4658ed
   m_SerializeEntries:
+  - m_GUID: 1ab7d70a6187aca49abe8928afb69ef1
+    m_Address: Sprite/Gacha
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 26721d8b39b93fe4885c5bf7f0faa618
+    m_Address: Data/StudentGacha
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 306aacece41374f42b6be8c1c0ae993b
     m_Address: TestEnemy
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8ab8f2cbec2cc3a4a9c7fb768430a616
+    m_Address: Test
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c1e3f459ebd31684a9bf8772ff117721
     m_Address: Video/Test
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c48682c049503dc428b195efa3f7f532
+    m_Address: Data/StudentGachList
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

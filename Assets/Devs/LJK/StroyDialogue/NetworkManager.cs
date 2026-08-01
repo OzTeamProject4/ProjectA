@@ -6,6 +6,8 @@ public class NetworkManager : MonoBehaviour
 
     private DialogueModel _dialogueModel;
 
+    private StudentGachaModel _studentGachaModel;
+
     public DialogueModel DialogueModel
     {
         get
@@ -16,6 +18,19 @@ public class NetworkManager : MonoBehaviour
             }
 
             return _dialogueModel;
+        }
+    }
+
+    public StudentGachaModel StudentGachaModel
+    {
+        get
+        {
+            if (_studentGachaModel == null)
+            {
+                _studentGachaModel = new StudentGachaModel();
+            }
+
+            return _studentGachaModel;
         }
     }
 

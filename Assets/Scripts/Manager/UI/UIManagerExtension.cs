@@ -240,16 +240,6 @@ public static class UIManagerExtension
         uiManager.Close(UIType.FarmingDungeonScreen);
     }
 
-    public static async UniTask OpenCharacterGachaScreenAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
-    {
-        await uiManager.OpenTestRootAsync(UIType.CharacterGachaScreen, cancellationToken);
-    }
-
-    public static void CloseCharacterGachaScreen(this UIManager uiManager)
-    {
-        uiManager.Close(UIType.CharacterGachaScreen);
-    }
-
     public static async UniTask<BattleResultPopupView> OpenBattleResultAsync(this UIManager uiManager, bool isVictory, string stageId, CancellationToken cancellationToken = default)
     {
         BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.BattleResultPopup, cancellationToken);
@@ -450,5 +440,15 @@ public static class UIManagerExtension
     public static void CloseDialogueHistory(this UIManager uiManager)
     {
         uiManager.Close(UIType.DialogueHistory);
+    }
+
+    public static async UniTask OpenStudentGachaAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        await uiManager.OpenTestRootAsync(UIType.StudentGacha, cancellationToken);
+    }
+
+    public static void CloseStudentGacha(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.StudentGacha);
     }
 }
