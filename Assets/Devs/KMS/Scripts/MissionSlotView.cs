@@ -20,9 +20,7 @@ public class MissionSlotView : MonoBehaviour
 
         _contentText.text =
             $"{mission.Title}\n" +
-            $"{mission.Description}\n" +
-            $"진행도: 0 / {mission.TargetCount}\n" +
-            $"보상: {rewardText}";
+            $"{mission.Description}\n";
 
         // 진행도 기능(임시 비활성)
         _receiveButton.interactable = false;
