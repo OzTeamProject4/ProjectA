@@ -65,6 +65,7 @@ public class LoadingSlider : MonoBehaviour
         _loadingStepMessages.Add(LoadingStep.LoadEnemySkillData, "적 스킬 데이터 불러오는 중...");
         _loadingStepMessages.Add(LoadingStep.LoadAudioData, "오디오 데이터 불러오는 중...");
         _loadingStepMessages.Add(LoadingStep.LoadMissionData, "미션 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadStoryInfoData, "Preparing storyInfo...");
 
         _loadingStepMessages.Add(LoadingStep.Complete, "로딩 완료.");
     }

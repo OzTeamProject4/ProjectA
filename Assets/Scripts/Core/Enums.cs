@@ -27,7 +27,9 @@
     ReturnToLobbyPopup,
     StageSelectHud,
     BattleHUD,
-    EnemyHud
+    EnemyHud,   
+    Dialogue,
+    DialogueHistory
 }
 
 public enum LoadingState
@@ -50,12 +52,14 @@ public enum LoadingStep
     LoadSignatureData,
     LoadStageData,
     LoadStageWaveData,
-    Complete,
     LoadSkillData,
     LoadEnemyData,
     LoadEnemySkillData,
     LoadMissionData,
-    LoadAudioData
+    LoadAudioData,
+    LoadStoryInfoData,
+    LoadDialoguePortraitData,
+    Complete
 }
 
 public enum UIRoot
