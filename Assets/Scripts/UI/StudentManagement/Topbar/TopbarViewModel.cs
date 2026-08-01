@@ -12,7 +12,7 @@ public class TopbarViewModel
     {
         get
         {
-            return _inventoryModel.GetItemCount(CurrencyItemId.Gold);
+            return _inventoryModel.GetMaterialCount(CurrencyItemId.Gold);
         }
     }
 
@@ -20,7 +20,7 @@ public class TopbarViewModel
     {
         get
         {
-            return _inventoryModel.GetItemCount(CurrencyItemId.Crystal);
+            return _inventoryModel.GetMaterialCount(CurrencyItemId.Crystal);
         }
     }
 

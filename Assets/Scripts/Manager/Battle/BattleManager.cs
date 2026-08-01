@@ -442,6 +442,11 @@ public class BattleManager : BaseManager<BattleManager>
 
     private async UniTaskVoid ShowResultAsync(bool isVictory)
     {
+        if (isVictory)
+        {
+            GrantStageRewards();
+        }
+
         BattleResultPopupView view = await GameManager.Instance.UIManager.OpenBattleResultAsync(isVictory, _stageId, destroyCancellationToken);
 
         BattleResultChoice choice = BattleResultChoice.Return;
@@ -466,6 +471,24 @@ public class BattleManager : BaseManager<BattleManager>
         }
 
         OnReturnToSelectRequested?.Invoke();
+    }
+
+    private void GrantStageRewards()
+    {
+        if (!GameManager.Instance.DataManager.TryGetData(_stageId, out StageData stageData))
+        {
+            return;
+        }
+
+        if (!stageData.TryGetRewards(out (string ItemId, int Count)[] rewards))
+        {
+            return;
+        }
+
+        foreach ((string ItemId, int Count) reward in rewards)
+        {
+            NetworkManagerTemp.Instance.InventoryModel.GrantMaterial(reward.ItemId, reward.Count);
+        }
     }
 
     private void HandleUltimate()

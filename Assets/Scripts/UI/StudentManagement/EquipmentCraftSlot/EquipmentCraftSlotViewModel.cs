@@ -95,7 +95,7 @@ public class EquipmentCraftSlotViewModel
 
     public int GetOwnedItemCount(string itemId)
     {
-        return NetworkManagerTemp.Instance.InventoryModel.GetItemCount(itemId);
+        return NetworkManagerTemp.Instance.InventoryModel.GetMaterialCount(itemId);
     }
 
     public string GetItemTier(string itemId)

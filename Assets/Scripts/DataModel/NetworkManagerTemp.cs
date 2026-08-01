@@ -147,7 +147,7 @@ public class NetworkManagerTemp : MonoBehaviour
             return;
         }
 
-        inventoryModel.AddExpItem(new MaterialModel(itemData, count));
+        inventoryModel.AddMaterial(new MaterialModel(itemData, count));
     }
 
     private static bool TryGetItemData(string itemDataId, out ItemData itemData)

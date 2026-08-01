@@ -21,7 +21,7 @@ public class StudentManagementViewModel
     {
         get
         {
-            return _inventoryModel.GetItemCount(_studentModel.RequiredGradeUpItemId);
+            return _inventoryModel.GetMaterialCount(_studentModel.RequiredGradeUpItemId);
         }
     }
 
