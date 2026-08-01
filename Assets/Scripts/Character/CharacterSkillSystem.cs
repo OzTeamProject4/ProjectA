@@ -177,6 +177,11 @@ public class CharacterSkillSystem : MonoBehaviour
 
     private void Update()
     {
+        if (_battleCharacter != null && _battleCharacter.IsDead)
+        {
+            return;
+        }
+
         UpdateGauge();
     }
 

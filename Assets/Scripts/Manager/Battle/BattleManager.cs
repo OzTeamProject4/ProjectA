@@ -234,7 +234,7 @@ public class BattleManager : BaseManager<BattleManager>
         {
             return;
         }
-
+        _partyController.OnPartyWiped -= HandlePartyWiped;
         _partyController.Cleanup();
         _partyController = null;
     }
@@ -278,6 +278,7 @@ public class BattleManager : BaseManager<BattleManager>
         CleanupPartyController();
         
         _partyController = new PartyController();
+        _partyController.OnPartyWiped += HandlePartyWiped;
 
         bool hasStageData = GameManager.Instance.DataManager.TryGetData(stageId, out StageData stageData);
 
@@ -316,8 +317,12 @@ public class BattleManager : BaseManager<BattleManager>
 
     public void EndBattle(bool isVictory)
     {
-        _isBattleActive = false;
+        if (_isBattleActive == false)
+        {
+            return;
+        }
 
+        _isBattleActive = false;
         StopEnemies();
 
         GameManager.Instance.UIManager.CloseBattleHUD();
@@ -615,5 +620,10 @@ public class BattleManager : BaseManager<BattleManager>
             default:
                 return string.Empty;
         }
+    }
+
+    private void HandlePartyWiped()
+    {
+        EndBattle(false);
     }
 }

@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class BattleHUDView : BaseUI
 {
+    private static readonly Color AlivePortraitColor = Color.white;
+    private static readonly Color DeadPortraitColor = new Color(0.4f, 0.4f, 0.4f, 0.6f);
+
     [Header("Top")]
     [SerializeField] private TMP_Text _stageText;
     [SerializeField] private TMP_Text _timerText;
@@ -223,6 +226,34 @@ public class BattleHUDView : BaseUI
         }
         image.sprite = portrait;
     }
+    public void SetPartyMemberDead(int index, bool isDead)
+    {
+        if (_characterImage == null)
+        {
+            return;
+        }
+
+        if (index < 0 || index >= _characterImage.Length)
+        {
+            return;
+        }
+
+        Image image = _characterImage[index];
+
+        if (image == null)
+        {
+            return;
+        }
+
+        if (isDead)
+        {
+            image.color = DeadPortraitColor;
+            return;
+        }
+
+        image.color = AlivePortraitColor;
+    }
+
     public void SetCharacterIcon(Sprite icon)
     {
         if (_typeICON == null)

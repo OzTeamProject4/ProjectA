@@ -133,6 +133,7 @@ public class BattleHUDPresenter
                 if (member != null)
                 {
                     _hudView.SetPartyMemberHp(i, member.CurHp, member.MaxHp);
+                    _hudView.SetPartyMemberDead(i, member.IsDead);
 
                     CharacterSkillSystem skillSystem = member.GetComponent<CharacterSkillSystem>();
                     if (skillSystem != null)
