@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NetworkManagerTemp : MonoBehaviour
@@ -11,6 +12,8 @@ public class NetworkManagerTemp : MonoBehaviour
     private StudentListModel _studentListModel;
     private InventoryModel _inventoryModel;
     private EquipmentCraftListModel _equipmentCraftListModel;
+    private PlayerProfileModel _playerProfileModel;
+    private StageClearModel _stageClearModel;
 
     public StudentListModel StudentListModel
     {
@@ -48,6 +51,32 @@ public class NetworkManagerTemp : MonoBehaviour
             }
 
             return _equipmentCraftListModel;
+        }
+    }
+
+    public PlayerProfileModel PlayerProfileModel
+    {
+        get
+        {
+            if (_playerProfileModel == null)
+            {
+                _playerProfileModel = CreatePlayerProfileModel();
+            }
+
+            return _playerProfileModel;
+        }
+    }
+
+    public StageClearModel StageClearModel
+    {
+        get
+        {
+            if (_stageClearModel == null)
+            {
+                _stageClearModel = CreateStageClearModel();
+            }
+
+            return _stageClearModel;
         }
     }
 
@@ -182,6 +211,32 @@ public class NetworkManagerTemp : MonoBehaviour
         }
 
         return new EquipmentCraftListModel(equipmentCraftModels);
+    }
+
+    private StageClearModel CreateStageClearModel()
+    {
+        StageClearModel stageClearModel = new StageClearModel(Array.Empty<string>());
+
+        return stageClearModel;
+    }
+
+    private PlayerProfileModel CreatePlayerProfileModel()
+    {
+        PlayerProfileSaveTemp.LoadAndUpdate(DateTime.Now, out DateTime accountCreatedAt, out DateTime lastConnectAt, out int totalLoginDays);
+
+        PlayerProfileModel playerProfileModel = new PlayerProfileModel(
+            "선생님",
+            12,
+            "신입 교사",
+            accountCreatedAt,
+            lastConnectAt,
+            totalLoginDays,
+            "잘 부탁드립니다!",
+            1,
+            1,
+            "Character_001");
+
+        return playerProfileModel;
     }
 
     public bool TryGetStudentStats(string studentDataId, out StatData statData)

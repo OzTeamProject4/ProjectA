@@ -36,6 +36,7 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     private float _currentAnimSpeed;
     private float _maxHp;
     private float _baseMoveSpeed;
+    private bool _isDead;
     private CancellationTokenSource _buffCts;
     private NavMeshAgent _navMeshAgent;
     private Sprite _elementIcon;
@@ -123,9 +124,17 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         }
     }
 
+    public bool IsDead
+    {
+        get
+        {
+            return _isDead;
+        }
+    }
     public event Action<float> OnMoveSpeedChanged;
     public event Action<bool> OnGroundedChanged;
     public event Action<float, float> OnHpChanged;
+    public event Action<BattleCharacter> OnCharacterDied;
 
     private void Awake()
     {
@@ -290,7 +299,17 @@ public class BattleCharacter : MonoBehaviour, IDamageable
 
         _modelTransform.rotation = Quaternion.LookRotation(direction.normalized);
     }
+    public void Teleport(Vector3 position)
+    {
+        _rigidbody.linearVelocity = Vector3.zero;
+        transform.position = position;
+        _rigidbody.position = position;
 
+        if (_navMeshAgent != null && _navMeshAgent.enabled && _navMeshAgent.isOnNavMesh)
+        {
+            _navMeshAgent.Warp(position);
+        }
+    }
     public void TakeDamage(int damage, GameObject attacker)
     {
         SetHp(_curHp - damage);
@@ -311,8 +330,19 @@ public class BattleCharacter : MonoBehaviour, IDamageable
 
     private void SetHp(float hp)
     {
+        if (_isDead)
+        {
+            return;
+        }
+
         _curHp = Mathf.Clamp(hp, 0f, _maxHp);
         OnHpChanged?.Invoke(_curHp, _maxHp);
+
+        if (_curHp <= 0f)
+        {
+            Die();
+        }
+
     }
 
     private async UniTask ApplyMoveSpeedBuffAsync(float speedBuffPercent, float duration, CancellationToken token)
@@ -365,5 +395,12 @@ public class BattleCharacter : MonoBehaviour, IDamageable
     public void SetPortraitSprite(Sprite sprite)
     {
         _portraitSprite = sprite;
+    }
+
+    private void Die()
+    {
+        _isDead = true;
+        _rigidbody.linearVelocity = Vector3.zero;
+        OnCharacterDied?.Invoke(this);
     }
 }

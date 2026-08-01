@@ -379,6 +379,39 @@ public static class UIManagerExtension
         uiManager.Close(UIType.EnemyHud);
     }
 
+    public static async UniTask<ProfileView> OpenProfileAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        await uiManager.OpenOverlayAsync();
+
+        try
+        {
+            BaseUI baseUI = await uiManager.OpenContentRootAsync(UIType.Profile, cancellationToken);
+
+            return GetView<ProfileView>(baseUI, UIType.Profile);
+        }
+        finally
+        {
+            uiManager.CloseOverlay();
+        }
+    }
+
+    public static void CloseProfile(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.Profile);
+    }
+
+    public static async UniTask<ProfileStudentSelectPopupView> OpenProfileStudentSelectPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        BaseUI baseUI = await uiManager.OpenPopupRootAsync(UIType.ProfileStudentSelectPopup, cancellationToken);
+
+        return GetView<ProfileStudentSelectPopupView>(baseUI, UIType.ProfileStudentSelectPopup);
+    }
+
+    public static void CloseProfileStudentSelectPopup(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.ProfileStudentSelectPopup);
+    }
+
     private static T GetView<T>(BaseUI baseUI, UIType uiType) where T : BaseUI
     {
         if (baseUI == null)
