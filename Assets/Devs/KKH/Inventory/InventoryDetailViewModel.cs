@@ -68,6 +68,7 @@ public class InventoryDetailViewModel
         {
             case InventoryFilterType.All:
                 AddItems(_inventoryModel.Inventory.Values);
+                AddItems(_inventoryModel.Equipments.Values);
                 break;
             case InventoryFilterType.Equipment:
                 AddItems(_inventoryModel.Equipments.Values);
