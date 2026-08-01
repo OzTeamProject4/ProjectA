@@ -392,6 +392,5 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         _isDead = true;
         _rigidbody.linearVelocity = Vector3.zero;
         OnCharacterDied?.Invoke(this);
-        // TODO 희준 : 사망 애니메이션 적용 필요
     }
 }

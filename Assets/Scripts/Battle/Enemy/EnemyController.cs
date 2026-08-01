@@ -30,7 +30,13 @@ public class EnemyController : MonoBehaviour, IDamageable
     public EnemyViewModel _vm;
     public BehaviorGraphAgent behaviorGraphAgent;
 
-
+    public bool IsAlive
+    {
+        get
+        {
+            return _vm != null && _vm.IsActive;
+        }
+    }
 
     private void Awake()
     {
