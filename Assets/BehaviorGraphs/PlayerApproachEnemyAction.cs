@@ -9,6 +9,8 @@ using Action = Unity.Behavior.Action;
 [NodeDescription(name: "PlayerApproachEnemy", story: "[Self] approaches [EnemyTarget] running [IsRunning]", category: "Action", id: "a60be9b57f691940a3b2aa163ca23f01")]
 public partial class PlayerApproachEnemyAction : Action
 {
+    private const float CombatFormationRangeRatio = 0.7f;
+
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<GameObject> EnemyTarget;
     [SerializeReference] public BlackboardVariable<bool> IsRunning;
@@ -60,7 +62,11 @@ public partial class PlayerApproachEnemyAction : Action
             return Status.Success;
         }
 
-        Vector3 destination = AIFormationUtil.GetFormationPosition(EnemyTarget.Value.transform.position, SlotIndex.Value, _skillSystem.AttackRange);
+        _navMeshAgent.nextPosition = Self.Value.transform.position;
+
+        float formationRadius = _skillSystem.AttackRange * CombatFormationRangeRatio;
+
+        Vector3 destination = AIFormationUtil.GetFormationPosition(EnemyTarget.Value.transform.position, SlotIndex.Value, formationRadius);
         _navMeshAgent.SetDestination(destination);
 
         if (_navMeshAgent.pathPending == false && _navMeshAgent.pathStatus != NavMeshPathStatus.PathComplete)

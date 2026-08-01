@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
@@ -6,20 +6,27 @@ using Unity.Properties;
 using UnityEngine.AI;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "PlayerFollowTarget", story: "[Self] navigates to [Target] running[IsRunning]", category: "Action", id: "a53c0a1a49a30fcfed69192133254001")]
+[NodeDescription(name: "PlayerFollowTarget", story: "[Self] navigates to [Target] running over [RunDistance]", category: "Action", id: "a53c0a1a49a30fcfed69192133254001")]
 public partial class PlayerFollowTargetAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<GameObject> Target;
-    [SerializeReference] public BlackboardVariable<bool> IsRunning;
+    [SerializeReference] public BlackboardVariable<float> RunDistance;
     [SerializeReference] public BlackboardVariable<int> SlotIndex;
 
     private BattleCharacter _battleCharacter;
     private NavMeshAgent _navMeshAgent;
+
     protected override Status OnStart()
     {
         if (Self.Value == null)
         {
+            return Status.Failure;
+        }
+
+        if (RunDistance == null)
+        {
+            Debug.LogError("RunDistance가 할당되지 않았습니다");
             return Status.Failure;
         }
 
@@ -74,7 +81,10 @@ public partial class PlayerFollowTargetAction : Action
             _battleCharacter.Move(Vector3.zero, false);
             return Status.Running;
         }
-        _battleCharacter.Move(direction.normalized, IsRunning.Value);
+
+        bool isRunning = distance > RunDistance.Value;
+
+        _battleCharacter.Move(direction.normalized, isRunning);
         return Status.Running;
     }
 
@@ -83,4 +93,3 @@ public partial class PlayerFollowTargetAction : Action
     {
     }
 }
-

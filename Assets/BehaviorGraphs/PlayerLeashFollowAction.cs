@@ -80,6 +80,8 @@ public partial class PlayerLeashFollowAction : Action
             }
         }
 
+        _navMeshAgent.nextPosition = Self.Value.transform.position;
+
         Vector3 destination = AIFormationUtil.GetFormationPosition(Target.Value.transform.position, SlotIndex.Value, LeashStopDistance.Value);
         _navMeshAgent.SetDestination(destination);
 
