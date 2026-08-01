@@ -508,12 +508,11 @@ public class BattleManager : BaseManager<BattleManager>
         _partyController.TrySwitchToCharacter(index);
     }
 
-
-    public async UniTask SpawnEnemyAsync(string enemyDataId, Transform enemySpawnTransform)
+    public async UniTask<EnemyViewModel> SpawnEnemyAsync(string enemyDataId, Transform enemySpawnTransform, bool isBoss = false)
     {
         if (!_isBattleActive)
         {
-            return;
+            return null;
         }
 
         EnemyViewModel vm = new EnemyViewModel();
@@ -523,7 +522,7 @@ public class BattleManager : BaseManager<BattleManager>
             if (enemyData == null)
             {
                 Debug.LogError("적 데이터를 로드하지 못했습니다.");
-                return;
+                return null;
             }
 
             GameObject prefab = await GameManager.Instance.ObjectManager.SpawnAsync(enemyData.PrefabAddress, _enemyRoot.transform, enemySpawnTransform);
@@ -531,7 +530,7 @@ public class BattleManager : BaseManager<BattleManager>
             if (prefab == null)
             {
                 Debug.LogError("적 프리팹을 로드하지 못했습니다.");
-                return;
+                return null;
             }
 
             ResumeEnemyAgent(prefab);
@@ -541,7 +540,7 @@ public class BattleManager : BaseManager<BattleManager>
             if (enemyController == null)
             {
                 Debug.LogError($"[BattleManager] 생성된 적 프리팹에 {nameof(EnemyController)} 가 없습니다. key={enemyData.PrefabAddress}");
-                return;
+                return null;
             }
 
             enemyController.Bind(enemyData, vm);
@@ -568,7 +567,15 @@ public class BattleManager : BaseManager<BattleManager>
            );
             }
 
+            if (isBoss && _hudPresenter != null)
+            {
+                _hudPresenter.SetBossEnemy(vm);
+            }
+
+            return vm;
         }
+
+        return null;
     }
     public async UniTask SpawnEnemySkillAsync(string skillDataId, Transform spawnTransform, Transform rotationTransform, EnemyController enemyController)
     {
