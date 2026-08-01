@@ -61,6 +61,8 @@ public class StudentManagementView : BaseUI
     {
         _studentManagementViewModel.SetModel(studentModel);
         _studentManagementViewModel.Refresh();
+
+        _studentManagementStatusView.SetSkills(_studentManagementViewModel.GetSkills(), _disableCts.Token);
     }
 
     private void OnPropertyChanged(string propertyName)
@@ -135,24 +137,37 @@ public class StudentManagementView : BaseUI
 
     private void HandleStudentCurrentExperienceChanged()
     {
-        int value = _studentManagementViewModel.CurrentExperience;
-
-        _studentManagementInfoView.UpdateExperienceSliderValue(value);
-        _studentManagementInfoView.UpdateExperienceText();
+        RefreshExperienceDisplay();
     }
 
     private void HandleStudentLevelChanged()
     {
         _studentManagementInfoView.UpdateLevelText(_studentManagementViewModel.Level);
 
-        _studentManagementInfoView.UpdateExperienceSliderRange(_studentManagementViewModel.CurrentExperience, _studentManagementViewModel.RequiredExp);
-
-        _studentManagementInfoView.UpdateExperienceText();
+        RefreshExperienceDisplay();
     }
 
     private void HandleStudentIsMaxLevelChanged()
     {
-        _studentManagementInfoView.InterectiveGradeUp(_studentManagementViewModel.IsMaxLevel);
+        bool isMaxLevel = _studentManagementViewModel.IsMaxLevel;
+
+        _studentManagementInfoView.InterectiveGradeUp(isMaxLevel);
+
+        _studentManagementInfoView.SetExperienceInventoryInteractable(!isMaxLevel);
+
+        RefreshExperienceDisplay();
+    }
+
+    private void RefreshExperienceDisplay()
+    {
+        if (_studentManagementViewModel.IsMaxLevel)
+        {
+            _studentManagementInfoView.UpdateExperienceAsMax();
+            return;
+        }
+
+        _studentManagementInfoView.UpdateExperienceSliderRange(_studentManagementViewModel.CurrentExperience, _studentManagementViewModel.RequiredExp);
+        _studentManagementInfoView.UpdateExperienceText();
     }
 
     private void HandleStudentHpChanged()
@@ -200,7 +215,6 @@ public class StudentManagementView : BaseUI
         _studentManagementInfoView.UpdateRequiredGradeUpItemText(_studentManagementViewModel.OwnedGradeUpItemCount, _studentManagementViewModel.RequiredGradeUpItemCount);
     }
 
-    // 임시 구현
     //TODO UIManager에 네비게이션 스택이 붙으면 삭제하기
     private void HandleBackClicked()
     {

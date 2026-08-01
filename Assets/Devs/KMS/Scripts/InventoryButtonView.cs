@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -38,10 +38,10 @@ public class InventoryButtonView : MonoBehaviour
     private void OnButtonClicked()
     {
         CancellationToken cancellationToken = this.GetCancellationTokenOnDestroy();
-        OpenInventoryScreenAsync(cancellationToken).Forget();
+        OpenInventoryDetailAsync(cancellationToken).Forget();
     }
 
-    private async UniTaskVoid OpenInventoryScreenAsync(
+    private async UniTaskVoid OpenInventoryDetailAsync(
         CancellationToken cancellationToken)
     {
         try
@@ -58,7 +58,7 @@ public class InventoryButtonView : MonoBehaviour
                 return;
             }
 
-            await GameManager.Instance.UIManager.OpenInventoryScreenAsync(
+            await GameManager.Instance.UIManager.OpenInventoryDetailAsync(
                 cancellationToken);
         }
         catch (OperationCanceledException)

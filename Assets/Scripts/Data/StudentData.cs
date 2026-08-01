@@ -19,6 +19,7 @@ public class StudentData : BaseData
     public float MoveSpeedGrow { get; init; }
 
     public string CharacterIconPath { get; init; }
+    public string StandImagePath { get; init; }
     public string PrefabPath { get; init; }
 
     public string SkillList { get; init; }

@@ -19,6 +19,7 @@
     CharacterGachaScreen,
     MissionScreen,
     InventoryScreen,
+    InventoryDetail,
     AchievementScreen,
     PartySelectPopup,
     BattleResultPopup,
@@ -43,6 +44,7 @@ public enum LoadingStep
     LoadStudentGradeData,
     LoadStudentLevelData,
     LoadItemData,
+    LoadMaterialData,
     LoadCurrencyData,
     LoadEquipmentData,
     LoadSignatureData,
@@ -52,7 +54,8 @@ public enum LoadingStep
     LoadSkillData,
     LoadEnemyData,
     LoadEnemySkillData,
-    LoadMissionData
+    LoadMissionData,
+    LoadAudioData
 }
 
 public enum UIRoot
@@ -111,4 +114,12 @@ public enum ScreenType
     Lobby,
     StageSelect,
     Battle
+}
+
+public enum InventoryFilterType
+{
+    All,
+    Equipment,
+    Currency,
+    Material
 }

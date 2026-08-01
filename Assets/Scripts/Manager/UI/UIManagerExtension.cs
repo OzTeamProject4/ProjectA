@@ -314,6 +314,25 @@ public static class UIManagerExtension
         uiManager.Close(UIType.InventoryScreen);
     }
 
+    public static async UniTask OpenInventoryDetailAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        await uiManager.OpenOverlayAsync();
+
+        try
+        {
+            await uiManager.OpenContentRootAsync(UIType.InventoryDetail, cancellationToken);
+        }
+        finally
+        {
+            uiManager.CloseOverlay();
+        }
+    }
+
+    public static void CloseInventoryDetail(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.InventoryDetail);
+    }
+
     public static async UniTask OpenAchievementScreenAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
         await uiManager.OpenTestRootAsync(UIType.AchievementScreen, cancellationToken);

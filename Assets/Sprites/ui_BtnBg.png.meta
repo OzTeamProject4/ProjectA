@@ -619,13 +619,13 @@ TextureImporter:
       name: ui_BtnBg_23
       rect:
         serializedVersion: 2
-        x: 1331
-        y: 1581
-        width: 512
-        height: 42
+        x: 1332
+        y: 1588
+        width: 511
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 9, y: 0, z: 15, w: 0}
       customData: 
       outline: []
       physicsShape: []
