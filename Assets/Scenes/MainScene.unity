@@ -570,7 +570,6 @@ GameObject:
   - component: {fileID: 7655085086910796669}
   - component: {fileID: 8811637181674429458}
   - component: {fileID: 8811637181674429457}
-  - component: {fileID: 8811637181674429459}
   m_Layer: 0
   m_Name: '@Managers'
   m_TagString: Untagged
@@ -932,19 +931,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageManager
   _playerPartyPrefab: {fileID: 0}
---- !u!114 &8811637181674429459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2183184946862678498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dafa49b4fc9ab642b76405db3485a51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NetworkManagerTemp
-  _equipmentInstanceCounter: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

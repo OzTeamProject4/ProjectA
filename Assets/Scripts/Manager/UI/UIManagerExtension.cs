@@ -181,7 +181,12 @@ public static class UIManagerExtension
 
     public static async UniTask OpenLoadingAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
-        await uiManager.OpenTestRootAsync(UIType.Loading, cancellationToken);
+        BaseUI baseUI = await uiManager.OpenTestRootAsync(UIType.Loading, cancellationToken);
+
+        if (baseUI is LoadingUI loadingUI)
+        {
+            await loadingUI.WaitUntilInitializedAsync();
+        }
     }
 
     public static void CloseLoading(this UIManager uiManager)
