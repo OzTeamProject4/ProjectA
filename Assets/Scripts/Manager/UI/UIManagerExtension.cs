@@ -314,6 +314,25 @@ public static class UIManagerExtension
         uiManager.Close(UIType.InventoryScreen);
     }
 
+    public static async UniTask OpenInventoryDetailAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        await uiManager.OpenOverlayAsync();
+
+        try
+        {
+            await uiManager.OpenContentRootAsync(UIType.InventoryDetail, cancellationToken);
+        }
+        finally
+        {
+            uiManager.CloseOverlay();
+        }
+    }
+
+    public static void CloseInventoryDetail(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.InventoryDetail);
+    }
+
     public static async UniTask OpenAchievementScreenAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
         await uiManager.OpenTestRootAsync(UIType.AchievementScreen, cancellationToken);
@@ -406,5 +425,30 @@ public static class UIManagerExtension
         }
 
         return view;
+    }
+
+    public static async UniTask OpenDialogueAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        BaseUI DialogueUI = await uiManager.OpenTestRootAsync(UIType.Dialogue, cancellationToken);
+
+        if (DialogueUI is DialogueView dialogueView)
+        {
+            await dialogueView.WaitUntilInitializedAsync();
+        }
+    }
+
+    public static void CloseDialogue(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.Dialogue);
+    }
+
+    public static async UniTask OpenDialogueHistoryAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        await uiManager.OpenTestRootAsync(UIType.DialogueHistory, cancellationToken);
+    }
+
+    public static void CloseDialogueHistory(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.DialogueHistory);
     }
 }

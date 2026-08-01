@@ -154,6 +154,8 @@ public class StageSelectMapViewModel
         }
 
         CloseAllPopups();
+        ResumePlayer();
+
 
         OnHudCloseRequested?.Invoke();
     }

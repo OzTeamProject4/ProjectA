@@ -62,6 +62,16 @@ public class BattleHUDView : BaseUI
         }
     }
 
+    public void SetBossHpVisible(bool isVisible)
+    {
+        if (_bossHpSlider == null)
+        {
+            return;
+        }
+
+        _bossHpSlider.gameObject.SetActive(isVisible);
+    }
+
     public void SetPlayerHp(float currentHp, float maxHp)
     {
         if (_playerHpSlider == null)

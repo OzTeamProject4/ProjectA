@@ -4,17 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class DataManager : BaseManager<DataManager>
 {
     private readonly Dictionary<Type, object> _dataTables = new Dictionary<Type, object>();
 
-    private const int LoadingTransitionDelay = 1000;
+    private const int LoadingTransitionDelay = 200;
 
     public override async UniTask InitializeAsync()
     {
         _dataTables.Clear();
-        await PreloadDataAsync();
+        await Addressables.InitializeAsync();
     }
 
     public async UniTask PreloadDataAsync(IProgress<LoadingProgress> progress = null)
@@ -24,7 +25,7 @@ public class DataManager : BaseManager<DataManager>
 
     public async UniTask LoadRuntimeDataAsync(IProgress<LoadingProgress> progress = null)
     {
-        List<LoadingTask> loadingTasks = CreateLoadingTasks();
+       List<LoadingTask> loadingTasks = CreateLoadingTasks();
 
         ReportLoadingProgress(progress, 0f, LoadingStep.Initialize);
 
@@ -65,7 +66,9 @@ public class DataManager : BaseManager<DataManager>
             new LoadingTask(LoadingStep.LoadEnemyData, AddressableKey.Data.Enemy, LoadDataAsync<EnemyData>),
             new LoadingTask(LoadingStep.LoadEnemySkillData, AddressableKey.Data.EnemySkill, LoadDataAsync<EnemySkillData>),
             new LoadingTask(LoadingStep.LoadAudioData, AddressableKey.Data.Audio, LoadDataAsync<AudioData>),
-            new LoadingTask(LoadingStep.LoadMissionData, AddressableKey.Data.MissionList, LoadDataAsync<MissionData>)
+            new LoadingTask(LoadingStep.LoadMissionData, AddressableKey.Data.MissionList, LoadDataAsync<MissionData>),
+              new LoadingTask(LoadingStep.LoadStoryInfoData, AddressableKey.Data.StoryInfo, LoadDataAsync<StoryInfoData>),
+            new LoadingTask(LoadingStep.LoadDialoguePortraitData, AddressableKey.Data.DialoguePortrait, LoadDataAsync<DialoguePortraitData>)
         };
 
         return jobs;

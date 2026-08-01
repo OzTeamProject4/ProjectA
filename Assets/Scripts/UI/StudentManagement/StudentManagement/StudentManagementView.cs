@@ -61,6 +61,8 @@ public class StudentManagementView : BaseUI
     {
         _studentManagementViewModel.SetModel(studentModel);
         _studentManagementViewModel.Refresh();
+
+        _studentManagementStatusView.SetSkills(_studentManagementViewModel.GetSkills(), _disableCts.Token);
     }
 
     private void OnPropertyChanged(string propertyName)
@@ -213,7 +215,6 @@ public class StudentManagementView : BaseUI
         _studentManagementInfoView.UpdateRequiredGradeUpItemText(_studentManagementViewModel.OwnedGradeUpItemCount, _studentManagementViewModel.RequiredGradeUpItemCount);
     }
 
-    // 임시 구현
     //TODO UIManager에 네비게이션 스택이 붙으면 삭제하기
     private void HandleBackClicked()
     {

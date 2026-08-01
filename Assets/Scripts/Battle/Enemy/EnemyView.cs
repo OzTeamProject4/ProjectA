@@ -3,9 +3,7 @@ using UnityEngine;
 
 public class EnemyView : ViewBase
 {
-    [SerializeField] private Transform _headAnchor;
-    public Transform HeadAnchor => _headAnchor != null ? _headAnchor : transform;
-
+    public Transform HeadAnchor { get; private set;  }
     private EnemyViewModel _vm;
 
 
@@ -18,7 +16,7 @@ public class EnemyView : ViewBase
     }
 
     public void SetHead(Transform targetHeadTransform) {
-        _headAnchor = targetHeadTransform;
+        HeadAnchor = targetHeadTransform;
     }
 
 

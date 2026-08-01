@@ -16,6 +16,7 @@ public enum EnemyBattleState
 public class EnemyController : MonoBehaviour, IDamageable
 {
     public Transform _enemyTransform;
+    public Transform HeadTransform;
 
     [SerializeField] private Transform _skillTransform;
     [SerializeField] private Animator _animator;
@@ -50,9 +51,14 @@ public class EnemyController : MonoBehaviour, IDamageable
             _skillTransform = this.transform;
         }
 
+        if(HeadTransform == null)
+        {
+            HeadTransform = this.gameObject.transform;
+        }
+
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         if (_vm == null)
         {
@@ -61,6 +67,8 @@ public class EnemyController : MonoBehaviour, IDamageable
 
         _vm.IsActive = false;
     }
+
+
     public void Bind(EnemyData enemyData, EnemyViewModel vm)
     {
         _vm = vm;

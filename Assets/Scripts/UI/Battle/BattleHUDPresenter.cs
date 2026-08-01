@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class BattleHUDPresenter
@@ -8,6 +9,7 @@ public class BattleHUDPresenter
     private BattleCharacter _currentCharacter;
     private CharacterSkillSystem _currentSkillSystem;
     private BattleTimer _battleTimer;
+    private EnemyViewModel _bossViewModel;
 
     public void Initialize(BattleHUDView hudView, PartyController partyController, BattleTimer battleTimer)
     {
@@ -15,6 +17,71 @@ public class BattleHUDPresenter
         _battleTimer = battleTimer;
         _partyController = partyController;
         _partyController.OnCharacterChanged += HandleCharacterChanged;
+
+        _hudView.SetBossHpVisible(false);
+    }
+
+    public void SetBossEnemy(EnemyViewModel bossViewModel)
+    {
+        ClearBossEnemy();
+
+        _bossViewModel = bossViewModel;
+
+        if (_bossViewModel == null)
+        {
+            return;
+        }
+
+        _bossViewModel.PropertyChanged += HandleBossPropertyChanged;
+
+        if (_hudView != null)
+        {
+            _hudView.SetBossHpVisible(true);
+        }
+
+        RefreshBossHp();
+    }
+
+    private void HandleBossPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(EnemyViewModel.IsActive))
+        {
+            if (!_bossViewModel.IsActive)
+            {
+                ClearBossEnemy();
+            }
+
+            return;
+        }
+
+        if (e.PropertyName == nameof(EnemyViewModel.CurrentHp) || e.PropertyName == nameof(EnemyViewModel.MaxHp))
+        {
+            RefreshBossHp();
+        }
+    }
+
+    private void RefreshBossHp()
+    {
+        if (_hudView == null || _bossViewModel == null)
+        {
+            return;
+        }
+
+        _hudView.SetBossHp(_bossViewModel.CurrentHp, _bossViewModel.MaxHp);
+    }
+
+    private void ClearBossEnemy()
+    {
+        if (_bossViewModel != null)
+        {
+            _bossViewModel.PropertyChanged -= HandleBossPropertyChanged;
+            _bossViewModel = null;
+        }
+
+        if (_hudView != null)
+        {
+            _hudView.SetBossHpVisible(false);
+        }
     }
 
     private void HandleCharacterChanged(BattleCharacter character)
@@ -97,6 +164,8 @@ public class BattleHUDPresenter
         {
             _currentSkillSystem.OnGaugeChanged -= HandleGaugeChanged;
         }
+
+        ClearBossEnemy();
     }
 
     private void HandleGaugeChanged(int current, int max)

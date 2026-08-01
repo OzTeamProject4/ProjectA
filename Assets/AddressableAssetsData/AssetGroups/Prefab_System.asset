@@ -30,6 +30,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d6565a13f01cb5847b89b4fe018df814
+    m_Address: Prefab/ItemSlot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: eb40ffa39297bb84fad6a9cd6c4f770b
     m_Address: Prefab/ObjectPoolRoot
     m_ReadOnly: 0

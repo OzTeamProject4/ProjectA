@@ -1088,6 +1088,9 @@ MonoBehaviour:
   _attackText: {fileID: 3269559157103063342}
   _defenseText: {fileID: 3135540866392805683}
   _moveSpeedText: {fileID: 3283299624594903345}
+  _basicSkillItemView: {fileID: 9000346244519577371}
+  _normalSkillItemView: {fileID: 7533201609759307127}
+  _ultimateSkillItemView: {fileID: 6173965371447307481}
 --- !u!1 &468482078217827044
 GameObject:
   m_ObjectHideFlags: 0
@@ -1518,11 +1521,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7519472210773259557}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -20}
-  m_SizeDelta: {x: 200, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 75, y: 0}
+  m_SizeDelta: {x: 350, y: 50}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &8618560796881495524
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2546,9 +2549,9 @@ RectTransform:
   - {fileID: 4029003804460650876}
   m_Father: {fileID: 79109112498230010}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 275, y: -240}
   m_SizeDelta: {x: 550, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1838604045642508653
@@ -3761,6 +3764,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 601456531145620634}
+  - component: {fileID: 6173965371447307481}
   m_Layer: 0
   m_Name: SkillItem (2)
   m_TagString: Untagged
@@ -3785,11 +3789,26 @@ RectTransform:
   - {fileID: 6692613177624791892}
   m_Father: {fileID: 5692959306856877865}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -220}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 450, y: 100}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &6173965371447307481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2989788084430334623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc84ca5a248fb144d9fa6208c812b61e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillItemView
+  _iconImage: {fileID: 2087240580489015889}
+  _nameText: {fileID: 1805777599263612702}
+  _descText: {fileID: 6957676521582735488}
 --- !u!1 &3176211734581492690
 GameObject:
   m_ObjectHideFlags: 0
@@ -4495,7 +4514,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 450, y: 0}
+  m_SizeDelta: {x: 450, y: 380}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8286231481522157983
 MonoBehaviour:
@@ -4570,9 +4589,9 @@ RectTransform:
   - {fileID: 4970520665287078821}
   m_Father: {fileID: 79109112498230010}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 275, y: -140}
   m_SizeDelta: {x: 550, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1499878559730305818
@@ -5601,7 +5620,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5137931803101915106
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5738,9 +5757,9 @@ RectTransform:
   - {fileID: 2033378185838496265}
   m_Father: {fileID: 79109112498230010}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 275, y: -40}
   m_SizeDelta: {x: 550, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8167018936331399266
@@ -6608,9 +6627,9 @@ RectTransform:
   - {fileID: 7256356146830552697}
   m_Father: {fileID: 79109112498230010}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 275, y: -340}
   m_SizeDelta: {x: 550, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1082891290176992480
@@ -7666,7 +7685,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7012872587709249407
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8271,11 +8290,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 601456531145620634}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -20}
-  m_SizeDelta: {x: 200, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 75, y: 0}
+  m_SizeDelta: {x: 350, y: 50}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &2390814112762621833
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8535,6 +8554,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7519472210773259557}
+  - component: {fileID: 7533201609759307127}
   m_Layer: 0
   m_Name: SkillItem (1)
   m_TagString: Untagged
@@ -8559,11 +8579,26 @@ RectTransform:
   - {fileID: 7411310712989414670}
   m_Father: {fileID: 5692959306856877865}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -110}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 450, y: 100}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &7533201609759307127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8225748467923054580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc84ca5a248fb144d9fa6208c812b61e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillItemView
+  _iconImage: {fileID: 7170847983667234971}
+  _nameText: {fileID: 6171735040436899528}
+  _descText: {fileID: 129104978010003193}
 --- !u!1 &8341558642223878447
 GameObject:
   m_ObjectHideFlags: 0
@@ -8746,11 +8781,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 43733351689293049}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -20}
-  m_SizeDelta: {x: 200, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 75, y: 0}
+  m_SizeDelta: {x: 350, y: 50}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &496285739005592128
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8935,6 +8970,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 43733351689293049}
+  - component: {fileID: 9000346244519577371}
   m_Layer: 0
   m_Name: SkillItem
   m_TagString: Untagged
@@ -8959,11 +8995,26 @@ RectTransform:
   - {fileID: 7667532048246320067}
   m_Father: {fileID: 5692959306856877865}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 450, y: 100}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &9000346244519577371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8698379483195493224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc84ca5a248fb144d9fa6208c812b61e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillItemView
+  _iconImage: {fileID: 7496929129345858497}
+  _nameText: {fileID: 4993297345811325467}
+  _descText: {fileID: 2458348216400744990}
 --- !u!1 &8811163957407531866
 GameObject:
   m_ObjectHideFlags: 0
