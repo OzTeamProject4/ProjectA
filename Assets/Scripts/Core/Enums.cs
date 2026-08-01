@@ -26,7 +26,9 @@
     ReturnToLobbyPopup,
     StageSelectHud,
     BattleHUD,
-    EnemyHud
+    EnemyHud,
+    Profile,
+    ProfileStudentSelectPopup
 }
 
 public enum LoadingState

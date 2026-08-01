@@ -267,7 +267,17 @@ public class StageManager : BaseManager <StageManager>
             return;
         }
 
-        _session.Progress.AddCleared(_session.Progress.SelectedStageId);
+        string clearedStageId = _session.Progress.SelectedStageId;
+
+        _session.Progress.AddCleared(clearedStageId);
+
+        if (null == NetworkManagerTemp.Instance)
+        {
+            Debug.LogWarning($"[{nameof(StageManager)}:{nameof(HandleBattleEnded)}] NetworkManagerTemp가 없어 클리어 기록을 남기지 못했습니다.");
+            return;
+        }
+
+        NetworkManagerTemp.Instance.StageClearModel.AddClearedStage(clearedStageId);
     }
 
     private async UniTask TransitionToBattleAsync()
