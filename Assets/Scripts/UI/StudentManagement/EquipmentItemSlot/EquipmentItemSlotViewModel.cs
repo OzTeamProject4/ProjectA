@@ -54,7 +54,7 @@ public class EquipmentItemSlotViewModel
                 return string.Empty;
             }
 
-            StudentModel studentModel = NetworkManagerTemp.Instance.StudentListModel.GetCharacter(_equipmentModel.EquippedBy);
+            StudentModel studentModel = NetworkManager.Instance.StudentListModel.GetCharacter(_equipmentModel.EquippedBy);
 
             if (studentModel == null)
             {

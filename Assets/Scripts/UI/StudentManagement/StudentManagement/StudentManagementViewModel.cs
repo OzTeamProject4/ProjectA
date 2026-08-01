@@ -195,7 +195,7 @@ public class StudentManagementViewModel
 
     public StudentManagementViewModel()
     {
-        _inventoryModel = NetworkManagerTemp.Instance.InventoryModel;
+        _inventoryModel = NetworkManager.Instance.InventoryModel;
     }
 
     public event Action<string> PropertyChanged;

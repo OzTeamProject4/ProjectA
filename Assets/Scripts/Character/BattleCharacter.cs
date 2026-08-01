@@ -188,9 +188,9 @@ public class BattleCharacter : MonoBehaviour, IDamageable
         float defense = data.Defence;
         float moveSpeed = data.MoveSpeed;
 
-        if (NetworkManagerTemp.Instance != null)
+        if (NetworkManager.Instance != null)
         {
-            if (NetworkManagerTemp.Instance.TryGetStudentStats(data.DataId, out StatData statData))
+            if (NetworkManager.Instance.TryGetStudentStats(data.DataId, out StatData statData))
             {
                 maxHp = statData.Hp;
                 attack = statData.Attack;

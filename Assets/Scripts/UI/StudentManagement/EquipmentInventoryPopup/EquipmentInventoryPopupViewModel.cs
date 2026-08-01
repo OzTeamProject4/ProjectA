@@ -28,7 +28,7 @@ public class EquipmentInventoryPopupViewModel
 
         if (_inventoryModel == null)
         {
-            _inventoryModel = NetworkManagerTemp.Instance.InventoryModel;
+            _inventoryModel = NetworkManager.Instance.InventoryModel;
             _inventoryModel.PropertyChanged += OnInventoryPropertyChanged;
         }
 
@@ -64,7 +64,7 @@ public class EquipmentInventoryPopupViewModel
             return;
         }
 
-        NetworkManagerTemp.Instance.InventoryModel.TryEquip(_studentModel, equipmentModel.InstanceId);
+        NetworkManager.Instance.InventoryModel.TryEquip(_studentModel, equipmentModel.InstanceId);
     }
 
     public void Dispose()

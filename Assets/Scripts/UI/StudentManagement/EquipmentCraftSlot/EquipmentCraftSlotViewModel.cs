@@ -89,13 +89,13 @@ public class EquipmentCraftSlotViewModel
     {
         get
         {
-            return NetworkManagerTemp.Instance.InventoryModel.CanCraftEquipment(_equipmentCraftModel);
+            return NetworkManager.Instance.InventoryModel.CanCraftEquipment(_equipmentCraftModel);
         }
     }
 
     public int GetOwnedItemCount(string itemId)
     {
-        return NetworkManagerTemp.Instance.InventoryModel.GetItemCount(itemId);
+        return NetworkManager.Instance.InventoryModel.GetItemCount(itemId);
     }
 
     public string GetItemTier(string itemId)
@@ -131,7 +131,7 @@ public class EquipmentCraftSlotViewModel
             return;
         }
 
-        NetworkManagerTemp.Instance.InventoryModel.TryCraftEquipment(_equipmentCraftModel);
+        NetworkManager.Instance.InventoryModel.TryCraftEquipment(_equipmentCraftModel);
     }
 
     private void CacheRequiredMaterials()
@@ -143,7 +143,7 @@ public class EquipmentCraftSlotViewModel
 
         _requiredItems.Clear();
         
-        InventoryModel inventoryModel = NetworkManagerTemp.Instance.InventoryModel;
+        InventoryModel inventoryModel = NetworkManager.Instance.InventoryModel;
         
         foreach (string requiredItemId in _equipmentCraftModel.RequiredItemIds)
         {

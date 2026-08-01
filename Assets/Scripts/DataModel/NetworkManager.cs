@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NetworkManagerTemp : MonoBehaviour
+public class NetworkManager : MonoBehaviour
 {
-    public static NetworkManagerTemp Instance { get; private set; }
+    public static NetworkManager Instance { get; private set; }
 
     // 인스턴스 ID 발급
     private int _equipmentInstanceCounter;
@@ -14,6 +14,8 @@ public class NetworkManagerTemp : MonoBehaviour
     private EquipmentCraftListModel _equipmentCraftListModel;
     private PlayerProfileModel _playerProfileModel;
     private StageClearModel _stageClearModel;
+    private DialogueModel _dialogueModel;
+    private StudentGachaModel _studentGachaModel;
 
     public StudentListModel StudentListModel
     {
@@ -80,6 +82,31 @@ public class NetworkManagerTemp : MonoBehaviour
         }
     }
 
+    public DialogueModel DialogueModel
+    {
+        get
+        {
+            if (_dialogueModel == null)
+            {
+                _dialogueModel = new DialogueModel();
+            }
+
+            return _dialogueModel;
+        }
+    }
+
+    public StudentGachaModel StudentGachaModel
+    {
+        get
+        {
+            if (_studentGachaModel == null)
+            {
+                _studentGachaModel = new StudentGachaModel();
+            }
+
+            return _studentGachaModel;
+        }
+    }
     private void Awake()
     {
         if (Instance != null)

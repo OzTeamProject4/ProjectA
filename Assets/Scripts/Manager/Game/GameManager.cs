@@ -1,6 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 
 public class GameManager : BaseManager<GameManager>
 {
@@ -17,6 +16,7 @@ public class GameManager : BaseManager<GameManager>
     public InputManager InputManager { get; private set; }
 
     public ObjectManager ObjectManager { get; private set; }
+
     public DialogueManager DialogueManager { get; private set; }
 
     public BattleManager BattleManager { get; private set; }
@@ -44,8 +44,8 @@ public class GameManager : BaseManager<GameManager>
         await UIManager.InitializeAsync();
         await InputManager.InitializeAsync();
         await ObjectManager.InitializeAsync();
-       // await BattleManager.InitializeAsync();
-       // await StageManager.InitializeAsync();
+        await BattleManager.InitializeAsync();
+        await StageManager.InitializeAsync();
         await DialogueManager.InitializeAsync();
     }
 
@@ -69,8 +69,8 @@ public class GameManager : BaseManager<GameManager>
         UIManager = this.GetRequiredComponent<UIManager>();
         InputManager = this.GetRequiredComponent<InputManager>();
         ObjectManager = this.GetRequiredComponent<ObjectManager>();
-       // BattleManager = this.GetRequiredComponent<BattleManager>();
-      //  StageManager = this.GetRequiredComponent<StageManager>();
+        BattleManager = this.GetRequiredComponent<BattleManager>();
+        StageManager = this.GetRequiredComponent<StageManager>();
         DialogueManager = this.GetRequiredComponent<DialogueManager>();
     }
 }

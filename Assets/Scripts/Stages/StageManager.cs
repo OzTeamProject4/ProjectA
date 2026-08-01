@@ -122,13 +122,13 @@ public class StageManager : BaseManager <StageManager>
 
     private StudentListModel GetCharacterListModel()
     {
-        if (null == NetworkManagerTemp.Instance)
+        if (null == NetworkManager.Instance)
         {
             Debug.LogError("[StageManager] NetworkManagerTemp.Instance 가 null 입니다.");
             return null;
         }
 
-        return NetworkManagerTemp.Instance.StudentListModel;
+        return NetworkManager.Instance.StudentListModel;
     }
 
     private void DisposeViewModels()
@@ -271,13 +271,13 @@ public class StageManager : BaseManager <StageManager>
 
         _session.Progress.AddCleared(clearedStageId);
 
-        if (null == NetworkManagerTemp.Instance)
+        if (null == NetworkManager.Instance)
         {
             Debug.LogWarning($"[{nameof(StageManager)}:{nameof(HandleBattleEnded)}] NetworkManagerTemp가 없어 클리어 기록을 남기지 못했습니다.");
             return;
         }
 
-        NetworkManagerTemp.Instance.StageClearModel.AddClearedStage(clearedStageId);
+        NetworkManager.Instance.StageClearModel.AddClearedStage(clearedStageId);
     }
 
     private async UniTask TransitionToBattleAsync()
