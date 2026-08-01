@@ -52,7 +52,6 @@ public enum LoadingStep
     LoadSignatureData,
     LoadStageData,
     LoadStageWaveData,
-    Complete,
     LoadSkillData,
     LoadEnemyData,
     LoadEnemySkillData,

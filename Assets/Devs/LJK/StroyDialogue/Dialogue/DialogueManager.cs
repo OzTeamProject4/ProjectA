@@ -25,7 +25,7 @@ public class DialogueManager : BaseManager<DialogueManager>
 
     public async UniTask StartDialogue(string storyId)
     {
-        await GameManager.Instance.UIManager.OpenOverlayUIAsync();
+        await GameManager.Instance.UIManager.OpenOverlayAsync();
 
         try
         {
@@ -44,7 +44,7 @@ public class DialogueManager : BaseManager<DialogueManager>
         }
         finally
         {
-            GameManager.Instance.UIManager.CloseOverlayUI();
+            GameManager.Instance.UIManager.CloseOverlay();
         }
     }
 
@@ -86,9 +86,9 @@ public class DialogueManager : BaseManager<DialogueManager>
 
     public void RequestToggleAutoMode()
     {
-        bool targetMode = !_dialogueModel.IsAutoMode;
+        _dialogueModel.SetAutoMode(!_dialogueModel.IsAutoMode);
 
-        if (targetMode)
+        if (_dialogueModel.IsAutoMode)
         {
             StartAutoMode();
             return;
@@ -116,11 +116,6 @@ public class DialogueManager : BaseManager<DialogueManager>
 
     private void StartAutoMode()
     {
-        if (_dialogueModel.IsAutoMode)
-        {
-            return;
-        }
-
         if (_autoModeCts != null)
         {
             _autoModeCts.Cancel();
@@ -136,11 +131,6 @@ public class DialogueManager : BaseManager<DialogueManager>
 
     private void StopAutoMode()
     {
-        if (_dialogueModel.IsAutoMode)
-        {
-            return;
-        }
-
         _dialogueModel.SetAutoMode(false);
 
         if (_autoModeCts != null)
@@ -204,7 +194,7 @@ public class DialogueManager : BaseManager<DialogueManager>
 
         if (!string.IsNullOrWhiteSpace(nextDialogueData.Bgm))
         {
-            GameManager.Instance.AudioManager.PlayBGM(nextDialogueData.Bgm).Forget();
+            GameManager.Instance.AudioManager.PlayBGM(nextDialogueData.Bgm);
         }
     }
 
