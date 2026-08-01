@@ -67,8 +67,10 @@ public class DataManager : BaseManager<DataManager>
             new LoadingTask(LoadingStep.LoadEnemySkillData, AddressableKey.Data.EnemySkill, LoadDataAsync<EnemySkillData>),
             new LoadingTask(LoadingStep.LoadAudioData, AddressableKey.Data.Audio, LoadDataAsync<AudioData>),
             new LoadingTask(LoadingStep.LoadMissionData, AddressableKey.Data.MissionList, LoadDataAsync<MissionData>),
-              new LoadingTask(LoadingStep.LoadStoryInfoData, AddressableKey.Data.StoryInfo, LoadDataAsync<StoryInfoData>),
-            new LoadingTask(LoadingStep.LoadDialoguePortraitData, AddressableKey.Data.DialoguePortrait, LoadDataAsync<DialoguePortraitData>)
+            new LoadingTask(LoadingStep.LoadStoryInfoData, AddressableKey.Data.StoryInfo, LoadDataAsync<StoryInfoData>),
+            new LoadingTask(LoadingStep.LoadDialoguePortraitData, AddressableKey.Data.DialoguePortrait, LoadDataAsync<DialoguePortraitData>),
+            new LoadingTask(LoadingStep.LoadStudentGachaListData, AddressableKey.Data.StudentGachaList, LoadDataAsync<StudentGachaListData>),
+            new LoadingTask(LoadingStep.LoadStudentGachaData, AddressableKey.Data.StudentGacha, LoadDataAsync<StudentGachaData>)
         };
 
         return jobs;

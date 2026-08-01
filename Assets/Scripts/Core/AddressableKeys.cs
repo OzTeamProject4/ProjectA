@@ -29,6 +29,8 @@
         public const string Audio = "Data/Audio";
         public const string StoryInfo = "Data/StoryInfo";
         public const string DialoguePortrait = "Data/DialoguePortrait";
+        public const string StudentGachaList = "Data/StudentGachaList";
+        public const string StudentGacha = "Data/StudentGacha";
     }
 
     public static class Asset

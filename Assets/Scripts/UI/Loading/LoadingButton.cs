@@ -4,6 +4,6 @@ public class LoadingButton : BaseButton
 {
     protected override void OnButtonClick()
     {
-        GameManager.Instance.UIManager.OpenLobbyAsync().Forget();
+        GameManager.Instance.UIManager.OpenStudentGachaAsync().Forget();
     }
 }
