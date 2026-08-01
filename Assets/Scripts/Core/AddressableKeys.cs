@@ -27,6 +27,8 @@
         public const string EnemySkill = "Data/EnemySkillData";
         public const string MissionList = "Data/MissionList";
         public const string Audio = "Data/Audio";
+        public const string StoryInfo = "Data/StoryInfo";
+        public const string DialoguePortrait = "Data/DialoguePortrait";
     }
 
     public static class Asset

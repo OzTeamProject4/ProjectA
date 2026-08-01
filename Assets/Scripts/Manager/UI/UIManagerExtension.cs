@@ -393,4 +393,29 @@ public static class UIManagerExtension
 
         return view;
     }
+
+    public static async UniTask OpenDialogueAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        BaseUI DialogueUI = await uiManager.OpenTestRootAsync(UIType.Dialogue, cancellationToken);
+
+        if (DialogueUI is DialogueView dialogueView)
+        {
+            await dialogueView.WaitUntilInitializedAsync();
+        }
+    }
+
+    public static void CloseDialogue(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.Dialogue);
+    }
+
+    public static async UniTask OpenDialogueHistoryAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
+    {
+        await uiManager.OpenTestRootAsync(UIType.DialogueHistory, cancellationToken);
+    }
+
+    public static void CloseDialogueHistory(this UIManager uiManager)
+    {
+        uiManager.Close(UIType.DialogueHistory);
+    }
 }

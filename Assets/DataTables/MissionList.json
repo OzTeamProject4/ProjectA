@@ -20,7 +20,7 @@
     "TargetId": "CharacterGacha",
     "TargetCount": 1,
     "Rewards": [
-      { "ItemId": "Currency_Ticket_Gacha", "Amount": 5 }
+      { "ItemId": "Currency_Crystal", "Amount": 200 }
     ]
   },
     {
@@ -104,7 +104,7 @@
     "TargetId": "Gold",
     "TargetCount": 1,
     "Rewards": [
-      { "ItemId": "Currency_Ticket_Sweep", "Amount": 2 }
+      { "ItemId": "Currency_Gold", "Amount": 1000 }
     ]
   },
   {
@@ -116,7 +116,7 @@
     "TargetId": "Daily",
     "TargetCount": 5,
     "Rewards": [
-      { "ItemId": "Currency_Ticket_Gacha", "Amount": 1 }
+      { "ItemId": "Currency_Crystal", "Amount": 500 }
     ]
   },
   {
@@ -140,7 +140,7 @@
     "TargetId": "Exp",
     "TargetCount": 10,
     "Rewards": [
-      { "ItemId": "Currency_Ticket_Sweep", "Amount": 3 }
+      { "ItemId": "Currency_ExpBook_Small", "Amount":10 }
     ]
   },
   {
@@ -188,7 +188,7 @@
     "TargetId": "Weekly",
     "TargetCount": 5,
     "Rewards": [
-      { "ItemId": "Currency_Ticket_Gacha", "Amount": 3 }
+      { "ItemId": "Currency_Crystal", "Amount": 10000 }
     ]
   }
 ]
