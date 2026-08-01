@@ -70,6 +70,36 @@ public class StudentManagementViewModel
         return _inventoryModel.TryGetEquipment(instanceId, out equipmentModel);
     }
 
+    public IReadOnlyList<CharacterSkillData> GetSkills()
+    {
+        List<CharacterSkillData> skills = new List<CharacterSkillData>();
+
+        if (_studentModel == null)
+        {
+            return skills;
+        }
+
+        if (!GameManager.Instance.DataManager.TryGetData(_studentModel.DataId, out StudentData studentData))
+        {
+            Debug.LogError($"{_studentModel.DataId} StudentData를 찾을 수 없습니다.");
+            return skills;
+        }
+
+        foreach (string skillId in studentData.ParsedSkillList)
+        {
+            if (GameManager.Instance.DataManager.TryGetData(skillId, out CharacterSkillData skillData))
+            {
+                skills.Add(skillData);
+            }
+            else
+            {
+                Debug.LogError($"{skillId} CharacterSkillData를 찾을 수 없습니다.");
+            }
+        }
+
+        return skills;
+    }
+
     public int RequiredGradeUpItemCount
     {
         get

@@ -1,4 +1,6 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using System.Threading;
+using TMPro;
 using UnityEngine;
 
 public class StudentManagementStatusView : MonoBehaviour
@@ -15,6 +17,11 @@ public class StudentManagementStatusView : MonoBehaviour
     [SerializeField] private TMP_Text _defenseText;
     [SerializeField] private TMP_Text _moveSpeedText;
 
+    [Header("Skill")]
+    [SerializeField] private SkillInfoView _basicSkillItemView;
+    [SerializeField] private SkillInfoView _normalSkillItemView;
+    [SerializeField] private SkillInfoView _ultimateSkillItemView;
+
     private void Awake()
     {
         UnityUtil.ValidateReference(_statTabButton, nameof(StudentManagementStatusView), nameof(_statTabButton));
@@ -23,6 +30,9 @@ public class StudentManagementStatusView : MonoBehaviour
         UnityUtil.ValidateReference(_attackText, nameof(StudentManagementStatusView), nameof(_attackText));
         UnityUtil.ValidateReference(_defenseText, nameof(StudentManagementStatusView), nameof(_defenseText));
         UnityUtil.ValidateReference(_moveSpeedText, nameof(StudentManagementStatusView), nameof(_moveSpeedText));
+        UnityUtil.ValidateReference(_basicSkillItemView, nameof(StudentManagementStatusView), nameof(_basicSkillItemView));
+        UnityUtil.ValidateReference(_normalSkillItemView, nameof(StudentManagementStatusView), nameof(_normalSkillItemView));
+        UnityUtil.ValidateReference(_ultimateSkillItemView, nameof(StudentManagementStatusView), nameof(_ultimateSkillItemView));
     }
 
     private void OnEnable()
@@ -57,6 +67,29 @@ public class StudentManagementStatusView : MonoBehaviour
     public void UpdateMoveSpeedText(float value)
     {
         _moveSpeedText.text = value.ToString(StatValueFormat);
+    }
+
+    public void SetSkills(IReadOnlyList<CharacterSkillData> skills, CancellationToken cancellationToken)
+    {
+        _basicSkillItemView.Clear();
+        _normalSkillItemView.Clear();
+        _ultimateSkillItemView.Clear();
+
+        foreach (CharacterSkillData skillData in skills)
+        {
+            switch (skillData.Category)
+            {
+                case CharacterSkillCategory.Basic:
+                    _basicSkillItemView.SetSkill(skillData, cancellationToken);
+                    break;
+                case CharacterSkillCategory.Normal:
+                    _normalSkillItemView.SetSkill(skillData, cancellationToken);
+                    break;
+                case CharacterSkillCategory.Ultimate:
+                    _ultimateSkillItemView.SetSkill(skillData, cancellationToken);
+                    break;
+            }
+        }
     }
 
     private void HandleStatTabClicked()
