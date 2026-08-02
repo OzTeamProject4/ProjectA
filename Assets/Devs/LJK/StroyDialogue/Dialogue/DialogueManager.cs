@@ -17,6 +17,8 @@ public class DialogueManager : BaseManager<DialogueManager>
 
     private CancellationTokenSource _autoModeCts;
 
+    private UniTaskCompletionSource _dialogueCompletionSource;
+
     public override UniTask InitializeAsync()
     {
         _dialogueModel = NetworkManager.Instance.DialogueModel;
@@ -40,12 +42,16 @@ public class DialogueManager : BaseManager<DialogueManager>
             _dialogueModel.Initialize();
             ChangeDialogue(startDialogueId);
 
+            _dialogueCompletionSource = new UniTaskCompletionSource();
+
             await GameManager.Instance.UIManager.OpenDialogueAsync();
         }
         finally
         {
             GameManager.Instance.UIManager.CloseOverlay();
         }
+
+        await _dialogueCompletionSource.Task;
     }
 
     public void AdvanceDialogue()
@@ -225,6 +231,9 @@ public class DialogueManager : BaseManager<DialogueManager>
         StopAutoMode();
 
         GameManager.Instance.UIManager.CloseDialogue();
+
+        _dialogueCompletionSource?.TrySetResult();
+        _dialogueCompletionSource = null;
     }
 
     private async UniTask<string> LoadDialogueAsync(string key)

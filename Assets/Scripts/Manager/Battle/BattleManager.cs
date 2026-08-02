@@ -483,7 +483,22 @@ public class BattleManager : BaseManager<BattleManager>
             return;
         }
 
+        if (isVictory)
+        {
+            await PlayStageClearDialogueIfNeededAsync();
+        }
+
         OnReturnToSelectRequested?.Invoke();
+    }
+
+    private async UniTask PlayStageClearDialogueIfNeededAsync()
+    {
+        if (_stageId != "Stage_001")
+        {
+            return;
+        }
+
+        await GameManager.Instance.DialogueManager.StartDialogue("Chapter01_001");
     }
 
     private void GrantStageRewards()

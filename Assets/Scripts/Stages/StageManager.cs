@@ -282,6 +282,8 @@ public class StageManager : BaseManager <StageManager>
 
     private async UniTask TransitionToBattleAsync()
     {
+        await PlayStageIntroDialogueIfNeededAsync();
+
         await GameManager.Instance.UIManager.OpenOverlayAsync();
 
         try
@@ -292,6 +294,16 @@ public class StageManager : BaseManager <StageManager>
         {
             GameManager.Instance.UIManager.CloseOverlay();
         }
+    }
+
+    private async UniTask PlayStageIntroDialogueIfNeededAsync()
+    {
+        if (_session.Progress.SelectedStageId != "Stage_001")
+        {
+            return;
+        }
+
+        await GameManager.Instance.DialogueManager.StartDialogue("Chapter01_001");
     }
 
     private async UniTask TransitionToBattleInternalAsync()
