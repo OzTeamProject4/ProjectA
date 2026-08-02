@@ -238,24 +238,22 @@ public class DialogueManager : BaseManager<DialogueManager>
 
     private async UniTask<string> LoadDialogueAsync(string key)
     {
-        if (_currentStoryKey == key)
-        {
-            return null;
-        }
-
         if (!GameManager.Instance.DataManager.TryGetData(key, out StoryInfoData storyInfoData))
         {
             Debug.LogError($"[{nameof(DialogueManager)}:{nameof(LoadDialogueAsync)}] '{key}' 스토리 정보 데이터를 찾을 수 없습니다.");
             return null;
         }
 
-        List<DialogueData> dialogueDatas = await LoadDataTableAsync<DialogueData>(storyInfoData.DialogueKey);
-        List<ChoiceData> choiceDatas = await LoadDataTableAsync<ChoiceData>(storyInfoData.ChoiceKey);
+        if (_currentStoryKey != key)
+        {
+            List<DialogueData> dialogueDatas = await LoadDataTableAsync<DialogueData>(storyInfoData.DialogueKey);
+            List<ChoiceData> choiceDatas = await LoadDataTableAsync<ChoiceData>(storyInfoData.ChoiceKey);
 
-        CacheDialogueData(dialogueDatas);
-        CacheChoiceData(choiceDatas);
+            CacheDialogueData(dialogueDatas);
+            CacheChoiceData(choiceDatas);
 
-        _currentStoryKey = key;
+            _currentStoryKey = key;
+        }
 
         return storyInfoData.StartDialogueId;
     }

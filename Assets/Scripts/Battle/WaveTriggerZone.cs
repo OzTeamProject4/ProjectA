@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -47,13 +48,25 @@ public class WaveTriggerZone : MonoBehaviour
     }
     private async UniTaskVoid TriggerRoutine()
     {
-        await PlayerFind();
+        try
+        {
+            await PlayerFind(destroyCancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+
+        if (this == null)
+        {
+            return;
+        }
 
         IsSpawnCompleted = true;
 
         gameObject.SetActive(false);
     }
-    private async UniTask PlayerFind()
+    private async UniTask PlayerFind(CancellationToken cancellationToken)
     {
         if (GameManager.Instance.DataManager.TryGetData<StageWaveData>(_stageWaveDataId, out StageWaveData waveData))
         {
@@ -77,7 +90,7 @@ public class WaveTriggerZone : MonoBehaviour
                         }
 
                         await GameManager.Instance.BattleManager.SpawnEnemyAsync(monsterId, _spawnTransform, isBossWave);
-                        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+                        await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: cancellationToken);
                     }
                 }
             }

@@ -10,8 +10,8 @@
     "CenterCharacter": null,
     "RightCharacter": "Alice",
     "ActiveCharacter": "Teacher",
-    "Background": "BG_Classroom",
-    "Bgm": "BGM_School",
+    "Background": "Sprites/BG[BG_Classroom]",
+    "Bgm": "BGM_Battle",
     "AutoNextDelay": 1
   },
   {
@@ -40,7 +40,7 @@
     "CenterCharacter": null,
     "RightCharacter": "Alice",
     "ActiveCharacter": "Teacher",
-    "Background": "BG_Battlefield",
+    "Background": "Sprites/BG[BG_BattleField]",
     "Bgm": null,
     "AutoNextDelay": 0
   },
