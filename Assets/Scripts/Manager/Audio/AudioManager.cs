@@ -32,6 +32,7 @@ public class AudioManager : BaseManager<AudioManager>
         if (!_audioClipDictionary.TryGetValue(audioId, out AudioClip audioClip))
         {
             Debug.LogError($"[AudioManager:PlayBGM] '{audioId}'에 해당하는 AudioClip을 찾을 수 없습니다.");
+            return;
         }
 
         _audioView.PlayBGM(audioClip);
@@ -53,6 +54,7 @@ public class AudioManager : BaseManager<AudioManager>
         if (!_audioClipDictionary.TryGetValue(audioId, out AudioClip audioClip))
         {
             Debug.LogError($"[{nameof(AudioManager)}:{nameof(PlaySFX)}] '{audioId}'에 해당하는 AudioClip을 찾을 수 없습니다.");
+            return;
         }
 
         _audioView.PlaySFX(audioClip);
@@ -86,7 +88,7 @@ public class AudioManager : BaseManager<AudioManager>
             if (audioClip == null)
             {
                 Debug.LogError($"[{nameof(AudioManager)}:{nameof(LoadAudioClipsAsync)}] {audioClipKey} 오디오 에셋을 로드하지 못했습니다.");
-                return;
+                continue;
             }
 
             _audioClipDictionary[audioDataId] = audioClip;

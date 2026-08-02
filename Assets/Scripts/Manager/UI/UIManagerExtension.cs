@@ -281,6 +281,7 @@ public static class UIManagerExtension
     public static async UniTask<StageSelectHudView> OpenStageSelectHudAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
         BaseUI baseUI = await uiManager.OpenTestRootAsync(UIType.StageSelectHud, cancellationToken);
+        GameManager.Instance.AudioManager.PlayBGM("BGM_Stage");
         return GetView<StageSelectHudView>(baseUI, UIType.StageSelectHud);
     }
 
@@ -343,13 +344,14 @@ public static class UIManagerExtension
         await GameManager.Instance.UIManager.OpenOverlayAsync();
         GameManager.Instance.UIManager.CloseLoading();
         await uiManager.OpenTestRootAsync(UIType.Lobby, cancellationToken);
+        GameManager.Instance.AudioManager.PlayBGM("BGM_Lobby_01");
         GameManager.Instance.UIManager.CloseOverlay();
     }
 
     public static async UniTask<BattleHUDView> OpenBattleHUDAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
+        GameManager.Instance.AudioManager.PlayBGM("BGM_Battle");
         BaseUI baseUI = await uiManager.OpenContentRootAsync(UIType.BattleHUD, cancellationToken);
-
         return GetView<BattleHUDView>(baseUI, UIType.BattleHUD);
     }
 
@@ -424,6 +426,7 @@ public static class UIManagerExtension
 
     public static async UniTask OpenDialogueAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
+        GameManager.Instance.AudioManager.PlayBGM("BGM_Dialogue");
         BaseUI DialogueUI = await uiManager.OpenTestRootAsync(UIType.Dialogue, cancellationToken);
 
         if (DialogueUI is DialogueView dialogueView)
@@ -449,6 +452,7 @@ public static class UIManagerExtension
 
     public static async UniTask OpenStudentGachaAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
+        GameManager.Instance.AudioManager.PlayBGM("BGM_Gacha");
         await uiManager.OpenTestRootAsync(UIType.StudentGacha, cancellationToken);
     }
 

@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: UI-Dialogue
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: Default Local Group
-  m_GUID: 6c3b65eb4f8cd5349a5ea4eb7c4658ed
+  m_GroupName: UI-Dialogue
+  m_GUID: a3105318888526c44b7ad3972975a07a
   m_SerializeEntries:
-  - m_GUID: 306aacece41374f42b6be8c1c0ae993b
-    m_Address: TestEnemy
+  - m_GUID: da29bf06c7793474eb94e8d8c7ebbb70
+    m_Address: UI/Dialogue
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a8001c3d639f6f24295f6f90b1ff0cd6
-    m_Address: Video/Loading
+  - m_GUID: e93a29962ceb56a4f8cdc3db351de857
+    m_Address: UI/DialogueHistory
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -29,5 +29,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: a2c5544ffab75cb428ed6b2ff736503e, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: f39ee91c6cb8b914f9c68fe77ce9b363, type: 2}
-    - {fileID: 11400000, guid: f2027b85aadf1554d9f0affcfd9db5bb, type: 2}
+    - {fileID: 11400000, guid: 47d5cf7cb0a5a164187bff8c11f15f15, type: 2}
+    - {fileID: 11400000, guid: 3318dc5f3b68b8541935c09acda858ee, type: 2}
