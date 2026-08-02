@@ -1563,7 +1563,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3826,7 +3826,7 @@ GameObject:
   - component: {fileID: 6082697780809003888}
   - component: {fileID: 2160302329993289084}
   m_Layer: 5
-  m_Name: dummyButton_2
+  m_Name: SettingBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8325,13 +8325,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LobbyView
   _profileButton: {fileID: 3795457526500198006}
   _giftBoxButton: {fileID: 9176272014086202984}
-  _settingButton: {fileID: 2256836995929266567}
+  _settingButton: {fileID: 2160302329993289084}
   _missionButton: {fileID: 8360188390570721903}
   _achievementButton: {fileID: 5885292288160350678}
   _dictionaryButton: {fileID: 8096562048232995430}
   _characterGachaButton: {fileID: 8285321220873184395}
   _inventoryButton: {fileID: 4046820992856396226}
   _characterButton: {fileID: 5059857509494386769}
+  _quitButton: {fileID: 7148235295374148407}
 --- !u!1 &7652220043960175922
 GameObject:
   m_ObjectHideFlags: 0
@@ -9889,7 +9890,7 @@ GameObject:
   - component: {fileID: 4566869390909895497}
   - component: {fileID: 7148235295374148407}
   m_Layer: 5
-  m_Name: dummyButton_1
+  m_Name: QuitGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

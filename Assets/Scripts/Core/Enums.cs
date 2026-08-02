@@ -20,6 +20,7 @@
     InventoryScreen,
     InventoryDetail,
     AchievementScreen,
+    SettingPopup,
     PartySelectPopup,
     BattleResultPopup,
     BattlePausePopup,

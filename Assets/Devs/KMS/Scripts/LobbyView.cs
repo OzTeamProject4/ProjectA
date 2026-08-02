@@ -13,6 +13,7 @@ public sealed class LobbyView : BaseUI
     [SerializeField] private Button _characterGachaButton;
     [SerializeField] private Button _inventoryButton;
     [SerializeField] private Button _characterButton;
+    [SerializeField] private Button _quitButton;
 
     private void OnEnable()
     {
@@ -42,6 +43,7 @@ public sealed class LobbyView : BaseUI
         _characterGachaButton.onClick.AddListener(OnCharacterGachaButtonClicked);
         _inventoryButton.onClick.AddListener(OnInventoryButtonClicked);
         _characterButton.onClick.AddListener(OnCharacterButtonClicked);
+        _quitButton.onClick.AddListener(OnQuitButtonClicked);
     }
 
     private void UnregisterButtonEvents()
@@ -90,6 +92,11 @@ public sealed class LobbyView : BaseUI
         if (_characterButton != null)
         {
             _characterButton.onClick.RemoveListener(OnCharacterButtonClicked);
+        }
+
+        if (_quitButton != null)
+        {
+            _quitButton.onClick.RemoveListener(OnQuitButtonClicked);
         }
     }
 
@@ -149,6 +156,12 @@ public sealed class LobbyView : BaseUI
             return false;
         }
 
+        if (_quitButton == null)
+        {
+            Debug.LogError("[LobbyView] QuitButton이 할당되지 않았습니다.");
+            return false;
+        }
+
         return true;
     }
 
@@ -164,7 +177,7 @@ public sealed class LobbyView : BaseUI
 
     private void OnSettingButtonClicked()
     {
-        Debug.Log("Setting Button Clicked");
+        GameManager.Instance.UIManager.OpenSettingPopupAsync(destroyCancellationToken).Forget();
     }
 
     private void OnMissionButtonClicked()
@@ -202,5 +215,14 @@ public sealed class LobbyView : BaseUI
     private void OnCharacterButtonClicked()
     {
         GameManager.Instance.UIManager.OpenStudentManagementListAsync().Forget();
+    }
+
+    private void OnQuitButtonClicked()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }

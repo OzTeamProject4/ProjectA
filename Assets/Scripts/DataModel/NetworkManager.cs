@@ -122,6 +122,8 @@ public class NetworkManager : MonoBehaviour
         "Character_001",
         "Character_002",
         "Character_003",
+        "Character_004",
+        "Character_005"
     };
 
     private StudentListModel CreateStudentListModel()

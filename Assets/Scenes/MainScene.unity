@@ -570,6 +570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ec96253c3460b43bb5b65ba47600b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  _cursorTexture: {fileID: 2800000, guid: 53e86779e4d12a8448669f25fe93d415, type: 3}
 --- !u!114 &714563681876512911
 MonoBehaviour:
   m_ObjectHideFlags: 0

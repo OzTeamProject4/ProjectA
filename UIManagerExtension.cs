@@ -237,7 +237,7 @@ public static class UIManagerExtension
 
     public static async UniTask OpenSettingPopupAsync(this UIManager uiManager, CancellationToken cancellationToken = default)
     {
-        await uiManager.OpenPopupRootAsync(UIType.SettingPopup, cancellationToken);
+        await uiManager.OpenTestRootAsync(UIType.DictionaryScreen, cancellationToken);
     }
 
     public static void CloseSettingPopup(this UIManager uiManager)
