@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class GameManager : BaseManager<GameManager>
 {
-    [SerializeField] private Texture2D _cursorTexture;
-
     public static GameManager Instance { get; private set; }
 
     public ResourceManager ResourceManager { get; private set; }
@@ -25,16 +23,10 @@ public class GameManager : BaseManager<GameManager>
 
     public StageManager StageManager { get; private set; }
 
-
     private void Awake()
     {
         EnsureSingleton();
         SetupManagers();
-    }
-
-    private void Start()
-    {
-        Cursor.SetCursor(_cursorTexture, Vector2.zero, CursorMode.Auto);
     }
 
     public override UniTask InitializeAsync()
