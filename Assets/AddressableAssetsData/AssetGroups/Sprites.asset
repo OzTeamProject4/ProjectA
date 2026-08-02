@@ -1,0 +1,128 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Sprites
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Sprites
+  m_GUID: dc3c2ff5896786a4386b6597dc70e8fe
+  m_SerializeEntries:
+  - m_GUID: 020dc0eb32f3f5148acbd9a471d94120
+    m_Address: StandImage/Neri1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 098c2cb9cbdcbfc48bc8a974c841825b
+    m_Address: StandImage/Bitna3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0cf6bc7a9a1efe44b8eed7198e196f72
+    m_Address: StandImage/Bitna1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 170c9f49e5273e741b66bc88ab5b72f1
+    m_Address: StandImage/Lumi3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ab7d70a6187aca49abe8928afb69ef1
+    m_Address: Sprite/Gacha
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2657868fb52b9d64d8a49e316640b5cf
+    m_Address: Icon/Lumi
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 44fe666a4e310664ca185b178730084b
+    m_Address: StandImage/Lumi2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5acf23e59b3fe324ebaf1571cba0a9df
+    m_Address: Icon/Kai
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5baa9f823a6c2a446b4ec4e8e72579ae
+    m_Address: StandImage/Yui1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e3f7b5b0fbc3d34492f8ccfd10c6443
+    m_Address: IconSkill
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9ec58ec72d03e9748ad4171a03ff22ff
+    m_Address: Sprites/Item
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a6e18fb91d9ed534ca25f9e334d1099d
+    m_Address: Sprites/BG
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aea2e2ab5a48bc646a02695482318b45
+    m_Address: Sprites/Equipment
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b0e48399d38de8341877f76c6f31a6e8
+    m_Address: StandImage/Yui2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b2f1e6829777c884dba98e974c5269e9
+    m_Address: Icon/Neri
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b867b9d9719acfc49bf25ab1749a7df5
+    m_Address: StandImage/Kai1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1cd23455857ffc4497570cd4db9f430
+    m_Address: StandImage/Lumi1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1da4b5ece50ef14c8f2207cdc7d5b21
+    m_Address: StandImage/Neri2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c30ae38498f6fda45ab3b205bbb42e48
+    m_Address: Icon/Bitna
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dfba02d245135de4081dc1bc0bae2a80
+    m_Address: StandImage/Bitna2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f8833382ef20ff94c8ebc32850ad3c53
+    m_Address: Icon/Yui
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: a2c5544ffab75cb428ed6b2ff736503e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 3d114d7e78e3b5540b7ebc3f4fdc22ff, type: 2}
+    - {fileID: 11400000, guid: 8dd2c356717a6304fbe9be0ca9e99d08, type: 2}

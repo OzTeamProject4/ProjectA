@@ -4,13 +4,14 @@ public class LoadingButton : BaseButton
 {
     protected override void OnButtonClick()
     {
-        CompleteLoadingAsync().Forget();
+        OpenLobbyAsync().Forget();
     }
 
-    private async UniTask CompleteLoadingAsync()
+    private async UniTask OpenLobbyAsync()
     {
-        await GameManager.Instance.UIManager.OpenOverlayUIAsync();
-        GameManager.Instance.UIManager.CloseLoadingUI();
-        //오픈 로비
+        await GameManager.Instance.UIManager.OpenOverlayAsync();
+        GameManager.Instance.UIManager.CloseLoading();
+        await GameManager.Instance.UIManager.OpenLobbyAsync();
+        GameManager.Instance.UIManager.CloseOverlay();
     }
 }

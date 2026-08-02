@@ -1,0 +1,146 @@
+[
+  {
+    "DataId": "Currency_Gold",
+    "CurrencyType": "Gold",
+    "Tier": null,
+    "ReqItemId": null,
+    "ReqItemCount": 0,
+    "Value": 0
+  },
+  {
+    "DataId": "Currency_Crystal",
+    "CurrencyType": "Crystal",
+    "Tier": null,
+    "ReqItemId": null,
+    "ReqItemCount": 0,
+    "Value": 0
+  },
+  {
+    "DataId": "Currency_ExpBook_Small",
+    "CurrencyType": "ExpBook",
+    "Tier": "T1",
+    "ReqItemId": "Item_Gold",
+    "ReqItemCount": 200,
+    "Value": 100
+  },
+  {
+    "DataId": "Currency_ExpBook_Medium",
+    "CurrencyType": "ExpBook",
+    "Tier": "T2",
+    "ReqItemId": "Item_Gold",
+    "ReqItemCount": 400,
+    "Value": 200
+  },
+  {
+    "DataId": "Currency_ExpBook_Large",
+    "CurrencyType": "ExpBook",
+    "Tier": "T3",
+    "ReqItemId": "Item_Gold",
+    "ReqItemCount": 600,
+    "Value": 500
+  },
+  {
+    "DataId": "Currency_Ticket_Sweep",
+    "CurrencyType": "Ticket",
+    "Tier": null,
+    "ReqItemId": "Item_Crystal",
+    "ReqItemCount": 20,
+    "Value": 1
+  },
+  {
+    "DataId": "Currency_Ticket_Gacha",
+    "CurrencyType": "Ticket",
+    "Tier": null,
+    "ReqItemId": "Item_Crystal",
+    "ReqItemCount": 20,
+    "Value": 1
+  },
+  {
+    "DataId": "Currency_Ticket_GoldDungeon",
+    "CurrencyType": "Ticket",
+    "Tier": null,
+    "ReqItemId": "Item_Crystal",
+    "ReqItemCount": 10,
+    "Value": 1
+  },
+  {
+    "DataId": "Currency_Ticket_ExpDungeon",
+    "CurrencyType": "Ticket",
+    "Tier": null,
+    "ReqItemId": "Item_Gold",
+    "ReqItemCount": 500,
+    "Value": 1
+  },
+  {
+    "DataId": "Currency_Mat_T1",
+    "CurrencyType": "Material",
+    "Tier": "T1",
+    "ReqItemId": "Item_Gold",
+    "ReqItemCount": 100,
+    "Value": 1
+  },
+  {
+    "DataId": "Currency_Mat_T2",
+    "CurrencyType": "Material",
+    "Tier": "T2",
+    "ReqItemId": "Item_Gold",
+    "ReqItemCount": 300,
+    "Value": 1
+  },
+  {
+    "DataId": "Currency_Mat_T3",
+    "CurrencyType": "Material",
+    "Tier": "T3",
+    "ReqItemId": "Item_Gold",
+    "ReqItemCount": 500,
+    "Value": 1
+  },
+  {
+    "DataId": "Currency_Mat_Signature",
+    "CurrencyType": "Material",
+    "Tier": null,
+    "ReqItemId": "Item_Crystal",
+    "ReqItemCount": 10,
+    "Value": 1
+  },
+  {
+    "DataId": "Currency_CharacterShard_001",
+    "CurrencyType": "Shard",
+    "Tier": "T1",
+    "ReqItemId": "Item_Crystal",
+    "ReqItemCount": 50,
+    "Value": 1
+  },
+  {
+    "DataId": "Currency_CharacterShard_002",
+    "CurrencyType": "Shard",
+    "Tier": "T1",
+    "ReqItemId": "Item_Crystal",
+    "ReqItemCount": 50,
+    "Value": 1
+  },
+  {
+    "DataId": "Currency_CharacterShard_003",
+    "CurrencyType": "Shard",
+    "Tier": "T1",
+    "ReqItemId": "Item_Crystal",
+    "ReqItemCount": 50,
+    "Value": 1
+  },
+  {
+    "DataId": "Currency_CharacterShard_004",
+    "CurrencyType": "Shard",
+    "Tier": "T1",
+    "ReqItemId": "Item_Crystal",
+    "ReqItemCount": 50,
+    "Value": 1
+  },
+  {
+    "DataId": "Currency_CharacterShard_005",
+    "CurrencyType": "Shard",
+    "Tier": "T1",
+    "ReqItemId": "Item_Crystal",
+    "ReqItemCount": 50,
+    "Value": 1
+  }
+]

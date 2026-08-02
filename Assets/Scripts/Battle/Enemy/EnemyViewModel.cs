@@ -1,57 +1,210 @@
-using System;
-
-public sealed class EnemyViewModel
+using System.Buffers.Text;
+using UnityEngine;
+public class EnemyViewModel : ViewModelBase
 {
-    // JSON 원본 적 정보
-    public EnemyData Data { get; }
-
-    // 전투 중 변하는 체력
-    public int CurrentHp { get; private set; }
-    public int MaxHp { get; }
-
-    // JSON에서 받은 기본 공격력
-    public int BaseDamage { get; }
-
-    // 체력 변경과 사망 알림
-    public event Action<int, int> onHealthChanged;
-    public event Action onDead;
-
-    // JSON 능력치로 전투 상태 생성
-    public EnemyViewModel(EnemyData enemyData)
+    public void InvokeOnceOnInit()
     {
-        if (enemyData == null)
-        {
-            throw new ArgumentNullException(nameof(enemyData));
-        }
+        OnPropertyChanged(nameof(EnemyViewModel));
+        OnPropertyChanged(nameof(EnemyDataId));
+        OnPropertyChanged(nameof(Name));
+        OnPropertyChanged(nameof(TotalExp));
+        OnPropertyChanged(nameof(CurrentLevel));
+        OnPropertyChanged(nameof(ElementalType));
+        OnPropertyChanged(nameof(BaseHp));
+        OnPropertyChanged(nameof(CurrentHp));
+        OnPropertyChanged(nameof(BaseDamage));
+        OnPropertyChanged(nameof(IsActive));
+        OnPropertyChanged(nameof(CurrentDamage));
+        OnPropertyChanged(nameof(PrefabAddress));
 
-        Data = enemyData;
-        MaxHp = enemyData.BaseHp;
-        CurrentHp = MaxHp;
-        BaseDamage = enemyData.BaseDamage;
     }
 
-    // 피해를 받아 현재 체력 변경
-    public void TakeDamage(int damage)
+    private string _enemyDataId;
+    private string _name;
+    private int _totalExp;
+    private int _currentLevel;
+    private ElementType _elementalType;
+    private int _baseHp;
+    private int _maxHp;
+    private int _currentHp;
+    private int _baseDamage;
+    private int _currentDamage;
+    private bool _isActive;
+    private string _prefabAddress;
+    private string _skillDataId;
+
+
+
+    public string EnemyDataId
     {
-        if (CurrentHp <= 0 || damage <= 0)
+        get => _enemyDataId;
+        set
         {
-            return;
-        }
-
-        CurrentHp -= damage;
-
-        if (CurrentHp < 0)
-        {
-            CurrentHp = 0;
-        }
-
-        // View에 체력 변경 알림
-        onHealthChanged?.Invoke(CurrentHp, MaxHp);
-
-        if (CurrentHp == 0)
-        {
-            // 체력이 0이면 사망 알림
-            onDead?.Invoke();
+            if (_enemyDataId != value)
+            {
+                _enemyDataId = value;
+                OnPropertyChanged(nameof(EnemyDataId));
+            }
         }
     }
+
+    public string Name
+    {
+        get => _name;
+        set
+        {
+            if (_name != value)
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+    }
+
+    public int TotalExp
+    {
+        get => _totalExp;
+        set
+        {
+            if (_totalExp != value)
+            {
+                _totalExp = value;
+                CurrentLevel = (int)_totalExp / 100;
+                OnPropertyChanged(nameof(TotalExp));
+            }
+        }
+    }
+
+    public int CurrentLevel
+    {
+        get => _currentLevel;
+        set
+        {
+            if (_currentLevel != value)
+            {
+                _currentLevel = value;
+                OnPropertyChanged(nameof(CurrentLevel));
+            }
+        }
+    }
+
+    public ElementType ElementalType
+    {
+        get => _elementalType;
+        set
+        {
+            if (_elementalType != value)
+            {
+                _elementalType = value;
+                OnPropertyChanged(nameof(ElementalType));
+            }
+        }
+    }
+
+    public int BaseHp
+    {
+        get => _baseHp;
+        set
+        {
+            if (_baseHp != value)
+            {
+                _baseHp = value;
+                OnPropertyChanged(nameof(BaseHp));
+            }
+        }
+    }
+
+    public int CurrentHp
+    {
+        get => _currentHp;
+        set
+        {
+            if (_currentHp != value)
+            {
+                _currentHp = value;
+                OnPropertyChanged(nameof(CurrentHp));
+            }
+        }
+    }
+
+    public int MaxHp
+    {
+        get => _maxHp;
+        set
+        {
+            if (_maxHp != value)
+            {
+                _maxHp = value;
+                OnPropertyChanged(nameof(MaxHp));
+            }
+        }
+    }
+
+    public int BaseDamage
+    {
+        get => _baseDamage;
+        set
+        {
+            if (_baseDamage != value)
+            {
+                _baseDamage = value;
+                OnPropertyChanged(nameof(BaseDamage));
+            }
+        }
+    }
+    public int CurrentDamage
+    {
+        get => _currentDamage;
+        set
+        {
+            if (_currentDamage != value)
+            {
+                _currentDamage = value;
+                OnPropertyChanged(nameof(CurrentDamage));
+            }
+        }
+    }
+
+    public bool IsActive
+    {
+        get => _isActive;
+        set
+        {
+            if (_isActive != value)
+            {
+                _isActive = value;
+                OnPropertyChanged(nameof(IsActive));
+            }
+        }
+    }
+    
+
+
+    public string PrefabAddress
+    {
+        get => _prefabAddress;
+        set
+        {
+            if (_prefabAddress != value)
+            {
+                _prefabAddress = value;
+                OnPropertyChanged(nameof(PrefabAddress));
+            }
+        }
+    }
+
+    public string SkillDataId
+    {
+        get => _skillDataId;
+        set
+        {
+            if (_skillDataId != value)
+            {
+                _skillDataId = value;
+                OnPropertyChanged(nameof(SkillDataId));
+            }
+        }
+    }
+
+
 }

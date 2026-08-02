@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class GameManager : BaseManager<GameManager>
 {
+    [SerializeField] private Texture2D _cursorTexture;
+
     public static GameManager Instance { get; private set; }
 
     public ResourceManager ResourceManager { get; private set; }
@@ -12,11 +14,17 @@ public class GameManager : BaseManager<GameManager>
     public AudioManager AudioManager { get; private set; }
 
     public UIManager UIManager { get; private set; }
-    public Inventory Inventory { get; private set; }
 
     public InputManager InputManager { get; private set; }
 
     public ObjectManager ObjectManager { get; private set; }
+
+    public DialogueManager DialogueManager { get; private set; }
+
+    public BattleManager BattleManager { get; private set; }
+
+    public StageManager StageManager { get; private set; }
+
 
     private void Awake()
     {
@@ -24,8 +32,13 @@ public class GameManager : BaseManager<GameManager>
         SetupManagers();
     }
 
-    public override UniTask InitializeAsync()
+    private void Start()
     {
+        Cursor.SetCursor(_cursorTexture, Vector2.zero, CursorMode.Auto);
+    }
+
+    public override UniTask InitializeAsync()
+    {     
         return UniTask.CompletedTask;
     }
 
@@ -38,6 +51,9 @@ public class GameManager : BaseManager<GameManager>
         await UIManager.InitializeAsync();
         await InputManager.InitializeAsync();
         await ObjectManager.InitializeAsync();
+        await BattleManager.InitializeAsync();
+        await StageManager.InitializeAsync();
+        await DialogueManager.InitializeAsync();
     }
 
     private void EnsureSingleton()
@@ -60,6 +76,8 @@ public class GameManager : BaseManager<GameManager>
         UIManager = this.GetRequiredComponent<UIManager>();
         InputManager = this.GetRequiredComponent<InputManager>();
         ObjectManager = this.GetRequiredComponent<ObjectManager>();
-        Inventory = new Inventory();
+        BattleManager = this.GetRequiredComponent<BattleManager>();
+        StageManager = this.GetRequiredComponent<StageManager>();
+        DialogueManager = this.GetRequiredComponent<DialogueManager>();
     }
 }

@@ -95,10 +95,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 605c9978d1e762d4aba979293b6803ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  _speed: 15
   _turnSpeed: 200
   _lifeTime: 3
   _hitEffectPrefab: {fileID: 1339124478685776, guid: 6a2b1e99cb868ae4ea3754d637d9457f, type: 3}
+  _obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1001 &2667082758680194709
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -110,6 +112,18 @@ PrefabInstance:
     - target: {fileID: 1531814124222292, guid: fc1fba682ecd41e4c9d2a76268178ac9, type: 3}
       propertyPath: m_Name
       value: Grass002_Projectile
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215891199679236, guid: fc1fba682ecd41e4c9d2a76268178ac9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215891199679236, guid: fc1fba682ecd41e4c9d2a76268178ac9, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215891199679236, guid: fc1fba682ecd41e4c9d2a76268178ac9, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4215891199679236, guid: fc1fba682ecd41e4c9d2a76268178ac9, type: 3}
       propertyPath: m_LocalPosition.x

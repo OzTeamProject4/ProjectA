@@ -48,16 +48,28 @@ public class LoadingSlider : MonoBehaviour
     {
         _loadingStepMessages.Clear();
 
-        _loadingStepMessages.Add(LoadingStep.Initialize, "Initializing...");
+        _loadingStepMessages.Add(LoadingStep.Initialize, "초기화 중...");
 
-        _loadingStepMessages.Add(LoadingStep.LoadCharacterData, "Preparing characters...");
-        _loadingStepMessages.Add(LoadingStep.LoadCharacterGradeData, "Preparing character grades...");
-        _loadingStepMessages.Add(LoadingStep.LoadLevelExpData, "Preparing level data...");
-        _loadingStepMessages.Add(LoadingStep.LoadItemData, "Preparing items...");
-        _loadingStepMessages.Add(LoadingStep.LoadEquipmentData, "Preparing equipment...");
-        _loadingStepMessages.Add(LoadingStep.LoadSignatureData, "Preparing signatures...");
+        _loadingStepMessages.Add(LoadingStep.LoadAudioData, "오디오 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadCurrencyData, "재화 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadItemData, "아이템 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadStudentData, "학생 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadStudentGradeData, "학생 등급 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadStudentLevelData, "학생 레벨 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadSignatureData, "시그니처 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadSkillData, "스킬 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadEquipmentData, "장비 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadEnemyData, "적 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadEnemySkillData, "적 스킬 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadStageData, "스테이지 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadStageWaveData, "스테이지 웨이브 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadMissionData, "미션 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadStoryInfoData, "스토리 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadDialoguePortraitData, "대화 초상화 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadStudentGachaListData, "학생 모집 목록 데이터 불러오는 중...");
+        _loadingStepMessages.Add(LoadingStep.LoadStudentGachaData, "학생 모집 데이터 불러오는 중...");
 
-        _loadingStepMessages.Add(LoadingStep.Complete, "Loading complete.");
+        _loadingStepMessages.Add(LoadingStep.Complete, "로딩 완료.");
     }
 
     private void UpdateSliderValue()

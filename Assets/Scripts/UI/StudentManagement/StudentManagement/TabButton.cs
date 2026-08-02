@@ -1,0 +1,30 @@
+﻿using System;
+using UnityEngine;
+
+public class TabButton : BaseButton
+{
+    [SerializeField] private GameObject _contentPanel;
+
+    public event Action OnTabClicked;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        UnityUtil.ValidateReference(_contentPanel, nameof(TabButton), nameof(_contentPanel));
+    }
+
+    protected override void OnButtonClick()
+    {
+        if (OnTabClicked == null)
+        {
+            return;
+        }
+
+        OnTabClicked.Invoke();
+    }
+
+    public void SetPanelActive(bool isActive)
+    {
+        _contentPanel.SetActive(isActive);
+    }
+}

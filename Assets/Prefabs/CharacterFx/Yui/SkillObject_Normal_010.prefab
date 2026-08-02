@@ -154,10 +154,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 605c9978d1e762d4aba979293b6803ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  _speed: 15
   _turnSpeed: 200
   _lifeTime: 3
   _hitEffectPrefab: {fileID: 1021820888038418, guid: d2814446fdd369b48bc13a44d84e0d34, type: 3}
+  _obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1001 &19862607960865845
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -169,6 +171,18 @@ PrefabInstance:
     - target: {fileID: 1099989291834194, guid: 2a899becd7d50024f92a06f9385b426f, type: 3}
       propertyPath: m_Name
       value: Normal010_Projectile
+      objectReference: {fileID: 0}
+    - target: {fileID: 4562464733809718, guid: 2a899becd7d50024f92a06f9385b426f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4562464733809718, guid: 2a899becd7d50024f92a06f9385b426f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4562464733809718, guid: 2a899becd7d50024f92a06f9385b426f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4562464733809718, guid: 2a899becd7d50024f92a06f9385b426f, type: 3}
       propertyPath: m_LocalPosition.x

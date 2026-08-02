@@ -1,14 +1,38 @@
 ﻿public enum UIType
 {
-    CharacterList,
-    CharacterDetail,
-    ExpItemSelectPopup,
-    CraftPopup,
-    EquipmentListPopup,
-    EquipmentDetailPopup,
-    ItemPreviewPopup,
+    Lobby,
+    StudentManagementList,
+    StudentManagement,
+    ExperienceInventoryPopup,
+    EquipmentInventoryPopup,
+    EquipmentCraftPopup,
+    EquipmentInfoPopup,
+    CraftEquipmentInfoPopup,
+    StageInfoPopup,
+    PartySetupPopup,
     Overlay,
-    Loading
+    Loading,
+    PracticeFieldScreen,
+    StageSelectScreen,
+    DictionaryScreen,
+    FarmingDungeonScreen,
+    MissionScreen,
+    InventoryScreen,
+    InventoryDetail,
+    AchievementScreen,
+    SettingPopup,
+    PartySelectPopup,
+    BattleResultPopup,
+    BattlePausePopup,
+    ReturnToLobbyPopup,
+    StageSelectHud,
+    BattleHUD,
+    EnemyHud,
+    Dialogue,
+    DialogueHistory,
+    StudentGacha,
+    Profile,
+    ProfileStudentSelectPopup
 }
 
 public enum LoadingState
@@ -21,14 +45,26 @@ public enum LoadingStep
 {
     None,
     Initialize,
-    LoadCharacterData,
-    LoadCharacterGradeData,
-    LoadLevelExpData,
+    LoadStudentData,
+    LoadStudentGradeData,
+    LoadStudentLevelData,
     LoadItemData,
+    LoadMaterialData,
+    LoadCurrencyData,
     LoadEquipmentData,
     LoadSignatureData,
-    Complete,
-    LoadSkillData
+    LoadStageData,
+    LoadStageWaveData,
+    LoadSkillData,
+    LoadEnemyData,
+    LoadEnemySkillData,
+    LoadMissionData,
+    LoadAudioData,
+    LoadStoryInfoData,
+    LoadDialoguePortraitData,
+    LoadStudentGachaListData,
+    LoadStudentGachaData,
+    Complete
 }
 
 public enum UIRoot
@@ -56,25 +92,43 @@ public enum RollType
 
 public enum ItemType
 {
+    Currency,
+    Equipment,
+    Signature,
+    Material
+}
+
+public enum CurrencyType
+{
+    Gold,
+    Crystal,
     ExpBook,
     Ticket,
-    Material
+    Material,
+    Shard
 }
 
 public enum EquipType
 {
     Weapon,
-    Helmet,
+    Hat,
     Armor,
-    Greeve,
+    Boots,
     Accessory,
     Signature
 }
 
-public enum StatType
+public enum ScreenType
 {
-    MaxHp,
-    Atk,
-    Def,
-    MoveSpeed
+    Lobby,
+    StageSelect,
+    Battle
+}
+
+public enum InventoryFilterType
+{
+    All,
+    Equipment,
+    Currency,
+    Material
 }

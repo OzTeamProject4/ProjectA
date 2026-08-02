@@ -4,27 +4,23 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class DataManager : BaseManager<DataManager>
 {
     private readonly Dictionary<Type, object> _dataTables = new Dictionary<Type, object>();
 
-    private const int LoadingTransitionDelay = 1000;
+    private const int LoadingTransitionDelay = 200;
 
     public override async UniTask InitializeAsync()
     {
         _dataTables.Clear();
-        await PreloadDataAsync();
-    }
-
-    public async UniTask PreloadDataAsync(IProgress<LoadingProgress> progress = null)
-    {
-        await UniTask.Delay(1);
+        await Addressables.InitializeAsync();
     }
 
     public async UniTask LoadRuntimeDataAsync(IProgress<LoadingProgress> progress = null)
     {
-        List<LoadingTask> loadingTasks = CreateLoadingTasks();
+       List<LoadingTask> loadingTasks = CreateLoadingTasks();
 
         ReportLoadingProgress(progress, 0f, LoadingStep.Initialize);
 
@@ -44,21 +40,30 @@ public class DataManager : BaseManager<DataManager>
         }
 
         ReportLoadingProgress(progress, 1f, LoadingStep.Complete);
-
-        await UniTask.Delay(LoadingTransitionDelay);
     }
 
     private List<LoadingTask> CreateLoadingTasks()
     {
         List<LoadingTask> jobs = new List<LoadingTask>
         {
-            new LoadingTask(LoadingStep.LoadCharacterData, AddressableKey.Data.CharacterData, LoadDataAsync<CharacterData>),
-            new LoadingTask(LoadingStep.LoadCharacterGradeData, AddressableKey.Data.CharacterGrade, LoadDataAsync<CharacterGradeData>),
-            new LoadingTask(LoadingStep.LoadLevelExpData, AddressableKey.Data.LevelExp, LoadDataAsync<LevelExpData>),
-            new LoadingTask(LoadingStep.LoadItemData, AddressableKey.Data.Item, LoadDataAsync<ItemData>),
-            new LoadingTask(LoadingStep.LoadEquipmentData, AddressableKey.Data.Equipment, LoadDataAsync<EquipmentData>),
-            new LoadingTask(LoadingStep.LoadSignatureData, AddressableKey.Data.Signature, LoadDataAsync<SignatureData>),
-            new LoadingTask(LoadingStep.LoadSkillData, AddressableKey.Data.CharacterSkill, LoadDataAsync<CharacterSkillData>)
+             new LoadingTask(LoadingStep.LoadAudioData, AddressableKey.Data.Audio, LoadDataAsync<AudioData>),
+             new LoadingTask(LoadingStep.LoadCurrencyData, AddressableKey.Data.Currency, LoadDataAsync<CurrencyData>),
+             new LoadingTask(LoadingStep.LoadItemData, AddressableKey.Data.Item, LoadDataAsync<ItemData>),
+             new LoadingTask(LoadingStep.LoadStudentData, AddressableKey.Data.StudentData, LoadDataAsync<StudentData>),
+             new LoadingTask(LoadingStep.LoadStudentGradeData, AddressableKey.Data.StudentGradeData, LoadDataAsync<StudentGradeData>),
+             new LoadingTask(LoadingStep.LoadStudentLevelData, AddressableKey.Data.StudentLevelData, LoadDataAsync<StudentLevelData>),
+             new LoadingTask(LoadingStep.LoadSignatureData, AddressableKey.Data.Signature, LoadDataAsync<SignatureData>),
+             new LoadingTask(LoadingStep.LoadSkillData, AddressableKey.Data.CharacterSkill, LoadDataAsync<CharacterSkillData>),
+             new LoadingTask(LoadingStep.LoadEquipmentData, AddressableKey.Data.Equipment, LoadDataAsync<EquipmentData>),
+             new LoadingTask(LoadingStep.LoadEnemyData, AddressableKey.Data.Enemy, LoadDataAsync<EnemyData>),
+             new LoadingTask(LoadingStep.LoadEnemySkillData, AddressableKey.Data.EnemySkill, LoadDataAsync<EnemySkillData>),
+             new LoadingTask(LoadingStep.LoadStageData, AddressableKey.Data.Stage, LoadDataAsync<StageData>),
+             new LoadingTask(LoadingStep.LoadStageWaveData, AddressableKey.Data.StageWave, LoadDataAsync<StageWaveData>),
+             new LoadingTask(LoadingStep.LoadMissionData, AddressableKey.Data.MissionList, LoadDataAsync<MissionData>),
+             new LoadingTask(LoadingStep.LoadStoryInfoData, AddressableKey.Data.StoryInfo, LoadDataAsync<StoryInfoData>),
+             new LoadingTask(LoadingStep.LoadDialoguePortraitData, AddressableKey.Data.DialoguePortrait, LoadDataAsync<DialoguePortraitData>),
+             new LoadingTask(LoadingStep.LoadStudentGachaListData, AddressableKey.Data.StudentGachaList, LoadDataAsync<StudentGachaListData>),
+             new LoadingTask(LoadingStep.LoadStudentGachaData, AddressableKey.Data.StudentGacha, LoadDataAsync<StudentGachaData>)
         };
 
         return jobs;
@@ -180,7 +185,7 @@ public class DataManager : BaseManager<DataManager>
         {
             Debug.LogError($"[{nameof(DataManager)}:{nameof(LoadDataTableAsync)}] 데이터 테이블 로드 중 오류가 발생했습니다.\n{exception}");
         }
-        
+
         return null;
     }
 }

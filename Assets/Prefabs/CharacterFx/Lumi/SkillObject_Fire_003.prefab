@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7470017003417465988}
@@ -70,7 +70,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7c4943c126669a64ca1c516d07a41687, type: 2}
+  - {fileID: 2100000, guid: f3468535fd941e94892902558305471e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -154,10 +154,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 605c9978d1e762d4aba979293b6803ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  _speed: 15
   _turnSpeed: 200
   _lifeTime: 3
   _hitEffectPrefab: {fileID: 1767841913861676, guid: 2233ba7a50bbefa45a070511462024ac, type: 3}
+  _obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1001 &5193866241188172110
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -168,19 +170,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3440333609073825358, guid: 4fcd47cb5f786d245a80919f7c2ab9a1, type: 3}
       propertyPath: m_LocalScale.x
-      value: 7
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3440333609073825358, guid: 4fcd47cb5f786d245a80919f7c2ab9a1, type: 3}
       propertyPath: m_LocalScale.y
-      value: 7
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3440333609073825358, guid: 4fcd47cb5f786d245a80919f7c2ab9a1, type: 3}
       propertyPath: m_LocalScale.z
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3440333609073825358, guid: 4fcd47cb5f786d245a80919f7c2ab9a1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.21
+      value: -0.389
+      objectReference: {fileID: 0}
+    - target: {fileID: 3440333609073825358, guid: 4fcd47cb5f786d245a80919f7c2ab9a1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3440333610827736521, guid: 4fcd47cb5f786d245a80919f7c2ab9a1, type: 3}
       propertyPath: m_Name
@@ -200,7 +206,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3440333610827736522, guid: 4fcd47cb5f786d245a80919f7c2ab9a1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.48
       objectReference: {fileID: 0}
     - target: {fileID: 3440333610827736522, guid: 4fcd47cb5f786d245a80919f7c2ab9a1, type: 3}
       propertyPath: m_LocalPosition.y

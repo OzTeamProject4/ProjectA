@@ -9,6 +9,8 @@ public class CharacterSkillSystem : MonoBehaviour
     private const float GaugePerSecond = 5.0f;
     private const string EnemyTag = "Enemy";
     private const float EffectLifeTime = 3.0f;
+    private const int SkillPrewarmCount = 5;
+    private const float MinAttackRangeRatio = 0.4f;
 
     private CharacterAttack _characterAttack;
     private BattleCharacter _battleCharacter;
@@ -19,11 +21,143 @@ public class CharacterSkillSystem : MonoBehaviour
     private int _maxGauge;
     private float _gaugeAccumulator;
     private List<string> _loadedPrefabKeys = new List<string>();
-    
 
     public event Action<int, int> OnGaugeChanged;
     public event Action<int, float, float, GameObject> OnHealBuffRequested;
+    public event Action<CharacterSkillCategory> OnSkillUsed;
+
+    public float MaxSkillRange
+    {
+        get
+        {
+            float maxRange = 0f;
+
+            if (_basicSkill != null)
+            {
+                maxRange = Mathf.Max(maxRange, _basicSkill.Data.SkillRange);
+            }
+
+            if (_normalSkill != null)
+            {
+                maxRange = Mathf.Max(maxRange, _normalSkill.Data.SkillRange);
+            }
+
+            if (_ultimateSkill != null)
+            {
+                maxRange = Mathf.Max(maxRange, _ultimateSkill.Data.SkillRange);
+            }
+            return maxRange;
+        }
+    }
+
+    public float AttackRange
+    {
+        get
+        {
+            float basicRange = GetAttackSkillRange(_basicSkill);
+            float normalRange = GetAttackSkillRange(_normalSkill);
+
+            if (basicRange <= 0f && normalRange <= 0f)
+            {
+                return 0f;
+            }
+
+            if (basicRange <= 0f)
+            {
+                return normalRange;
+            }
+
+            if (normalRange <= 0f)
+            {
+                return basicRange;
+            }
+
+            return Mathf.Min(basicRange, normalRange);
+        }
+    }
+
+    public float MinAttackRange
+    {
+        get
+        {
+            return AttackRange * MinAttackRangeRatio;
+        }
+    }
+
+    public int CurUltGauge
+    {
+        get
+        {
+            return _currentGauge;
+        }
+    }
     
+    public int MaxUltGauge
+    {
+        get
+        {
+            return _maxGauge;
+        }
+    }
+
+    public float BasicSkillCooldownProgress
+    {
+        get
+        {
+            if (_basicSkill == null)
+            {
+                return 1.0f;
+            }
+            
+            return _basicSkill.CooldownProgress;
+        }
+    }
+    public float NormalSkillCooldownProgress
+    {
+        get
+        {
+            if (_normalSkill == null)
+            {
+                return 1.0f;
+            }
+
+            return _normalSkill.CooldownProgress;
+        }
+    }
+    public Sprite BasicSkillIcon
+    {
+        get
+        {
+            if (_basicSkill == null)
+            {
+                return null;
+            }
+            return _basicSkill.IconSprite;
+        }
+    }
+    public Sprite NormalSkillIcon
+    {
+        get
+        {
+            if (_normalSkill == null)
+            {
+                return null;
+            }
+            return _normalSkill.IconSprite;
+        }
+    }
+    public Sprite UltimateSkillIcon
+    {
+        get
+        {
+            if (_ultimateSkill == null)
+            {
+                return null;
+            }
+            return _ultimateSkill.IconSprite;
+        }
+    }
+
     private void Awake()
     {
         _battleCharacter = GetComponent<BattleCharacter>();
@@ -43,6 +177,11 @@ public class CharacterSkillSystem : MonoBehaviour
 
     private void Update()
     {
+        if (_battleCharacter != null && _battleCharacter.IsDead)
+        {
+            return;
+        }
+
         UpdateGauge();
     }
 
@@ -59,7 +198,7 @@ public class CharacterSkillSystem : MonoBehaviour
         }
         _loadedPrefabKeys.Clear();
     }
-    public async UniTask InitializeAsync(CharacterData data)
+    public async UniTask InitializeAsync(StudentData data)
     {
         _maxGauge = data.SkillGauge;
         ChangeGauge(0);
@@ -108,13 +247,8 @@ public class CharacterSkillSystem : MonoBehaviour
         }
 
         Transform target = FindNearestEnemy(_basicSkill.Data.SkillRange);
-        if (target == null)
-        {
-            Debug.Log("사거리 내 적 없음");
-            return;
-        }
-
-        UseBasicSkill(target);
+        ExecuteSkill(_basicSkill, target);
+        _basicSkill.MarkUsed();
     }
 
     public void UseBasicSkill(Transform target)
@@ -158,13 +292,8 @@ public class CharacterSkillSystem : MonoBehaviour
         }
 
         Transform target = FindNearestEnemy(_normalSkill.Data.SkillRange);
-        if (target == null)
-        {
-            Debug.Log("사거리 내 적 없음");
-            return;
-        }
-
-        UseNormalSkill(target);
+        ExecuteSkill(_normalSkill, target);
+        _normalSkill.MarkUsed();
     }
     public void UseNormalSkill(Transform target)
     {
@@ -194,7 +323,7 @@ public class CharacterSkillSystem : MonoBehaviour
 
     public void UseUltSkill()
     {
-        if (_ultimateSkill == null /*|| _currentGauge < _maxGauge */)
+        if (_ultimateSkill == null || _currentGauge < _maxGauge)
         {
             return;
         }
@@ -219,14 +348,21 @@ public class CharacterSkillSystem : MonoBehaviour
 
     private void ExecuteSkill(RuntimeSkill skill, Transform target)
     {
-        if (skill.Data.Type != CharacterSkillType.HealBuff && target == null)
+        if (skill.Data.Type != CharacterSkillType.HealBuff && target == null && skill.Data.ProjectileSpeed <= 0)
         {
             return;
         }
 
         if (target != null)
         {
-            _battleCharacter.LookAtInstant(target.position);
+            _battleCharacter.LookAtInstant(target.position); 
+        }
+
+        OnSkillUsed?.Invoke(skill.Data.Category);
+
+        if (string.IsNullOrEmpty(skill.Data.CastSfxId) == false)
+        {
+            GameManager.Instance.AudioManager.PlaySFX(skill.Data.CastSfxId);
         }
 
         int damage = (int)(_battleCharacter.CurAtk * SkillDamageMultiplier * skill.Data.DamageCoefficient);
@@ -236,7 +372,7 @@ public class CharacterSkillSystem : MonoBehaviour
             case CharacterSkillType.SingleAttack:
                 if (skill.Data.ProjectileSpeed > 0)
                 {
-                    _characterAttack.FireProjectile(skill.ProjectilePrefab, target, damage, this, skill.Data.GaugeRecovery);
+                    _characterAttack.FireProjectile(skill.Data.PrefabPath, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed, 0, skill.Data.HitSfxId);
                 }
 
                 else
@@ -265,7 +401,7 @@ public class CharacterSkillSystem : MonoBehaviour
             case CharacterSkillType.AreaAttack:
                 if (skill.Data.ProjectileSpeed > 0)
                 {
-                    _characterAttack.FireProjectile(skill.ProjectilePrefab, target, damage, this, skill.Data.GaugeRecovery, skill.Data.AreaRadius);
+                    _characterAttack.FireProjectile(skill.Data.PrefabPath, target, damage, this, skill.Data.GaugeRecovery, skill.Data.ProjectileSpeed, skill.Data.AreaRadius, skill.Data.HitSfxId);
                 }
 
                 else
@@ -367,22 +503,60 @@ public class CharacterSkillSystem : MonoBehaviour
             return;
         }
 
-        if (string.IsNullOrEmpty(skill.Data.PrefabPath) == true)
+        if (string.IsNullOrEmpty(skill.Data.PrefabPath) == false)
         {
-            return;
+            GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(skill.Data.PrefabPath);
+            if (prefab != null)
+            {
+                skill.SetProjectilePrefab(prefab);
+                _loadedPrefabKeys.Add(skill.Data.PrefabPath);
+
+                if (skill.Data.ProjectileSpeed > 0)
+                {
+                    await GameManager.Instance.ObjectManager.PrewarmAsync(skill.Data.PrefabPath, SkillPrewarmCount, destroyCancellationToken);
+                }
+            }
+            else
+            {
+                Debug.LogError($"프리팹 로드 실패 {skill.Data.PrefabPath}");
+            }
         }
 
-        GameObject prefab = await GameManager.Instance.ResourceManager.LoadAssetAsync<GameObject>(skill.Data.PrefabPath);
-
-        if (prefab != null)
+        if (string.IsNullOrEmpty(skill.Data.IconPath) == false)
         {
-            skill.SetProjectilePrefab(prefab);
-            _loadedPrefabKeys.Add(skill.Data.PrefabPath);
+            Sprite icon = await GameManager.Instance.ResourceManager.LoadAssetAsync<Sprite>(skill.Data.IconPath);
+            if (icon != null)
+            {
+                skill.SetIconSprite(icon);
+                _loadedPrefabKeys.Add(skill.Data.IconPath);
+            }
+            else
+            {
+                Debug.LogError($"아이콘 로드 실패 {skill.Data.IconPath}");
+            }
+        }
+    }
+
+    private float GetAttackSkillRange(RuntimeSkill skill)
+    {
+        if (skill == null)
+        {
+            return 0f;
         }
 
-        else
+        if (skill.Data.Type == CharacterSkillType.HealBuff)
         {
-            Debug.LogError($"프리팹 로드 실패: {skill.Data.PrefabPath}");
+            return 0f;
         }
+
+        return skill.Data.SkillRange;
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, AttackRange);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, MinAttackRange);
     }
 }

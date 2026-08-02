@@ -5,6 +5,7 @@ public class RuntimeSkill
     private CharacterSkillData _data;
     private float _lastUsedTime;
     private GameObject _projectilePrefab;
+    private Sprite _iconSprite;
 
     public CharacterSkillData Data
     {
@@ -26,6 +27,28 @@ public class RuntimeSkill
         _data = data;
         _lastUsedTime = -data.Cooldown;
     }
+    public Sprite IconSprite
+    {
+        get
+        {
+            return _iconSprite;
+        }
+    }
+    public float CooldownProgress
+    {
+        get
+        {
+            if (_data.Cooldown <= 0)
+            {
+                return 1.0f;
+            }
+
+            else
+            {
+                return Mathf.Clamp01((Time.time - _lastUsedTime) / _data.Cooldown);
+            }
+        }
+    }
 
     public void SetProjectilePrefab(GameObject prefab)
     {
@@ -41,5 +64,8 @@ public class RuntimeSkill
     {
         _lastUsedTime = Time.time;
     }
-   
+    public void SetIconSprite(Sprite sprite)
+    {
+        _iconSprite = sprite;
+    }
 }
